@@ -1,0 +1,21 @@
+---
+import Layout from '../layouts/Layout.astro';
+const title = 'Contact — Easy1099Tax';
+const description = 'Get in touch with the Easy1099Tax team with questions, corrections, or feedback about the 1099 and self-employment tax calculator.';
+---
+<Layout title={title} description={description}>
+  <article class="mx-auto max-w-3xl px-5 py-14">
+    <h1 class="text-4xl font-extrabold tracking-tight text-slate-900">Contact us</h1>
+    <p class="mt-5 text-slate-600 leading-relaxed">We'd love to hear from you. Whether you've spotted a number that looks off, have a feature request, or want to suggest a state we should add next, your feedback makes the calculator better.</p>
+
+    <div class="mt-8 rounded-2xl border border-slate-200 bg-white p-6">
+      <h2 class="font-bold text-slate-900">Email</h2>
+      <p class="mt-1.5 text-slate-600">For general questions, corrections, and feedback:</p>
+      <a href="mailto:hello@easy1099tax.com" class="mt-1 inline-block text-lg font-semibold text-indigo-600 hover:text-indigo-700">hello@easy1099tax.com</a>
+      <p class="mt-4 text-sm text-slate-500">We read every message and aim to reply within a few business days. Please note we cannot provide personalized tax advice — for that, contact a licensed tax professional.</p>
+    </div>
+
+    <h2 class="mt-10 text-2xl font-bold text-slate-900">Reporting an accuracy issue</h2>
+    <p class="mt-4 text-slate-600 leading-relaxed">Accuracy matters to us. If you believe a rate, bracket, or calculation is incorrect, email us with the inputs you used and the result you expected, and include a link to the relevant IRS or state source if you have one. We'll review and correct it promptly.</p>
+  </article>
+</Layout>

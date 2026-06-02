@@ -1,0 +1,21 @@
+---
+// Honest ad slot. Renders NOTHING until AdSense is approved and ADSENSE_CLIENT is
+// set, so reviewers never see empty/placeholder ad boxes. Kept ≥150px from any
+// interactive control by the calling page (AdSense placement rule).
+import { ADSENSE_CLIENT, ADSENSE_ENABLED } from '../lib/config';
+interface Props { slot?: string; class?: string }
+const { slot = '', class: cls = '' } = Astro.props;
+---
+{ADSENSE_ENABLED && (
+  <div class={`mx-auto max-w-3xl px-5 ${cls}`}>
+    <ins
+      class="adsbygoogle block"
+      style="display:block"
+      data-ad-client={ADSENSE_CLIENT}
+      data-ad-slot={slot}
+      data-ad-format="auto"
+      data-full-width-responsive="true"
+    ></ins>
+    <script is:inline>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+)}
