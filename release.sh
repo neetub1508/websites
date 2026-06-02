@@ -35,7 +35,7 @@ git pull --rebase origin main --quiet
 # 3) Work out the next release number ---------------------------------------
 last="$(
   { git branch --list 'release/*'; git ls-remote --heads origin 'release/*'; } \
-    | grep -oE 'release/[0-9]+' | grep -oE '[0-9]+$' | sort -n | tail -1
+    | grep -oE 'release/[0-9]+' | grep -oE '[0-9]+$' | sort -n | tail -1 || true
 )"
 next=$(( ${last:-0} + 1 ))
 rb="release/${next}"
