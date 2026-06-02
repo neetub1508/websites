@@ -1,57 +1,64 @@
 # Deployments
 
-We **do not deploy `main` directly.** Instead, each deployment is a numbered
-release branch (`release/1`, `release/2`, …). You always know exactly which
-numbered release is live, and you choose when to promote one.
+We **do not deploy `main` directly.** Each deployment is a **named, versioned
+release branch** — `<site>-v<major>.<minor>.<patch>`, e.g. `easypaycalc-v0.1.1`.
+You always know exactly which site and version is live, and you choose when to
+promote one.
 
 ```
- work on main ──commit──▶ ./release.sh ──▶ release/N (pushed) ──▶ Cloudflare builds it
-                                                                      │
-                                                  set as Production branch ▼
-                                                                  LIVE site
+ work on main ──commit──▶ ./release.sh ──▶ easypaycalc-v0.1.1 (pushed) ──▶ Cloudflare builds it
+                                                                              │
+                                                          set as Production branch ▼
+                                                                          LIVE site
 ```
+
+## Versioning
+
+`major.minor.patch`, sourced from each app's `apps/<site>/package.json` `version`:
+
+- **patch** (`0.1.0 → 0.1.1`) — small fixes, content/data tweaks  *(default)*
+- **minor** (`0.1.1 → 0.2.0`) — new features (e.g. a batch of new states)
+- **major** (`0.2.0 → 1.0.0`) — big/breaking releases, public launch
 
 ## How to cut a release
 
-1. Do your work and commit it on `main` (push to `origin/main` as usual).
-2. From the repo root, run:
-   ```bash
-   ./release.sh
-   ```
-   It creates the next `release/N` branch from `main` and pushes it. `main`
-   stays your integration branch and is never the live site.
+Commit your work on `main`, then from the repo root:
 
-The script prints the release number and branch name.
+```bash
+./release.sh                      # patch bump of easypaycalc   → easypaycalc-v0.1.1
+./release.sh minor                # minor bump of easypaycalc   → easypaycalc-v0.2.0
+./release.sh major easy1099tax    # major bump of another app   → easy1099tax-v1.0.0
+```
+
+The script:
+1. bumps the version in `apps/<site>/package.json` and commits it to `main`,
+2. creates branch `<site>-v<new-version>` and pushes it,
+3. prints the branch name to point Cloudflare at.
 
 ## Cloudflare — one-time setup
 
-In the Cloudflare dashboard → your project → **Settings → Build**:
+Dashboard → project → **Settings → Build**:
 
-1. **Production branch:** set it to the release branch you want live, e.g. `release/1`.
-   - This is the key step that takes `main` out of production.
-2. **Non-production (preview) branch builds:** enable them so every other
-   `release/N` branch also builds, each at its own preview URL — handy for
-   testing a release before promoting it.
-3. Keep **`NODE_VERSION = 22`** in the environment variables (Wrangler needs it).
+1. **Production branch:** set it to the release branch you want live, e.g. `easypaycalc-v0.1.1`.
+   (This takes `main` out of production.)
+2. (Optional) enable **non-production branch builds** so other release branches
+   get preview URLs to test before promoting.
+3. Keep **`NODE_VERSION = 22`** (Wrangler requires it).
 
 ## Going live with a new release
 
-1. `./release.sh` → say it creates `release/4`.
-2. (Optional) open its **preview URL** from the Deployments tab and test it.
-3. When happy, change **Production branch → `release/4`** (Settings → Build) and
-   trigger a deploy (retry the latest build on that branch).
-4. `release/4` is now the live `easypaycalc.com`.
+1. `./release.sh` → say it creates `easypaycalc-v0.1.2`.
+2. (Optional) test its **preview URL** from the Deployments tab.
+3. Change **Production branch → `easypaycalc-v0.1.2`** and redeploy.
 
 ## Rollback
 
-Something wrong with `release/4`? Set **Production branch** back to `release/3`
-(the previous good one) and redeploy. Because each release is its own immutable
-branch, rolling back is just pointing production at an earlier number.
+Point **Production branch** back to the previous good version (e.g.
+`easypaycalc-v0.1.1`) and redeploy. Each release is an immutable branch, so
+rolling back is just selecting an earlier version.
 
 ## Notes
 
-- Release branches are cheap snapshots of `main` at deploy time — never commit
-  directly to a `release/*` branch; always go through `main` + `./release.sh`.
-- Numbering is automatic: the script finds the highest existing `release/N`
-  (local **and** on origin) and uses `N+1`.
-- `NODE_VERSION` must stay `22` (the Wrangler deploy step requires Node 22+).
+- Never commit directly to a release branch — always go through `main` + `./release.sh`.
+- The version bump commit lands on `main`; the release branch is cut right after.
+- One repo, multiple apps: pass the app name as the 2nd arg (`./release.sh patch easy1099tax`).
