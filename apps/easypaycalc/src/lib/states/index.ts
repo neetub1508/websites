@@ -116,6 +116,12 @@ export const STATES: StateInfo[] = [
   WYOMING,
 ];
 
+/** The most-used states (by population) — shown by default on the homepage and footer. */
+export const POPULAR_SLUGS = ['california', 'texas', 'florida', 'new-york', 'pennsylvania', 'illinois'];
+export const popularStates: StateInfo[] = POPULAR_SLUGS
+  .map((slug) => STATES.find((s) => s.slug === slug))
+  .filter((s): s is StateInfo => Boolean(s));
+
 export function getState(slug: string): StateInfo | undefined {
   return STATES.find((s) => s.slug === slug);
 }

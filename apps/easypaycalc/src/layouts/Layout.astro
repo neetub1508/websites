@@ -5,7 +5,7 @@ interface Props {
   schema?: object | object[];
 }
 import AdSlot from '../components/AdSlot.astro';
-import { STATES } from '../lib/states';
+import { popularStates } from '../lib/states';
 const { title, description, schema } = Astro.props;
 const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : Astro.url.pathname;
 const jsonLd = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
@@ -94,11 +94,12 @@ const jsonLd = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
           </ul>
         </div>
         <div>
-          <h3 class="font-semibold text-slate-800 mb-3">States</h3>
+          <h3 class="font-semibold text-slate-800 mb-3">Popular states</h3>
           <ul class="space-y-2 text-slate-500">
-            {STATES.map((s) => (
+            {popularStates.map((s) => (
               <li><a href={`/${s.slug}`} class="hover:text-teal-700">{s.name}</a></li>
             ))}
+            <li><a href="/" class="text-teal-700 font-medium hover:text-teal-800">All states →</a></li>
           </ul>
         </div>
         <div>

@@ -1,11 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { STATES } from '../lib/states';
+import { STATES, POPULAR_SLUGS, popularStates } from '../lib/states';
 import { TAX_YEAR } from '../lib/tax';
 
-// The 6 most-used states (by population) shown by default; search reaches all 51.
-const POPULAR_SLUGS = ['california', 'texas', 'florida', 'new-york', 'pennsylvania', 'illinois'];
-const popularStates = POPULAR_SLUGS.map((slug) => STATES.find((s) => s.slug === slug)).filter(Boolean);
+// Show the 6 popular states by default (shared list); search reaches all 51.
 const otherStates = STATES.filter((s) => !POPULAR_SLUGS.includes(s.slug));
 const orderedStates = [...popularStates, ...otherStates];
 
