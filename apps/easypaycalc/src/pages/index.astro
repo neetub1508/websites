@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import AdSlot from '../components/AdSlot.astro';
 
 const faqs = [
   {
@@ -162,11 +163,9 @@ const description =
     </div>
   </section>
 
-  <!-- Ad slot: far below the interactive controls (AdSense ≥150px spacing rule) -->
+  <!-- Ad #1 — below the result, well clear of the inputs/Calculate controls (AdSense ≥150px spacing). Prime viewability after the "aha". -->
   <div class="mx-auto max-w-5xl px-5 mt-10">
-    <div class="rounded-2xl border border-dashed border-slate-300 bg-slate-50 text-slate-400 text-sm grid place-items-center h-28">
-      Ad placeholder
-    </div>
+    <AdSlot minHeight="250px" />
   </div>
 
   <!-- How it works -->
@@ -193,8 +192,13 @@ const description =
     </div>
   </section>
 
+  <!-- Ad #2 — in-content, between sections. Reader is engaged; blends naturally. -->
+  <div class="mx-auto max-w-3xl px-5 mt-14">
+    <AdSlot minHeight="250px" />
+  </div>
+
   <!-- FAQ -->
-  <section id="faq" class="mx-auto max-w-3xl px-5 mt-16">
+  <section id="faq" class="mx-auto max-w-3xl px-5 mt-14">
     <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">Frequently asked questions</h2>
     <div class="mt-6 space-y-3">
       {faqs.map((f) => (

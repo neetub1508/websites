@@ -1,0 +1,21 @@
+---
+// Reusable ad placeholder. Reserves a fixed min-height so the real AdSense
+// unit (dropped in later) cannot cause layout shift (protects Core Web Vitals).
+interface Props {
+  label?: string;
+  minHeight?: string;
+  width?: string;
+}
+const { label = 'Advertisement', minHeight = '250px', width } = Astro.props;
+const style = `min-height:${minHeight}` + (width ? `;width:${width}` : '');
+---
+<div
+  class="rounded-2xl border border-dashed border-slate-300 bg-slate-50/70 grid place-items-center text-center"
+  style={style}
+  aria-label="Advertisement"
+>
+  <div>
+    <p class="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-400">{label}</p>
+    <p class="text-[11px] text-slate-300 mt-1">reserved space — no layout shift</p>
+  </div>
+</div>
