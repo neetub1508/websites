@@ -1,6 +1,5 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import AdSlot from '../components/AdSlot.astro';
 import { STATES } from '../lib/states';
 import { TAX_YEAR } from '../lib/tax';
 
@@ -116,11 +115,6 @@ const schema = [
     });
   </script>
 
-  <!-- Ad #1 -->
-  <div class="mx-auto max-w-5xl px-5 mt-10">
-    <AdSlot minHeight="250px" />
-  </div>
-
   <!-- How it works (national, unique copy) -->
   <section id="how-it-works" class="mx-auto max-w-3xl px-5 mt-16">
     <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">How your take-home pay is calculated</h2>
@@ -143,11 +137,6 @@ const schema = [
       ))}
     </div>
   </section>
-
-  <!-- Ad #2 -->
-  <div class="mx-auto max-w-3xl px-5 mt-14">
-    <AdSlot minHeight="250px" />
-  </div>
 
   <!-- FAQ -->
   <section id="faq" class="mx-auto max-w-3xl px-5 mt-14">
