@@ -42,3 +42,6 @@ Thumbs.db
 *.tgz
 .cache/
 coverage/
+
+# Local Claude Code settings (personal, not shared)
+.claude/
