@@ -82,19 +82,33 @@ Strategy, the validated Top 10 ideas, and the build process live in [docs/ideas/
 
 ```
 docs/
-  ideas/ideas.md            # business strategy + Top 10 tool ideas + validation process
-  <tool-name>/              # one folder per tool (e.g. solar-saving-calculator)
+  ideas/ideas.md            # business strategy + Top 10 tool ideas (verified research)
+  ideas/validation-top3.md  # SERP/competition validation of the top candidates
+apps/
+  <tool-name>/              # the actual buildable website project (one per tool)
 ```
 
-Each tool gets its own folder named in `kebab-case` after the tool.
+- **`docs/` = research and strategy only. NO code.**
+- **`apps/<tool-name>/` = the real website project**, named in `kebab-case`. This is where all code lives.
 
 ## Tech stack (standard for every tool)
 
-- **AstroJS** — static HTML output (best for SEO)
-- **Tailwind CSS** — styling
-- **Cloudflare Pages** — free hosting
-- Custom domain per tool (~₹1,000/year)
-- All calculation logic runs **client-side** (instant, no backend, no data leaves the browser)
+- **AstroJS** — static HTML output (best for SEO). Pinned to **Astro 4.x** (Node 20 compatible; Astro 5 needs Node 22).
+- **Tailwind CSS** — styling.
+- **Cloudflare Pages** — free hosting. **Every tech choice MUST be Cloudflare Pages-compatible** — default to Astro **static** output (`dist/`), served directly on Cloudflare's CDN. If SSR is ever needed, use the official `@astrojs/cloudflare` adapter; never adopt a stack Cloudflare Pages can't deploy.
+- Custom domain per tool (~₹1,000/year).
+- All calculation logic runs **client-side** (instant, no backend, no data leaves the browser).
+
+## ⭐ Non-negotiable criteria (apply to EVERY tool, 100%)
+
+These are mandatory on every page of every site. Do not ship without them.
+
+1. **Best-in-class UI/UX** — the site must look and feel top-tier: clean modern design, clear visual hierarchy, polished spacing/typography, accessible (WCAG-minded), flawless on mobile and desktop. Treat design quality as a first-class requirement, not an afterthought.
+2. **Ease of use** — the user must be able to operate the tool effortlessly: obvious inputs, instant results, no instructions needed, no friction. Optimize relentlessly for the simplest possible user journey.
+3. **AdSense-grade content** — every tool page carries genuinely original, optimized content (what it does, how-to, worked examples, FAQ) so it clears AdSense's "low-value content" bar. No thin pages, no unverified auto-generated facts.
+4. **SEO optimized** — proper titles, meta descriptions, semantic HTML, headings, internal links, structured data (schema.org), sitemap, and per-variant (e.g. per-state) long-tail targeting.
+5. **Generative-AI / answer-engine optimization (GEO/AEO)** — structure content so AI answer engines (ChatGPT, Gemini, Google AI Overviews) can cite it: clear question-style headings, concise direct answers, FAQ schema, factual accuracy.
+6. **Performance — fast load is mandatory.** Base/above-the-fold content must be usable on the user's side within **3–5 seconds** (target faster). Keep JS minimal, ship static HTML, lazy-load below-the-fold, optimize images, aim for strong Core Web Vitals (LCP, CLS, INP). Ads must never block the core tool from loading.
 
 ## Build conventions
 
@@ -110,8 +124,8 @@ Each tool gets its own folder named in `kebab-case` after the tool.
 
 1. **Validate keyword** (free): Ahrefs Keyword Generator / WordStream — target 1,000–10,000 searches/mo with high CPC.
 2. **Check competition** — Google the keyword; if page 1 is all big sites, pick a longer-tail variant.
-3. **Scaffold** an AstroJS + Tailwind project in `docs/<tool-name>/` (or an `apps/` folder if we add one).
-4. **Build** the tool + FAQ + schema + the 4 legal pages.
+3. **Scaffold** an AstroJS + Tailwind project in `apps/<tool-name>/`.
+4. **Build** the tool to the 6 non-negotiable criteria above + FAQ + schema + the 4 legal pages.
 5. **Ship**: Cloudflare Pages + domain, submit to Google Search Console, apply to AdSense after ~10+ daily users.
 
 ## Code style
