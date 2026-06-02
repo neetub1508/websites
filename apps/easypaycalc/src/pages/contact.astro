@@ -1,0 +1,36 @@
+---
+import Layout from '../layouts/Layout.astro';
+const title = 'Contact — EasyPayCalc';
+const description = 'Get in touch with EasyPayCalc with questions, corrections, or feedback about our paycheck calculators.';
+// TODO: replace with the real support inbox once the domain email is set up.
+const email = 'hello@easypaycalc.com';
+---
+
+<Layout title={title} description={description}>
+  <section class="mx-auto max-w-3xl px-5 py-14">
+    <h1 class="text-3xl font-extrabold tracking-tight text-slate-900">Contact us</h1>
+
+    <div class="mt-8 space-y-6 text-slate-600 leading-relaxed">
+      <p>
+        We’d love to hear from you — whether you’ve spotted an error in a tax calculation, want a specific state
+        prioritized, or just have feedback on the site.
+      </p>
+
+      <div class="rounded-2xl border border-slate-200 bg-slate-50/60 p-6">
+        <h2 class="font-bold text-slate-900">Email</h2>
+        <p class="mt-1">
+          <a href={`mailto:${email}`} class="text-teal-700 underline">{email}</a>
+        </p>
+        <p class="mt-3 text-sm text-slate-500">
+          We read every message and typically respond within a few business days. For tax accuracy reports,
+          please include the state and the figures you entered so we can reproduce the result.
+        </p>
+      </div>
+
+      <p class="text-sm text-slate-500">
+        Please note: we can’t provide personalized tax advice. For your specific situation, consult a qualified
+        tax professional or the relevant tax authority.
+      </p>
+    </div>
+  </section>
+</Layout>

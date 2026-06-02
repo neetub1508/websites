@@ -1,0 +1,226 @@
+---
+import type { StateTaxConfig } from '../lib/tax';
+// Shared, state-agnostic paycheck calculator. The state's tax config is passed
+// in and embedded as JSON; the client script reads it, so ONE component +
+// ONE script power every state page.
+interface Props {
+  config: StateTaxConfig;
+}
+const { config } = Astro.props;
+---
+
+<div class="mx-auto max-w-6xl px-5 pb-4">
+  <div class="grid lg:grid-cols-12 gap-0 rounded-3xl border border-slate-200 bg-white shadow-xl shadow-slate-200/60 overflow-hidden">
+    <!-- Inputs -->
+    <div class="lg:col-span-5 p-6 sm:p-8 border-b lg:border-b-0 lg:border-r border-slate-100">
+      <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-5">Your details</h2>
+
+      <div class="grid grid-cols-2 gap-1 p-1 bg-slate-100 rounded-xl mb-6">
+        <button type="button" data-paytype="salary" class="paytype-btn rounded-lg py-2 text-sm font-semibold transition-all">Salary</button>
+        <button type="button" data-paytype="hourly" class="paytype-btn rounded-lg py-2 text-sm font-semibold transition-all">Hourly</button>
+      </div>
+
+      <label class="block mb-2">
+        <span id="amount-label" class="block text-sm font-semibold text-slate-700 mb-1.5">Annual salary</span>
+        <div class="relative">
+          <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-lg font-medium">$</span>
+          <input id="amount" type="number" inputmode="decimal" min="0" value="85000"
+            class="w-full rounded-2xl border border-slate-300 pl-9 pr-4 py-3.5 text-2xl font-bold text-slate-900 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/15 outline-none transition" />
+        </div>
+      </label>
+      <input id="amount-range" type="range" min="20000" max="400000" step="1000" value="85000"
+        class="w-full accent-teal-600 cursor-pointer mb-6" aria-label="Salary slider" />
+
+      <label id="hours-wrap" class="hidden mb-6">
+        <span class="block text-sm font-semibold text-slate-700 mb-1.5">Hours per week</span>
+        <input id="hours" type="number" inputmode="decimal" min="0" value="40"
+          class="w-full rounded-2xl border border-slate-300 px-4 py-3 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/15 outline-none transition" />
+      </label>
+
+      <div class="grid sm:grid-cols-2 gap-4 mb-5">
+        <label class="block">
+          <span class="block text-sm font-semibold text-slate-700 mb-1.5">Pay frequency</span>
+          <select id="frequency"
+            class="w-full rounded-2xl border border-slate-300 px-3.5 py-3 bg-white focus:border-teal-500 focus:ring-4 focus:ring-teal-500/15 outline-none transition">
+            <option value="52">Weekly</option>
+            <option value="26" selected>Every 2 weeks</option>
+            <option value="24">Twice a month</option>
+            <option value="12">Monthly</option>
+          </select>
+        </label>
+        <label class="block">
+          <span class="block text-sm font-semibold text-slate-700 mb-1.5">Filing status</span>
+          <select id="filing"
+            class="w-full rounded-2xl border border-slate-300 px-3.5 py-3 bg-white focus:border-teal-500 focus:ring-4 focus:ring-teal-500/15 outline-none transition">
+            <option value="single" selected>Single</option>
+            <option value="married">Married jointly</option>
+          </select>
+        </label>
+      </div>
+
+      <label class="block">
+        <span class="block text-sm font-semibold text-slate-700 mb-1.5">401(k) contribution
+          <span class="text-slate-400 font-normal">— optional</span>
+        </span>
+        <div class="relative">
+          <input id="retirement" type="number" inputmode="decimal" min="0" max="90" value="0"
+            class="w-full rounded-2xl border border-slate-300 pl-4 pr-10 py-3 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/15 outline-none transition" />
+          <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400">% of pay</span>
+        </div>
+      </label>
+    </div>
+
+    <!-- Result -->
+    <div class="lg:col-span-7 p-6 sm:p-8 bg-gradient-to-br from-slate-50 to-white">
+      <div class="flex flex-col sm:flex-row items-center gap-6 sm:gap-8">
+        <div class="relative shrink-0">
+          <svg width="180" height="180" viewBox="0 0 180 180" class="-rotate-90">
+            <circle cx="90" cy="90" r="70" fill="none" stroke="#f1f5f9" stroke-width="26" />
+            <g id="donut"></g>
+          </svg>
+          <div class="absolute inset-0 grid place-content-center text-center">
+            <span class="text-xs font-medium text-slate-400">Take-home</span>
+            <span id="net-pct" class="text-3xl font-extrabold text-slate-900 leading-none">0%</span>
+          </div>
+        </div>
+
+        <div class="text-center sm:text-left">
+          <p class="text-sm font-medium text-slate-400">Your take-home pay</p>
+          <div class="flex items-baseline justify-center sm:justify-start gap-1.5 mt-1">
+            <span id="net-period" class="text-5xl font-extrabold tracking-tight text-teal-600">$0</span>
+            <span id="period-label" class="text-slate-400 font-medium">/ paycheck</span>
+          </div>
+          <p class="text-slate-500 mt-2 text-sm">
+            <span id="net-annual" class="font-bold text-slate-700">$0</span> per year
+          </p>
+          <p class="text-slate-500 text-sm">
+            Effective tax rate <span id="eff-rate" class="font-bold text-slate-700">0%</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="mt-7 rounded-2xl bg-white border border-slate-100 p-1">
+        <table class="w-full text-sm">
+          <tbody id="breakdown" class="divide-y divide-slate-100"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <p class="text-center text-xs text-slate-400 mt-4">
+    🔒 Calculated entirely in your browser — your salary is never sent anywhere.
+  </p>
+</div>
+
+<script type="application/json" id="epc-state" set:html={JSON.stringify(config)}></script>
+
+<script>
+  import { computePaycheck, type FilingStatus, type StateTaxConfig } from '../lib/tax';
+
+  const STATE: StateTaxConfig = JSON.parse(document.getElementById('epc-state')!.textContent!);
+
+  const $ = (id: string) => document.getElementById(id)!;
+  const usd0 = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+  const usd2 = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 2 });
+
+  const TAKE_HOME = '#0d9488';
+  function colorFor(label: string): string {
+    if (label === 'Take-home pay') return TAKE_HOME;
+    if (label === 'Federal income tax') return '#1e293b';
+    if (label === 'Social Security') return '#475569';
+    if (label === 'Medicare') return '#94a3b8';
+    if (label === '401(k)') return '#38bdf8';
+    if (label.endsWith('state tax')) return '#f59e0b';
+    return '#fcd34d'; // extras (e.g. SDI)
+  }
+
+  let payType: 'salary' | 'hourly' = 'salary';
+  const amountEl = $('amount') as HTMLInputElement;
+  const rangeEl = $('amount-range') as HTMLInputElement;
+  const hoursEl = $('hours') as HTMLInputElement;
+  const hoursWrap = $('hours-wrap');
+  const freqEl = $('frequency') as HTMLSelectElement;
+  const filingEl = $('filing') as HTMLSelectElement;
+  const retirementEl = $('retirement') as HTMLInputElement;
+
+  const FREQ_LABEL: Record<string, string> = { '52': '/ week', '26': '/ paycheck', '24': '/ paycheck', '12': '/ month' };
+  const R = 70;
+  const CIRC = 2 * Math.PI * R;
+
+  function setPayType(t: 'salary' | 'hourly') {
+    payType = t;
+    document.querySelectorAll<HTMLButtonElement>('.paytype-btn').forEach((b) => {
+      const active = b.dataset.paytype === t;
+      b.classList.toggle('bg-white', active);
+      b.classList.toggle('shadow-sm', active);
+      b.classList.toggle('text-teal-700', active);
+      b.classList.toggle('text-slate-500', !active);
+    });
+    hoursWrap.classList.toggle('hidden', t !== 'hourly');
+    $('amount-label').textContent = t === 'salary' ? 'Annual salary' : 'Hourly wage';
+    rangeEl.classList.toggle('hidden', t !== 'salary');
+    if (t === 'salary') { amountEl.value = '85000'; rangeEl.value = '85000'; }
+    else { amountEl.value = '40'; }
+    render();
+  }
+
+  function render() {
+    const amount = parseFloat(amountEl.value) || 0;
+    const hours = parseFloat(hoursEl.value) || 0;
+    const annualGross = payType === 'salary' ? amount : amount * hours * 52;
+    const payPeriods = parseInt(freqEl.value, 10);
+    const filing = filingEl.value as FilingStatus;
+    const pct = Math.min(90, Math.max(0, parseFloat(retirementEl.value) || 0));
+    const pretax = annualGross * (pct / 100);
+
+    const r = computePaycheck({ annualGross, filing, state: STATE, payPeriods, pretax });
+
+    ($('net-period') as HTMLElement).textContent = usd0.format(r.perPeriodNet);
+    $('period-label').textContent = FREQ_LABEL[freqEl.value] ?? '/ paycheck';
+    $('net-annual').textContent = usd0.format(r.annualNet);
+    $('eff-rate').textContent = (r.effectiveRate * 100).toFixed(1) + '%';
+    $('net-pct').textContent = (annualGross > 0 ? Math.round((r.annualNet / annualGross) * 100) : 0) + '%';
+
+    const segments = [
+      { label: 'Take-home pay', amount: r.annualNet },
+      ...r.deductions.map((d) => ({ label: d.label, amount: d.amount })),
+    ];
+    if (r.pretax > 0) segments.push({ label: '401(k)', amount: r.pretax });
+    const total = segments.reduce((s, x) => s + x.amount, 0) || 1;
+
+    let offset = 0;
+    $('donut').innerHTML = segments
+      .filter((s) => s.amount > 0)
+      .map((s) => {
+        const len = (s.amount / total) * CIRC;
+        const c = colorFor(s.label);
+        const el = `<circle cx="90" cy="90" r="${R}" fill="none" stroke="${c}" stroke-width="26" stroke-dasharray="${len} ${CIRC - len}" stroke-dashoffset="${-offset}"><title>${s.label}</title></circle>`;
+        offset += len;
+        return el;
+      })
+      .join('');
+
+    const row = (label: string, val: string, kind: 'head' | 'ded' | 'net', color?: string) => {
+      const dot = color ? `<span style="background:${color}" class="inline-block w-2.5 h-2.5 rounded-full mr-2 align-middle"></span>` : '';
+      const cls = kind === 'ded' ? 'text-slate-600' : 'font-bold text-slate-900';
+      const valCls = kind === 'ded' ? 'text-rose-500' : 'text-slate-900 font-bold';
+      return `<tr class="${cls}"><td class="py-2.5 px-3">${dot}${label}</td><td class="py-2.5 px-3 text-right ${valCls}">${val}</td></tr>`;
+    };
+
+    $('breakdown').innerHTML = [
+      row('Gross pay', usd0.format(r.annualGross), 'head'),
+      ...(r.pretax > 0 ? [row('401(k) contribution', '−' + usd0.format(r.pretax), 'ded', colorFor('401(k)'))] : []),
+      ...r.deductions.map((d) => row(d.label, '−' + usd0.format(d.amount), 'ded', colorFor(d.label))),
+      row('Take-home (annual)', usd0.format(r.annualNet), 'net', TAKE_HOME),
+    ].join('');
+  }
+
+  rangeEl.addEventListener('input', () => { amountEl.value = rangeEl.value; render(); });
+  amountEl.addEventListener('input', () => { if (payType === 'salary') rangeEl.value = amountEl.value; render(); });
+  [hoursEl, freqEl, filingEl, retirementEl].forEach((el) => el.addEventListener('input', render));
+  document.querySelectorAll<HTMLButtonElement>('.paytype-btn').forEach((b) =>
+    b.addEventListener('click', () => setPayType(b.dataset.paytype as 'salary' | 'hourly')),
+  );
+
+  setPayType('salary');
+</script>

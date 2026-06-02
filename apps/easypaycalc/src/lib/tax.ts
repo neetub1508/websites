@@ -1,13 +1,20 @@
 // ============================================================================
-// Take-Home Pay tax engine — TAX YEAR 2025
+// Take-Home Pay tax ENGINE + TYPES — TAX YEAR 2025
 //
-// ⚠️ VERIFY ALL FIGURES against official sources before launch:
+// This file holds ONLY the calculation logic and types. All per-state DATA
+// lives in states.ts. Update tax tables for a new year in states.ts + the
+// FEDERAL/FICA constants below.
+//
+// ⚠️ VERIFY figures against official sources before launch:
 //   - Federal brackets / standard deduction: IRS Rev. Proc. 2024-40
 //   - FICA wage base: SSA 2025 announcement
-//   - California: CA FTB 2025 tax rate schedules + EDD SDI rate
-// Numbers below are 2025 best-known values, centralized here so updating
-// for a new tax year touches ONLY this file.
 // ============================================================================
+
+export const TAX_YEAR = 2025;
+
+// JSON cannot represent Infinity, and state data is serialized to the client,
+// so the top bracket uses this large finite cap instead of Infinity.
+export const CAP = 1e12;
 
 export type FilingStatus = 'single' | 'married';
 
@@ -17,8 +24,24 @@ export interface Bracket {
   upTo: number;
 }
 
+export interface ExtraTax {
+  name: string;
+  rate: number;
+  wageBase?: number;
+}
+
+/** The minimal tax configuration the engine needs (serializable to the client). */
+export interface StateTaxConfig {
+  code: string;
+  name: string;
+  hasIncomeTax: boolean;
+  standardDeduction: Record<FilingStatus, number>;
+  brackets: Record<FilingStatus, Bracket[]>;
+  extra: ExtraTax[];
+}
+
 // ---------------------------------------------------------------------------
-// Federal
+// Federal (2025)
 // ---------------------------------------------------------------------------
 export const FEDERAL = {
   standardDeduction: { single: 15000, married: 30000 } as Record<FilingStatus, number>,
@@ -30,7 +53,7 @@ export const FEDERAL = {
       { rate: 0.24, upTo: 197300 },
       { rate: 0.32, upTo: 250525 },
       { rate: 0.35, upTo: 626350 },
-      { rate: 0.37, upTo: Infinity },
+      { rate: 0.37, upTo: CAP },
     ],
     married: [
       { rate: 0.10, upTo: 23850 },
@@ -39,64 +62,17 @@ export const FEDERAL = {
       { rate: 0.24, upTo: 394600 },
       { rate: 0.32, upTo: 501050 },
       { rate: 0.35, upTo: 751600 },
-      { rate: 0.37, upTo: Infinity },
+      { rate: 0.37, upTo: CAP },
     ],
   } as Record<FilingStatus, Bracket[]>,
 };
 
 export const FICA = {
   socialSecurityRate: 0.062,
-  socialSecurityWageBase: 176100, // 2025
+  socialSecurityWageBase: 176100,
   medicareRate: 0.0145,
   additionalMedicareRate: 0.009,
   additionalMedicareThreshold: { single: 200000, married: 250000 } as Record<FilingStatus, number>,
-};
-
-// ---------------------------------------------------------------------------
-// State
-// ---------------------------------------------------------------------------
-export interface StateTax {
-  code: string;
-  name: string;
-  hasIncomeTax: boolean;
-  standardDeduction: Record<FilingStatus, number>;
-  brackets: Record<FilingStatus, Bracket[]>;
-  /** Flat payroll taxes (e.g. CA SDI). */
-  extra: { name: string; rate: number; wageBase?: number }[];
-  note: string;
-}
-
-export const CALIFORNIA: StateTax = {
-  code: 'CA',
-  name: 'California',
-  hasIncomeTax: true,
-  standardDeduction: { single: 5540, married: 11080 },
-  brackets: {
-    single: [
-      { rate: 0.01, upTo: 10756 },
-      { rate: 0.02, upTo: 25499 },
-      { rate: 0.04, upTo: 40245 },
-      { rate: 0.06, upTo: 55866 },
-      { rate: 0.08, upTo: 70606 },
-      { rate: 0.093, upTo: 360659 },
-      { rate: 0.103, upTo: 432787 },
-      { rate: 0.113, upTo: 721314 },
-      { rate: 0.123, upTo: Infinity },
-    ],
-    married: [
-      { rate: 0.01, upTo: 21512 },
-      { rate: 0.02, upTo: 50998 },
-      { rate: 0.04, upTo: 80490 },
-      { rate: 0.06, upTo: 111732 },
-      { rate: 0.08, upTo: 141212 },
-      { rate: 0.093, upTo: 721318 },
-      { rate: 0.103, upTo: 865574 },
-      { rate: 0.113, upTo: 1442628 },
-      { rate: 0.123, upTo: Infinity },
-    ],
-  },
-  extra: [{ name: 'CA SDI', rate: 0.011 }], // State Disability Insurance, no wage cap (2024+)
-  note: 'California has a progressive state income tax (1%–12.3%) plus State Disability Insurance (SDI).',
 };
 
 // ---------------------------------------------------------------------------
@@ -107,8 +83,7 @@ function progressiveTax(taxable: number, brackets: Bracket[]): number {
   let lower = 0;
   for (const b of brackets) {
     if (taxable <= lower) break;
-    const slice = Math.min(taxable, b.upTo) - lower;
-    tax += slice * b.rate;
+    tax += (Math.min(taxable, b.upTo) - lower) * b.rate;
     lower = b.upTo;
   }
   return tax;
@@ -117,10 +92,8 @@ function progressiveTax(taxable: number, brackets: Bracket[]): number {
 export interface PaycheckInput {
   annualGross: number;
   filing: FilingStatus;
-  state: StateTax;
-  /** Pay periods per year (12 monthly, 24 semi-monthly, 26 biweekly, 52 weekly). */
+  state: StateTaxConfig;
   payPeriods: number;
-  /** Annual pre-tax retirement contribution (401k/403b). */
   pretax?: number;
 }
 
@@ -149,7 +122,7 @@ export function computePaycheck(input: PaycheckInput): PaycheckResult {
   const fedTaxable = Math.max(0, afterPretax - FEDERAL.standardDeduction[filing]);
   const federalTax = progressiveTax(fedTaxable, FEDERAL.brackets[filing]);
 
-  // FICA (on gross wages; pre-tax 401k is still subject to FICA, so use annualGross)
+  // FICA — on gross wages (pre-tax 401k is still subject to FICA)
   const socialSecurity = Math.min(annualGross, FICA.socialSecurityWageBase) * FICA.socialSecurityRate;
   let medicare = annualGross * FICA.medicareRate;
   const addlThreshold = FICA.additionalMedicareThreshold[filing];
@@ -167,7 +140,7 @@ export function computePaycheck(input: PaycheckInput): PaycheckResult {
   // State extras (e.g. CA SDI)
   const extras: LineItem[] = state.extra.map((e) => ({
     label: e.name,
-    amount: Math.min(annualGross, e.wageBase ?? Infinity) * e.rate,
+    amount: Math.min(annualGross, e.wageBase ?? CAP) * e.rate,
   }));
 
   const deductions: LineItem[] = [

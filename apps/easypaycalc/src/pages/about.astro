@@ -1,0 +1,45 @@
+---
+import Layout from '../layouts/Layout.astro';
+const title = 'About EasyPayCalc — Free Take-Home Pay Calculators';
+const description = 'EasyPayCalc builds fast, free, privacy-friendly paycheck calculators for every U.S. state so you can see your real take-home pay.';
+---
+
+<Layout title={title} description={description}>
+  <section class="mx-auto max-w-3xl px-5 py-14">
+    <h1 class="text-3xl font-extrabold tracking-tight text-slate-900">About EasyPayCalc</h1>
+
+    <div class="mt-8 space-y-6 text-slate-600 leading-relaxed [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-slate-900 [&_h2]:mt-8 [&_h2]:mb-2">
+      <p>
+        EasyPayCalc exists to answer one question clearly: <strong>after taxes, how much of my salary do I
+        actually keep?</strong> The gap between a headline salary and real take-home pay is large and confusing —
+        and it changes dramatically depending on which state you live in.
+      </p>
+
+      <h2>What we do</h2>
+      <p>
+        We build a focused, accurate take-home pay calculator for each U.S. state. Enter a salary or hourly wage
+        and you instantly see your net pay per paycheck and per year, with a full breakdown of federal income tax,
+        Social Security, Medicare, and your state’s taxes.
+      </p>
+
+      <h2>Why state-by-state</h2>
+      <p>
+        Federal taxes are the same everywhere, but state income tax ranges from nothing at all to more than 10%.
+        A dedicated page for each state lets us show the exact rules that apply to you — including local quirks
+        like city income taxes or state disability insurance.
+      </p>
+
+      <h2>Fast, free, and private</h2>
+      <p>
+        Every calculator is free, needs no sign-up, and runs entirely in your browser, so the figures you enter
+        never leave your device. The site is built to load in well under a couple of seconds, even on mobile.
+      </p>
+
+      <h2>A note on accuracy</h2>
+      <p>
+        We work hard to keep our tax tables current, but our results are estimates for educational purposes and
+        are not professional tax advice. See our <a href="/terms" class="text-teal-700 underline">Terms</a> for details.
+      </p>
+    </div>
+  </section>
+</Layout>

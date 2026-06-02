@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://easypaycalc.com/sitemap.xml
