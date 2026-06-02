@@ -35,11 +35,19 @@ const jsonLd = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
   <body class="min-h-screen bg-white text-slate-900 antialiased flex flex-col selection:bg-teal-200/60">
     <header class="sticky top-0 z-30 border-b border-slate-200/70 bg-white/80 backdrop-blur-lg">
       <div class="mx-auto max-w-6xl px-5 h-16 flex items-center justify-between">
-        <a href="/" class="flex items-center gap-2.5 font-bold text-[17px] tracking-tight">
-          <span class="grid place-items-center w-9 h-9 rounded-xl bg-gradient-to-br from-teal-500 to-emerald-600 text-white shadow-sm shadow-emerald-600/30">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-          </span>
-          <span>EasyPay<span class="text-teal-600">Calc</span></span>
+        <a href="/" class="flex items-center gap-2.5" aria-label="EasyPayCalc home">
+          <svg width="34" height="34" viewBox="0 0 40 40" fill="none" aria-hidden="true" class="shrink-0">
+            <defs>
+              <linearGradient id="epc-coin" x1="6" y1="4" x2="34" y2="36" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#2dd4bf" />
+                <stop offset="1" stop-color="#0d9488" />
+              </linearGradient>
+            </defs>
+            <circle cx="20" cy="20" r="18" fill="url(#epc-coin)" />
+            <circle cx="20" cy="20" r="14.25" fill="none" stroke="#ffffff" stroke-opacity="0.35" stroke-width="1.25" />
+            <text x="20" y="27.5" text-anchor="middle" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="22" font-weight="800" fill="#ffffff">$</text>
+          </svg>
+          <span class="font-extrabold text-[18px] tracking-tight text-slate-900">EasyPay<span class="text-teal-600">Calc</span></span>
         </a>
         <nav class="text-sm font-medium text-slate-600 hidden sm:flex items-center gap-7">
           <a href="/" class="hover:text-teal-700 transition">Calculator</a>
@@ -58,7 +66,11 @@ const jsonLd = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
       <div class="mx-auto max-w-6xl px-5 py-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4 text-sm">
         <div class="space-y-3">
           <div class="flex items-center gap-2 font-bold">
-            <span class="grid place-items-center w-7 h-7 rounded-lg bg-gradient-to-br from-teal-500 to-emerald-600 text-white text-xs">$</span>
+            <svg width="26" height="26" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+              <circle cx="20" cy="20" r="18" fill="url(#epc-coin)" />
+              <circle cx="20" cy="20" r="14.25" fill="none" stroke="#ffffff" stroke-opacity="0.35" stroke-width="1.25" />
+              <text x="20" y="27.5" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="800" fill="#ffffff">$</text>
+            </svg>
             EasyPayCalc
           </div>
           <p class="text-slate-500 leading-relaxed">Free, instant take-home pay calculators for all 50 U.S. states.</p>
