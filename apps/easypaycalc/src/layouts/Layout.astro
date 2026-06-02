@@ -5,6 +5,7 @@ interface Props {
   schema?: object | object[];
 }
 import AdSlot from '../components/AdSlot.astro';
+import { STATES } from '../lib/states';
 const { title, description, schema } = Astro.props;
 const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : Astro.url.pathname;
 const jsonLd = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
@@ -88,17 +89,16 @@ const jsonLd = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
           <h3 class="font-semibold text-slate-800 mb-3">Tool</h3>
           <ul class="space-y-2 text-slate-500">
             <li><a href="/" class="hover:text-teal-700">Paycheck calculator</a></li>
-            <li><a href="#how-it-works" class="hover:text-teal-700">How it works</a></li>
-            <li><a href="#faq" class="hover:text-teal-700">FAQ</a></li>
+            <li><a href="/#how-it-works" class="hover:text-teal-700">How it works</a></li>
+            <li><a href="/#faq" class="hover:text-teal-700">FAQ</a></li>
           </ul>
         </div>
         <div>
-          <h3 class="font-semibold text-slate-800 mb-3">Popular states</h3>
+          <h3 class="font-semibold text-slate-800 mb-3">States</h3>
           <ul class="space-y-2 text-slate-500">
-            <li><a href="/" class="hover:text-teal-700">California</a></li>
-            <li><a href="/" class="hover:text-teal-700">Texas</a></li>
-            <li><a href="/" class="hover:text-teal-700">New York</a></li>
-            <li><a href="/" class="hover:text-teal-700">Florida</a></li>
+            {STATES.map((s) => (
+              <li><a href={`/${s.slug}`} class="hover:text-teal-700">{s.name}</a></li>
+            ))}
           </ul>
         </div>
         <div>
