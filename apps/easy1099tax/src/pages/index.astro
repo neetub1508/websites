@@ -24,7 +24,7 @@ const faqs = [
   },
   {
     q: 'Is this 1099 tax calculator accurate?',
-    a: 'It uses the current IRS self-employment tax mechanics (15.3% on 92.35% of net profit, the Social Security wage cap, the 0.9% Additional Medicare Tax, the 50% SE-tax deduction) and federal income-tax brackets to give a close estimate. 2026 figures are estimates pending final IRS release. It is an estimate for planning, not tax advice, and does not yet include state income tax.',
+    a: 'It uses the current IRS self-employment tax mechanics (15.3% on 92.35% of net profit, the Social Security wage cap, the 0.9% Additional Medicare Tax, the 50% SE-tax deduction) and the final 2025 and 2026 federal income-tax brackets and standard deductions to give a close estimate. It is an estimate for planning, not tax advice, and does not yet include state income tax.',
   },
 ];
 
@@ -288,9 +288,6 @@ const breadcrumbSchema = {
             </div>
           </div>
 
-          <p id="est-note" class="hidden mt-4 text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
-            2026 brackets are estimated pending official IRS release. Treat as a planning estimate.
-          </p>
         </div>
       </div>
 
@@ -328,9 +325,9 @@ const breadcrumbSchema = {
         <div class="flex justify-between border-b border-slate-100 py-1.5"><span class="text-slate-500">× 92.35% net earnings</span><b class="tabular-nums">$62,798</b></div>
         <div class="flex justify-between border-b border-slate-100 py-1.5"><span class="text-slate-500">SE tax (15.3%)</span><b class="tabular-nums">$9,608</b></div>
         <div class="flex justify-between border-b border-slate-100 py-1.5"><span class="text-slate-500">½ SE-tax deduction</span><b class="tabular-nums">–$4,804</b></div>
-        <div class="flex justify-between border-b border-slate-100 py-1.5"><span class="text-slate-500">20% QBI deduction</span><b class="tabular-nums">–$9,639</b></div>
-        <div class="flex justify-between border-b border-slate-100 py-1.5"><span class="text-slate-500">Federal income tax</span><b class="tabular-nums">$4,388</b></div>
-        <div class="flex justify-between border-b border-slate-100 py-1.5"><span class="text-slate-500">Total federal tax</span><b class="tabular-nums text-indigo-700">$13,996</b></div>
+        <div class="flex justify-between border-b border-slate-100 py-1.5"><span class="text-slate-500">20% QBI deduction</span><b class="tabular-nums">–$9,489</b></div>
+        <div class="flex justify-between border-b border-slate-100 py-1.5"><span class="text-slate-500">Federal income tax</span><b class="tabular-nums">$4,316</b></div>
+        <div class="flex justify-between border-b border-slate-100 py-1.5"><span class="text-slate-500">Total federal tax</span><b class="tabular-nums text-indigo-700">$13,924</b></div>
       </div>
       <p class="mt-4 text-xs text-slate-400">Matches the calculator with the 2025 tax year selected (no W-2, retirement, or health-insurance add-ons). Your numbers depend on filing status, other income, QBI eligibility, and deductions.</p>
     </div>
@@ -389,7 +386,7 @@ const breadcrumbSchema = {
     </div>
 
     <p class="mt-10 text-xs text-slate-400 leading-relaxed">
-      Disclaimer: This calculator provides estimates for educational purposes only and does not constitute tax, legal, or financial advice. 2026 figures are estimates pending final IRS release, and state income taxes are not included. Actual tax depends on your full return, credits, and other factors. Verify with a qualified professional or the IRS before making decisions.
+      Disclaimer: This calculator provides estimates for educational purposes only and does not constitute tax, legal, or financial advice. It uses final 2025 and 2026 federal figures; state income taxes are not included. Actual tax depends on your full return, credits, and other factors. Verify with a qualified professional or the IRS before making decisions.
     </p>
   </section>
 </Layout>
@@ -448,7 +445,6 @@ const breadcrumbSchema = {
       addlRow.classList.add('hidden'); addlRow.classList.remove('flex');
     }
 
-    $('est-note').classList.toggle('hidden', !r.estimated);
     $('year-label').textContent = String(year);
 
     // Donut — split of (gross − expenses) into take-home, SE tax, income tax, set-aside

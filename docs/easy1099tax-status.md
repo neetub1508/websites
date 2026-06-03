@@ -11,7 +11,7 @@ Built to the same coding standard as the live [easypaycalc](easypaycalc-status.m
 ## ✅ Done
 
 - [x] Federal 1099 / self-employment tax calculator — SE tax (SS/Medicare/Add'l), 50% SE deduction, federal income tax, QBI toggle, effective/marginal rates, quarterly estimates
-- [x] Dual tax year 2025 (final IRS/SSA data) + 2026 (clearly labelled estimate)
+- [x] Dual tax year 2025 + 2026, both FINAL IRS figures (2025 brackets Rev. Proc. 2024-40 + OBBBA standard deduction; 2026 Rev. Proc. 2025-32), cross-checked vs Tax Foundation. Defaults to 2026.
 - [x] Best-in-class indigo UI, gradient coin logo, donut breakdown, mobile-first
 - [x] Verified calc engine in `src/lib/` (`calc.ts` + cited `tax-data.ts`), imported by the page
 - [x] AdSense-grade content: how-it-works, worked example, what-is-SE-tax, quarterly, deductions, FAQ, disclaimer
@@ -36,7 +36,7 @@ Built to the same coding standard as the live [easypaycalc](easypaycalc-status.m
 ## 🔧 Pending — to do when ready
 
 - [ ] **Set OWN AdSense id** in `src/lib/config.ts` (turns on the `<head>` loader + real `ads.txt` line). Then drop ad unit code into the side-rail `AdSlot`s after approval.
-- [ ] **2026 federal brackets + standard deduction** — replace estimates in `tax-data.ts` with final IRS figures on release (currently labelled "estimated").
+- [x] **2026 federal brackets + standard deduction** — final IRS figures in `tax-data.ts` (verified 2026-06 vs IRS Rev. Proc. 2025-32 + Tax Foundation).
 - [ ] **Calc unit tests** — lock the SE-tax math against worked examples (spec Phase 1).
 - [ ] **Keyword validation** — Google Keyword Planner volumes/CPC to confirm page structure.
 - [ ] **Real contact email** — replace placeholder `hello@easy1099tax.com` with a working inbox.
