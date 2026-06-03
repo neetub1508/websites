@@ -54,15 +54,27 @@
 
 ---
 
-## Ranked outcome (next 3) + build order
+## 🏆 AdSense-Earning Verdict — DEEP RESEARCH (2026-06-03)
 
-| Order | Candidate | Volume | Competition | CPC | Reuse of moat | Call |
-|---|---|---|---|---|---|---|
-| 1 | **Bonus Tax by State** | High | Medium | Med-High | **Very High** | **Build first — fastest, near drop-in** |
-| 2 | **Capital Gains (fed+state+crypto)** | High | Medium | **High** | High | Highest value; reuses state data |
-| 3 | **Overtime Pay by State** | **Very High** | **Low** | Low-Med | Medium | Traffic engine; lowest competition |
+Re-researched all three on **one criterion only: realistic AdSense earnings for a NEW solo static-calculator site** = capturable traffic × RPM × advertiser intent × long-tail scalability. Each candidate was researched and then **adversarially verified** (skeptic re-checked the numbers and rankability).
 
-**Strategic insight:** our moat is the **51-state research-verified tax engine**. Picks #1 and #2 reuse it directly — we can ship accurate per-state tax tools faster and more correctly than competitors. **Honest tradeoff:** genuinely low-competition tools skew lower-CPC (overtime); high-CPC tools have more competition (capital gains). This trio balances both.
+> **Honest headline:** none is a breakout — all scored **3–4 / 10**. A brand-new static site faces real headwinds in every one. **Capital Gains is the best of the three** (best money-per-session); Overtime is the weakest and is dropped.
+
+| Rank | Candidate | Earning score | Est. RPM | CPC | Verdict |
+|---|---|---|---|---|---|
+| 🥇 | **Capital Gains Tax (fed + state + crypto)** | **4 / 10** | **$12–30** | High | **BUILD FIRST** |
+| 🥈 | **Bonus Tax (by state)** | 3 / 10 | $7–15 | Medium | **Build second** |
+| ❌ | Overtime Pay (by state) | 3 / 10 | $7–12 | Low | **DROP** |
+
+### ✅ Best two to build: **Capital Gains → Bonus Tax** (drop Overtime)
+
+**🥇 Capital Gains Tax — build first.** Highest monetization of the three: $12–30 RPM driven by high-LTV advertisers (crypto-tax apps Koinly/CoinLedger at $49–499/yr, TurboTax, brokerages). Verification proved the key point: **small/new per-state calculator sites already rank** in the `[state] capital gains tax calculator` long-tail (jupid.com, taxsal.com, calcleap.com) alongside NerdWallet/SmartAsset — so the high-value pages are *capturable* if built as a **real interactive per-state calculator** (not thin content). ~100 per-state + variant pages (long/short-term, home-sale, crypto, RSU, 1031). Constraints: YMYL trust bar for a new domain, and heavy Jan–April seasonality.
+
+**🥈 Bonus Tax — build second.** Real demand and clean 50–150-page templatization (reuses our tax engine), but verification revealed the long-tail is **already pre-empted** by PaycheckCity + OnPay (DA-80+, full per-state flat/aggregate coverage) — new pages mostly earn impressions, not rankings. Mid-tier RPM ($7–15) on finance-adjacent CPC, low-intent "grab a number and bounce" searchers, earnings squeezed into ~5 seasonal months.
+
+**❌ Overtime — dropped (purely on earnings).** Tied at 3/10 but loses every money lever: lowest CPC, worst advertiser-audience fit (hourly **employees** vs payroll/time-tracking SaaS that target **employers**), $7–12 RPM, densely saturated SERP (aggregators + Pearson/Intuit/Harvest + HR SaaS + .gov + law firms + existing 50-state micro-sites). Its one high-value catalyst — the OBBBA "No Tax on Overtime" spike (2025–2028) — is locked by TurboTax/IRS and uncapturable. Realistic ceiling ~$50–150/mo.
+
+**Key reversal from the first pass:** the earlier order (Bonus first, for "fastest build") was re-decided here on *earnings* — RPM × intent dominate, and Capital Gains wins both decisively even though it's a slower build and YMYL.
 
 ## Still to pull before build (free)
 - **Google Keyword Planner** → exact volume + CPC for: "bonus tax calculator", "[state] bonus tax calculator", "capital gains tax calculator", "crypto tax calculator", "overtime calculator", "[state] overtime pay".
