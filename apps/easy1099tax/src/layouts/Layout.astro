@@ -5,6 +5,7 @@ interface Props {
   schema?: object | object[];
 }
 import AdSlot from '../components/AdSlot.astro';
+import { ADSENSE_CLIENT } from '../lib/config';
 const { title, description, schema } = Astro.props;
 const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : Astro.url.pathname;
 const jsonLd = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
@@ -28,6 +29,16 @@ const jsonLd = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
     <meta name="twitter:card" content="summary_large_image" />
 
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <!-- Google AdSense — loads only when this project's OWN publisher ID is set
+         in src/lib/config.ts (ADSENSE_CLIENT). Never reuse another site's ID. -->
+    {ADSENSE_CLIENT && (
+      <script
+        async
+        src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`}
+        crossorigin="anonymous"
+      ></script>
+    )}
 
     {jsonLd.map((obj) => (
       <script type="application/ld+json" set:html={JSON.stringify(obj)} />
@@ -60,11 +71,11 @@ const jsonLd = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
     </header>
 
     <!-- Sticky vertical side-rail ads — shown only on wide desktops (≥1500px) where the gutters have room. Hidden on mobile/tablet so they never crowd content. -->
-    <div class="hidden min-[1500px]:block fixed left-5 top-1/2 -translate-y-1/2 z-10">
-      <AdSlot width="160px" minHeight="600px" label="Ad" />
+    <div class="hidden min-[1560px]:block fixed left-5 top-1/2 -translate-y-1/2 z-10">
+      <AdSlot width="160px" minHeight="600px" label="Advertisement" />
     </div>
-    <div class="hidden min-[1500px]:block fixed right-5 top-1/2 -translate-y-1/2 z-10">
-      <AdSlot width="160px" minHeight="600px" label="Ad" />
+    <div class="hidden min-[1560px]:block fixed right-5 top-1/2 -translate-y-1/2 z-10">
+      <AdSlot width="160px" minHeight="600px" label="Advertisement" />
     </div>
 
     <main class="flex-1">

@@ -1,6 +1,5 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import AdSlot from '../components/AdSlot.astro';
 
 const faqs = [
   {
@@ -54,9 +53,17 @@ const appSchema = {
   url: 'https://easy1099tax.com',
   publisher: { '@type': 'Organization', name: 'Easy1099Tax', url: 'https://easy1099tax.com' },
 };
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://easy1099tax.com' },
+  ],
+};
 ---
 
-<Layout title={title} description={description} schema={[appSchema, faqSchema]}>
+<Layout title={title} description={description} schema={[appSchema, faqSchema, breadcrumbSchema]}>
   <!-- Hero + Calculator -->
   <section class="relative overflow-hidden">
     <!-- soft background flourish -->
@@ -250,11 +257,6 @@ const appSchema = {
     </div>
   </section>
 
-  <!-- Ad #1 — below the result, well clear of the inputs/controls (AdSense ≥150px spacing). Prime viewability after the "aha". -->
-  <div class="mx-auto max-w-5xl px-5 mt-10">
-    <AdSlot minHeight="250px" />
-  </div>
-
   <!-- How it works -->
   <section id="how-it-works" class="mx-auto max-w-3xl px-5 mt-16">
     <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">How your 1099 tax is calculated</h2>
@@ -301,11 +303,6 @@ const appSchema = {
       It breaks down into <strong>12.4% for Social Security</strong> and <strong>2.9% for Medicare</strong>. The Social Security portion only applies up to an annual wage base ($176,100 in 2025, $184,500 in 2026); the Medicare portion has no cap, and high earners pay an extra 0.9% above certain thresholds. SE tax is separate from — and in addition to — the federal income tax you owe on the same income.
     </p>
   </section>
-
-  <!-- Ad #2 — in-content, between sections. Reader is engaged; blends naturally. -->
-  <div class="mx-auto max-w-3xl px-5 mt-14">
-    <AdSlot minHeight="250px" />
-  </div>
 
   <!-- Quarterly -->
   <section id="quarterly-info" class="mx-auto max-w-3xl px-5 mt-14">
