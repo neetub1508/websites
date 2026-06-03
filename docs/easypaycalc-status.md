@@ -46,7 +46,7 @@ _Living tracker for the easypaycalc.com launch. Last updated: 2026-06-02._
 
 - [ ] Prioritize high-volume states (keyword research) → extra content for top states
 - [ ] Add supporting content/guides (boosts AdSense + SEO)
-- [ ] Build **easy1099tax** (idea #2 — highest CPC, less crowded)
+- [ ] Build **1099estimator** (idea #2 — highest CPC, less crowded)
 
 ---
 

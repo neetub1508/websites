@@ -1,7 +1,7 @@
 {
   // Cloudflare Workers config — serves the Astro static build (dist/) as
   // static assets. No server/SSR code; this is a pure static-assets Worker.
-  "name": "easy1099tax",
+  "name": "1099estimator",
   "compatibility_date": "2026-06-02",
   "assets": {
     "directory": "./dist"

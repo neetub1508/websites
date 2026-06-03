@@ -1,8 +1,8 @@
-# Easy1099Tax — Status & Pending Items
+# 1099 Estimator — Status & Pending Items
 
-_Living tracker for the easy1099tax.com launch. Last updated: 2026-06-03._
+_Living tracker for the 1099estimator.com launch. Last updated: 2026-06-03._
 
-**Live site:** _(not deployed yet)_ · **Planned domain:** `easy1099tax.com` · **Spec:** [ideas/1099-self-employment-tax-calculator-spec.md](ideas/1099-self-employment-tax-calculator-spec.md)
+**Live site:** _(not deployed yet)_ · **Planned domain:** `1099estimator.com` · **Spec:** [ideas/1099-self-employment-tax-calculator-spec.md](ideas/1099-self-employment-tax-calculator-spec.md)
 
 Built to the same coding standard as the live [easypaycalc](easypaycalc-status.md).
 
@@ -26,8 +26,8 @@ Built to the same coding standard as the live [easypaycalc](easypaycalc-status.m
 
 ## ⏳ Waiting / external (no action until deploy)
 
-- [ ] **easy1099tax.com domain** — purchase + connect (+ `www`, SSL)
-- [ ] **Own Google AdSense account** for easy1099tax → set `ADSENSE_CLIENT` in `src/lib/config.ts` (do NOT reuse easypaycalc's pub id)
+- [ ] **1099estimator.com domain** — purchase + connect (+ `www`, SSL)
+- [ ] **Own Google AdSense account** for 1099estimator → set `ADSENSE_CLIENT` in `src/lib/config.ts` (do NOT reuse easypaycalc's pub id)
 - [ ] **Google Search Console** — verify domain + submit sitemap
 - [ ] **AdSense review** — request after the site has live traffic/content
 
@@ -39,7 +39,7 @@ Built to the same coding standard as the live [easypaycalc](easypaycalc-status.m
 - [x] **2026 federal brackets + standard deduction** — final IRS figures in `tax-data.ts` (verified 2026-06 vs IRS Rev. Proc. 2025-32 + Tax Foundation).
 - [ ] **Calc unit tests** — lock the SE-tax math against worked examples (spec Phase 1).
 - [ ] **Keyword validation** — Google Keyword Planner volumes/CPC to confirm page structure.
-- [ ] **Real contact email** — replace placeholder `hello@easy1099tax.com` with a working inbox.
+- [ ] **Real contact email** — replace placeholder `hello@1099estimator.com` with a working inbox.
 - [ ] **og:image** — branded 1200×630 social/AI share preview (declared in meta, not created).
 
 ---

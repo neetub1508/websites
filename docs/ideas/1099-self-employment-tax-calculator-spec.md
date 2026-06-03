@@ -1,7 +1,7 @@
 # Build Spec — 1099 / Self-Employment Tax Calculator
 
 > **Status:** Spec locked, ready to scaffold. Derived from a deep, adversarially-verified research pass (25/25 claims confirmed, 0 killed; IRS + SSA primary sources for all tax math).
-> **Project name (LOCKED):** `easy1099tax` → app at `apps/easy1099tax/`, future domain `easy1099tax.com`. Keeps the `easy*` family consistent with the existing `easypaycalc` project.
+> **Project name (LOCKED):** `1099estimator` → app at `apps/1099estimator/`, domain `1099estimator.com` (registered $10/yr; exact-intent keyword brand). Sibling to the existing `easypaycalc` project.
 > **Scope (LOCKED):** **Phased** — v1 = complete federal calculator (engine architected for state layering); v2 = per-state pages in waves. See §11 Roadmap.
 > **Project type:** Single-purpose AdSense website (Idea #2 from [ideas.md](ideas.md), the highest-CPC pick per [validation-top3.md](validation-top3.md)).
 > **Tech:** AstroJS 4.x (static) + Tailwind, 100% client-side calc, Cloudflare Pages.
@@ -174,7 +174,7 @@ Privacy Policy · Terms of Service · About · Contact.
 
 ## 8. Open questions to close before/at build
 
-1. ~~**Project name**~~ — ✅ **DECIDED: `easy1099tax`.**
+1. ~~**Project name**~~ — ✅ **DECIDED: `1099estimator`.**
 2. ~~**v1 scope**~~ — ✅ **DECIDED: phased** (see §11).
 3. **2026 federal brackets + standard deduction** — pull final IRS figures; until then label 2026 as estimate. *(Build-time, Phase 1.)*
 4. **Keyword validation** — Google Keyword Planner volumes/CPC to confirm page structure. *(Phase 0.)*
@@ -186,7 +186,7 @@ Privacy Policy · Terms of Service · About · Contact.
 
 ## 9. Name (DECIDED)
 
-✅ **`easy1099tax`** → folder `apps/easy1099tax/`, future domain `easy1099tax.com`.
+✅ **`1099estimator`** → folder `apps/1099estimator/`, future domain `1099estimator.com`.
 Chosen for: high-intent "1099" keyword, short/brandable, and brand-family consistency with the existing `easypaycalc` project.
 
 *(Rejected alternatives, for the record: `1099taxcalc`, `selfemploymenttaxcalc`, `taxsetaside`.)*
@@ -209,12 +209,12 @@ Status legend: ✅ done · 🔄 in progress · ⬜ not started.
 
 ### Phase 0 — Research & spec ✅ (DONE)
 - ✅ Deep, fact-checked research pass (competitors, IRS tax math, SEO, GEO/AEO).
-- ✅ This spec written and decisions locked (name `easy1099tax`, phased scope).
+- ✅ This spec written and decisions locked (name `1099estimator`, phased scope).
 - ⬜ *Optional follow-ups before/while building:* Google Keyword Planner volume/CPC pull; quick spot-check of unverified competitors (FlyFin, Keeper, NerdWallet, Bonsai).
 
 ### Phase 1 — Scaffold + verified tax engine 🔄 (← WE ARE HERE / NEXT)
 **Goal:** a working, accurate, fully-tested federal calculation engine + project skeleton.
-1. Scaffold `apps/easy1099tax/` — Astro 4.x + Tailwind, static output, Cloudflare-ready config.
+1. Scaffold `apps/1099estimator/` — Astro 4.x + Tailwind, static output, Cloudflare-ready config.
 2. Build `src/data/tax-tables.2025.ts` / `.2026.ts` — every number cited to an IRS/SSA/Tax Foundation source (brackets, standard deduction, wage base, thresholds, QBI). 2026 flagged "estimated."
 3. Build the pure calc engine (`src/lib/calc.ts`) per §3: SE tax, SS cap, Additional Medicare, 50% deduction, federal income tax, QBI toggle, effective/marginal rate, quarterly estimates.
 4. **Verify:** unit tests with worked examples cross-checked against Schedule SE / known cases. Engine is correct before any UI.
@@ -244,4 +244,4 @@ Status legend: ✅ done · 🔄 in progress · ⬜ not started.
 5. Apply to AdSense after ~10+ daily users.
 
 ### Immediate next action
-▸ **Begin Phase 1:** scaffold `apps/easy1099tax/` and build the cited tax-data tables + verified calc engine with unit tests, before any UI.
+▸ **Begin Phase 1:** scaffold `apps/1099estimator/` and build the cited tax-data tables + verified calc engine with unit tests, before any UI.

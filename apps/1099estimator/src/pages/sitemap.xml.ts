@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 
-const SITE = 'https://easy1099tax.com';
+const SITE = 'https://1099estimator.com';
 
 // Central list of indexable routes. Add per-state pages here as they ship (spec §4).
 const ROUTES = ['/', '/about', '/contact', '/privacy', '/terms'];

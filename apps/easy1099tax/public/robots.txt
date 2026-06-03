@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://easy1099tax.com/sitemap.xml

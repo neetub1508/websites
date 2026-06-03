@@ -7,6 +7,6 @@ import { ADSENSE_PUB, ADSENSE_ENABLED } from '../lib/config';
 export const GET: APIRoute = () => {
   const body = ADSENSE_ENABLED
     ? `google.com, ${ADSENSE_PUB}, DIRECT, f08c47fec0942fa0\n`
-    : `# ads.txt — set Easy1099Tax's own AdSense publisher id in src/lib/config.ts\n`;
+    : `# ads.txt — set 1099 Estimator's own AdSense publisher id in src/lib/config.ts\n`;
   return new Response(body, { headers: { 'Content-Type': 'text/plain' } });
 };
