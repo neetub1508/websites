@@ -20,14 +20,14 @@ Built to the same coding standard as the live [easypaycalc](easypaycalc-status.m
 - [x] Zero broken links (all internal links + anchor targets verified)
 - [x] Multi-slot ad layout: desktop side-rail `AdSlot`s (≥1560px); in-content ads removed (matches easypaycalc)
 - [x] `wrangler.jsonc` deploy config (static assets) + `.nvmrc` (Node 22)
-- [x] AdSense loader + `ads.txt` are **config-driven** (`src/lib/config.ts`) and OFF until this site's OWN publisher id is set — never reuses another site's id
+- [x] AdSense loader + `ads.txt` wired (config-driven, `src/lib/config.ts`) under the shared AdSense account `ca-pub-8016259834034338` (account-level id — valid across own sites)
 
 ---
 
 ## ⏳ Waiting / external (no action until deploy)
 
 - [ ] **1099estimator.com domain** — purchase + connect (+ `www`, SSL)
-- [ ] **Own Google AdSense account** for 1099estimator → set `ADSENSE_CLIENT` in `src/lib/config.ts` (do NOT reuse easypaycalc's pub id)
+- [ ] **Add 1099estimator.com under AdSense → Sites** (same account `ca-pub-8016259834034338`) so ads can serve on this domain
 - [ ] **Google Search Console** — verify domain + submit sitemap
 - [ ] **AdSense review** — request after the site has live traffic/content
 
@@ -35,7 +35,7 @@ Built to the same coding standard as the live [easypaycalc](easypaycalc-status.m
 
 ## 🔧 Pending — to do when ready
 
-- [ ] **Set OWN AdSense id** in `src/lib/config.ts` (turns on the `<head>` loader + real `ads.txt` line). Then drop ad unit code into the side-rail `AdSlot`s after approval.
+- [x] **AdSense id set** (`ca-pub-8016259834034338`) — `<head>` loader + real `ads.txt` line now live. After approval, drop ad unit code into the side-rail `AdSlot`s.
 - [x] **2026 federal brackets + standard deduction** — final IRS figures in `tax-data.ts` (verified 2026-06 vs IRS Rev. Proc. 2025-32 + Tax Foundation).
 - [ ] **Calc unit tests** — lock the SE-tax math against worked examples (spec Phase 1).
 - [ ] **Keyword validation** — Google Keyword Planner volumes/CPC to confirm page structure.
