@@ -1,35 +1,75 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Faq from '../components/Faq.astro';
 import AdSlot from '../components/AdSlot.astro';
-import { FAQS } from '../lib/content';
-import { faqSchema, webAppSchema, organizationSchema, breadcrumbSchema, SITE } from '../lib/seo';
+
+const faqs = [
+  {
+    q: 'How much tax do I pay on 1099 income?',
+    a: 'On 1099 / self-employment income you pay two layers: self-employment tax of 15.3% (12.4% Social Security + 2.9% Medicare) on 92.35% of your net profit, plus federal income tax at your regular bracket. A common rule of thumb is to set aside 25%–30% of your net 1099 income for taxes, though the exact amount depends on your total income, filing status, deductions, and state.',
+  },
+  {
+    q: 'What is the self-employment tax rate for 2025 and 2026?',
+    a: 'The self-employment tax rate is 15.3%, made up of 12.4% for Social Security and 2.9% for Medicare. The 12.4% Social Security portion only applies up to the wage base — $176,100 in 2025 and $184,500 in 2026 — while the 2.9% Medicare portion applies to all net earnings with no cap.',
+  },
+  {
+    q: 'Why is self-employment tax calculated on 92.35% of profit?',
+    a: 'The IRS lets you reduce your net profit by 7.65% before applying the 15.3% rate, so SE tax is figured on 92.35% of your net profit. This mirrors the employer-side payroll tax a traditional employer would have paid for a W-2 employee. You then also deduct one-half of your SE tax when calculating income tax.',
+  },
+  {
+    q: 'Do I have to pay quarterly estimated taxes?',
+    a: 'Generally yes. If you expect to owe $1,000 or more in tax for the year, the IRS expects you to make four quarterly estimated payments rather than paying it all in April. The due dates fall around April 15, June 15, September 15, and January 15 of the following year. Missing them can trigger an underpayment penalty.',
+  },
+  {
+    q: 'What can I deduct to lower my 1099 taxes?',
+    a: 'Ordinary and necessary business expenses (Schedule C) reduce your net profit directly — home office, mileage, supplies, software, phone, health insurance, and more. You also deduct one-half of your SE tax, and many self-employed people qualify for the 20% Qualified Business Income (QBI) deduction. Every dollar of legitimate expense lowers both your SE tax and your income tax.',
+  },
+  {
+    q: 'Is this 1099 tax calculator accurate?',
+    a: 'It uses the current IRS self-employment tax mechanics (15.3% on 92.35% of net profit, the Social Security wage cap, the 0.9% Additional Medicare Tax, the 50% SE-tax deduction) and federal income-tax brackets to give a close estimate. 2026 figures are estimates pending final IRS release. It is an estimate for planning, not tax advice, and does not yet include state income tax.',
+  },
+];
 
 const title = '1099 Tax Calculator 2025–2026 — Self-Employment Tax Estimator';
 const description =
   'Free 1099 & self-employment tax calculator. Enter your freelance income and expenses to instantly see your SE tax, federal income tax, quarterly estimated payments, and take-home pay for 2025 & 2026.';
 
-const schema = [
-  webAppSchema({ name: '1099 / Self-Employment Tax Calculator', description }),
-  organizationSchema(),
-  breadcrumbSchema([{ name: 'Home', url: SITE.url }]),
-  faqSchema(FAQS),
-];
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+
+const appSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: '1099 / Self-Employment Tax Calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  description,
+  url: 'https://easy1099tax.com',
+  publisher: { '@type': 'Organization', name: 'Easy1099Tax', url: 'https://easy1099tax.com' },
+};
 ---
 
-<Layout title={title} description={description} schema={schema}>
-  <!-- ============ HERO + CALCULATOR ============ -->
+<Layout title={title} description={description} schema={[appSchema, faqSchema]}>
+  <!-- Hero + Calculator -->
   <section class="relative overflow-hidden">
+    <!-- soft background flourish -->
     <div class="absolute inset-0 -z-10 bg-gradient-to-b from-indigo-50/80 via-white to-white"></div>
-    <div class="absolute -z-10 top-[-12%] right-[-6%] w-[42rem] h-[42rem] rounded-full bg-indigo-200/25 blur-3xl"></div>
+    <div class="absolute -z-10 top-[-10%] right-[-5%] w-[40rem] h-[40rem] rounded-full bg-indigo-200/25 blur-3xl"></div>
     <div class="absolute -z-10 top-[10%] left-[-10%] w-[30rem] h-[30rem] rounded-full bg-violet-200/20 blur-3xl"></div>
 
     <div class="mx-auto max-w-6xl px-5 pt-16 pb-10 text-center">
       <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-700 bg-indigo-100/80 ring-1 ring-indigo-200 rounded-full px-3 py-1">
-        <span class="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse"></span> Updated for the 2025 &amp; 2026 tax years
+        <span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span> Updated for the 2025 &amp; 2026 tax years
       </span>
       <h1 class="mt-5 text-4xl sm:text-5xl font-extrabold tracking-tight text-slate-900 text-balance">
-        1099 &amp; Self-Employment <span class="bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">Tax Calculator</span>
+        1099 &amp; Self-Employment Tax Calculator
       </h1>
       <p class="mt-4 text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
         Freelancer, gig worker, or contractor? Enter your income and expenses to instantly see your self-employment tax, income tax, quarterly payments, and what you actually keep.
@@ -107,27 +147,47 @@ const schema = [
 
         <!-- ===== Results ===== -->
         <div class="lg:col-span-7 p-6 sm:p-8 bg-gradient-to-br from-indigo-50/40 to-white">
-          <div class="flex items-baseline justify-between mb-1">
-            <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-widest">Estimated total tax</h2>
-            <span id="year-label" class="text-xs font-semibold text-indigo-600">2025</span>
-          </div>
-          <div class="flex items-end gap-3 flex-wrap">
-            <span id="total-tax" class="text-5xl font-extrabold tracking-tight text-slate-900 tabular-nums">$0</span>
-            <span class="pb-1.5 text-sm text-slate-500">/ year</span>
-          </div>
-          <div class="mt-1.5 flex flex-wrap gap-x-5 gap-y-1 text-sm">
-            <span class="text-slate-500">Effective rate <b id="eff-rate" class="text-slate-700 tabular-nums">0%</b></span>
-            <span class="text-slate-500">Marginal rate <b id="marg-rate" class="text-slate-700 tabular-nums">0%</b></span>
-            <span class="text-slate-500">Take-home <b id="takehome" class="text-emerald-600 tabular-nums">$0</b></span>
+          <div class="flex flex-col sm:flex-row items-center gap-6 sm:gap-8">
+            <!-- Donut -->
+            <div class="relative shrink-0">
+              <svg width="180" height="180" viewBox="0 0 180 180" class="-rotate-90">
+                <circle cx="90" cy="90" r="70" fill="none" stroke="#eef2ff" stroke-width="26" />
+                <g id="donut"></g>
+              </svg>
+              <div class="absolute inset-0 grid place-content-center text-center">
+                <span class="text-xs font-medium text-slate-400">Take-home</span>
+                <span id="net-pct" class="text-3xl font-extrabold text-slate-900 leading-none">0%</span>
+              </div>
+            </div>
+
+            <!-- Headline numbers -->
+            <div class="text-center sm:text-left">
+              <div class="flex items-center justify-center sm:justify-start gap-2">
+                <p class="text-sm font-medium text-slate-400">Estimated total tax</p>
+                <span id="year-label" class="text-[11px] font-semibold text-indigo-600 bg-indigo-50 rounded px-1.5 py-0.5">2025</span>
+              </div>
+              <div class="flex items-baseline justify-center sm:justify-start gap-1.5 mt-1">
+                <span id="total-tax" class="text-5xl font-extrabold tracking-tight text-indigo-600 tabular-nums">$0</span>
+                <span class="text-slate-400 font-medium">/ year</span>
+              </div>
+              <p class="text-slate-500 mt-2 text-sm">
+                Take-home <span id="takehome" class="font-bold text-slate-700 tabular-nums">$0</span> per year
+              </p>
+              <p class="text-slate-500 text-sm">
+                Effective rate <span id="eff-rate" class="font-bold text-slate-700 tabular-nums">0%</span>
+                · Marginal <span id="marg-rate" class="font-bold text-slate-700 tabular-nums">0%</span>
+              </p>
+            </div>
           </div>
 
-          <div class="mt-6 space-y-1 rounded-2xl border border-slate-200 bg-white divide-y divide-slate-100 overflow-hidden">
+          <!-- Breakdown -->
+          <div class="mt-7 rounded-2xl bg-white border border-slate-100 divide-y divide-slate-100 overflow-hidden">
             <div class="flex items-center justify-between px-4 py-2.5 text-sm">
               <span class="text-slate-500">Net business profit</span>
               <span id="net-profit" class="font-semibold text-slate-800 tabular-nums">$0</span>
             </div>
             <div class="flex items-center justify-between px-4 py-2.5 text-sm">
-              <span class="text-slate-600 font-medium">Self-employment tax</span>
+              <span class="text-slate-600 font-medium"><span class="inline-block w-2.5 h-2.5 rounded-full mr-2 align-middle" style="background:#f59e0b"></span>Self-employment tax</span>
               <span id="se-tax" class="font-bold text-slate-900 tabular-nums">$0</span>
             </div>
             <div class="flex items-center justify-between px-4 py-2 text-[13px] bg-slate-50/50">
@@ -143,7 +203,7 @@ const schema = [
               <span id="addl-tax" class="text-slate-500 tabular-nums">$0</span>
             </div>
             <div class="flex items-center justify-between px-4 py-2.5 text-sm">
-              <span class="text-slate-600 font-medium">Federal income tax</span>
+              <span class="text-slate-600 font-medium"><span class="inline-block w-2.5 h-2.5 rounded-full mr-2 align-middle" style="background:#64748b"></span>Federal income tax</span>
               <span id="fed-tax" class="font-bold text-slate-900 tabular-nums">$0</span>
             </div>
             <div class="flex items-center justify-between px-4 py-2.5 text-sm bg-emerald-50/60">
@@ -155,6 +215,7 @@ const schema = [
             </div>
           </div>
 
+          <!-- Quarterly -->
           <div id="quarterly" class="mt-6">
             <p class="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-2.5">Quarterly estimated payments</p>
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
@@ -180,41 +241,41 @@ const schema = [
           <p id="est-note" class="hidden mt-4 text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
             2026 brackets are estimated pending official IRS release. Treat as a planning estimate.
           </p>
-          <p class="mt-3 text-xs text-slate-400 leading-relaxed">
-            Federal estimate only — state income tax not included (coming soon). Not tax advice.
-          </p>
         </div>
       </div>
+
+      <p class="text-center text-xs text-slate-400 mt-4">
+        🔒 Calculated entirely in your browser — your income is never sent anywhere. Federal estimate only; state income tax not included.
+      </p>
     </div>
   </section>
 
-  <AdSlot class="mt-10" />
+  <!-- Ad #1 — below the result, well clear of the inputs/controls (AdSense ≥150px spacing). Prime viewability after the "aha". -->
+  <div class="mx-auto max-w-5xl px-5 mt-10">
+    <AdSlot minHeight="250px" />
+  </div>
 
-  <!-- ============ HOW IT WORKS ============ -->
-  <section id="how-it-works" class="mx-auto max-w-6xl px-5 pt-16">
-    <div class="text-center max-w-2xl mx-auto">
-      <h2 class="text-3xl font-extrabold tracking-tight text-slate-900">How your 1099 tax is calculated</h2>
-      <p class="mt-3 text-slate-500 leading-relaxed">Self-employment income is taxed in two layers. Here's the exact path the IRS uses — and that this calculator follows.</p>
+  <!-- How it works -->
+  <section id="how-it-works" class="mx-auto max-w-3xl px-5 mt-16">
+    <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">How your 1099 tax is calculated</h2>
+    <p class="mt-4 text-slate-600 leading-relaxed">
+      Self-employment income is taxed in <strong>two layers</strong>. Here's the exact path the IRS uses — and that this calculator follows:
+    </p>
+    <div class="mt-6 grid sm:grid-cols-2 gap-4">
+      {[
+        ['1. Find your net profit', 'Subtract business expenses from your gross 1099 income. That net profit (Schedule C) is what gets taxed — not your gross.'],
+        ['2. Apply 15.3% SE tax', 'Self-employment tax is 15.3% (12.4% Social Security + 2.9% Medicare) on 92.35% of net profit. Social Security stops at the wage cap ($176,100 in 2025).'],
+        ['3. Deduct half your SE tax', 'One-half of your SE tax comes off your income before federal income tax is calculated — an automatic above-the-line deduction.'],
+        ['4. Add federal income tax', 'Subtract the standard deduction and (if eligible) the 20% QBI deduction, then apply your income-tax bracket for the year.'],
+      ].map(([t, d]) => (
+        <div class="rounded-2xl border border-slate-200 bg-slate-50/60 p-4">
+          <h3 class="font-semibold text-slate-800">{t}</h3>
+          <p class="text-sm text-slate-500 mt-1 leading-relaxed">{d}</p>
+        </div>
+      ))}
     </div>
 
-    <div class="mt-10 grid md:grid-cols-3 gap-5">
-      <div class="rounded-2xl border border-slate-200 p-6 bg-white">
-        <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-700 grid place-items-center font-bold">1</div>
-        <h3 class="mt-4 font-bold text-slate-900">Find your net profit</h3>
-        <p class="mt-1.5 text-sm text-slate-500 leading-relaxed">Subtract business expenses from your gross 1099 income. That net profit (Schedule C) is what gets taxed — not your gross.</p>
-      </div>
-      <div class="rounded-2xl border border-slate-200 p-6 bg-white">
-        <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-700 grid place-items-center font-bold">2</div>
-        <h3 class="mt-4 font-bold text-slate-900">Apply 15.3% SE tax</h3>
-        <p class="mt-1.5 text-sm text-slate-500 leading-relaxed">Self-employment tax is 15.3% (12.4% Social Security + 2.9% Medicare) on 92.35% of your net profit. The Social Security part stops at the annual wage cap.</p>
-      </div>
-      <div class="rounded-2xl border border-slate-200 p-6 bg-white">
-        <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-700 grid place-items-center font-bold">3</div>
-        <h3 class="mt-4 font-bold text-slate-900">Add federal income tax</h3>
-        <p class="mt-1.5 text-sm text-slate-500 leading-relaxed">Deduct half your SE tax and the standard deduction, then apply your income-tax bracket. The result is your total federal tax bill.</p>
-      </div>
-    </div>
-
+    <!-- Worked example -->
     <div class="mt-6 rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-6 sm:p-8">
       <h3 class="font-bold text-slate-900">Worked example — $80,000 gross, $12,000 expenses (single, 2025, QBI applied)</h3>
       <div class="mt-4 grid sm:grid-cols-2 gap-x-10 gap-y-2 text-sm">
@@ -226,58 +287,70 @@ const schema = [
         <div class="flex justify-between border-b border-slate-100 py-1.5"><span class="text-slate-500">Federal income tax</span><b class="tabular-nums">$4,388</b></div>
         <div class="flex justify-between border-b border-slate-100 py-1.5"><span class="text-slate-500">Total federal tax</span><b class="tabular-nums text-indigo-700">$13,996</b></div>
       </div>
-      <p class="mt-4 text-xs text-slate-400">Matches the calculator's default result for these inputs. Your numbers depend on filing status, other income, QBI eligibility, and deductions. Run yours in the calculator above.</p>
+      <p class="mt-4 text-xs text-slate-400">Matches the calculator's default result for these inputs. Your numbers depend on filing status, other income, QBI eligibility, and deductions.</p>
     </div>
   </section>
 
-  <!-- ============ WHAT IS SE TAX ============ -->
-  <section id="what-is" class="mx-auto max-w-3xl px-5 pt-16">
-    <h2 class="text-3xl font-extrabold tracking-tight text-slate-900">What is self-employment tax?</h2>
+  <!-- What is SE tax -->
+  <section id="what-is" class="mx-auto max-w-3xl px-5 mt-16">
+    <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">What is self-employment tax?</h2>
     <p class="mt-4 text-slate-600 leading-relaxed">
-      <b>Self-employment tax is a 15.3% tax that covers Social Security and Medicare for people who work for themselves.</b> When you're a W-2 employee, your employer pays half of these payroll taxes for you. When you're self-employed — a freelancer, gig worker, independent contractor, or sole proprietor receiving 1099 income — you pay both halves yourself. That's what self-employment tax is.
+      <strong>Self-employment tax is a 15.3% tax that covers Social Security and Medicare for people who work for themselves.</strong> When you're a W-2 employee, your employer pays half of these payroll taxes for you. When you're self-employed — a freelancer, gig worker, independent contractor, or sole proprietor receiving 1099 income — you pay both halves yourself. That's what self-employment tax is.
     </p>
     <p class="mt-4 text-slate-600 leading-relaxed">
-      It breaks down into <b>12.4% for Social Security</b> and <b>2.9% for Medicare</b>. The Social Security portion only applies up to an annual wage base ($176,100 in 2025, $184,500 in 2026); the Medicare portion has no cap, and high earners pay an extra 0.9% above certain thresholds. SE tax is separate from — and in addition to — the federal income tax you owe on the same income.
+      It breaks down into <strong>12.4% for Social Security</strong> and <strong>2.9% for Medicare</strong>. The Social Security portion only applies up to an annual wage base ($176,100 in 2025, $184,500 in 2026); the Medicare portion has no cap, and high earners pay an extra 0.9% above certain thresholds. SE tax is separate from — and in addition to — the federal income tax you owe on the same income.
     </p>
   </section>
 
-  <!-- ============ QUARTERLY ============ -->
-  <section id="quarterly-info" class="mx-auto max-w-3xl px-5 pt-14">
-    <h2 class="text-3xl font-extrabold tracking-tight text-slate-900">Quarterly estimated taxes</h2>
+  <!-- Ad #2 — in-content, between sections. Reader is engaged; blends naturally. -->
+  <div class="mx-auto max-w-3xl px-5 mt-14">
+    <AdSlot minHeight="250px" />
+  </div>
+
+  <!-- Quarterly -->
+  <section id="quarterly-info" class="mx-auto max-w-3xl px-5 mt-14">
+    <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">Quarterly estimated taxes</h2>
     <p class="mt-4 text-slate-600 leading-relaxed">
-      Because no employer withholds tax from your 1099 income, the IRS expects you to pay as you go in four estimated installments. <b>If you'll owe $1,000 or more for the year, you generally need to make quarterly payments.</b> The calculator above splits your estimated tax into the four due dates so you know what to send each quarter.
+      Because no employer withholds tax from your 1099 income, the IRS expects you to pay as you go in four estimated installments. <strong>If you'll owe $1,000 or more for the year, you generally need to make quarterly payments.</strong> The calculator above splits your estimated tax into the four due dates so you know what to send each quarter.
     </p>
     <div class="mt-5 grid sm:grid-cols-2 gap-3 text-sm">
-      <div class="rounded-xl border border-slate-200 p-4"><b class="text-slate-900">Q1 — April 15</b><p class="text-slate-500 mt-1">Income from Jan 1 – Mar 31</p></div>
-      <div class="rounded-xl border border-slate-200 p-4"><b class="text-slate-900">Q2 — June 15</b><p class="text-slate-500 mt-1">Income from Apr 1 – May 31</p></div>
-      <div class="rounded-xl border border-slate-200 p-4"><b class="text-slate-900">Q3 — September 15</b><p class="text-slate-500 mt-1">Income from Jun 1 – Aug 31</p></div>
-      <div class="rounded-xl border border-slate-200 p-4"><b class="text-slate-900">Q4 — January 15</b><p class="text-slate-500 mt-1">Income from Sep 1 – Dec 31</p></div>
+      <div class="rounded-2xl border border-slate-200 bg-slate-50/60 p-4"><b class="text-slate-900">Q1 — April 15</b><p class="text-slate-500 mt-1">Income from Jan 1 – Mar 31</p></div>
+      <div class="rounded-2xl border border-slate-200 bg-slate-50/60 p-4"><b class="text-slate-900">Q2 — June 15</b><p class="text-slate-500 mt-1">Income from Apr 1 – May 31</p></div>
+      <div class="rounded-2xl border border-slate-200 bg-slate-50/60 p-4"><b class="text-slate-900">Q3 — September 15</b><p class="text-slate-500 mt-1">Income from Jun 1 – Aug 31</p></div>
+      <div class="rounded-2xl border border-slate-200 bg-slate-50/60 p-4"><b class="text-slate-900">Q4 — January 15</b><p class="text-slate-500 mt-1">Income from Sep 1 – Dec 31</p></div>
     </div>
   </section>
 
-  <!-- ============ DEDUCTIONS ============ -->
-  <section id="deductions" class="mx-auto max-w-3xl px-5 pt-14">
-    <h2 class="text-3xl font-extrabold tracking-tight text-slate-900">Deductions that lower your 1099 tax</h2>
-    <p class="mt-4 text-slate-600 leading-relaxed">Every legitimate deduction reduces your net profit, which lowers <i>both</i> your SE tax and your income tax. The big ones:</p>
+  <!-- Deductions -->
+  <section id="deductions" class="mx-auto max-w-3xl px-5 mt-14">
+    <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">Deductions that lower your 1099 tax</h2>
+    <p class="mt-4 text-slate-600 leading-relaxed">Every legitimate deduction reduces your net profit, which lowers <em>both</em> your SE tax and your income tax. The big ones:</p>
     <ul class="mt-4 space-y-2.5 text-slate-600">
-      <li class="flex gap-3"><svg class="w-5 h-5 text-indigo-500 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span><b>Business expenses</b> — home office, mileage, equipment, software, supplies, phone, and other ordinary &amp; necessary costs (Schedule C).</span></li>
-      <li class="flex gap-3"><svg class="w-5 h-5 text-indigo-500 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span><b>Half of your SE tax</b> — automatically deducted above-the-line before income tax is calculated.</span></li>
-      <li class="flex gap-3"><svg class="w-5 h-5 text-indigo-500 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span><b>20% QBI deduction</b> — the Qualified Business Income deduction can remove up to 20% of your qualified profit from income tax.</span></li>
-      <li class="flex gap-3"><svg class="w-5 h-5 text-indigo-500 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span><b>Retirement &amp; health</b> — SEP-IRA / Solo 401(k) contributions and self-employed health insurance premiums.</span></li>
+      <li class="flex gap-3"><svg class="w-5 h-5 text-indigo-500 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span><strong>Business expenses</strong> — home office, mileage, equipment, software, supplies, phone, and other ordinary &amp; necessary costs (Schedule C).</span></li>
+      <li class="flex gap-3"><svg class="w-5 h-5 text-indigo-500 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span><strong>Half of your SE tax</strong> — automatically deducted above-the-line before income tax is calculated.</span></li>
+      <li class="flex gap-3"><svg class="w-5 h-5 text-indigo-500 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span><strong>20% QBI deduction</strong> — the Qualified Business Income deduction can remove up to 20% of your qualified profit from income tax.</span></li>
+      <li class="flex gap-3"><svg class="w-5 h-5 text-indigo-500 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span><strong>Retirement &amp; health</strong> — SEP-IRA / Solo 401(k) contributions and self-employed health insurance premiums.</span></li>
     </ul>
   </section>
 
-  <!-- ============ FAQ ============ -->
-  <section id="faq" class="mx-auto max-w-3xl px-5 pt-16">
-    <h2 class="text-3xl font-extrabold tracking-tight text-slate-900 text-center">Frequently asked questions</h2>
-    <Faq faqs={FAQS} />
-  </section>
-
-  <!-- ============ DISCLAIMER ============ -->
-  <section class="mx-auto max-w-3xl px-5 pt-14">
-    <div class="rounded-2xl bg-slate-50 border border-slate-200 p-5 text-sm text-slate-500 leading-relaxed">
-      <b class="text-slate-700">Disclaimer:</b> Easy1099Tax provides estimates for informational and planning purposes only and is not tax, legal, or accounting advice. Tax rules change and individual situations vary. 2026 figures are estimates pending final IRS release, and state income taxes are not yet included. Always verify with <a href="https://www.irs.gov" class="text-indigo-600 underline">IRS.gov</a> or a qualified tax professional before making decisions.
+  <!-- FAQ -->
+  <section id="faq" class="mx-auto max-w-3xl px-5 mt-14">
+    <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">Frequently asked questions</h2>
+    <div class="mt-6 space-y-3">
+      {faqs.map((f) => (
+        <details class="group rounded-2xl border border-slate-200 bg-white px-5 open:shadow-sm transition">
+          <summary class="flex justify-between items-center cursor-pointer list-none font-semibold text-slate-800 py-4">
+            {f.q}
+            <span class="ml-4 shrink-0 grid place-items-center w-6 h-6 rounded-full bg-slate-100 text-slate-500 group-open:bg-indigo-100 group-open:text-indigo-700 group-open:rotate-45 transition">+</span>
+          </summary>
+          <p class="text-slate-600 leading-relaxed pb-5 -mt-1">{f.a}</p>
+        </details>
+      ))}
     </div>
+
+    <p class="mt-10 text-xs text-slate-400 leading-relaxed">
+      Disclaimer: This calculator provides estimates for educational purposes only and does not constitute tax, legal, or financial advice. 2026 figures are estimates pending final IRS release, and state income taxes are not included. Actual tax depends on your full return, credits, and other factors. Verify with a qualified professional or the IRS before making decisions.
+    </p>
   </section>
 </Layout>
 
@@ -286,13 +359,19 @@ const schema = [
   import type { Filing, Year } from '../lib/tax-data';
 
   const $ = (id: string) => document.getElementById(id)!;
-  const usd = (n: number) => '$' + Math.round(n).toLocaleString('en-US');
-  const usdNeg = (n: number) => '–$' + Math.round(n).toLocaleString('en-US');
-  const pct = (n: number) => (n * 100).toFixed(1).replace(/\.0$/, '') + '%';
+  const usd0 = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+
+  const COLORS: Record<string, string> = {
+    'Take-home': '#4f46e5',
+    'Self-employment tax': '#f59e0b',
+    'Federal income tax': '#64748b',
+  };
+  const R = 70;
+  const CIRC = 2 * Math.PI * R;
 
   let year: Year = 2025;
 
-  function run() {
+  function render() {
     const r = calc({
       year,
       filing: ($('filing') as HTMLSelectElement).value as Filing,
@@ -302,28 +381,51 @@ const schema = [
       useQbi: ($('qbi') as HTMLInputElement).checked,
     });
 
-    $('total-tax').textContent = usd(r.totalTax);
-    $('eff-rate').textContent = pct(r.effectiveRate);
-    $('marg-rate').textContent = pct(r.marginalRate);
-    $('takehome').textContent = usd(r.takeHome);
-    $('net-profit').textContent = usd(r.netProfit);
-    $('se-tax').textContent = usd(r.seTax);
-    $('ss-tax').textContent = usd(r.socialSecurity);
-    $('med-tax').textContent = usd(r.medicare);
-    $('fed-tax').textContent = usd(r.federalIncomeTax);
-    $('half-se').textContent = usdNeg(r.halfSeDeduction);
-    $('q1').textContent = $('q2').textContent = $('q3').textContent = $('q4').textContent = usd(r.quarterly);
+    $('total-tax').textContent = usd0.format(r.totalTax);
+    $('takehome').textContent = usd0.format(r.takeHome);
+    $('eff-rate').textContent = (r.effectiveRate * 100).toFixed(1) + '%';
+    $('marg-rate').textContent = (r.marginalRate * 100).toFixed(0) + '%';
+    $('net-profit').textContent = usd0.format(r.netProfit);
+    $('se-tax').textContent = usd0.format(r.seTax);
+    $('ss-tax').textContent = usd0.format(r.socialSecurity);
+    $('med-tax').textContent = usd0.format(r.medicare);
+    $('fed-tax').textContent = usd0.format(r.federalIncomeTax);
+    $('half-se').textContent = '–' + usd0.format(r.halfSeDeduction);
+    $('q1').textContent = $('q2').textContent = $('q3').textContent = $('q4').textContent = usd0.format(r.quarterly);
 
     const addlRow = $('addl-row');
     if (r.additionalMedicare > 0) {
       addlRow.classList.remove('hidden'); addlRow.classList.add('flex');
-      $('addl-tax').textContent = usd(r.additionalMedicare);
+      $('addl-tax').textContent = usd0.format(r.additionalMedicare);
     } else {
       addlRow.classList.add('hidden'); addlRow.classList.remove('flex');
     }
 
     $('est-note').classList.toggle('hidden', !r.estimated);
     $('year-label').textContent = String(year);
+
+    // Donut — split of (gross − expenses) into take-home, SE tax, income tax
+    const takeHome = Math.max(0, r.takeHome);
+    const segments = [
+      { label: 'Take-home', amount: takeHome },
+      { label: 'Self-employment tax', amount: r.seTax },
+      { label: 'Federal income tax', amount: r.federalIncomeTax },
+    ];
+    const total = segments.reduce((s, x) => s + x.amount, 0) || 1;
+    $('net-pct').textContent = Math.round((takeHome / total) * 100) + '%';
+
+    let offset = 0;
+    $('donut').innerHTML = segments
+      .filter((s) => s.amount > 0)
+      .map((s) => {
+        const len = (s.amount / total) * CIRC;
+        const c = COLORS[s.label] ?? '#cbd5e1';
+        const circle = `<circle cx="90" cy="90" r="${R}" fill="none" stroke="${c}" stroke-width="26"
+          stroke-dasharray="${len} ${CIRC - len}" stroke-dashoffset="${-offset}"><title>${s.label}</title></circle>`;
+        offset += len;
+        return circle;
+      })
+      .join('');
   }
 
   function paintYear() {
@@ -337,15 +439,15 @@ const schema = [
   }
 
   document.querySelectorAll<HTMLButtonElement>('.year-btn').forEach((b) =>
-    b.addEventListener('click', () => { year = +b.dataset.year! as Year; paintYear(); run(); })
+    b.addEventListener('click', () => { year = +b.dataset.year! as Year; paintYear(); render(); })
   );
 
   const seIncome = $('se-income') as HTMLInputElement;
   const seRange = $('se-range') as HTMLInputElement;
-  seRange.addEventListener('input', () => { seIncome.value = seRange.value; run(); });
-  seIncome.addEventListener('input', () => { seRange.value = String(Math.min(+seIncome.value || 0, +seRange.max)); run(); });
-  ['expenses', 'w2-income', 'filing', 'qbi'].forEach((id) => $(id).addEventListener('input', run));
+  seRange.addEventListener('input', () => { seIncome.value = seRange.value; render(); });
+  seIncome.addEventListener('input', () => { seRange.value = String(Math.min(+seIncome.value || 0, +seRange.max)); render(); });
+  ['expenses', 'w2-income', 'filing', 'qbi'].forEach((id) => $(id).addEventListener('input', render));
 
   paintYear();
-  run();
+  render();
 </script>

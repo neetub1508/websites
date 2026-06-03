@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
-import { SITE } from '../lib/seo';
+
+const SITE = 'https://easy1099tax.com';
 
 // Central list of indexable routes. Add per-state pages here as they ship (spec §4).
 const ROUTES = ['/', '/about', '/contact', '/privacy', '/terms'];
@@ -7,7 +8,7 @@ const ROUTES = ['/', '/about', '/contact', '/privacy', '/terms'];
 export const GET: APIRoute = () => {
   const urls = ROUTES.map(
     (path) =>
-      `  <url><loc>${SITE.url}${path === '/' ? '/' : path}</loc><changefreq>monthly</changefreq><priority>${path === '/' ? '1.0' : '0.6'}</priority></url>`
+      `  <url><loc>${SITE}${path === '/' ? '/' : path}</loc><changefreq>monthly</changefreq><priority>${path === '/' ? '1.0' : '0.6'}</priority></url>`
   ).join('\n');
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>

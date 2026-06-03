@@ -4,10 +4,10 @@ interface Props {
   description: string;
   schema?: object | object[];
 }
+import AdSlot from '../components/AdSlot.astro';
 const { title, description, schema } = Astro.props;
 const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : Astro.url.pathname;
 const jsonLd = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
-const year = 2026;
 ---
 
 <!doctype html>
@@ -36,20 +36,36 @@ const year = 2026;
   <body class="min-h-screen bg-white text-slate-900 antialiased flex flex-col selection:bg-indigo-200/60">
     <header class="sticky top-0 z-30 border-b border-slate-200/70 bg-white/80 backdrop-blur-lg">
       <div class="mx-auto max-w-6xl px-5 h-16 flex items-center justify-between">
-        <a href="/" class="flex items-center gap-2.5 font-bold text-[17px] tracking-tight">
-          <span class="grid place-items-center w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 text-white shadow-sm shadow-violet-600/30 text-[13px] font-extrabold">
-            99
-          </span>
-          <span>Easy<span class="text-indigo-600">1099</span>Tax</span>
+        <a href="/" class="flex items-center gap-2.5" aria-label="Easy1099Tax home">
+          <svg width="34" height="34" viewBox="0 0 40 40" fill="none" aria-hidden="true" class="shrink-0">
+            <defs>
+              <linearGradient id="e99-coin" x1="6" y1="4" x2="34" y2="36" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#6366f1" />
+                <stop offset="1" stop-color="#7c3aed" />
+              </linearGradient>
+            </defs>
+            <circle cx="20" cy="20" r="18" fill="url(#e99-coin)" />
+            <circle cx="20" cy="20" r="14.25" fill="none" stroke="#ffffff" stroke-opacity="0.35" stroke-width="1.25" />
+            <text x="20" y="27.5" text-anchor="middle" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="22" font-weight="800" fill="#ffffff">$</text>
+          </svg>
+          <span class="font-extrabold text-[18px] tracking-tight text-slate-900">Easy<span class="text-indigo-600">1099</span>Tax</span>
         </a>
         <nav class="text-sm font-medium text-slate-600 hidden sm:flex items-center gap-7">
           <a href="/" class="hover:text-indigo-700 transition">Calculator</a>
-          <a href="#how-it-works" class="hover:text-indigo-700 transition">How it works</a>
-          <a href="#quarterly" class="hover:text-indigo-700 transition">Quarterly taxes</a>
-          <a href="#faq" class="hover:text-indigo-700 transition">FAQ</a>
+          <a href="/#how-it-works" class="hover:text-indigo-700 transition">How it works</a>
+          <a href="/#quarterly" class="hover:text-indigo-700 transition">Quarterly taxes</a>
+          <a href="/#faq" class="hover:text-indigo-700 transition">FAQ</a>
         </nav>
       </div>
     </header>
+
+    <!-- Sticky vertical side-rail ads — shown only on wide desktops (≥1500px) where the gutters have room. Hidden on mobile/tablet so they never crowd content. -->
+    <div class="hidden min-[1500px]:block fixed left-5 top-1/2 -translate-y-1/2 z-10">
+      <AdSlot width="160px" minHeight="600px" label="Ad" />
+    </div>
+    <div class="hidden min-[1500px]:block fixed right-5 top-1/2 -translate-y-1/2 z-10">
+      <AdSlot width="160px" minHeight="600px" label="Ad" />
+    </div>
 
     <main class="flex-1">
       <slot />
@@ -59,7 +75,11 @@ const year = 2026;
       <div class="mx-auto max-w-6xl px-5 py-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4 text-sm">
         <div class="space-y-3">
           <div class="flex items-center gap-2 font-bold">
-            <span class="grid place-items-center w-7 h-7 rounded-lg bg-gradient-to-br from-indigo-500 to-violet-600 text-white text-xs font-extrabold">99</span>
+            <svg width="26" height="26" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+              <circle cx="20" cy="20" r="18" fill="url(#e99-coin)" />
+              <circle cx="20" cy="20" r="14.25" fill="none" stroke="#ffffff" stroke-opacity="0.35" stroke-width="1.25" />
+              <text x="20" y="27.5" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="800" fill="#ffffff">$</text>
+            </svg>
             Easy1099Tax
           </div>
           <p class="text-slate-500 leading-relaxed">Free, instant self-employment &amp; 1099 tax calculator for U.S. freelancers, gig workers, and contractors.</p>
@@ -68,17 +88,17 @@ const year = 2026;
           <h3 class="font-semibold text-slate-800 mb-3">Tool</h3>
           <ul class="space-y-2 text-slate-500">
             <li><a href="/" class="hover:text-indigo-700">1099 tax calculator</a></li>
-            <li><a href="#how-it-works" class="hover:text-indigo-700">How it works</a></li>
-            <li><a href="#quarterly" class="hover:text-indigo-700">Quarterly taxes</a></li>
-            <li><a href="#faq" class="hover:text-indigo-700">FAQ</a></li>
+            <li><a href="/#how-it-works" class="hover:text-indigo-700">How it works</a></li>
+            <li><a href="/#quarterly" class="hover:text-indigo-700">Quarterly taxes</a></li>
+            <li><a href="/#faq" class="hover:text-indigo-700">FAQ</a></li>
           </ul>
         </div>
         <div>
           <h3 class="font-semibold text-slate-800 mb-3">Learn</h3>
           <ul class="space-y-2 text-slate-500">
-            <li><a href="#what-is" class="hover:text-indigo-700">What is SE tax?</a></li>
-            <li><a href="#deductions" class="hover:text-indigo-700">Deductions</a></li>
-            <li><a href="#how-it-works" class="hover:text-indigo-700">Worked example</a></li>
+            <li><a href="/#what-is" class="hover:text-indigo-700">What is SE tax?</a></li>
+            <li><a href="/#deductions" class="hover:text-indigo-700">Deductions</a></li>
+            <li><a href="/#how-it-works" class="hover:text-indigo-700">Worked example</a></li>
           </ul>
         </div>
         <div>
@@ -93,7 +113,7 @@ const year = 2026;
       </div>
       <div class="border-t border-slate-200">
         <p class="mx-auto max-w-6xl px-5 py-5 text-xs text-slate-400">
-          © {year} Easy1099Tax. Estimates for informational purposes only — not tax, legal, or financial advice. Consult a qualified tax professional and <a href="https://www.irs.gov" class="underline hover:text-indigo-600">IRS.gov</a> for your specific situation.
+          © 2026 Easy1099Tax. Estimates for informational purposes only — not tax, legal, or financial advice.
         </p>
       </div>
     </footer>
