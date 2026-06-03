@@ -1,65 +1,74 @@
-# Validation Pass — Top 3 Candidates (SERP / Competition)
+# Validation — Built Tools + Next 3 Candidates (SERP / Competition)
 
-> Goal: validate before committing a week of build. **Exact search volume & CPC are paywalled** (SEMrush/Ahrefs) — pull those from **Google Keyword Planner (free)** before final commit. But the **live SERP composition** is itself a strong, free signal, and that's what's below.
-
-## Method
-Searched each term to see WHO already ranks (incumbents vs. beatable micro-sites), how natural the per-state long-tail is, and how buildable it is as a static client-side site.
+> **Method:** exact search volume & CPC are paywalled (SEMrush/Ahrefs) — pull those from **Google Keyword Planner (free)** before final commit. But the **live SERP composition** (who already ranks: incumbents vs. beatable micro-sites) is a strong free signal, and that's the basis below.
 
 ---
 
-## 1. Take-Home Pay / Paycheck Calculator by State
+## ✅ Built so far
 
-**Who ranks:** SmartAsset, ADP, PaycheckCity, Gusto, SurePayroll, Intuit (big brands) **+ many small per-state niche sites already exist**: `paycheckcalculatorcalifornia.com`, `paycheckcity-calculator.com/smartasset-texas-calculator`, `thecalcs.com/ohio-paycheck-calculator`, `nationaltaxtools.com`, `calcbz.com`, `paycheckmanager.com/illinois`.
+### 1. Take-Home Pay / Paycheck Calculator by State → **easypaycalc.com** (LIVE)
+- **Who ranks:** SmartAsset, ADP, PaycheckCity, Gusto, Intuit (big brands) **+ many small per-state niche sites** (`paycheckcalculatorcalifornia.com`, `thecalcs.com/ohio-paycheck-calculator`, etc.).
+- Demand & monetization **proven** (lots of small sites = real money), but the per-state long-tail is **crowded** — wins on deeper angle + better UX/content.
+- **Status:** shipped, 51 states, AdSense applied. The 51-state tax engine here is our reusable **moat**.
 
-- ✅ **Demand & monetization PROVEN** — the sheer number of small sites doing exactly this = the money is real and the model works.
-- ⚠️ **Double-edged:** the per-state long-tail is **NOT virgin territory** — it's already contested by many micro-sites. The earlier "incumbents only cover it generically" framing was too optimistic. Ranking needs a **sharper edge than just 'per state.'**
-- **Winning edge (deeper):** per-state **+ per-city** (CA → LA/SF), **hourly + salary + overtime + bonus** variants, **2026 tax-year freshness**, and genuinely better UX/content than the thin niche sites.
-- **Build:** client-side, feasible — but needs accurate 2026 state tax tables for 51 states.
-- **Verdict:** 🟢 Strongest demand, 🟡 crowded long-tail. Winnable with a deeper angle + quality.
-
----
-
-## 2. 1099 / Self-Employment Tax Calculator
-
-**Who ranks:** ADP, Everlance, Jackson Hewitt, **FlyFin**, QuickBooks, TurboTax, Fincent, miniwebtool — **plus a single-purpose niche site ranking: `selfemploymenttaxestimator.com`** (proof a focused solo site can break in).
-
-- ✅ **Very high CPC** — tax-software advertisers (TurboTax, QuickBooks, FlyFin) bid hard here.
-- ✅ **Fewer micro-competitors** than paycheck-by-state — less crowded at the small-site level.
-- ⚠️ **Weaker per-state moat** — SE tax is **federal (15.3%)**, so the natural "51-page" structure is thinner. You'd layer state *income* tax on top to create per-state pages.
-- **Build:** client-side, feasible. Simpler core math than full paycheck.
-- **Verdict:** 🟢 Best CPC + less crowded, 🟡 weaker multi-page SEO structure.
+### 2. 1099 / Self-Employment Tax Calculator → **easy1099tax** (built)
+- **Who ranks:** ADP, Everlance, Jackson Hewitt, FlyFin, QuickBooks, TurboTax **+ a solo niche site (`selfemploymenttaxestimator.com`)** — proof a focused site can break in.
+- **Very high CPC** (tax-software advertisers), **fewer micro-competitors** than paycheck. Weaker per-state moat (SE tax is federal 15.3%).
+- **Status:** built.
 
 ---
 
-## 3. Sales Tax Calculator by State / ZIP
+## 🔜 Next 3 candidates (validated 2026-06-03)
 
-**Who ranks:** **Avalara**, QuickBooks/Intuit, TaxCloud, TaxHero, AccurateTax, Zip2Tax — **plus state `.gov` revenue sites**.
+### 3. Bonus Tax Calculator (by state)
+**Who ranks:** PaycheckCity (`/flatbonus/california`), SurePayroll, PrimePay, OnPay, TurboTax — payroll-software brands.
+- **Volume:** High — "how much will my bonus be taxed?" is a huge, emotional, recurring query.
+- **Competition:** Medium — only PaycheckCity really does it per-state; small-site field is open. Not lead-gen-aggressive.
+- **CPC:** Med-High (payroll/tax software).
+- **Build:** ⭐ **Fastest** — near drop-in variant of easypaycalc: reuse the 51-state engine + add federal supplemental rates (22% / 37% over $1M) and per-state supplemental rates.
+- **Verdict:** 🟢 Strong, fastest win, maximum reuse of our moat.
 
-- ❌ **Lead-gen incumbent trap (like solar):** Avalara & co. are **B2B sales-tax-compliance** companies running lead-gen funnels — they out-monetize AdSense per visitor.
-- ❌ **`.gov` sites rank** for state queries — very hard to outrank.
-- ❌ **Heavy data, weak for static:** accurate ZIP-level rates = thousands of rows, frequently changing → not a clean static client-side build.
-- ⚠️ Lower commercial intent (consumers checking a rate) vs. tax-software intent.
-- **Verdict:** 🔴 **Drop it.** Worst fit of the three for a solo AdSense builder.
+### 4. Capital Gains Tax Calculator (federal + state + crypto)
+**Who ranks:** NerdWallet, SmartAsset at top **+ smaller focused tools that rank** (Keeper, Cache, Public.com) on the federal+state+crypto angle.
+- **Volume:** High (investing huge; crypto trending).
+- **Competition:** Medium — top incumbents exist, but the **per-state + crypto + collectibles** angle has room.
+- **CPC:** High (investing/brokerage/crypto-tax advertisers bid hard).
+- **Build:** Moderate — **state capital-gains = state income tax, which we already have for all 51 states** from easypaycalc. Big reuse + accuracy advantage.
+- **Verdict:** 🟢 Highest value; exploits data we already own.
+
+### 5. Overtime Pay Calculator (by state)
+**Who ranks:** generic calculators only — Omni, GoodCalculators, TheCalculatorSite, Harvest (simple "hourly × 1.5").
+- **Volume:** Very High (hourly workers = massive audience).
+- **Competition:** ✅ **Low** — nobody does it **properly per state** (CA daily OT, double-time, state OT laws). Clear quality gap.
+- **CPC:** Low-Med — pay calc, lower commercial intent (the honest weakness).
+- **Build:** Easy; per-state OT-rule data. Cross-links with easypaycalc.
+- **Verdict:** 🟢 True "low-crowd, high-volume" pick — a **traffic engine** more than a revenue engine.
 
 ---
 
-## Ranked outcome of this validation
+## ❌ Rejected (kept here so we don't re-evaluate)
+- **HELOC / home-equity calculator** — SERP is all **lenders** (BoA, US Bank, LendingTree) running lead-gen; they out-monetize AdSense. Solar-style trap.
+- **Cost-of-living calculator** — incumbents license **C2ER proprietary data** we can't replicate. Data moat.
+- **RMD calculator** — owned by IRS/Schwab/Fidelity/AARP/FINRA (.gov + brokerages). Unwinnable.
+- **W-4 / withholding calculator** — winnable, but basically a clone of easypaycalc → would cannibalize, not expand.
 
-| Rank | Candidate | Demand | CPC | Competition | Build fit | Call |
+---
+
+## Ranked outcome (next 3) + build order
+
+| Order | Candidate | Volume | Competition | CPC | Reuse of moat | Call |
 |---|---|---|---|---|---|---|
-| 🥇 | **Take-Home Pay by State** | Very high (proven) | High | Crowded long-tail | Good | **Build — with a deeper city/variant angle** |
-| 🥈 | **1099 / Self-Employment Tax** | High | **Highest** | Less crowded | Good | Strong alternative / 2nd build |
-| 🚫 | Sales Tax by State/ZIP | Med | Med | Incumbent + .gov | Poor | Drop |
+| 1 | **Bonus Tax by State** | High | Medium | Med-High | **Very High** | **Build first — fastest, near drop-in** |
+| 2 | **Capital Gains (fed+state+crypto)** | High | Medium | **High** | High | Highest value; reuses state data |
+| 3 | **Overtime Pay by State** | **Very High** | **Low** | Low-Med | Medium | Traffic engine; lowest competition |
 
-## Recommendation
-Build **Take-Home Pay by State** first (demand is proven and it has the cleanest 51-page structure), **but differentiate beyond bare per-state** — add per-city, hourly/salary/overtime variants, 2026 freshness, and substantial original content per page (required for AdSense anyway). Keep **1099 Self-Employment Tax** as the immediate second build — it has the highest CPC and a less crowded field.
+**Strategic insight:** our moat is the **51-state research-verified tax engine**. Picks #1 and #2 reuse it directly — we can ship accurate per-state tax tools faster and more correctly than competitors. **Honest tradeoff:** genuinely low-competition tools skew lower-CPC (overtime); high-CPC tools have more competition (capital gains). This trio balances both.
 
-## Still to pull before/at build time (free)
-- **Google Keyword Planner** → exact monthly volume + CPC for: "paycheck calculator", "[state] paycheck calculator", "take home pay calculator", "1099 tax calculator", "self employment tax calculator".
-- Confirm the 2025/2026 state income-tax tables source (e.g. state DOR sites / Tax Foundation) for accurate per-state data.
+## Still to pull before build (free)
+- **Google Keyword Planner** → exact volume + CPC for: "bonus tax calculator", "[state] bonus tax calculator", "capital gains tax calculator", "crypto tax calculator", "overtime calculator", "[state] overtime pay".
 
 ## Sources
-- [SmartAsset paycheck calculator](https://smartasset.com/taxes/paycheck-calculator) · [PaycheckCity](https://www.paycheckcity.com/calculator/salary) · [ADP](https://www.adp.com/resources/tools/calculators/salary-paycheck-calculator.aspx)
-- [California paycheck niche site](https://paycheckcalculatorcalifornia.com/) · [Ohio paycheck niche site](https://www.thecalcs.com/calculators/payroll-taxes/ohio-paycheck-calculator)
-- [selfemploymenttaxestimator.com (solo niche site ranking)](https://selfemploymenttaxestimator.com/) · [FlyFin 1099](https://flyfin.tax/1099-tax-calculator) · [QuickBooks SE tax](https://quickbooks.intuit.com/r/free-self-employment-tax-calculator/)
-- [Avalara sales tax (B2B lead-gen)](https://avalara.com/taxrates/en/calculator.html) · [TaxHero by ZIP](https://taxhero.net/sales-tax-calculator/)
+- [PaycheckCity bonus](https://www.paycheckcity.com/calculator/flatbonus) · [SurePayroll bonus](https://www.surepayroll.com/resources/calculators/bonus-tax) · [OnPay supplemental](https://onpay.com/payroll/calculator-tax-rates/flat-bonus-tax-rates-calculator/)
+- [NerdWallet capital gains](https://www.nerdwallet.com/taxes/calculators/capital-gains-tax-calculator) · [SmartAsset capital gains](https://smartasset.com/investing/capital-gains-tax-calculator) · [Keeper](https://www.keepertax.com/capital-gains-tax-calculator) · [Cache (fed+state+local)](https://usecache.com/calculators/capital-gains-tax-calculator/)
+- [Omni overtime](https://www.omnicalculator.com/finance/overtime) · [GoodCalculators overtime](https://goodcalculators.com/overtime-calculator/)
+- Rejected refs: [LendingTree HELOC](https://www.lendingtree.com/home/home-equity/home-equity-loan-calculator/) · [NerdWallet cost-of-living (C2ER)](https://www.nerdwallet.com/cost-of-living-calculator) · [Schwab RMD](https://www.schwab.com/ira/ira-calculators/rmd)
