@@ -18,6 +18,8 @@ export interface CalcInput {
   seIncome: number; // gross 1099 / self-employment income
   expenses: number; // Schedule C business expenses
   w2Income: number; // optional W-2 wages
+  retirement: number; // optional SEP-IRA / Solo 401(k) contributions (above-the-line)
+  healthInsurance: number; // optional self-employed health insurance premiums (above-the-line)
   useQbi: boolean;
 }
 
@@ -30,6 +32,7 @@ export interface CalcResult {
   halfSeDeduction: number;
   federalIncomeTax: number;
   qbiDeduction: number;
+  contributions: number; // retirement + health insurance set aside (not tax, not take-home cash)
   totalTax: number;
   effectiveRate: number;
   marginalRate: number;
@@ -61,6 +64,9 @@ export function calc(input: CalcInput): CalcResult {
   const seIncome = Math.max(0, input.seIncome || 0);
   const expenses = Math.max(0, input.expenses || 0);
   const w2 = Math.max(0, input.w2Income || 0);
+  const retirement = Math.max(0, input.retirement || 0);
+  const healthInsurance = Math.max(0, input.healthInsurance || 0);
+  const contributions = retirement + healthInsurance;
 
   const netProfit = Math.max(0, seIncome - expenses);
   const netEarnings = netProfit * SE_RATE.netEarnings;
@@ -81,7 +87,9 @@ export function calc(input: CalcInput): CalcResult {
   const halfSeDeduction = seTax * 0.5;
 
   // --- Federal income tax ---
-  const agi = w2 + netProfit - halfSeDeduction;
+  // Retirement (SEP/Solo 401k) and SE health insurance are above-the-line
+  // deductions: they lower income tax but NOT self-employment tax.
+  const agi = w2 + netProfit - halfSeDeduction - retirement - healthInsurance;
   const taxableBeforeQbi = Math.max(0, agi - d.stdDeduction[input.filing]);
   const qbiDeduction = input.useQbi ? Math.min(0.2 * netProfit, 0.2 * taxableBeforeQbi) : 0;
   const taxable = Math.max(0, taxableBeforeQbi - qbiDeduction);
@@ -101,10 +109,11 @@ export function calc(input: CalcInput): CalcResult {
     halfSeDeduction,
     federalIncomeTax,
     qbiDeduction,
+    contributions,
     totalTax,
     effectiveRate,
     marginalRate: marginalRate(taxable, d.brackets[input.filing]),
-    takeHome: grossIncome - expenses - totalTax,
+    takeHome: grossIncome - expenses - totalTax - contributions,
     quarterly: totalTax / 4,
     estimated: d.estimated,
   };

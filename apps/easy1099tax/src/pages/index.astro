@@ -122,34 +122,77 @@ const breadcrumbSchema = {
             </div>
           </label>
 
-          <div class="grid sm:grid-cols-2 gap-4 mb-5">
-            <label class="block">
-              <span class="block text-sm font-semibold text-slate-700 mb-1.5">Filing status</span>
-              <select id="filing"
-                class="w-full rounded-2xl border border-slate-300 px-3.5 py-3 bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/15 outline-none transition">
-                <option value="single" selected>Single</option>
-                <option value="mfj">Married jointly</option>
-                <option value="hoh">Head of household</option>
-                <option value="mfs">Married separately</option>
-              </select>
-            </label>
-            <label class="block">
-              <span class="block text-sm font-semibold text-slate-700 mb-1.5">W-2 income <span class="text-slate-400 font-normal">— optional</span></span>
-              <div class="relative">
-                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">$</span>
-                <input id="w2-income" type="number" inputmode="decimal" min="0" value="0"
-                  class="w-full rounded-2xl border border-slate-300 pl-8 pr-3 py-3 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/15 outline-none transition" />
-              </div>
-            </label>
-          </div>
-
-          <label class="flex items-start gap-3 rounded-2xl border border-slate-200 bg-slate-50/60 p-3.5 cursor-pointer hover:border-indigo-300 transition">
-            <input id="qbi" type="checkbox" checked class="mt-0.5 w-4 h-4 accent-indigo-600 cursor-pointer" />
-            <span class="text-sm">
-              <span class="font-semibold text-slate-700">Apply 20% QBI deduction</span>
-              <span class="block text-slate-500 text-[13px] mt-0.5">Most self-employed people qualify for the Qualified Business Income deduction. Simplified estimate.</span>
-            </span>
+          <label class="block mb-5">
+            <span class="block text-sm font-semibold text-slate-700 mb-1.5">Filing status</span>
+            <select id="filing"
+              class="w-full rounded-2xl border border-slate-300 px-3.5 py-3 bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/15 outline-none transition">
+              <option value="single" selected>Single</option>
+              <option value="mfj">Married jointly</option>
+              <option value="hoh">Head of household</option>
+              <option value="mfs">Married separately</option>
+            </select>
           </label>
+
+          <p class="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-2.5">Optional — flip on to include</p>
+          <div class="space-y-2.5">
+
+            <!-- W-2 job income -->
+            <div class="rounded-2xl border border-slate-200 overflow-hidden">
+              <label class="flex items-center justify-between gap-3 p-3.5 cursor-pointer">
+                <span class="text-sm"><span class="font-semibold text-slate-700">W-2 job income</span><span class="block text-slate-500 text-[13px] mt-0.5">Wages from a regular paycheck job, if any.</span></span>
+                <input type="checkbox" id="t-w2" class="peer sr-only" />
+                <span class="relative shrink-0 w-11 h-6 rounded-full bg-slate-200 peer-checked:bg-indigo-600 transition after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:w-5 after:h-5 after:rounded-full after:bg-white after:shadow after:transition peer-checked:after:translate-x-5"></span>
+              </label>
+              <div id="w2-wrap" class="hidden px-3.5 pb-3.5">
+                <div class="relative">
+                  <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">$</span>
+                  <input id="w2-income" type="number" inputmode="decimal" min="0" value="40000"
+                    class="w-full rounded-xl border border-slate-300 pl-8 pr-3 py-2.5 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/15 outline-none transition" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Retirement contributions -->
+            <div class="rounded-2xl border border-slate-200 overflow-hidden">
+              <label class="flex items-center justify-between gap-3 p-3.5 cursor-pointer">
+                <span class="text-sm"><span class="font-semibold text-slate-700">Retirement contributions</span><span class="block text-slate-500 text-[13px] mt-0.5">SEP-IRA / Solo 401(k) — lowers income tax.</span></span>
+                <input type="checkbox" id="t-ret" class="peer sr-only" />
+                <span class="relative shrink-0 w-11 h-6 rounded-full bg-slate-200 peer-checked:bg-indigo-600 transition after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:w-5 after:h-5 after:rounded-full after:bg-white after:shadow after:transition peer-checked:after:translate-x-5"></span>
+              </label>
+              <div id="ret-wrap" class="hidden px-3.5 pb-3.5">
+                <div class="relative">
+                  <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">$</span>
+                  <input id="ret-amount" type="number" inputmode="decimal" min="0" value="6000"
+                    class="w-full rounded-xl border border-slate-300 pl-8 pr-3 py-2.5 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/15 outline-none transition" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Health insurance -->
+            <div class="rounded-2xl border border-slate-200 overflow-hidden">
+              <label class="flex items-center justify-between gap-3 p-3.5 cursor-pointer">
+                <span class="text-sm"><span class="font-semibold text-slate-700">Health insurance premiums</span><span class="block text-slate-500 text-[13px] mt-0.5">Self-employed health insurance — lowers income tax.</span></span>
+                <input type="checkbox" id="t-hi" class="peer sr-only" />
+                <span class="relative shrink-0 w-11 h-6 rounded-full bg-slate-200 peer-checked:bg-indigo-600 transition after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:w-5 after:h-5 after:rounded-full after:bg-white after:shadow after:transition peer-checked:after:translate-x-5"></span>
+              </label>
+              <div id="hi-wrap" class="hidden px-3.5 pb-3.5">
+                <div class="relative">
+                  <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">$</span>
+                  <input id="hi-amount" type="number" inputmode="decimal" min="0" value="4800"
+                    class="w-full rounded-xl border border-slate-300 pl-8 pr-3 py-2.5 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/15 outline-none transition" />
+                </div>
+              </div>
+            </div>
+
+            <!-- QBI deduction (on by default) -->
+            <div class="rounded-2xl border border-slate-200">
+              <label class="flex items-center justify-between gap-3 p-3.5 cursor-pointer">
+                <span class="text-sm"><span class="font-semibold text-slate-700">20% QBI deduction</span><span class="block text-slate-500 text-[13px] mt-0.5">Qualified Business Income — most freelancers qualify. Simplified.</span></span>
+                <input type="checkbox" id="t-qbi" checked class="peer sr-only" />
+                <span class="relative shrink-0 w-11 h-6 rounded-full bg-slate-200 peer-checked:bg-indigo-600 transition after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:w-5 after:h-5 after:rounded-full after:bg-white after:shadow after:transition peer-checked:after:translate-x-5"></span>
+              </label>
+            </div>
+          </div>
         </div>
 
         <!-- ===== Results ===== -->
@@ -171,7 +214,7 @@ const breadcrumbSchema = {
             <div class="text-center sm:text-left">
               <div class="flex items-center justify-center sm:justify-start gap-2">
                 <p class="text-sm font-medium text-slate-400">Estimated total tax</p>
-                <span id="year-label" class="text-[11px] font-semibold text-indigo-600 bg-indigo-50 rounded px-1.5 py-0.5">2025</span>
+                <span id="year-label" class="text-[11px] font-semibold text-indigo-600 bg-indigo-50 rounded px-1.5 py-0.5">2026</span>
               </div>
               <div class="flex items-baseline justify-center sm:justify-start gap-1.5 mt-1">
                 <span id="total-tax" class="text-5xl font-extrabold tracking-tight text-indigo-600 tabular-nums">$0</span>
@@ -289,7 +332,7 @@ const breadcrumbSchema = {
         <div class="flex justify-between border-b border-slate-100 py-1.5"><span class="text-slate-500">Federal income tax</span><b class="tabular-nums">$4,388</b></div>
         <div class="flex justify-between border-b border-slate-100 py-1.5"><span class="text-slate-500">Total federal tax</span><b class="tabular-nums text-indigo-700">$13,996</b></div>
       </div>
-      <p class="mt-4 text-xs text-slate-400">Matches the calculator's default result for these inputs. Your numbers depend on filing status, other income, QBI eligibility, and deductions.</p>
+      <p class="mt-4 text-xs text-slate-400">Matches the calculator with the 2025 tax year selected (no W-2, retirement, or health-insurance add-ons). Your numbers depend on filing status, other income, QBI eligibility, and deductions.</p>
     </div>
   </section>
 
@@ -362,11 +405,16 @@ const breadcrumbSchema = {
     'Take-home': '#4f46e5',
     'Self-employment tax': '#f59e0b',
     'Federal income tax': '#64748b',
+    'Set aside': '#a5b4fc',
   };
   const R = 70;
   const CIRC = 2 * Math.PI * R;
 
-  let year: Year = 2025;
+  let year: Year = 2026;
+
+  // An optional value only counts when its toggle is on.
+  const gated = (toggleId: string, valueId: string) =>
+    ($(toggleId) as HTMLInputElement).checked ? +($(valueId) as HTMLInputElement).value || 0 : 0;
 
   function render() {
     const r = calc({
@@ -374,8 +422,10 @@ const breadcrumbSchema = {
       filing: ($('filing') as HTMLSelectElement).value as Filing,
       seIncome: +($('se-income') as HTMLInputElement).value || 0,
       expenses: +($('expenses') as HTMLInputElement).value || 0,
-      w2Income: +($('w2-income') as HTMLInputElement).value || 0,
-      useQbi: ($('qbi') as HTMLInputElement).checked,
+      w2Income: gated('t-w2', 'w2-income'),
+      retirement: gated('t-ret', 'ret-amount'),
+      healthInsurance: gated('t-hi', 'hi-amount'),
+      useQbi: ($('t-qbi') as HTMLInputElement).checked,
     });
 
     $('total-tax').textContent = usd0.format(r.totalTax);
@@ -401,12 +451,13 @@ const breadcrumbSchema = {
     $('est-note').classList.toggle('hidden', !r.estimated);
     $('year-label').textContent = String(year);
 
-    // Donut — split of (gross − expenses) into take-home, SE tax, income tax
+    // Donut — split of (gross − expenses) into take-home, SE tax, income tax, set-aside
     const takeHome = Math.max(0, r.takeHome);
     const segments = [
       { label: 'Take-home', amount: takeHome },
       { label: 'Self-employment tax', amount: r.seTax },
       { label: 'Federal income tax', amount: r.federalIncomeTax },
+      { label: 'Set aside', amount: r.contributions },
     ];
     const total = segments.reduce((s, x) => s + x.amount, 0) || 1;
     $('net-pct').textContent = Math.round((takeHome / total) * 100) + '%';
@@ -443,7 +494,15 @@ const breadcrumbSchema = {
   const seRange = $('se-range') as HTMLInputElement;
   seRange.addEventListener('input', () => { seIncome.value = seRange.value; render(); });
   seIncome.addEventListener('input', () => { seRange.value = String(Math.min(+seIncome.value || 0, +seRange.max)); render(); });
-  ['expenses', 'w2-income', 'filing', 'qbi'].forEach((id) => $(id).addEventListener('input', render));
+  ['expenses', 'filing', 'w2-income', 'ret-amount', 'hi-amount'].forEach((id) => $(id).addEventListener('input', render));
+
+  // Optional toggles: reveal their field (where present) and recompute.
+  ([['t-w2', 'w2-wrap'], ['t-ret', 'ret-wrap'], ['t-hi', 'hi-wrap'], ['t-qbi', '']] as const).forEach(([toggleId, wrapId]) => {
+    $(toggleId).addEventListener('change', () => {
+      if (wrapId) $(wrapId).classList.toggle('hidden', !($(toggleId) as HTMLInputElement).checked);
+      render();
+    });
+  });
 
   paintYear();
   render();
