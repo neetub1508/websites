@@ -1,0 +1,105 @@
+---
+import PlayShell from '../../components/PlayShell.astro';
+---
+<PlayShell slug="turbo-racer">
+  <div class="mb-3 flex items-center justify-between">
+    <div class="rounded-lg bg-slate-100 px-3 py-1.5 text-sm text-slate-600">Score: <span id="r-score" class="font-bold text-slate-900">0</span></div>
+    <div class="rounded-lg bg-slate-100 px-3 py-1.5 text-sm text-slate-600">Best: <span id="r-best" class="font-bold text-brand-600">0</span></div>
+  </div>
+
+  <div class="relative overflow-hidden rounded-2xl border border-blue-200 shadow-md">
+    <canvas id="r-game" width="360" height="520" class="block w-full" style="touch-action:none"></canvas>
+    <div id="r-overlay" class="absolute inset-0 grid place-items-center bg-slate-900/60 backdrop-blur-sm">
+      <div class="text-center">
+        <p id="r-msg" class="mb-4 text-xl font-bold text-white">Tap to start</p>
+        <button id="r-start" class="rounded-xl bg-brand-500 px-6 py-3 font-bold text-white shadow-lg hover:bg-brand-600">▶ Start</button>
+      </div>
+    </div>
+  </div>
+  <p class="mt-2 text-center text-xs text-slate-500">Steer: drag on the road, or ← → keys.</p>
+</PlayShell>
+
+<script is:inline>
+(function () {
+  const cv = document.getElementById('r-game'), ctx = cv.getContext('2d'), W = cv.width, H = cv.height;
+  const scoreEl = document.getElementById('r-score'), bestEl = document.getElementById('r-best');
+  const overlay = document.getElementById('r-overlay'), msg = document.getElementById('r-msg'), startBtn = document.getElementById('r-start');
+  const KEY = 'turbo_best';
+  let best = +(localStorage.getItem(KEY) || 0); bestEl.textContent = best;
+  const RX = 44, RW = W - 88;
+  let car, cars, coins, speed, score, dash, spawnT, coinT, running, raf, moveDir = 0, targetX = null;
+
+  function reset() { car = { x: W / 2, y: H - 80, w: 32, h: 52 }; cars = []; coins = []; speed = 4.5; score = 0; dash = 0; spawnT = 0; coinT = 20; running = true; targetX = null; scoreEl.textContent = 0; }
+
+  function drawCar(cx, cy, w, h, color, player) {
+    const x = cx - w / 2, y = cy - h / 2;
+    ctx.fillStyle = '#0b0b14';
+    ctx.beginPath(); ctx.roundRect(x - 3, y + 6, 5, 13, 2); ctx.roundRect(x + w - 2, y + 6, 5, 13, 2); ctx.roundRect(x - 3, y + h - 19, 5, 13, 2); ctx.roundRect(x + w - 2, y + h - 19, 5, 13, 2); ctx.fill();
+    ctx.fillStyle = color; ctx.beginPath(); ctx.roundRect(x, y, w, h, 8); ctx.fill();
+    ctx.fillStyle = 'rgba(255,255,255,.18)'; ctx.beginPath(); ctx.roundRect(x + 2, y + 2, w - 4, h / 2 - 2, 6); ctx.fill();
+    ctx.fillStyle = 'rgba(8,12,24,.7)';
+    ctx.beginPath(); ctx.roundRect(x + 5, y + 9, w - 10, 12, 4); ctx.fill();
+    ctx.beginPath(); ctx.roundRect(x + 5, y + h - 22, w - 10, 11, 4); ctx.fill();
+    ctx.fillStyle = player ? '#fde68a' : '#fecaca';
+    const ly = player ? y + 1 : y + h - 4;
+    ctx.fillRect(x + 4, ly, 6, 3); ctx.fillRect(x + w - 10, ly, 6, 3);
+  }
+
+  function loop() {
+    ctx.fillStyle = '#0a2a14'; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = '#3a3f47'; ctx.fillRect(RX, 0, RW, H);
+    dash = (dash + speed) % 44;
+    // centre lane dashes
+    ctx.fillStyle = 'rgba(255,255,255,.5)';
+    for (let y = -44 + dash; y < H; y += 44) ctx.fillRect(W / 2 - 2, y, 4, 24);
+    // red/white roadside curbs
+    for (let y = -22 + (dash % 22); y < H; y += 22) {
+      ctx.fillStyle = ((Math.floor(y / 22)) % 2) ? '#dc2626' : '#f8fafc';
+      ctx.fillRect(RX - 7, y, 7, 11); ctx.fillRect(RX + RW, y, 7, 11);
+    }
+
+    if (targetX != null) car.x += (targetX - car.x) * 0.35;
+    car.x += moveDir * 6;
+    car.x = Math.max(RX + car.w / 2, Math.min(RX + RW - car.w / 2, car.x));
+
+    spawnT++; if (spawnT > Math.max(26, 64 - score / 6)) { cars.push({ x: RX + 12 + Math.random() * (RW - 48), y: -60, w: 34, h: 56, c: ['#ef4444', '#3b82f6', '#22c55e', '#eab308'][(Math.random() * 4) | 0] }); spawnT = 0; }
+    coinT--; if (coinT <= 0) { coins.push({ x: RX + 16 + Math.random() * (RW - 50), y: -20 }); coinT = 40 + Math.random() * 40; }
+
+    for (const c of cars) {
+      c.y += speed;
+      drawCar(c.x, c.y, c.w, c.h, c.c, false);
+      if (Math.abs(c.x - car.x) < (c.w + car.w) / 2 - 8 && Math.abs(c.y - car.y) < (c.h + car.h) / 2 - 8) return over();
+    }
+    cars = cars.filter((c) => c.y < H + 60);
+
+    for (const co of coins) {
+      co.y += speed;
+      ctx.fillStyle = '#facc15'; ctx.beginPath(); ctx.arc(co.x, co.y, 11, 0, 7); ctx.fill();
+      ctx.fillStyle = '#fde68a'; ctx.beginPath(); ctx.arc(co.x - 3, co.y - 3, 3.5, 0, 7); ctx.fill();
+      ctx.fillStyle = '#a16207'; ctx.font = 'bold 12px Outfit,sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('$', co.x, co.y + 1);
+      if (Math.abs(co.x - car.x) < 24 && Math.abs(co.y - car.y) < 28) { co.hit = true; score += 50; }
+    }
+    coins = coins.filter((co) => co.y < H + 20 && !co.hit);
+
+    drawCar(car.x, car.y, car.w, car.h, '#38bdf8', true);
+
+    score++; scoreEl.textContent = score; speed += 0.005;
+    if (running) raf = requestAnimationFrame(loop);
+  }
+
+  function over() {
+    running = false; cancelAnimationFrame(raf);
+    if (score > best) { best = score; localStorage.setItem(KEY, best); bestEl.textContent = best; }
+    msg.textContent = 'Crash! · Score ' + score; startBtn.textContent = '↻ Play again'; overlay.classList.remove('hidden');
+  }
+  function start() { overlay.classList.add('hidden'); reset(); loop(); }
+  startBtn.onclick = start;
+
+  addEventListener('keydown', (e) => { if (e.key === 'ArrowLeft' || e.key === 'a') { moveDir = -1; targetX = null; } if (e.key === 'ArrowRight' || e.key === 'd') { moveDir = 1; targetX = null; } });
+  addEventListener('keyup', (e) => { if (['ArrowLeft', 'ArrowRight', 'a', 'd'].includes(e.key)) moveDir = 0; });
+  function setTarget(clientX) { const r = cv.getBoundingClientRect(); targetX = (clientX - r.left) * (W / r.width); }
+  cv.addEventListener('touchmove', (e) => { if (running) { setTarget(e.touches[0].clientX); e.preventDefault(); } }, { passive: false });
+  cv.addEventListener('touchstart', (e) => { if (running) setTarget(e.touches[0].clientX); }, { passive: false });
+  cv.addEventListener('mousemove', (e) => { if (running) setTarget(e.clientX); });
+})();
+</script>

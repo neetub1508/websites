@@ -1,0 +1,121 @@
+---
+import PlayShell from '../../components/PlayShell.astro';
+---
+<PlayShell slug="bubble-shooter">
+  <div class="mb-3 flex items-center justify-between">
+    <div class="rounded-lg bg-slate-100 px-3 py-1.5 text-sm text-slate-600">Score: <span id="u-score" class="font-bold text-slate-900">0</span></div>
+    <div class="rounded-lg bg-slate-100 px-3 py-1.5 text-sm text-slate-600">Best: <span id="u-best" class="font-bold text-brand-600">0</span></div>
+    <button id="u-new" class="rounded-lg bg-slate-100 px-3 py-1.5 text-sm font-semibold text-slate-700 hover:bg-slate-200">New game</button>
+  </div>
+
+  <div class="relative overflow-hidden rounded-2xl border border-blue-200 shadow-md">
+    <canvas id="u-game" width="360" height="460" class="block w-full" style="touch-action:none"></canvas>
+    <div id="u-overlay" class="absolute inset-0 hidden grid place-items-center bg-slate-900/60 backdrop-blur-sm">
+      <div class="text-center">
+        <p id="u-msg" class="mb-4 text-xl font-bold text-white"></p>
+        <button id="u-restart" class="rounded-xl bg-brand-500 px-6 py-3 font-bold text-white shadow-lg hover:bg-brand-600">↻ Play again</button>
+      </div>
+    </div>
+  </div>
+  <p class="mt-2 text-center text-xs text-slate-500">Aim with your finger/mouse, tap to shoot. Match 3+ to pop.</p>
+</PlayShell>
+
+<script is:inline>
+(function () {
+  const cv = document.getElementById('u-game'), ctx = cv.getContext('2d'), W = cv.width, H = cv.height;
+  const scoreEl = document.getElementById('u-score'), bestEl = document.getElementById('u-best');
+  const overlay = document.getElementById('u-overlay'), msg = document.getElementById('u-msg');
+  const KEY = 'bubble_best';
+  const COLS = 8, D = 38, BR = 17, MARGIN = (W - COLS * D) / 2, TOP = 10;
+  const COLORS = ['#ef4444', '#3b82f6', '#22c55e', '#eab308', '#a855f7'];
+  const SY = H - 30, DANGER = SY - 26;
+  let best = +(localStorage.getItem(KEY) || 0); bestEl.textContent = best;
+  let board, cur, next, moving, score, shots, aimX, aimY, over;
+
+  const cx = (c) => MARGIN + BR + c * D, cy = (r) => TOP + BR + r * D;
+  const randColor = () => (Math.random() * COLORS.length) | 0;
+
+  function newGame() {
+    board = []; for (let r = 0; r < 5; r++) { const row = []; for (let c = 0; c < COLS; c++) row.push(randColor()); board.push(row); }
+    cur = randColor(); next = randColor(); moving = null; score = 0; shots = 0; over = false;
+    aimX = W / 2; aimY = 120; scoreEl.textContent = 0; overlay.classList.add('hidden');
+    requestAnimationFrame(loop);
+  }
+
+  function neighbors(r, c) { return [[r, c - 1], [r, c + 1], [r - 1, c], [r + 1, c]]; }
+  function get(r, c) { return board[r] && board[r][c] != null ? board[r][c] : null; }
+
+  function shoot() {
+    if (over || moving) return;
+    let ang = Math.atan2(aimY - SY, aimX - W / 2);
+    if (ang > -0.15) ang = -0.15; if (ang < -Math.PI + 0.15) ang = -Math.PI + 0.15;
+    moving = { x: W / 2, y: SY, vx: Math.cos(ang) * 8, vy: Math.sin(ang) * 8, color: cur };
+  }
+
+  function settle() {
+    let c = Math.round((moving.x - MARGIN - BR) / D); c = Math.max(0, Math.min(COLS - 1, c));
+    let r = Math.max(0, Math.round((moving.y - TOP - BR) / D));
+    while (board[r] && board[r][c] != null) r++;
+    while (board.length <= r) board.push(new Array(COLS).fill(null));
+    board[r][c] = moving.color;
+    const placed = { r, c, color: moving.color };
+    moving = null; shots++;
+
+    // cluster
+    const seen = new Set([r + ',' + c]), stack = [[r, c]], cluster = [[r, c]];
+    while (stack.length) { const [cr, cc] = stack.pop(); for (const [nr, nc] of neighbors(cr, cc)) { const k = nr + ',' + nc; if (!seen.has(k) && get(nr, nc) === placed.color) { seen.add(k); stack.push([nr, nc]); cluster.push([nr, nc]); } } }
+    if (cluster.length >= 3) { for (const [pr, pc] of cluster) board[pr][pc] = null; score += cluster.length * 10; dropFloating(); }
+    else if (shots % 6 === 0) addRow();
+
+    while (board.length && board[board.length - 1].every((v) => v == null)) board.pop();
+    scoreEl.textContent = score; if (score > best) { best = score; localStorage.setItem(KEY, best); bestEl.textContent = best; }
+    cur = next; next = randColor();
+    checkLose();
+  }
+
+  function dropFloating() {
+    const safe = new Set(), stack = [];
+    for (let c = 0; c < COLS; c++) if (get(0, c) != null) { safe.add('0,' + c); stack.push([0, c]); }
+    while (stack.length) { const [r, c] = stack.pop(); for (const [nr, nc] of neighbors(r, c)) { const k = nr + ',' + nc; if (get(nr, nc) != null && !safe.has(k)) { safe.add(k); stack.push([nr, nc]); } } }
+    for (let r = 0; r < board.length; r++) for (let c = 0; c < COLS; c++) if (get(r, c) != null && !safe.has(r + ',' + c)) { board[r][c] = null; score += 20; }
+  }
+  function addRow() { board.unshift(Array.from({ length: COLS }, randColor)); }
+  function checkLose() { for (let r = board.length - 1; r >= 0; r--) for (let c = 0; c < COLS; c++) if (get(r, c) != null && cy(r) + BR > DANGER) return end(); }
+  function end() { over = true; msg.textContent = 'Bubbles reached the bottom! · Score ' + score; overlay.classList.remove('hidden'); }
+
+  function loop() {
+    ctx.fillStyle = '#0a1733'; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = 'rgba(244,63,94,.5)'; ctx.fillRect(0, DANGER, W, 2);
+
+    for (let r = 0; r < board.length; r++) for (let c = 0; c < COLS; c++) { const v = get(r, c); if (v != null) bubble(cx(c), cy(r), COLORS[v]); }
+
+    if (moving) {
+      moving.x += moving.vx; moving.y += moving.vy;
+      if (moving.x < BR) { moving.x = BR; moving.vx = -moving.vx; } if (moving.x > W - BR) { moving.x = W - BR; moving.vx = -moving.vx; }
+      let hit = moving.y < TOP + BR;
+      if (!hit) for (let r = 0; r < board.length && !hit; r++) for (let c = 0; c < COLS; c++) if (get(r, c) != null && Math.hypot(cx(c) - moving.x, cy(r) - moving.y) < D - 4) { hit = true; break; }
+      if (hit) settle();
+    }
+
+    // aim guide + shooter
+    if (!over && !moving) {
+      let ang = Math.atan2(aimY - SY, aimX - W / 2); if (ang > -0.15) ang = -0.15; if (ang < -Math.PI + 0.15) ang = -Math.PI + 0.15;
+      ctx.setLineDash([3, 7]); ctx.strokeStyle = 'rgba(255,255,255,.5)'; ctx.beginPath(); ctx.moveTo(W / 2, SY); ctx.lineTo(W / 2 + Math.cos(ang) * 120, SY + Math.sin(ang) * 120); ctx.stroke(); ctx.setLineDash([]);
+    }
+    if (moving) bubble(moving.x, moving.y, COLORS[moving.color]);
+    else if (!over) bubble(W / 2, SY, COLORS[cur]);
+    bubble(W - 24, SY + 2, COLORS[next], 11);
+
+    requestAnimationFrame(loop);
+  }
+  function bubble(x, y, col, rad) { rad = rad || BR; ctx.fillStyle = col; ctx.beginPath(); ctx.arc(x, y, rad, 0, 7); ctx.fill(); ctx.fillStyle = 'rgba(255,255,255,.35)'; ctx.beginPath(); ctx.arc(x - rad * 0.3, y - rad * 0.3, rad * 0.35, 0, 7); ctx.fill(); }
+
+  function pt(e) { const r = cv.getBoundingClientRect(); const c = e.touches ? e.touches[0] : e; return { x: (c.clientX - r.left) * (W / r.width), y: (c.clientY - r.top) * (H / r.height) }; }
+  cv.addEventListener('pointermove', (e) => { const p = pt(e); aimX = p.x; aimY = p.y; });
+  cv.addEventListener('pointerdown', (e) => { const p = pt(e); aimX = p.x; aimY = p.y; shoot(); });
+  document.getElementById('u-new').onclick = newGame;
+  document.getElementById('u-restart').onclick = newGame;
+
+  newGame();
+})();
+</script>

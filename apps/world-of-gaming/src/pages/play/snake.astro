@@ -1,0 +1,94 @@
+---
+import PlayShell from '../../components/PlayShell.astro';
+---
+<PlayShell slug="snake">
+  <div class="mb-3 flex items-center justify-between">
+    <div class="rounded-lg bg-slate-100 px-3 py-1.5 text-sm text-slate-600">Score: <span id="s-score" class="font-bold text-slate-900">0</span></div>
+    <div class="rounded-lg bg-slate-100 px-3 py-1.5 text-sm text-slate-600">Best: <span id="s-best" class="font-bold text-brand-600">0</span></div>
+  </div>
+
+  <div class="relative overflow-hidden rounded-2xl border border-blue-200 shadow-md">
+    <canvas id="s-game" width="360" height="360" class="block w-full" style="touch-action:none"></canvas>
+    <div id="s-overlay" class="absolute inset-0 grid place-items-center bg-slate-900/70 backdrop-blur-sm">
+      <div class="text-center">
+        <p id="s-msg" class="mb-4 text-xl font-bold text-white">Tap to start</p>
+        <button id="s-start" class="rounded-xl bg-brand-500 px-6 py-3 font-bold text-white shadow-lg hover:bg-brand-600">▶ Start</button>
+      </div>
+    </div>
+  </div>
+  <p class="mt-2 text-center text-xs text-slate-500">Swipe on the board, or use arrow keys.</p>
+</PlayShell>
+
+<script is:inline>
+(function () {
+  const cv = document.getElementById('s-game'), ctx = cv.getContext('2d'), W = cv.width, H = cv.height;
+  const N = 15, CELL = W / N;
+  const scoreEl = document.getElementById('s-score'), bestEl = document.getElementById('s-best');
+  const overlay = document.getElementById('s-overlay'), msg = document.getElementById('s-msg'), startBtn = document.getElementById('s-start');
+  const KEY = 'snake_best';
+  let best = +(localStorage.getItem(KEY) || 0); bestEl.textContent = best;
+  let snake, dir, nextDir, food, score, running, last, stepMs;
+
+  function reset() {
+    snake = [{ x: 7, y: 8 }, { x: 6, y: 8 }, { x: 5, y: 8 }];
+    dir = { x: 1, y: 0 }; nextDir = dir; score = 0; stepMs = 130; running = true; last = 0;
+    scoreEl.textContent = 0; placeFood();
+  }
+  function placeFood() {
+    do { food = { x: (Math.random() * N) | 0, y: (Math.random() * N) | 0 }; }
+    while (snake.some((s) => s.x === food.x && s.y === food.y));
+  }
+
+  function loop(t) {
+    if (!running) return;
+    if (t - last >= stepMs) { last = t; update(); }
+    draw();
+    requestAnimationFrame(loop);
+  }
+  function update() {
+    dir = nextDir;
+    const head = { x: snake[0].x + dir.x, y: snake[0].y + dir.y };
+    if (head.x < 0 || head.y < 0 || head.x >= N || head.y >= N || snake.some((s) => s.x === head.x && s.y === head.y)) return gameOver();
+    snake.unshift(head);
+    if (head.x === food.x && head.y === food.y) { score++; scoreEl.textContent = score; stepMs = Math.max(70, 130 - score * 2); placeFood(); }
+    else snake.pop();
+  }
+  function draw() {
+    ctx.fillStyle = '#0f2147'; ctx.fillRect(0, 0, W, H);
+    ctx.strokeStyle = 'rgba(255,255,255,.05)';
+    for (let i = 1; i < N; i++) { ctx.beginPath(); ctx.moveTo(i * CELL, 0); ctx.lineTo(i * CELL, H); ctx.stroke(); ctx.beginPath(); ctx.moveTo(0, i * CELL); ctx.lineTo(W, i * CELL); ctx.stroke(); }
+    // food
+    ctx.font = (CELL * 0.8) + 'px serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText('🍎', food.x * CELL + CELL / 2, food.y * CELL + CELL / 2);
+    // snake
+    for (let i = snake.length - 1; i >= 0; i--) {
+      const s = snake[i];
+      ctx.fillStyle = i === 0 ? '#a3e635' : '#65d11a';
+      ctx.shadowColor = 'rgba(132,204,22,.7)'; ctx.shadowBlur = i === 0 ? 14 : 6;
+      roundRect(s.x * CELL + 1.5, s.y * CELL + 1.5, CELL - 3, CELL - 3, 5); ctx.fill();
+    }
+    ctx.shadowBlur = 0;
+  }
+  function roundRect(x, y, w, h, r) { ctx.beginPath(); ctx.roundRect(x, y, w, h, r); }
+
+  function gameOver() {
+    running = false;
+    if (score > best) { best = score; localStorage.setItem(KEY, best); bestEl.textContent = best; }
+    msg.textContent = 'Game Over · Score ' + score; startBtn.textContent = '↻ Play again'; overlay.classList.remove('hidden');
+  }
+  function start() { overlay.classList.add('hidden'); reset(); requestAnimationFrame(loop); }
+  startBtn.onclick = start;
+
+  function setDir(x, y) { if (snake && (x === -dir.x && y === -dir.y)) return; nextDir = { x, y }; }
+  addEventListener('keydown', (e) => {
+    const m = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1], a: [-1, 0], d: [1, 0], w: [0, -1], s: [0, 1] };
+    if (m[e.key]) { e.preventDefault(); setDir(m[e.key][0], m[e.key][1]); }
+  });
+  let sx, sy;
+  cv.addEventListener('touchstart', (e) => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: false });
+  cv.addEventListener('touchmove', (e) => { e.preventDefault(); }, { passive: false });
+  cv.addEventListener('touchend', (e) => { const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy; if (Math.abs(dx) < 18 && Math.abs(dy) < 18) return; if (Math.abs(dx) > Math.abs(dy)) setDir(dx > 0 ? 1 : -1, 0); else setDir(0, dy > 0 ? 1 : -1); }, { passive: false });
+
+  draw();
+})();
+</script>

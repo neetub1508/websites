@@ -1,0 +1,34 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { CONTACT_EMAIL } from '../lib/config';
+const title = 'Terms of Service — World of Gaming';
+const description = 'Terms of Service for World of Gaming. The games are provided free, as-is, for entertainment.';
+const updated = 'June 5, 2026';
+---
+<Layout title={title} description={description}>
+  <article class="mx-auto max-w-3xl px-5 py-14">
+    <h1 class="text-4xl font-extrabold tracking-tight text-slate-900">Terms of Service</h1>
+    <p class="mt-2 text-sm text-slate-400">Last updated: {updated}</p>
+
+    <h2 class="mt-8 text-2xl font-bold text-slate-900">Acceptance of terms</h2>
+    <p class="mt-4 text-slate-600 leading-relaxed">By accessing or using World of Gaming (the "Service"), you agree to these Terms of Service. If you do not agree, please do not use the Service.</p>
+
+    <h2 class="mt-8 text-2xl font-bold text-slate-900">Use of the games</h2>
+    <p class="mt-4 text-slate-600 leading-relaxed">World of Gaming provides free, original browser games for personal entertainment. You may play them as much as you like. You agree not to misuse the Service, attempt to disrupt it, copy or redistribute our games without permission, or use it for any unlawful purpose.</p>
+
+    <h2 class="mt-8 text-2xl font-bold text-slate-900">Provided "as is"</h2>
+    <p class="mt-4 text-slate-600 leading-relaxed">The games are provided on an "as is" and "as available" basis, for entertainment only. We make no warranty that they will be uninterrupted, error-free, or that saved progress will always be preserved (saved data lives in your browser and can be cleared by you or your device).</p>
+
+    <h2 class="mt-8 text-2xl font-bold text-slate-900">Intellectual property</h2>
+    <p class="mt-4 text-slate-600 leading-relaxed">The games and content on World of Gaming are our original work. Names of other games or companies mentioned on this site belong to their respective owners and are referenced only for description; we do not host or distribute their content.</p>
+
+    <h2 class="mt-8 text-2xl font-bold text-slate-900">Limitation of liability</h2>
+    <p class="mt-4 text-slate-600 leading-relaxed">To the fullest extent permitted by law, World of Gaming and its operators shall not be liable for any direct, indirect, incidental, or consequential damages arising from your use of the Service. You use the Service at your own risk.</p>
+
+    <h2 class="mt-8 text-2xl font-bold text-slate-900">Changes</h2>
+    <p class="mt-4 text-slate-600 leading-relaxed">We may modify the Service or these Terms at any time. Continued use after changes constitutes acceptance of the revised Terms.</p>
+
+    <h2 class="mt-8 text-2xl font-bold text-slate-900">Contact</h2>
+    <p class="mt-4 text-slate-600 leading-relaxed">Questions about these Terms? Email <a href={`mailto:${CONTACT_EMAIL}`} class="text-brand-600 underline">{CONTACT_EMAIL}</a>.</p>
+  </article>
+</Layout>

@@ -1,0 +1,37 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { CONTACT_EMAIL } from '../lib/config';
+const title = 'Privacy Policy — World of Gaming';
+const description = 'World of Gaming privacy policy. Our games run in your browser and any saved progress is stored only on your own device.';
+const updated = 'June 5, 2026';
+---
+<Layout title={title} description={description}>
+  <article class="mx-auto max-w-3xl px-5 py-14">
+    <h1 class="text-4xl font-extrabold tracking-tight text-slate-900">Privacy Policy</h1>
+    <p class="mt-2 text-sm text-slate-400">Last updated: {updated}</p>
+
+    <h2 class="mt-8 text-2xl font-bold text-slate-900">The short version</h2>
+    <p class="mt-4 text-slate-600 leading-relaxed">World of Gaming games run entirely in your own web browser. We have no accounts and we do not ask you for personal information to play. Any progress a game saves — such as the world you build in Block World or your high scores — is stored locally in your browser (using localStorage) and is never sent to or stored on our servers.</p>
+
+    <h2 class="mt-8 text-2xl font-bold text-slate-900">Information we collect</h2>
+    <p class="mt-4 text-slate-600 leading-relaxed">We do not collect the contents of your gameplay or saved games. Like most websites, we may collect limited, non-identifying technical information automatically — such as browser type, device type, and pages visited — to understand aggregate usage and keep the site working.</p>
+
+    <h2 class="mt-8 text-2xl font-bold text-slate-900">Cookies and advertising</h2>
+    <p class="mt-4 text-slate-600 leading-relaxed">We may use privacy-respecting analytics to measure aggregate traffic. If we display advertising in the future, our advertising partners (such as Google) may use cookies to serve and measure ads. Google's use of advertising cookies enables it and its partners to serve ads based on your visit to this and other sites. You can opt out of personalized advertising via <a href="https://www.google.com/settings/ads" class="text-brand-600 underline">Google Ads Settings</a>.</p>
+
+    <h2 class="mt-8 text-2xl font-bold text-slate-900">Local storage</h2>
+    <p class="mt-4 text-slate-600 leading-relaxed">Some games save your progress using your browser's local storage. This data stays on your device, is readable only by this site, and you can clear it at any time through your browser settings.</p>
+
+    <h2 class="mt-8 text-2xl font-bold text-slate-900">Third-party services</h2>
+    <p class="mt-4 text-slate-600 leading-relaxed">Any third-party services we use (for hosting, analytics, or advertising) have their own privacy policies governing how they handle data. This site is hosted on Cloudflare Pages.</p>
+
+    <h2 class="mt-8 text-2xl font-bold text-slate-900">Children's privacy</h2>
+    <p class="mt-4 text-slate-600 leading-relaxed">Our games are family-friendly. We do not knowingly collect personal information from children, and no personal information is required to play.</p>
+
+    <h2 class="mt-8 text-2xl font-bold text-slate-900">Changes to this policy</h2>
+    <p class="mt-4 text-slate-600 leading-relaxed">We may update this policy from time to time. Material changes will be reflected by the "last updated" date above.</p>
+
+    <h2 class="mt-8 text-2xl font-bold text-slate-900">Contact</h2>
+    <p class="mt-4 text-slate-600 leading-relaxed">Questions about this policy? Email <a href={`mailto:${CONTACT_EMAIL}`} class="text-brand-600 underline">{CONTACT_EMAIL}</a>.</p>
+  </article>
+</Layout>

@@ -1,0 +1,68 @@
+---
+import PlayShell from '../../components/PlayShell.astro';
+---
+<PlayShell slug="candy-match">
+  <div class="mb-3 flex items-center justify-between">
+    <div class="rounded-lg bg-slate-100 px-3 py-1.5 text-sm text-slate-600">Moves: <span id="cm-moves" class="font-bold text-slate-900">0</span></div>
+    <div class="rounded-lg bg-slate-100 px-3 py-1.5 text-sm text-slate-600">Best: <span id="cm-best" class="font-bold text-brand-600">—</span></div>
+    <button id="cm-new" class="rounded-lg bg-brand-500 px-3 py-1.5 text-sm font-semibold text-white hover:bg-brand-600">New game</button>
+  </div>
+
+  <div id="cm-board" class="grid grid-cols-4 gap-2.5"></div>
+  <p id="cm-win" class="mt-5 hidden rounded-xl bg-emerald-100 px-4 py-3 text-center font-bold text-emerald-700"></p>
+</PlayShell>
+
+<style is:global>
+  .cm-card { perspective: 600px; }
+  .cm-card .inner { position: relative; width: 100%; height: 100%; transition: transform .35s; transform-style: preserve-3d; }
+  .cm-card.flipped .inner { transform: rotateY(180deg); }
+  .cm-card .face { position: absolute; inset: 0; display: grid; place-items: center; backface-visibility: hidden; border-radius: 14px; }
+  .cm-card .back { transform: rotateY(180deg); }
+</style>
+
+<script is:inline>
+(function () {
+  const EMOJI = ['🍬', '🍭', '🍫', '🍩', '🍪', '🧁', '🍒', '🍓'];
+  const board = document.getElementById('cm-board'), movesEl = document.getElementById('cm-moves'), bestEl = document.getElementById('cm-best'), winEl = document.getElementById('cm-win');
+  let best = localStorage.getItem('cm_best'); bestEl.textContent = best ? best : '—';
+  let first = null, lock = false, moves = 0, matched = 0;
+
+  function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+  function newGame() {
+    board.innerHTML = ''; first = null; lock = false; moves = 0; matched = 0; movesEl.textContent = 0; winEl.classList.add('hidden');
+    shuffle([...EMOJI, ...EMOJI]).forEach((sym) => {
+      const card = document.createElement('button');
+      card.className = 'cm-card aspect-square';
+      card.innerHTML = `<div class="inner">
+        <div class="face front bg-gradient-to-br from-brand-400 to-brand-600 text-2xl font-extrabold text-white">?</div>
+        <div class="face back bg-white text-3xl">${sym}</div></div>`;
+      card.dataset.sym = sym;
+      card.addEventListener('click', () => flip(card));
+      board.appendChild(card);
+    });
+  }
+
+  function flip(card) {
+    if (lock || card.classList.contains('flipped')) return;
+    card.classList.add('flipped');
+    if (!first) { first = card; return; }
+    moves++; movesEl.textContent = moves;
+    if (first.dataset.sym === card.dataset.sym) {
+      first = null; matched++;
+      if (matched === EMOJI.length) win();
+    } else {
+      lock = true; const a = first, b = card; first = null;
+      setTimeout(() => { a.classList.remove('flipped'); b.classList.remove('flipped'); lock = false; }, 700);
+    }
+  }
+
+  function win() {
+    if (!best || moves < +best) { best = moves; localStorage.setItem('cm_best', best); bestEl.textContent = best; }
+    winEl.textContent = `🎉 Solved in ${moves} moves!`; winEl.classList.remove('hidden');
+  }
+
+  document.getElementById('cm-new').addEventListener('click', newGame);
+  newGame();
+})();
+</script>

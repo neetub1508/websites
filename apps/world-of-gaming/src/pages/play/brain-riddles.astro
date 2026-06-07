@@ -1,0 +1,83 @@
+---
+import PlayShell from '../../components/PlayShell.astro';
+---
+<PlayShell slug="brain-riddles">
+  <div class="mb-3 flex items-center justify-between">
+    <div class="rounded-lg bg-slate-100 px-3 py-1.5 text-sm text-slate-600">Question: <span id="q-num" class="font-bold text-slate-900">1</span>/<span id="q-total">10</span></div>
+    <div class="rounded-lg bg-slate-100 px-3 py-1.5 text-sm text-slate-600">Score: <span id="q-score" class="font-bold text-slate-900">0</span></div>
+    <div class="rounded-lg bg-slate-100 px-3 py-1.5 text-sm text-slate-600">Best: <span id="q-best" class="font-bold text-brand-600">0</span></div>
+  </div>
+
+  <div class="rounded-2xl border border-blue-200 bg-white p-5 shadow-sm">
+    <p id="q-text" class="text-lg font-bold text-slate-900 min-h-[3.5rem]"></p>
+    <div id="q-options" class="mt-4 grid gap-2.5"></div>
+    <p id="q-note" class="mt-3 hidden rounded-lg bg-blue-50 px-3 py-2 text-sm text-slate-600"></p>
+    <button id="q-next" class="mt-4 hidden w-full rounded-xl bg-brand-500 px-4 py-3 font-bold text-white hover:bg-brand-600">Next →</button>
+  </div>
+</PlayShell>
+
+<script is:inline>
+(function () {
+  const QUESTIONS = [
+    { q: 'A farmer has 17 sheep. All but 9 run away. How many are left?', o: ['8', '9', '17', '0'], a: 1, n: '“All but 9 run away” means 9 stay behind.' },
+    { q: 'What has many keys but cannot open a single lock?', o: ['A map', 'A piano', 'A car', 'A phone'], a: 1, n: 'A piano has keys you play, not keys that unlock.' },
+    { q: "In a race, you overtake the person in 2nd place. What place are you in now?", o: ['1st', '2nd', '3rd', 'Last'], a: 1, n: 'You take their spot — 2nd, not 1st.' },
+    { q: 'Which weighs more: a kilogram of feathers or a kilogram of iron?', o: ['Feathers', 'Iron', 'They weigh the same', 'Depends'], a: 2, n: 'A kilogram is a kilogram — same weight.' },
+    { q: 'A bat and a ball cost ₹110 together. The bat costs ₹100 more than the ball. How much is the ball?', o: ['₹10', '₹5', '₹100', '₹15'], a: 1, n: 'Ball ₹5 + bat ₹105 = ₹110, and ₹105 is ₹100 more than ₹5.' },
+    { q: 'How many months of the year have 28 days?', o: ['1', '2', '11', 'All 12'], a: 3, n: 'Every month has at least 28 days.' },
+    { q: 'The more of this you take, the more you leave behind. What is it?', o: ['Money', 'Footsteps', 'Time', 'Water'], a: 1, n: 'Each step you take leaves another footstep behind.' },
+    { q: 'I have cities but no houses, forests but no trees, and water but no fish. What am I?', o: ['A dream', 'A map', 'A painting', 'A game'], a: 1, n: 'A map shows cities, forests and water — but none are real.' },
+    { q: 'Two fathers and two sons go fishing. Each catches one fish, yet only 3 fish are caught. How?', o: ['One lied', 'They were grandfather, father and son', 'A fish escaped', 'Impossible'], a: 1, n: 'Three people: grandfather, his son, and his grandson.' },
+    { q: 'What comes once in a minute, twice in a moment, but never in a thousand years?', o: ['The Sun', 'The letter M', 'A heartbeat', 'Midnight'], a: 1, n: 'The letter “M”: once in minute, twice in moment, none in thousand years.' },
+  ];
+  const KEY = 'brain_best';
+  const qTextEl = document.getElementById('q-text'), optsEl = document.getElementById('q-options'), noteEl = document.getElementById('q-note'), nextEl = document.getElementById('q-next');
+  const numEl = document.getElementById('q-num'), scoreEl = document.getElementById('q-score'), bestEl = document.getElementById('q-best'), totalEl = document.getElementById('q-total');
+  let best = +(localStorage.getItem(KEY) || 0); bestEl.textContent = best;
+  let order, i, score, answered;
+
+  function shuffle(a) { for (let k = a.length - 1; k > 0; k--) { const j = (Math.random() * (k + 1)) | 0; [a[k], a[j]] = [a[j], a[k]]; } return a; }
+
+  function startGame() {
+    order = shuffle(QUESTIONS.map((_, idx) => idx)); i = 0; score = 0; scoreEl.textContent = 0; totalEl.textContent = QUESTIONS.length;
+    nextEl.onclick = advance;
+    show();
+  }
+  function show() {
+    answered = false; const item = QUESTIONS[order[i]];
+    numEl.textContent = i + 1;
+    qTextEl.textContent = item.q;
+    noteEl.classList.add('hidden'); nextEl.classList.add('hidden');
+    optsEl.innerHTML = item.o.map((opt, idx) =>
+      `<button data-idx="${idx}" class="opt rounded-xl border border-slate-200 bg-white px-4 py-3 text-left font-semibold text-slate-800 hover:bg-blue-50">${opt}</button>`).join('');
+    optsEl.querySelectorAll('.opt').forEach((b) => b.onclick = () => answer(+b.dataset.idx));
+    nextEl.textContent = i === QUESTIONS.length - 1 ? 'See result →' : 'Next →';
+  }
+  function answer(idx) {
+    if (answered) return; answered = true;
+    const item = QUESTIONS[order[i]];
+    optsEl.querySelectorAll('.opt').forEach((b) => {
+      const bi = +b.dataset.idx; b.classList.remove('hover:bg-blue-50');
+      if (bi === item.a) b.className = 'opt rounded-xl border border-emerald-300 bg-emerald-100 px-4 py-3 text-left font-semibold text-emerald-800';
+      else if (bi === idx) b.className = 'opt rounded-xl border border-rose-300 bg-rose-100 px-4 py-3 text-left font-semibold text-rose-700';
+      else b.className = 'opt rounded-xl border border-slate-200 bg-white px-4 py-3 text-left font-semibold text-slate-400';
+    });
+    if (idx === item.a) { score++; scoreEl.textContent = score; }
+    noteEl.textContent = (idx === item.a ? '✅ Correct! ' : '❌ ') + item.n; noteEl.classList.remove('hidden');
+    nextEl.classList.remove('hidden');
+  }
+  function advance() {
+    i++;
+    if (i >= QUESTIONS.length) {
+      if (score > best) { best = score; localStorage.setItem(KEY, best); bestEl.textContent = best; }
+      qTextEl.textContent = `🏁 You scored ${score} / ${QUESTIONS.length}!`;
+      optsEl.innerHTML = ''; noteEl.classList.add('hidden');
+      nextEl.textContent = '▶ Play again'; nextEl.onclick = startGame;
+      return;
+    }
+    show();
+  }
+
+  startGame();
+})();
+</script>

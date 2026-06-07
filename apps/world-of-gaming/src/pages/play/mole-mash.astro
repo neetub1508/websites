@@ -1,0 +1,63 @@
+---
+import PlayShell from '../../components/PlayShell.astro';
+---
+<PlayShell slug="mole-mash">
+  <div class="mb-3 flex items-center justify-between">
+    <div class="rounded-lg bg-slate-100 px-3 py-1.5 text-sm text-slate-600">Score: <span id="m-score" class="font-bold text-slate-900">0</span></div>
+    <div class="rounded-lg bg-slate-100 px-3 py-1.5 text-sm text-slate-600">Time: <span id="m-time" class="font-bold text-slate-900">30</span>s</div>
+    <div class="rounded-lg bg-slate-100 px-3 py-1.5 text-sm text-slate-600">Best: <span id="m-best" class="font-bold text-brand-600">0</span></div>
+  </div>
+
+  <div class="relative">
+    <div id="m-board" class="grid grid-cols-3 gap-3"></div>
+    <div id="m-overlay" class="absolute inset-0 grid place-items-center rounded-2xl bg-slate-900/55 backdrop-blur-sm">
+      <div class="text-center">
+        <p id="m-msg" class="mb-4 text-xl font-bold text-white">Tap to start</p>
+        <button id="m-start" class="rounded-xl bg-brand-500 px-6 py-3 font-bold text-white shadow-lg hover:bg-brand-600">▶ Start</button>
+      </div>
+    </div>
+  </div>
+</PlayShell>
+
+<script is:inline>
+(function () {
+  const board = document.getElementById('m-board'), scoreEl = document.getElementById('m-score'), timeEl = document.getElementById('m-time'), bestEl = document.getElementById('m-best');
+  const overlay = document.getElementById('m-overlay'), msg = document.getElementById('m-msg'), startBtn = document.getElementById('m-start');
+  const KEY = 'mole_best';
+  let best = +(localStorage.getItem(KEY) || 0); bestEl.textContent = best;
+  let holes = [], score, time, running, popT, clockT;
+
+  for (let i = 0; i < 9; i++) {
+    const h = document.createElement('button');
+    h.className = 'relative grid aspect-square place-items-center overflow-hidden rounded-2xl border border-amber-700/30 bg-gradient-to-b from-amber-700 to-amber-900 text-4xl';
+    h.dataset.up = '0';
+    h.innerHTML = '<span class="mole translate-y-full transition-transform duration-150">🐹</span>';
+    h.addEventListener('click', () => bonk(h));
+    board.appendChild(h); holes.push(h);
+  }
+  function show(h) { h.dataset.up = '1'; h.querySelector('.mole').classList.remove('translate-y-full'); }
+  function hide(h) { h.dataset.up = '0'; h.querySelector('.mole').classList.add('translate-y-full'); }
+  function bonk(h) { if (!running || h.dataset.up !== '1') return; score++; scoreEl.textContent = score; const m = h.querySelector('.mole'); m.textContent = '💥'; setTimeout(() => { m.textContent = '🐹'; hide(h); }, 150); }
+
+  function pop() {
+    if (!running) return;
+    const down = holes.filter((h) => h.dataset.up === '0');
+    if (!down.length) return;
+    const h = down[(Math.random() * down.length) | 0]; show(h);
+    setTimeout(() => { if (h.dataset.up === '1') hide(h); }, 700 + Math.random() * 500);
+  }
+  function start() {
+    overlay.classList.add('hidden'); score = 0; time = 30; running = true; scoreEl.textContent = 0; timeEl.textContent = 30;
+    holes.forEach(hide);
+    clearInterval(popT); clearInterval(clockT);
+    popT = setInterval(pop, 620);
+    clockT = setInterval(() => { time--; timeEl.textContent = time; if (time <= 0) end(); }, 1000);
+  }
+  function end() {
+    running = false; clearInterval(popT); clearInterval(clockT); holes.forEach(hide);
+    if (score > best) { best = score; localStorage.setItem(KEY, best); bestEl.textContent = best; }
+    msg.textContent = 'Time! · Score ' + score; startBtn.textContent = '↻ Play again'; overlay.classList.remove('hidden');
+  }
+  startBtn.onclick = start;
+})();
+</script>

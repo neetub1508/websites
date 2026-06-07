@@ -1,0 +1,164 @@
+---
+import PlayShell from '../../components/PlayShell.astro';
+---
+<PlayShell slug="trap-master">
+  <div class="mb-3 flex items-center justify-between">
+    <div class="rounded-lg bg-slate-100 px-3 py-1.5 text-sm text-slate-600">Level: <span id="d-level" class="font-bold text-slate-900">1</span></div>
+    <div class="rounded-lg bg-slate-100 px-3 py-1.5 text-sm text-slate-600">Deaths: <span id="d-deaths" class="font-bold text-rose-600">0</span></div>
+    <button id="d-reset" class="rounded-lg bg-slate-100 px-3 py-1.5 text-sm font-semibold text-slate-700 hover:bg-slate-200">Restart</button>
+  </div>
+
+  <div class="overflow-hidden rounded-2xl border border-blue-200 shadow-md">
+    <canvas id="d-game" width="360" height="440" class="block w-full" style="touch-action:none"></canvas>
+  </div>
+
+  <div class="mt-3 grid grid-cols-3 gap-2 sm:hidden">
+    <button id="d-left" class="rounded-xl bg-slate-200 py-4 text-2xl font-bold text-slate-800 select-none">←</button>
+    <button id="d-jump" class="rounded-xl bg-brand-500 py-4 text-lg font-bold text-white select-none">JUMP</button>
+    <button id="d-right" class="rounded-xl bg-slate-200 py-4 text-2xl font-bold text-slate-800 select-none">→</button>
+  </div>
+  <p class="mt-2 hidden text-center text-xs text-slate-500 sm:block">Desktop: ← → to move, Space / ↑ to jump. The level cheats — learn its tricks!</p>
+</PlayShell>
+
+<script is:inline>
+(function () {
+  const cv = document.getElementById('d-game'), ctx = cv.getContext('2d'), W = cv.width, H = cv.height;
+  const levelEl = document.getElementById('d-level'), deathsEl = document.getElementById('d-deaths');
+  const KEY = 'trap_level_v1';
+  const GRAV = 0.6, MOVE = 3.2, JUMP = -11.6, PW = 22, PH = 26, G = H - 26;
+
+  // up-spike: {x,y,w,h,dir:'up',armed,triggerX}; solids may have vanishX.
+  const LEVELS = [
+    { start: { x: 16, y: G - PH }, door: { x: 322, y: G - 38, w: 26, h: 38 },
+      solids: [{ x: 0, y: G, w: W, h: 26 }],
+      spikes: [{ x: 150, y: G - 18, w: 70, h: 18, dir: 'up', armed: false, triggerX: 120 }] },
+    { start: { x: 16, y: G - PH }, door: { x: 322, y: G - 38, w: 26, h: 38 },
+      solids: [{ x: 0, y: G, w: 140, h: 26 }, { x: 140, y: G, w: 82, h: 26, vanishX: 150 }, { x: 222, y: G, w: 138, h: 26 }],
+      spikes: [] },
+    { start: { x: 16, y: G - PH }, door: { x: 322, y: G - 38, w: 26, h: 38 },
+      solids: [{ x: 0, y: G, w: 205, h: 26 }, { x: 205, y: G, w: 60, h: 26, vanishX: 215 }, { x: 265, y: G, w: 95, h: 26 }],
+      spikes: [{ x: 95, y: G - 18, w: 46, h: 18, dir: 'up', armed: false, triggerX: 70 }] },
+    { start: { x: 14, y: G - PH }, door: { x: 326, y: G - 92, w: 26, h: 38 },
+      solids: [{ x: 0, y: G, w: 120, h: 26 }, { x: 158, y: G - 46, w: 74, h: 13 }, { x: 280, y: G - 54, w: 80, h: 13 }, { x: 280, y: G, w: 80, h: 26 }],
+      spikes: [
+        { x: 60, y: G - 18, w: 44, h: 18, dir: 'up', armed: false, triggerX: 40 },
+        { x: 158, y: 0, w: 74, h: 40, dir: 'down', armed: false, triggerX: 150 },
+      ] },
+    { start: { x: 16, y: G - PH }, door: { x: 322, y: G - 38, w: 26, h: 38 },
+      solids: [{ x: 0, y: G, w: W, h: 26 }],
+      spikes: [{ x: 85, y: G - 18, w: 40, h: 18, dir: 'up', armed: false, triggerX: 65 }, { x: 175, y: G - 18, w: 40, h: 18, dir: 'up', armed: false, triggerX: 155 }, { x: 265, y: G - 18, w: 40, h: 18, dir: 'up', armed: false, triggerX: 245 }] },
+    { start: { x: 16, y: G - PH }, door: { x: 322, y: G - 38, w: 26, h: 38 },
+      solids: [{ x: 0, y: G, w: 130, h: 26 }, { x: 130, y: G, w: 80, h: 26, vanishX: 140 }, { x: 210, y: G, w: 150, h: 26 }],
+      spikes: [{ x: 250, y: G - 18, w: 48, h: 18, dir: 'up', armed: false, triggerX: 230 }] },
+    { start: { x: 16, y: G - PH }, door: { x: 322, y: G - 92, w: 26, h: 38 },
+      solids: [{ x: 0, y: G, w: 170, h: 26 }, { x: 170, y: G, w: 70, h: 26, vanishX: 180 }, { x: 240, y: G, w: 120, h: 26 }, { x: 300, y: G - 54, w: 60, h: 13 }],
+      spikes: [{ x: 90, y: G - 18, w: 44, h: 18, dir: 'up', armed: false, triggerX: 70 }] },
+    { start: { x: 16, y: G - PH }, door: { x: 322, y: G - 38, w: 26, h: 38 },
+      solids: [{ x: 0, y: G, w: 120, h: 26 }, { x: 160, y: G, w: 60, h: 26, vanishX: 170 }, { x: 220, y: G, w: 70, h: 26 }, { x: 300, y: G, w: 60, h: 26 }],
+      spikes: [{ x: 60, y: G - 18, w: 40, h: 18, dir: 'up', armed: false, triggerX: 40 }, { x: 250, y: G - 18, w: 40, h: 18, dir: 'up', armed: false, triggerX: 232 }] },
+  ];
+
+  let cur, idx = 0, deaths = 0, keys = { l: false, r: false }, p, win = false;
+
+  function loadLevel(i) {
+    idx = Math.min(i, LEVELS.length - 1); win = false;
+    cur = JSON.parse(JSON.stringify(LEVELS[idx]));
+    cur.spikes.forEach((s) => (s.anim = s.armed ? 1 : 0));
+    p = { x: cur.start.x, y: cur.start.y, vx: 0, vy: 0, onGround: false };
+    levelEl.textContent = (idx + 1) + ' / ' + LEVELS.length;
+  }
+  function save() { localStorage.setItem(KEY, String(idx)); }
+  function die() { deaths++; deathsEl.textContent = deaths; loadLevel(idx); }
+
+  function brick(x, y, w, h) {
+    ctx.fillStyle = '#3b2330'; ctx.fillRect(x, y, w, h);
+    ctx.fillStyle = '#5a3346'; ctx.fillRect(x, y, w, 4);
+    ctx.strokeStyle = 'rgba(0,0,0,.25)';
+    for (let bx = x; bx < x + w; bx += 26) { ctx.beginPath(); ctx.moveTo(bx, y); ctx.lineTo(bx, y + h); ctx.stroke(); }
+  }
+  function drawSpikes(s) {
+    const n = Math.max(1, Math.round(s.w / 14)), sw = s.w / n, hh = s.h * (s.anim ?? 1);
+    ctx.fillStyle = s.armed ? '#e2e8f0' : '#475569';
+    if (s.armed) { ctx.shadowColor = 'rgba(244,63,94,.8)'; ctx.shadowBlur = 10; }
+    for (let i = 0; i < n; i++) {
+      const bx = s.x + i * sw;
+      ctx.beginPath();
+      if (s.dir === 'up') { ctx.moveTo(bx, s.y + s.h); ctx.lineTo(bx + sw / 2, s.y + s.h - hh); ctx.lineTo(bx + sw, s.y + s.h); }
+      else { ctx.moveTo(bx, s.y); ctx.lineTo(bx + sw / 2, s.y + hh); ctx.lineTo(bx + sw, s.y); }
+      ctx.closePath(); ctx.fill();
+    }
+    ctx.shadowBlur = 0;
+  }
+  function deadly(s) { const hh = s.h * (s.anim ?? 1); return s.dir === 'up' ? { x: s.x, y: s.y + s.h - hh, w: s.w, h: hh } : { x: s.x, y: s.y, w: s.w, h: hh }; }
+
+  function step() {
+    // input
+    p.vx = (keys.l ? -MOVE : 0) + (keys.r ? MOVE : 0);
+    p.x += p.vx; if (p.x < 0) p.x = 0; if (p.x + PW > W) p.x = W - PW;
+
+    // arm spikes / vanish floors
+    for (const s of cur.spikes) { if (!s.armed && s.triggerX != null && p.x + PW > s.triggerX) s.armed = true; if (s.armed && s.anim < 1) s.anim = Math.min(1, s.anim + 0.25); }
+    for (const so of cur.solids) { if (so.vanishX != null && !so.gone && p.x + PW / 2 > so.vanishX) so.gone = true; }
+
+    // gravity + landing
+    p.vy += GRAV; p.y += p.vy; p.onGround = false;
+    for (const so of cur.solids) { if (so.gone) continue; if (p.x + PW > so.x && p.x < so.x + so.w && p.vy >= 0 && p.y + PH >= so.y && p.y + PH <= so.y + 18) { p.y = so.y - PH; p.vy = 0; p.onGround = true; } }
+
+    // death
+    for (const s of cur.spikes) { if (!s.armed) continue; const r = deadly(s); if (p.x + PW > r.x && p.x < r.x + r.w && p.y + PH > r.y && p.y < r.y + r.h) return die(); }
+    if (p.y > H + 40) return die();
+
+    // win
+    const d = cur.door; if (p.x + PW > d.x && p.x < d.x + d.w && p.y + PH > d.y && p.y < d.y + d.h) {
+      if (idx + 1 < LEVELS.length) { loadLevel(idx + 1); save(); } else { win = true; localStorage.removeItem(KEY); }
+    }
+    draw();
+    requestAnimationFrame(step);
+  }
+
+  function draw() {
+    const g = ctx.createLinearGradient(0, 0, 0, H); g.addColorStop(0, '#241027'); g.addColorStop(1, '#120814');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = 'rgba(255,255,255,.05)'; for (let i = 0; i < 22; i++) ctx.fillRect((i * 53) % W, (i * 71) % H, 2, 2);
+    // lava glow line at bottom
+    ctx.fillStyle = 'rgba(244,63,94,.25)'; ctx.fillRect(0, H - 3, W, 3);
+
+    for (const so of cur.solids) if (!so.gone) brick(so.x, so.y, so.w, so.h);
+    for (const s of cur.spikes) drawSpikes(s);
+
+    // door (glowing exit portal)
+    const d = cur.door;
+    ctx.save(); ctx.shadowColor = 'rgba(34,197,94,.9)'; ctx.shadowBlur = 18;
+    const dg = ctx.createLinearGradient(d.x, d.y, d.x, d.y + d.h); dg.addColorStop(0, '#4ade80'); dg.addColorStop(1, '#16a34a');
+    ctx.fillStyle = dg; ctx.beginPath(); ctx.roundRect(d.x, d.y, d.w, d.h, 6); ctx.fill(); ctx.restore();
+    ctx.fillStyle = '#052e16'; ctx.font = 'bold 9px Outfit,sans-serif'; ctx.textAlign = 'center'; ctx.fillText('EXIT', d.x + d.w / 2, d.y + d.h / 2 + 3);
+
+    // player (little devil)
+    ctx.fillStyle = '#f43f5e'; ctx.beginPath(); ctx.roundRect(p.x, p.y, PW, PH, 6); ctx.fill();
+    ctx.fillStyle = '#b91c1c'; ctx.beginPath(); ctx.moveTo(p.x + 3, p.y); ctx.lineTo(p.x + 7, p.y - 6); ctx.lineTo(p.x + 9, p.y); ctx.closePath(); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(p.x + PW - 9, p.y); ctx.lineTo(p.x + PW - 7, p.y - 6); ctx.lineTo(p.x + PW - 3, p.y); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = '#fff'; ctx.fillRect(p.x + 4, p.y + 8, 5, 5); ctx.fillRect(p.x + PW - 9, p.y + 8, 5, 5);
+    ctx.fillStyle = '#111'; ctx.fillRect(p.x + 6, p.y + 10, 2, 2); ctx.fillRect(p.x + PW - 7, p.y + 10, 2, 2);
+
+    if (win) {
+      ctx.fillStyle = 'rgba(0,0,0,.7)'; ctx.fillRect(0, 0, W, H);
+      ctx.fillStyle = '#fff'; ctx.font = 'bold 22px Outfit,sans-serif'; ctx.textAlign = 'center';
+      ctx.fillText('😈 You beat every trap!', W / 2, H / 2 - 8);
+      ctx.font = '14px Outfit,sans-serif'; ctx.fillText('Press Restart to play again.', W / 2, H / 2 + 18);
+    }
+  }
+
+  function jump() { if (p.onGround) { p.vy = JUMP; p.onGround = false; } }
+  addEventListener('keydown', (e) => { if (e.key === 'ArrowLeft' || e.key === 'a') keys.l = true; if (e.key === 'ArrowRight' || e.key === 'd') keys.r = true; if (e.code === 'Space' || e.key === 'ArrowUp' || e.key === 'w') { e.preventDefault(); jump(); } });
+  addEventListener('keyup', (e) => { if (e.key === 'ArrowLeft' || e.key === 'a') keys.l = false; if (e.key === 'ArrowRight' || e.key === 'd') keys.r = false; });
+  function hold(id, on, off) { const el = document.getElementById(id); el.addEventListener('pointerdown', (e) => { e.preventDefault(); on(); }); el.addEventListener('pointerup', off); el.addEventListener('pointerleave', off); el.addEventListener('pointercancel', off); }
+  hold('d-left', () => keys.l = true, () => keys.l = false);
+  hold('d-right', () => keys.r = true, () => keys.r = false);
+  document.getElementById('d-jump').addEventListener('pointerdown', (e) => { e.preventDefault(); jump(); });
+  document.getElementById('d-reset').onclick = () => { if (win) { idx = 0; } loadLevel(idx); };
+
+  const saved = parseInt(localStorage.getItem(KEY) || '0', 10);
+  loadLevel(isNaN(saved) ? 0 : saved);
+  step();
+})();
+</script>

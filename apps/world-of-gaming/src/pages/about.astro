@@ -1,0 +1,26 @@
+---
+import Layout from '../layouts/Layout.astro';
+const title = 'About — World of Gaming';
+const description = 'About World of Gaming: a free online games site offering original, instant-play browser games for mobile and desktop — no download, no sign-up.';
+---
+<Layout title={title} description={description}>
+  <article class="mx-auto max-w-3xl px-5 py-14">
+    <h1 class="text-4xl font-extrabold tracking-tight text-slate-900">About World of Gaming</h1>
+    <p class="mt-5 text-slate-600 leading-relaxed">World of Gaming is a free online games website. We make and host our own original browser games that anyone can play instantly — no account, no download, and no cost. Open a game and you are playing within seconds, on your phone or your computer.</p>
+
+    <h2 class="mt-10 text-2xl font-bold text-slate-900">What we believe</h2>
+    <ul class="mt-4 space-y-3 text-slate-600">
+      <li><b class="text-slate-900">Games should be instant and free.</b> No sign-up, no install, no paywall. You click a game, it loads, you play.</li>
+      <li><b class="text-slate-900">They should work on any device.</b> Every game is built mobile-first with touch controls, and works just as well with a keyboard and mouse.</li>
+      <li><b class="text-slate-900">Your progress is yours.</b> Where a game has progress to keep — like the world you build in Block World or your 2048 high score — it is saved in your own browser, never uploaded to a server.</li>
+      <li><b class="text-slate-900">Everything here is original.</b> Our games are made by us and inspired by genres people love, so they are ours to offer you for free.</li>
+    </ul>
+
+    <h2 class="mt-10 text-2xl font-bold text-slate-900">Our games</h2>
+    <p class="mt-4 text-slate-600 leading-relaxed">You can play <a href="/play/block-world" class="text-brand-600 underline">Block World</a> (a build-anything sandbox), <a href="/play/tower-obby" class="text-brand-600 underline">Tower Obby</a> (a jump-and-climb obstacle course), <a href="/play/2048" class="text-brand-600 underline">2048</a> and <a href="/play/snake" class="text-brand-600 underline">Neon Snake</a> (classic arcade puzzles), <a href="/play/brick-breaker" class="text-brand-600 underline">Brick Breaker</a>, and <a href="/play/candy-match" class="text-brand-600 underline">Candy Match</a>. We focus on making a few games genuinely good rather than listing thousands we did not build, and we add more over time.</p>
+
+    <div class="mt-10 rounded-2xl bg-blue-50 border border-blue-200 p-5 text-sm text-slate-600">
+      <b class="text-slate-900">A note on Minecraft &amp; Roblox:</b> we do not host those games — they belong to other companies. Block World and Tower Obby are our own original games inspired by those styles, made by World of Gaming and free for you to play.
+    </div>
+  </article>
+</Layout>

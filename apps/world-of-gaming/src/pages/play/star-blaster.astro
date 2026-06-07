@@ -1,0 +1,108 @@
+---
+import PlayShell from '../../components/PlayShell.astro';
+---
+<PlayShell slug="star-blaster">
+  <div class="mb-3 flex items-center justify-between">
+    <div class="rounded-lg bg-slate-100 px-3 py-1.5 text-sm text-slate-600">Score: <span id="b-score" class="font-bold text-slate-900">0</span></div>
+    <div class="rounded-lg bg-slate-100 px-3 py-1.5 text-sm text-slate-600">Wave: <span id="b-wave" class="font-bold text-slate-900">1</span></div>
+    <div class="rounded-lg bg-slate-100 px-3 py-1.5 text-sm text-slate-600">Lives: <span id="b-lives" class="font-bold text-slate-900">3</span></div>
+    <div class="rounded-lg bg-slate-100 px-3 py-1.5 text-sm text-slate-600">Best: <span id="b-best" class="font-bold text-brand-600">0</span></div>
+  </div>
+
+  <div class="relative overflow-hidden rounded-2xl border border-blue-200 shadow-md">
+    <canvas id="b-game" width="360" height="520" class="block w-full" style="touch-action:none"></canvas>
+    <div id="b-overlay" class="absolute inset-0 grid place-items-center bg-slate-900/60 backdrop-blur-sm">
+      <div class="text-center">
+        <p id="b-msg" class="mb-4 text-xl font-bold text-white">Tap to start</p>
+        <button id="b-start" class="rounded-xl bg-brand-500 px-6 py-3 font-bold text-white shadow-lg hover:bg-brand-600">▶ Start</button>
+      </div>
+    </div>
+  </div>
+  <p class="mt-2 text-center text-xs text-slate-500">Move to dodge — your ship fires automatically.</p>
+</PlayShell>
+
+<script is:inline>
+(function () {
+  const cv = document.getElementById('b-game'), ctx = cv.getContext('2d'), W = cv.width, H = cv.height;
+  const scoreEl = document.getElementById('b-score'), waveEl = document.getElementById('b-wave'), livesEl = document.getElementById('b-lives'), bestEl = document.getElementById('b-best');
+  const overlay = document.getElementById('b-overlay'), msg = document.getElementById('b-msg'), startBtn = document.getElementById('b-start');
+  const KEY = 'star_best';
+  let best = +(localStorage.getItem(KEY) || 0); bestEl.textContent = best;
+  let ship, bullets, foes, eb, parts, stars, score, wave, lives, running, raf, fireT, t, moveDir = 0, targetX = null;
+
+  function reset() {
+    ship = { x: W / 2, y: H - 46, w: 30 }; bullets = []; foes = []; eb = []; parts = [];
+    score = 0; wave = 0; lives = 3; running = true; fireT = 0; t = 0; targetX = null;
+    scoreEl.textContent = 0; livesEl.textContent = 3;
+    stars = []; for (let i = 0; i < 50; i++) stars.push({ x: Math.random() * W, y: Math.random() * H, s: Math.random() * 1.6 + 0.4, v: Math.random() * 1.5 + 0.5 });
+    nextWave();
+  }
+  function nextWave() {
+    wave++; waveEl.textContent = wave;
+    const n = 4 + wave;
+    for (let i = 0; i < n; i++) foes.push({ baseX: 30 + (i % 6) * 56 + (Math.random() * 10), y: -30 - Math.floor(i / 6) * 46, phase: Math.random() * 6, amp: 18 + Math.random() * 18, vy: 0.4 + wave * 0.05, hp: 1 });
+  }
+
+  function loop() {
+    t++;
+    ctx.fillStyle = '#070b1c'; ctx.fillRect(0, 0, W, H);
+    for (const s of stars) { s.y += s.v; if (s.y > H) { s.y = 0; s.x = Math.random() * W; } ctx.fillStyle = 'rgba(255,255,255,.6)'; ctx.fillRect(s.x, s.y, s.s, s.s); }
+
+    // move ship
+    if (targetX != null) ship.x += (targetX - ship.x) * 0.35;
+    ship.x += moveDir * 6; ship.x = Math.max(ship.w / 2, Math.min(W - ship.w / 2, ship.x));
+
+    // auto fire
+    fireT--; if (fireT <= 0) { bullets.push({ x: ship.x, y: ship.y - 18 }); fireT = 14; }
+    for (const b of bullets) { b.y -= 8; ctx.fillStyle = '#38bdf8'; ctx.fillRect(b.x - 2, b.y, 4, 12); }
+    bullets = bullets.filter((b) => b.y > -12);
+
+    // foes
+    for (const f of foes) {
+      f.y += f.vy; f.x = f.baseX + Math.sin(t * 0.03 + f.phase) * f.amp;
+      ctx.font = '26px serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('👾', f.x, f.y);
+      // enemy fire
+      if (Math.random() < 0.002 + wave * 0.0004) eb.push({ x: f.x, y: f.y + 14 });
+      // reached bottom
+      if (f.y > H + 16) { f.dead = true; loseLife(); }
+      // hit player
+      if (Math.abs(f.x - ship.x) < 22 && Math.abs(f.y - ship.y) < 22) { f.dead = true; loseLife(); }
+    }
+    // bullet hits
+    for (const b of bullets) for (const f of foes) { if (!f.dead && Math.abs(b.x - f.x) < 16 && Math.abs(b.y - f.y) < 16) { f.dead = true; b.gone = true; score += 10; scoreEl.textContent = score; burst(f.x, f.y); } }
+    bullets = bullets.filter((b) => !b.gone);
+    foes = foes.filter((f) => !f.dead);
+
+    // enemy bullets
+    for (const e of eb) { e.y += 4.5; ctx.fillStyle = '#f43f5e'; ctx.fillRect(e.x - 2, e.y, 4, 10); if (Math.abs(e.x - ship.x) < 16 && Math.abs(e.y - ship.y) < 16) { e.gone = true; loseLife(); } }
+    eb = eb.filter((e) => e.y < H + 10 && !e.gone);
+
+    // particles
+    for (const p of parts) { p.x += p.vx; p.y += p.vy; p.life -= 0.04; ctx.globalAlpha = Math.max(0, p.life); ctx.fillStyle = p.c; ctx.fillRect(p.x, p.y, 3, 3); }
+    ctx.globalAlpha = 1; parts = parts.filter((p) => p.life > 0);
+
+    // ship
+    ctx.fillStyle = '#a5f3fc'; ctx.beginPath(); ctx.moveTo(ship.x, ship.y - 16); ctx.lineTo(ship.x + 14, ship.y + 14); ctx.lineTo(ship.x, ship.y + 7); ctx.lineTo(ship.x - 14, ship.y + 14); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = '#f59e0b'; ctx.fillRect(ship.x - 4, ship.y + 7, 8, 6 + (t % 4));
+
+    if (foes.length === 0) nextWave();
+    if (running) raf = requestAnimationFrame(loop);
+  }
+  function burst(x, y) { for (let i = 0; i < 12; i++) { const a = Math.random() * 7, s = Math.random() * 3 + 1; parts.push({ x, y, vx: Math.cos(a) * s, vy: Math.sin(a) * s, life: 1, c: Math.random() < 0.5 ? '#fbbf24' : '#f87171' }); } }
+  function loseLife() { lives--; livesEl.textContent = Math.max(0, lives); burst(ship.x, ship.y); if (lives <= 0) over(); }
+  function over() {
+    running = false; cancelAnimationFrame(raf);
+    if (score > best) { best = score; localStorage.setItem(KEY, best); bestEl.textContent = best; }
+    msg.textContent = `Game Over · Score ${score} · Wave ${wave}`; startBtn.textContent = '↻ Play again'; overlay.classList.remove('hidden');
+  }
+  function start() { overlay.classList.add('hidden'); reset(); loop(); }
+  startBtn.onclick = start;
+
+  addEventListener('keydown', (e) => { if (e.key === 'ArrowLeft' || e.key === 'a') { moveDir = -1; targetX = null; } if (e.key === 'ArrowRight' || e.key === 'd') { moveDir = 1; targetX = null; } });
+  addEventListener('keyup', (e) => { if (['ArrowLeft', 'ArrowRight', 'a', 'd'].includes(e.key)) moveDir = 0; });
+  function setT(clientX) { const r = cv.getBoundingClientRect(); targetX = (clientX - r.left) * (W / r.width); }
+  cv.addEventListener('touchmove', (e) => { if (running) { setT(e.touches[0].clientX); e.preventDefault(); } }, { passive: false });
+  cv.addEventListener('touchstart', (e) => { if (running) setT(e.touches[0].clientX); }, { passive: false });
+  cv.addEventListener('mousemove', (e) => { if (running) setT(e.clientX); });
+})();
+</script>

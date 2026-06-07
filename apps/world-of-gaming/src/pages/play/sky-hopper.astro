@@ -1,0 +1,74 @@
+---
+import PlayShell from '../../components/PlayShell.astro';
+---
+<PlayShell slug="sky-hopper">
+  <div class="mb-3 flex items-center justify-between">
+    <div class="rounded-lg bg-slate-100 px-3 py-1.5 text-sm text-slate-600">Score: <span id="h-score" class="font-bold text-slate-900">0</span></div>
+    <div class="rounded-lg bg-slate-100 px-3 py-1.5 text-sm text-slate-600">Best: <span id="h-best" class="font-bold text-brand-600">0</span></div>
+  </div>
+
+  <div class="relative overflow-hidden rounded-2xl border border-blue-200 shadow-md">
+    <canvas id="h-game" width="360" height="460" class="block w-full" style="touch-action:none"></canvas>
+    <div id="h-overlay" class="absolute inset-0 grid place-items-center bg-slate-900/55 backdrop-blur-sm">
+      <div class="text-center">
+        <p id="h-msg" class="mb-4 text-xl font-bold text-white">Tap to start</p>
+        <button id="h-start" class="rounded-xl bg-brand-500 px-6 py-3 font-bold text-white shadow-lg hover:bg-brand-600">▶ Start</button>
+      </div>
+    </div>
+  </div>
+  <p class="mt-2 text-center text-xs text-slate-500">Tap the board / click / Space to flap.</p>
+</PlayShell>
+
+<script is:inline>
+(function () {
+  const cv = document.getElementById('h-game'), ctx = cv.getContext('2d'), W = cv.width, H = cv.height;
+  const scoreEl = document.getElementById('h-score'), bestEl = document.getElementById('h-best');
+  const overlay = document.getElementById('h-overlay'), msg = document.getElementById('h-msg'), startBtn = document.getElementById('h-start');
+  const KEY = 'sky_best';
+  let best = +(localStorage.getItem(KEY) || 0); bestEl.textContent = best;
+  const GAP = 150, PW = 56, GRAV = 0.45, FLAP = -7.4, SPEED = 2.6;
+  let bird, pipes, score, running, raf;
+
+  function reset() { bird = { x: 96, y: H / 2, vy: 0, r: 13 }; pipes = []; score = 0; running = true; scoreEl.textContent = 0; addPipe(W + 40); }
+  function addPipe(x) { const top = 46 + Math.random() * (H - GAP - 120); pipes.push({ x, top, passed: false }); }
+
+  function loop() {
+    // sky
+    const g = ctx.createLinearGradient(0, 0, 0, H); g.addColorStop(0, '#bfeaff'); g.addColorStop(1, '#e6f6ff');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = 'rgba(255,255,255,.7)';
+    for (let i = 0; i < 4; i++) { const cx = ((i * 120 - score * 1.2) % (W + 80) + W + 80) % (W + 80) - 40; ctx.beginPath(); ctx.arc(cx, 60 + i * 30, 16, 0, 7); ctx.arc(cx + 18, 60 + i * 30, 20, 0, 7); ctx.arc(cx + 40, 60 + i * 30, 14, 0, 7); ctx.fill(); }
+
+    bird.vy += GRAV; bird.y += bird.vy;
+
+    if (pipes.length && pipes[pipes.length - 1].x < W - 200) addPipe(W + 20);
+    for (const p of pipes) {
+      p.x -= SPEED;
+      ctx.fillStyle = '#37b24d'; ctx.fillRect(p.x, 0, PW, p.top); ctx.fillRect(p.x, p.top + GAP, PW, H - p.top - GAP);
+      ctx.fillStyle = '#2f9e44'; ctx.fillRect(p.x - 3, p.top - 14, PW + 6, 14); ctx.fillRect(p.x - 3, p.top + GAP, PW + 6, 14);
+      if (!p.passed && p.x + PW < bird.x) { p.passed = true; score++; scoreEl.textContent = score; }
+      if (bird.x + bird.r > p.x && bird.x - bird.r < p.x + PW && (bird.y - bird.r < p.top || bird.y + bird.r > p.top + GAP)) return over();
+    }
+    pipes = pipes.filter((p) => p.x > -PW);
+    if (bird.y + bird.r > H || bird.y - bird.r < 0) return over();
+
+    ctx.save(); ctx.translate(bird.x, bird.y); ctx.rotate(Math.max(-0.4, Math.min(0.9, bird.vy / 12)));
+    ctx.font = '26px serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('🐤', 0, 0); ctx.restore();
+
+    if (running) raf = requestAnimationFrame(loop);
+  }
+
+  function over() {
+    running = false; cancelAnimationFrame(raf);
+    if (score > best) { best = score; localStorage.setItem(KEY, best); bestEl.textContent = best; }
+    msg.textContent = 'Game Over · Score ' + score; startBtn.textContent = '↻ Play again'; overlay.classList.remove('hidden');
+  }
+  function start() { overlay.classList.add('hidden'); reset(); loop(); }
+  function flap() { if (running) bird.vy = FLAP; }
+  startBtn.onclick = start;
+  addEventListener('keydown', (e) => { if (e.code === 'Space') { e.preventDefault(); flap(); } });
+  cv.addEventListener('pointerdown', flap);
+  draw0();
+  function draw0() { const g = ctx.createLinearGradient(0, 0, 0, H); g.addColorStop(0, '#bfeaff'); g.addColorStop(1, '#e6f6ff'); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H); }
+})();
+</script>

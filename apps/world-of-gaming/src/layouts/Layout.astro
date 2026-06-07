@@ -1,0 +1,125 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  schema?: object | object[];
+}
+import { ADSENSE_CLIENT, SITE_NAME } from '../lib/config';
+const { title, description, schema } = Astro.props;
+const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : Astro.url.pathname;
+const jsonLd = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
+const path = Astro.url.pathname;
+const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#dbeafe" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <!-- Google AdSense — loads only when this project's OWN publisher ID is set
+         in src/lib/config.ts (ADSENSE_CLIENT). This is what AdSense needs to
+         verify/approve the site; no visible ad units are rendered. -->
+    {ADSENSE_CLIENT && (
+      <script
+        async
+        src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`}
+        crossorigin="anonymous"
+      ></script>
+    )}
+
+    {jsonLd.map((obj) => (
+      <script type="application/ld+json" set:html={JSON.stringify(obj)} />
+    ))}
+  </head>
+  <body
+    class="min-h-screen text-slate-800 antialiased flex flex-col font-display selection:bg-brand-200/70"
+    style="background:radial-gradient(1100px 600px at 72% -8%, #bfdbfe 0%, #dbeafe 42%, #eff6ff 100%); background-attachment:fixed;"
+  >
+    <!-- arcade grid backdrop -->
+    <div
+      aria-hidden="true"
+      class="pointer-events-none fixed inset-0 -z-10 opacity-[0.05]"
+      style="background-image:linear-gradient(#0f2147 1px, transparent 1px), linear-gradient(90deg, #0f2147 1px, transparent 1px); background-size:44px 44px; mask-image:radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);"
+    ></div>
+
+    <header class="sticky top-0 z-30 border-b border-blue-200/70 bg-white/75 backdrop-blur-lg">
+      <div class="mx-auto max-w-6xl px-5 h-16 flex items-center justify-between">
+        <a href="/" class="flex items-center gap-2.5" aria-label="World of Gaming home">
+          <span class="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-brand-400 to-brand-600 text-lg shadow-lg shadow-brand-500/40">🎮</span>
+          <span class="font-extrabold text-[18px] tracking-tight text-slate-900">World of <span class="text-brand-600">Gaming</span></span>
+        </a>
+        <nav class="text-sm font-semibold text-slate-600 flex items-center gap-5 sm:gap-7">
+          <a href="/" class={`transition hover:text-brand-700 ${isActive('/') ? 'text-brand-700' : ''}`}>Games</a>
+          <a href="/about" class={`hidden sm:inline transition hover:text-brand-700 ${isActive('/about') ? 'text-brand-700' : ''}`}>About</a>
+          <a href="/contact" class={`transition hover:text-brand-700 ${isActive('/contact') ? 'text-brand-700' : ''}`}>Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="flex-1">
+      <slot />
+    </main>
+
+    <footer class="border-t border-blue-200/70 bg-white/70 mt-20">
+      <div class="mx-auto max-w-6xl px-5 py-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4 text-sm">
+        <div class="space-y-3">
+          <div class="flex items-center gap-2 font-bold text-slate-900">
+            <span class="grid h-7 w-7 place-items-center rounded-lg bg-gradient-to-br from-brand-400 to-brand-600 text-sm">🎮</span>
+            World of Gaming
+          </div>
+          <p class="text-slate-500 leading-relaxed">Free online browser games — play instantly, no download, no sign-up. Works on phone and desktop.</p>
+        </div>
+        <div>
+          <h3 class="font-semibold text-slate-800 mb-3">Games</h3>
+          <ul class="space-y-2 text-slate-500">
+            <li><a href="/play/block-world" class="hover:text-brand-700">Block World</a></li>
+            <li><a href="/play/tower-obby" class="hover:text-brand-700">Tower Obby</a></li>
+            <li><a href="/play/snake" class="hover:text-brand-700">Neon Snake</a></li>
+            <li><a href="/play/brick-breaker" class="hover:text-brand-700">Brick Breaker</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-semibold text-slate-800 mb-3">Site</h3>
+          <ul class="space-y-2 text-slate-500">
+            <li><a href="/" class="hover:text-brand-700">All games</a></li>
+            <li><a href="/play/2048" class="hover:text-brand-700">2048</a></li>
+            <li><a href="/play/candy-match" class="hover:text-brand-700">Candy Match</a></li>
+            <li><a href="/about" class="hover:text-brand-700">About</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-semibold text-slate-800 mb-3">Legal</h3>
+          <ul class="space-y-2 text-slate-500">
+            <li><a href="/about" class="hover:text-brand-700">About</a></li>
+            <li><a href="/contact" class="hover:text-brand-700">Contact</a></li>
+            <li><a href="/privacy" class="hover:text-brand-700">Privacy</a></li>
+            <li><a href="/terms" class="hover:text-brand-700">Terms</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-blue-200/70">
+        <p class="mx-auto max-w-6xl px-5 py-5 text-xs text-slate-400">
+          © 2026 World of Gaming. All games on this site are original World of Gaming titles, free to play. Trademarked names linked elsewhere belong to their owners.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

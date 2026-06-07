@@ -1,0 +1,91 @@
+---
+import PlayShell from '../../components/PlayShell.astro';
+---
+<PlayShell slug="one-line-draw">
+  <div class="mb-3 flex items-center justify-between">
+    <div class="rounded-lg bg-slate-100 px-3 py-1.5 text-sm text-slate-600">Level: <span id="o-level" class="font-bold text-slate-900">1</span></div>
+    <div class="rounded-lg bg-slate-100 px-3 py-1.5 text-sm text-slate-600">Lines left: <span id="o-left" class="font-bold text-slate-900">0</span></div>
+    <button id="o-reset" class="rounded-lg bg-slate-100 px-3 py-1.5 text-sm font-semibold text-slate-700 hover:bg-slate-200">Reset</button>
+  </div>
+
+  <div class="overflow-hidden rounded-2xl border border-blue-200 shadow-md">
+    <canvas id="o-game" width="360" height="360" class="block w-full bg-white" style="touch-action:none"></canvas>
+  </div>
+  <p id="o-msg" class="mt-4 hidden rounded-xl bg-emerald-100 px-4 py-3 text-center font-bold text-emerald-700"></p>
+</PlayShell>
+
+<script is:inline>
+(function () {
+  const cv = document.getElementById('o-game'), ctx = cv.getContext('2d'), W = cv.width, H = cv.height;
+  const levelEl = document.getElementById('o-level'), leftEl = document.getElementById('o-left'), msg = document.getElementById('o-msg');
+  const KEY = 'oneline_level';
+  const LEVELS = [
+    { nodes: [[80, 270], [280, 270], [180, 90]], edges: [[0, 1], [1, 2], [2, 0]] },
+    { nodes: [[80, 90], [280, 90], [280, 290], [80, 290]], edges: [[0, 1], [1, 2], [2, 3], [3, 0], [0, 2]] },
+    { nodes: [[80, 290], [280, 290], [80, 150], [280, 150], [180, 70]], edges: [[0, 1], [1, 3], [3, 2], [2, 0], [0, 3], [1, 2], [2, 4], [3, 4]] },
+    { nodes: [[180, 60], [296, 145], [251, 281], [109, 281], [64, 145]], edges: [[0, 2], [2, 4], [4, 1], [1, 3], [3, 0]] },
+    { nodes: [[80, 290], [280, 290], [80, 150], [280, 150], [180, 70]], edges: [[0, 1], [1, 3], [3, 2], [2, 0], [2, 4], [3, 4]] },
+    { nodes: [[60, 120], [180, 120], [300, 120], [60, 260], [180, 260], [300, 260]], edges: [[0, 1], [1, 2], [0, 3], [1, 4], [2, 5], [3, 4], [4, 5]] },
+    { nodes: [[180, 60], [284, 120], [284, 240], [180, 300], [76, 240], [76, 120]], edges: [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 0]] },
+    { nodes: [[180, 65], [265, 100], [305, 185], [265, 270], [180, 305], [95, 270], [55, 185], [95, 100]], edges: [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 7], [7, 0]] },
+  ];
+  let idx = 0, lvl, current = null, drawing = false, solved = false;
+
+  function load(i) {
+    idx = Math.min(i, LEVELS.length - 1);
+    lvl = { nodes: LEVELS[idx].nodes.map((n) => ({ x: n[0], y: n[1] })), edges: LEVELS[idx].edges.map((e) => ({ a: e[0], b: e[1], done: false })) };
+    current = null; solved = false; msg.classList.add('hidden');
+    levelEl.textContent = (idx + 1) + ' / ' + LEVELS.length;
+    updateLeft(); draw();
+  }
+  function save() { localStorage.setItem(KEY, String(idx)); }
+  function updateLeft() { leftEl.textContent = lvl.edges.filter((e) => !e.done).length; }
+
+  function nodeAt(x, y) { for (let i = 0; i < lvl.nodes.length; i++) { const n = lvl.nodes[i]; if (Math.hypot(n.x - x, n.y - y) < 26) return i; } return -1; }
+  function edgeBetween(a, b) { return lvl.edges.findIndex((e) => !e.done && ((e.a === a && e.b === b) || (e.a === b && e.b === a))); }
+
+  function pt(e) { const r = cv.getBoundingClientRect(); return { x: (e.clientX - r.left) * (W / r.width), y: (e.clientY - r.top) * (H / r.height) }; }
+  function down(e) { const { x, y } = pt(e); const n = nodeAt(x, y); if (n >= 0) { if (current == null) current = n; drawing = true; } e.preventDefault(); }
+  function move(e) {
+    if (!drawing || solved) return;
+    const { x, y } = pt(e); const n = nodeAt(x, y);
+    if (n >= 0 && n !== current) { const ei = edgeBetween(current, n); if (ei >= 0) { lvl.edges[ei].done = true; current = n; updateLeft(); draw(); checkWin(); } }
+  }
+  function up() { drawing = false; }
+  function checkWin() {
+    if (lvl.edges.every((e) => e.done)) {
+      solved = true;
+      if (idx + 1 < LEVELS.length) { msg.textContent = '✅ Solved! Next level…'; msg.classList.remove('hidden'); setTimeout(() => { load(idx + 1); save(); }, 900); }
+      else { msg.textContent = '🎉 You solved every puzzle!'; msg.classList.remove('hidden'); localStorage.removeItem(KEY); }
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    // edges
+    for (const e of lvl.edges) {
+      const A = lvl.nodes[e.a], B = lvl.nodes[e.b];
+      ctx.lineCap = 'round';
+      if (e.done) { ctx.strokeStyle = '#6366f1'; ctx.lineWidth = 9; }
+      else { ctx.strokeStyle = '#cbd5e1'; ctx.lineWidth = 5; ctx.setLineDash([2, 8]); }
+      ctx.beginPath(); ctx.moveTo(A.x, A.y); ctx.lineTo(B.x, B.y); ctx.stroke(); ctx.setLineDash([]);
+    }
+    // nodes
+    for (let i = 0; i < lvl.nodes.length; i++) {
+      const n = lvl.nodes[i];
+      ctx.fillStyle = i === current ? '#4f46e5' : '#64748b';
+      ctx.beginPath(); ctx.arc(n.x, n.y, i === current ? 12 : 9, 0, 7); ctx.fill();
+      if (i === current) { ctx.strokeStyle = 'rgba(79,70,229,.35)'; ctx.lineWidth = 5; ctx.beginPath(); ctx.arc(n.x, n.y, 18, 0, 7); ctx.stroke(); }
+    }
+    if (current == null) { ctx.fillStyle = '#94a3b8'; ctx.font = '13px Outfit,sans-serif'; ctx.textAlign = 'center'; ctx.fillText('Touch a dot to start, then drag along the lines', W / 2, H - 16); }
+  }
+
+  cv.addEventListener('pointerdown', down);
+  cv.addEventListener('pointermove', move);
+  addEventListener('pointerup', up);
+  document.getElementById('o-reset').onclick = () => load(idx);
+
+  const saved = parseInt(localStorage.getItem(KEY) || '0', 10);
+  load(isNaN(saved) ? 0 : saved);
+})();
+</script>

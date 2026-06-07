@@ -1,0 +1,90 @@
+---
+import PlayShell from '../../components/PlayShell.astro';
+---
+<PlayShell slug="tic-tac-toe">
+  <div class="mb-3 grid grid-cols-3 gap-2 text-center text-sm">
+    <div class="rounded-lg bg-slate-100 px-2 py-1.5 text-slate-600">You <span id="t-win" class="font-bold text-emerald-600">0</span></div>
+    <div class="rounded-lg bg-slate-100 px-2 py-1.5 text-slate-600">Draws <span id="t-draw" class="font-bold text-slate-900">0</span></div>
+    <div class="rounded-lg bg-slate-100 px-2 py-1.5 text-slate-600">CPU <span id="t-loss" class="font-bold text-rose-600">0</span></div>
+  </div>
+
+  <div id="t-board" class="grid grid-cols-3 gap-2.5"></div>
+
+  <p id="t-status" class="mt-4 text-center text-base font-bold text-slate-700">Your turn — you are ❌</p>
+  <button id="t-new" class="mt-3 w-full rounded-xl bg-brand-500 px-4 py-3 font-bold text-white hover:bg-brand-600">New round</button>
+</PlayShell>
+
+<script is:inline>
+(function () {
+  const boardEl = document.getElementById('t-board'), statusEl = document.getElementById('t-status');
+  const winEl = document.getElementById('t-win'), drawEl = document.getElementById('t-draw'), lossEl = document.getElementById('t-loss');
+  const KEY = 'ttt_score';
+  const HUMAN = 'X', CPU = 'O';
+  const LINES = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+  let board, over, cells = [];
+
+  let score = { w: 0, d: 0, l: 0 };
+  try { const s = JSON.parse(localStorage.getItem(KEY)); if (s) score = s; } catch (e) {}
+  function paintScore() { winEl.textContent = score.w; drawEl.textContent = score.d; lossEl.textContent = score.l; }
+  function saveScore() { localStorage.setItem(KEY, JSON.stringify(score)); paintScore(); }
+
+  function build() {
+    boardEl.innerHTML = ''; cells = [];
+    for (let i = 0; i < 9; i++) {
+      const b = document.createElement('button');
+      b.className = 'grid aspect-square place-items-center rounded-xl border border-blue-200 bg-white text-4xl font-extrabold shadow-sm hover:bg-blue-50';
+      b.addEventListener('click', () => play(i));
+      boardEl.appendChild(b); cells.push(b);
+    }
+  }
+  function render(winLine) {
+    for (let i = 0; i < 9; i++) {
+      const v = board[i];
+      cells[i].textContent = v === 'X' ? '❌' : v === 'O' ? '⭕' : '';
+      cells[i].classList.toggle('bg-emerald-100', !!winLine && winLine.includes(i));
+    }
+  }
+  function winner(bd) { for (const [a, b, c] of LINES) if (bd[a] && bd[a] === bd[b] && bd[a] === bd[c]) return { who: bd[a], line: [a, b, c] }; return null; }
+  function full(bd) { return bd.every((v) => v); }
+
+  function newRound() { board = Array(9).fill(''); over = false; statusEl.textContent = 'Your turn — you are ❌'; statusEl.className = 'mt-4 text-center text-base font-bold text-slate-700'; render(null); }
+
+  function play(i) {
+    if (over || board[i]) return;
+    board[i] = HUMAN; render(null);
+    let w = winner(board);
+    if (w) return finish('win', w.line);
+    if (full(board)) return finish('draw', null);
+    // CPU move
+    const m = cpuMove();
+    board[m] = CPU; render(null);
+    w = winner(board);
+    if (w) return finish('loss', w.line);
+    if (full(board)) return finish('draw', null);
+  }
+
+  function emptyIdx(bd) { const e = []; for (let i = 0; i < 9; i++) if (!bd[i]) e.push(i); return e; }
+  function findWinning(who) { for (const i of emptyIdx(board)) { const b = board.slice(); b[i] = who; if (winner(b)) return i; } return -1; }
+  function cpuMove() {
+    let i = findWinning(CPU); if (i >= 0) return i;        // win if possible
+    i = findWinning(HUMAN); if (i >= 0) return i;          // block player
+    // 75% optimal-ish (center > corners > sides), 25% random for beatability
+    if (Math.random() < 0.75) {
+      if (!board[4]) return 4;
+      const corners = [0, 2, 6, 8].filter((c) => !board[c]); if (corners.length) return corners[(Math.random() * corners.length) | 0];
+    }
+    const e = emptyIdx(board); return e[(Math.random() * e.length) | 0];
+  }
+
+  function finish(result, line) {
+    over = true; render(line);
+    if (result === 'win') { score.w++; statusEl.textContent = '🎉 You win!'; statusEl.className = 'mt-4 text-center text-base font-bold text-emerald-600'; }
+    else if (result === 'loss') { score.l++; statusEl.textContent = '😬 Computer wins'; statusEl.className = 'mt-4 text-center text-base font-bold text-rose-600'; }
+    else { score.d++; statusEl.textContent = "It's a draw"; statusEl.className = 'mt-4 text-center text-base font-bold text-slate-700'; }
+    saveScore();
+  }
+
+  document.getElementById('t-new').onclick = newRound;
+  build(); paintScore(); newRound();
+})();
+</script>

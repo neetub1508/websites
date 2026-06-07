@@ -1,0 +1,97 @@
+---
+import PlayShell from '../../components/PlayShell.astro';
+---
+<PlayShell slug="fruit-slash">
+  <div class="mb-3 flex items-center justify-between">
+    <div class="rounded-lg bg-slate-100 px-3 py-1.5 text-sm text-slate-600">Score: <span id="f-score" class="font-bold text-slate-900">0</span></div>
+    <div class="rounded-lg bg-slate-100 px-3 py-1.5 text-sm text-slate-600">Lives: <span id="f-lives" class="font-bold text-slate-900">3</span></div>
+    <div class="rounded-lg bg-slate-100 px-3 py-1.5 text-sm text-slate-600">Best: <span id="f-best" class="font-bold text-brand-600">0</span></div>
+  </div>
+
+  <div class="relative overflow-hidden rounded-2xl border border-blue-200 shadow-md">
+    <canvas id="f-game" width="360" height="460" class="block w-full" style="touch-action:none"></canvas>
+    <div id="f-overlay" class="absolute inset-0 grid place-items-center bg-slate-900/55 backdrop-blur-sm">
+      <div class="text-center">
+        <p id="f-msg" class="mb-4 text-xl font-bold text-white">Tap to start</p>
+        <button id="f-start" class="rounded-xl bg-brand-500 px-6 py-3 font-bold text-white shadow-lg hover:bg-brand-600">▶ Start</button>
+      </div>
+    </div>
+  </div>
+  <p class="mt-2 text-center text-xs text-slate-500">Swipe across fruit to slice it. Don't slice 💣!</p>
+</PlayShell>
+
+<script is:inline>
+(function () {
+  const cv = document.getElementById('f-game'), ctx = cv.getContext('2d'), W = cv.width, H = cv.height;
+  const scoreEl = document.getElementById('f-score'), livesEl = document.getElementById('f-lives'), bestEl = document.getElementById('f-best');
+  const overlay = document.getElementById('f-overlay'), msg = document.getElementById('f-msg'), startBtn = document.getElementById('f-start');
+  const KEY = 'fruit_best';
+  const FRUITS = ['🍉', '🍎', '🍊', '🍋', '🍇', '🍓', '🥝', '🍑'], COLORS = ['#ef4444', '#22c55e', '#f97316', '#eab308', '#a855f7', '#ec4899', '#84cc16', '#fb7185'];
+  let best = +(localStorage.getItem(KEY) || 0); bestEl.textContent = best;
+  let items, parts, trail, score, lives, running, spawnT, raf, slicing = false;
+
+  function reset() { items = []; parts = []; trail = []; score = 0; lives = 3; running = true; spawnT = 0; scoreEl.textContent = 0; livesEl.textContent = 3; }
+
+  function spawn() {
+    const bomb = Math.random() < 0.13;
+    const k = (Math.random() * FRUITS.length) | 0;
+    items.push({ x: 40 + Math.random() * (W - 80), y: H + 24, vx: (Math.random() * 3 - 1.5), vy: -(8.4 + Math.random() * 2.4), r: 20, bomb, emoji: bomb ? '💣' : FRUITS[k], col: bomb ? '#334155' : COLORS[k], sliced: false });
+  }
+  function burst(x, y, col) { for (let i = 0; i < 12; i++) { const a = Math.random() * 7, s = Math.random() * 4 + 1; parts.push({ x, y, vx: Math.cos(a) * s, vy: Math.sin(a) * s, life: 1, col }); } }
+
+  function distToSeg(px, py, ax, ay, bx, by) { const dx = bx - ax, dy = by - ay; const l2 = dx * dx + dy * dy || 1; let t = ((px - ax) * dx + (py - ay) * dy) / l2; t = Math.max(0, Math.min(1, t)); return Math.hypot(px - (ax + t * dx), py - (ay + t * dy)); }
+
+  function loop() {
+    ctx.fillStyle = '#0a1733'; ctx.fillRect(0, 0, W, H);
+
+    spawnT--; if (spawnT <= 0) { spawn(); if (Math.random() < 0.4) spawn(); spawnT = 48 + Math.random() * 40; }
+
+    for (const it of items) {
+      it.x += it.vx; it.y += it.vy; it.vy += 0.12;
+      if (!it.sliced) { ctx.font = '38px serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(it.emoji, it.x, it.y); }
+    }
+    // missed fruit
+    for (const it of items) { if (!it.sliced && it.vy > 0 && it.y > H + 30) { it.gone = true; if (!it.bomb) { lives--; livesEl.textContent = lives; if (lives <= 0) return over(); } } }
+    items = items.filter((it) => !it.gone && !it.sliced && it.y < H + 60);
+
+    // particles
+    for (const p of parts) { p.x += p.vx; p.y += p.vy; p.vy += 0.15; p.life -= 0.03; ctx.globalAlpha = Math.max(0, p.life); ctx.fillStyle = p.col; ctx.beginPath(); ctx.arc(p.x, p.y, 4, 0, 7); ctx.fill(); }
+    ctx.globalAlpha = 1; parts = parts.filter((p) => p.life > 0);
+
+    // blade trail
+    if (trail.length > 1) {
+      ctx.strokeStyle = 'rgba(255,255,255,.9)'; ctx.lineCap = 'round';
+      for (let i = 1; i < trail.length; i++) { ctx.lineWidth = i; ctx.beginPath(); ctx.moveTo(trail[i - 1].x, trail[i - 1].y); ctx.lineTo(trail[i].x, trail[i].y); ctx.stroke(); }
+    }
+    trail.forEach((t) => (t.life -= 0.12)); trail = trail.filter((t) => t.life > 0);
+
+    if (running) raf = requestAnimationFrame(loop);
+  }
+
+  function sliceAt(ax, ay, bx, by) {
+    for (const it of items) {
+      if (it.sliced) continue;
+      if (distToSeg(it.x, it.y, ax, ay, bx, by) < it.r + 4) {
+        if (it.bomb) { burst(it.x, it.y, '#f43f5e'); return over(); }
+        it.sliced = true; score++; scoreEl.textContent = score; burst(it.x, it.y, it.col);
+        if (score > best) { best = score; localStorage.setItem(KEY, best); bestEl.textContent = best; }
+      }
+    }
+  }
+  function pt(e) { const r = cv.getBoundingClientRect(); const c = e.touches ? e.touches[0] : e; return { x: (c.clientX - r.left) * (W / r.width), y: (c.clientY - r.top) * (H / r.height) }; }
+  function moveBlade(e) {
+    if (!running || !slicing) return;
+    const p = pt(e); const prev = trail[trail.length - 1];
+    if (prev) sliceAt(prev.x, prev.y, p.x, p.y);
+    trail.push({ x: p.x, y: p.y, life: 1 }); if (trail.length > 10) trail.shift();
+  }
+  cv.addEventListener('pointerdown', (e) => { slicing = true; trail = [pt(e)]; trail[0].life = 1; });
+  cv.addEventListener('pointermove', moveBlade);
+  addEventListener('pointerup', () => { slicing = false; });
+  cv.addEventListener('touchmove', (e) => { e.preventDefault(); }, { passive: false });
+
+  function over() { running = false; cancelAnimationFrame(raf); msg.textContent = 'Game Over · Score ' + score; startBtn.textContent = '↻ Play again'; overlay.classList.remove('hidden'); }
+  function start() { overlay.classList.add('hidden'); reset(); loop(); }
+  startBtn.onclick = start;
+})();
+</script>

@@ -1,0 +1,106 @@
+---
+import PlayShell from '../../components/PlayShell.astro';
+---
+<PlayShell slug="planet-smash">
+  <div class="mb-3 flex items-center justify-between">
+    <div class="rounded-lg bg-slate-100 px-3 py-1.5 text-sm text-slate-600">Destroyed: <span id="p-count" class="font-bold text-slate-900">0</span></div>
+    <div class="rounded-lg bg-slate-100 px-3 py-1.5 text-sm text-slate-600">Planet HP: <span id="p-hp" class="font-bold text-slate-900">100%</span></div>
+  </div>
+
+  <div class="overflow-hidden rounded-2xl border border-blue-200 shadow-md">
+    <canvas id="p-game" width="360" height="420" class="block w-full" style="touch-action:none"></canvas>
+  </div>
+
+  <div id="p-weapons" class="mt-3 grid grid-cols-3 gap-2"></div>
+</PlayShell>
+
+<script is:inline>
+(function () {
+  const cv = document.getElementById('p-game'), ctx = cv.getContext('2d'), W = cv.width, H = cv.height;
+  const hpEl = document.getElementById('p-hp'), countEl = document.getElementById('p-count');
+  const WEAPONS = [
+    { n: '☄️ Meteor', dmg: 9, parts: 22, col: '#fb923c' },
+    { n: '🔫 Laser', dmg: 5, parts: 12, col: '#38bdf8' },
+    { n: '🚀 Missile', dmg: 16, parts: 34, col: '#f43f5e' },
+  ];
+  let weapon = 0, planet, particles = [], rings = [], destroyed = 0, stars = [];
+
+  for (let i = 0; i < 60; i++) stars.push({ x: Math.random() * W, y: Math.random() * H, s: Math.random() * 1.8 + 0.3 });
+
+  function newPlanet() {
+    const hue = (Math.random() * 360) | 0;
+    planet = { x: W / 2, y: H / 2 + 10, r: 74, hp: 100, max: 100, craters: [], color: `hsl(${hue} 55% 50%)`, dark: `hsl(${hue} 55% 32%)`, alive: true };
+    hpEl.textContent = '100%';
+  }
+
+  function buildWeapons() {
+    document.getElementById('p-weapons').innerHTML = WEAPONS.map((w, i) =>
+      `<button data-i="${i}" class="wpn rounded-lg border px-2 py-2 text-sm font-semibold ${i === 0 ? 'border-brand-400 bg-brand-500/15 text-slate-900' : 'border-slate-200 bg-slate-100 text-slate-700'}">${w.n}</button>`).join('');
+    document.querySelectorAll('.wpn').forEach((b) => b.onclick = () => {
+      weapon = +b.dataset.i;
+      document.querySelectorAll('.wpn').forEach((x) => x.className = 'wpn rounded-lg border px-2 py-2 text-sm font-semibold border-slate-200 bg-slate-100 text-slate-700');
+      b.className = 'wpn rounded-lg border px-2 py-2 text-sm font-semibold border-brand-400 bg-brand-500/15 text-slate-900';
+    });
+  }
+
+  function burst(x, y, n, col) { for (let i = 0; i < n; i++) { const a = Math.random() * 7, sp = Math.random() * 4 + 1; particles.push({ x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, life: 1, col: Math.random() < 0.5 ? col : '#fde68a', size: Math.random() * 3 + 1.5 }); } }
+
+  function hit(e) {
+    if (!planet.alive) return;
+    const r = cv.getBoundingClientRect();
+    const x = (e.clientX - r.left) * (W / r.width), y = (e.clientY - r.top) * (H / r.height);
+    const dx = x - planet.x, dy = y - planet.y, d = Math.hypot(dx, dy);
+    const w = WEAPONS[weapon];
+    if (d < planet.r + 14) {
+      const cx = planet.x + dx * 0.8, cy = planet.y + dy * 0.8;
+      planet.craters.push({ x: cx, y: cy, r: Math.random() * 7 + 6 });
+      burst(x, y, w.parts, w.col);
+      rings.push({ x, y, r: 4, life: 1, col: w.col });
+      planet.hp -= w.dmg;
+      hpEl.textContent = Math.max(0, Math.round((planet.hp / planet.max) * 100)) + '%';
+      if (planet.hp <= 0) explode();
+    } else { burst(x, y, 6, w.col); }
+  }
+  function explode() {
+    planet.alive = false; burst(planet.x, planet.y, 90, planet.color);
+    rings.push({ x: planet.x, y: planet.y, r: 8, life: 1.4, col: '#fbbf24' });
+    destroyed++; countEl.textContent = destroyed; hpEl.textContent = '—';
+    setTimeout(newPlanet, 1100);
+  }
+
+  function loop() {
+    ctx.fillStyle = '#070b18'; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = 'rgba(255,255,255,.7)';
+    for (const s of stars) ctx.fillRect(s.x, s.y, s.s, s.s);
+
+    if (planet && planet.alive) {
+      // atmosphere glow
+      ctx.save(); ctx.shadowColor = planet.color; ctx.shadowBlur = 28;
+      const g = ctx.createRadialGradient(planet.x - 22, planet.y - 22, 8, planet.x, planet.y, planet.r);
+      g.addColorStop(0, planet.color); g.addColorStop(1, planet.dark);
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(planet.x, planet.y, planet.r, 0, 7); ctx.fill();
+      ctx.restore();
+      // atmosphere ring
+      ctx.strokeStyle = planet.color; ctx.globalAlpha = 0.35; ctx.lineWidth = 4;
+      ctx.beginPath(); ctx.arc(planet.x, planet.y, planet.r + 6, 0, 7); ctx.stroke(); ctx.globalAlpha = 1;
+      // craters
+      ctx.save(); ctx.beginPath(); ctx.arc(planet.x, planet.y, planet.r, 0, 7); ctx.clip();
+      ctx.fillStyle = 'rgba(0,0,0,.35)';
+      for (const c of planet.craters) { ctx.beginPath(); ctx.arc(c.x, c.y, c.r, 0, 7); ctx.fill(); }
+      ctx.restore();
+    }
+
+    // shockwave rings
+    for (const r of rings) { r.r += 3.2; r.life -= 0.04; ctx.globalAlpha = Math.max(0, r.life); ctx.strokeStyle = r.col; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.arc(r.x, r.y, r.r, 0, 7); ctx.stroke(); }
+    ctx.globalAlpha = 1; rings = rings.filter((r) => r.life > 0);
+
+    for (const p of particles) { p.x += p.vx; p.y += p.vy; p.vy += 0.04; p.life -= 0.02; ctx.globalAlpha = Math.max(0, p.life); ctx.fillStyle = p.col; ctx.fillRect(p.x, p.y, p.size, p.size); }
+    ctx.globalAlpha = 1; particles = particles.filter((p) => p.life > 0);
+
+    requestAnimationFrame(loop);
+  }
+
+  cv.addEventListener('pointerdown', hit);
+  newPlanet(); buildWeapons(); loop();
+})();
+</script>

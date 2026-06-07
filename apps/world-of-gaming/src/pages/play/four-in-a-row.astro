@@ -1,0 +1,88 @@
+---
+import PlayShell from '../../components/PlayShell.astro';
+---
+<PlayShell slug="four-in-a-row">
+  <div class="mb-3 grid grid-cols-3 gap-2 text-center text-sm">
+    <div class="rounded-lg bg-slate-100 px-2 py-1.5 text-slate-600">You <span id="c-win" class="font-bold text-red-600">0</span></div>
+    <div class="rounded-lg bg-slate-100 px-2 py-1.5 text-slate-600">Draws <span id="c-draw" class="font-bold text-slate-900">0</span></div>
+    <div class="rounded-lg bg-slate-100 px-2 py-1.5 text-slate-600">CPU <span id="c-loss" class="font-bold text-amber-600">0</span></div>
+  </div>
+
+  <div class="overflow-hidden rounded-2xl border border-blue-200 shadow-md">
+    <canvas id="c-game" width="336" height="288" class="block w-full" style="touch-action:none"></canvas>
+  </div>
+
+  <p id="c-status" class="mt-4 text-center text-base font-bold text-slate-700">Your turn — tap a column</p>
+  <button id="c-new" class="mt-3 w-full rounded-xl bg-brand-500 px-4 py-3 font-bold text-white hover:bg-brand-600">New round</button>
+</PlayShell>
+
+<script is:inline>
+(function () {
+  const cv = document.getElementById('c-game'), ctx = cv.getContext('2d');
+  const COLS = 7, ROWS = 6, CELL = 48, R = 18;
+  const statusEl = document.getElementById('c-status');
+  const winEl = document.getElementById('c-win'), drawEl = document.getElementById('c-draw'), lossEl = document.getElementById('c-loss');
+  const KEY = 'c4_score';
+  const HUMAN = 1, CPU = 2;
+  let board, over, busy;
+
+  let sc = { w: 0, d: 0, l: 0 };
+  try { const s = JSON.parse(localStorage.getItem(KEY)); if (s) sc = s; } catch (e) {}
+  function paintScore() { winEl.textContent = sc.w; drawEl.textContent = sc.d; lossEl.textContent = sc.l; }
+  function saveScore() { localStorage.setItem(KEY, JSON.stringify(sc)); paintScore(); }
+
+  function newGame() { board = Array.from({ length: COLS }, () => Array(ROWS).fill(0)); over = false; busy = false; statusEl.textContent = 'Your turn — tap a column'; statusEl.className = 'mt-4 text-center text-base font-bold text-slate-700'; draw(); }
+
+  function draw() {
+    ctx.fillStyle = '#2563eb'; ctx.fillRect(0, 0, cv.width, cv.height);
+    for (let c = 0; c < COLS; c++) for (let r = 0; r < ROWS; r++) {
+      const v = board[c][r], cx = c * CELL + CELL / 2, cy = r * CELL + CELL / 2;
+      ctx.fillStyle = v === HUMAN ? '#ef4444' : v === CPU ? '#facc15' : '#eff6ff';
+      ctx.beginPath(); ctx.arc(cx, cy, R, 0, 7); ctx.fill();
+    }
+  }
+  function drop(col, who) { for (let r = ROWS - 1; r >= 0; r--) if (!board[col][r]) { board[col][r] = who; return r; } return -1; }
+  function wins(who) {
+    for (let c = 0; c < COLS; c++) for (let r = 0; r < ROWS; r++) {
+      if (board[c][r] !== who) continue;
+      for (const [dc, dr] of [[1, 0], [0, 1], [1, 1], [1, -1]]) {
+        let k = 1; while (k < 4) { const nc = c + dc * k, nr = r + dr * k; if (nc < 0 || nc >= COLS || nr < 0 || nr >= ROWS || board[nc][nr] !== who) break; k++; }
+        if (k === 4) return true;
+      }
+    }
+    return false;
+  }
+  function full() { return board.every((col) => col[0]); }
+  function validCols() { const v = []; for (let c = 0; c < COLS; c++) if (!board[c][0]) v.push(c); return v; }
+
+  function play(col) {
+    if (over || busy || board[col][0]) return;
+    drop(col, HUMAN); draw();
+    if (wins(HUMAN)) return finish('win');
+    if (full()) return finish('draw');
+    busy = true; statusEl.textContent = 'Computer thinking…';
+    setTimeout(cpuTurn, 420);
+  }
+  function cpuTurn() {
+    let col = -1;
+    for (const c of validCols()) { const r = drop(c, CPU); if (wins(CPU)) { board[c][r] = 0; col = c; break; } board[c][r] = 0; }
+    if (col < 0) for (const c of validCols()) { const r = drop(c, HUMAN); if (wins(HUMAN)) { board[c][r] = 0; col = c; break; } board[c][r] = 0; }
+    if (col < 0) { const order = [3, 2, 4, 1, 5, 0, 6].filter((c) => validCols().includes(c)); col = (Math.random() < 0.7 ? order[0] : order[(Math.random() * order.length) | 0]); }
+    drop(col, CPU); draw(); busy = false;
+    if (wins(CPU)) return finish('loss');
+    if (full()) return finish('draw');
+    statusEl.textContent = 'Your turn — tap a column';
+  }
+  function finish(res) {
+    over = true;
+    if (res === 'win') { sc.w++; statusEl.textContent = '🎉 You connected four!'; statusEl.className = 'mt-4 text-center text-base font-bold text-red-600'; }
+    else if (res === 'loss') { sc.l++; statusEl.textContent = '😬 Computer wins'; statusEl.className = 'mt-4 text-center text-base font-bold text-amber-600'; }
+    else { sc.d++; statusEl.textContent = "It's a draw"; statusEl.className = 'mt-4 text-center text-base font-bold text-slate-700'; }
+    saveScore();
+  }
+
+  cv.addEventListener('pointerdown', (e) => { const r = cv.getBoundingClientRect(); const x = (e.clientX - r.left) * (cv.width / r.width); play(Math.min(COLS - 1, Math.max(0, (x / CELL) | 0))); });
+  document.getElementById('c-new').onclick = newGame;
+  paintScore(); newGame();
+})();
+</script>
