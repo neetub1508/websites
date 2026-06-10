@@ -1,0 +1,36 @@
+---
+import Layout from '../layouts/Layout.astro';
+const title = 'Contact — Kids Arcade';
+const description = 'Get in touch with the Kids Arcade team with feedback, corrections, or partnership ideas.';
+// TODO: replace with the real support inbox once the domain email is set up.
+const email = 'hello@kids-arcade.com';
+---
+<Layout title={title} description={description}>
+  <section class="mx-auto max-w-3xl px-5 py-12">
+    <div class="rounded-3xl border border-white/50 bg-white/50 backdrop-blur-xl p-6 sm:p-10 shadow-glass">
+      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 font-display">Contact us</h1>
+
+      <div class="mt-6 space-y-5 text-slate-700 leading-relaxed">
+        <p>
+          We’d love to hear from you — whether you’ve spotted a bug, want a specific game added, or have feedback
+          on the site.
+        </p>
+
+        <div class="rounded-2xl border border-white/60 bg-white/60 backdrop-blur-md p-5 shadow-glass">
+          <h2 class="font-bold text-slate-900 font-display">Email</h2>
+          <p class="mt-1">
+            <a href={`mailto:${email}`} class="text-fuchsia-700 underline">{email}</a>
+          </p>
+          <p class="mt-3 text-sm text-slate-600">
+            We read every message and typically respond within a few business days.
+          </p>
+        </div>
+
+        <p class="text-sm text-slate-600">
+          For the legal side of things, see our <a href="/privacy" class="text-fuchsia-700 underline">Privacy Policy</a> and
+          <a href="/terms" class="text-fuchsia-700 underline">Terms of Service</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>

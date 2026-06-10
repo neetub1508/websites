@@ -1,0 +1,66 @@
+---
+import Layout from '../layouts/Layout.astro';
+const title = 'Privacy Policy — Kids Arcade';
+const description = 'How Kids Arcade handles data: our games run in your browser, we do not collect personal information from children, and we are COPPA-aware.';
+---
+<Layout title={title} description={description}>
+  <section class="mx-auto max-w-3xl px-5 py-12">
+    <div class="rounded-3xl border border-white/50 bg-white/50 backdrop-blur-xl p-6 sm:p-10 shadow-glass">
+      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 font-display">Privacy Policy</h1>
+      <p class="mt-2 text-sm text-slate-500">Last updated: 2026</p>
+
+      <div class="mt-6 space-y-5 text-slate-700 leading-relaxed [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-slate-900 [&_h2]:mt-6 [&_h2]:mb-2">
+        <p>
+          Kids Arcade (“we”, “us”) respects your privacy and the privacy of your children. This page explains what
+          information is and isn’t collected when you or your child uses kids-arcade.com.
+        </p>
+
+        <h2>No personal data from kids</h2>
+        <p>
+          We do not ask for, collect, or store <strong>any personal information from children</strong> — no names, no email
+          addresses, no birthdays, no school names, no photos. Our games do not require an account and do not allow kids to
+          share content with other users.
+        </p>
+
+        <h2>What stays on your device</h2>
+        <p>
+          The only data Kids Arcade stores on your device is <strong>optional high-score info</strong> (e.g. “best time” for
+          Memory Match, “best score” for Snake and Whack-a-Mole). This data is stored in your browser using
+          <code class="text-sm bg-white/60 px-1.5 py-0.5 rounded">localStorage</code> and never leaves your device. You can
+          clear it at any time from your browser’s settings.
+        </p>
+
+        <h2>Advertising</h2>
+        <p>
+          To keep the site free, we display advertising served by Google AdSense. Third-party vendors, including Google, may
+          use cookies to serve ads based on a user’s prior visits to this and other websites. You may opt out of
+          personalized advertising by visiting
+          <a href="https://www.google.com/settings/ads" class="text-fuchsia-700 underline" rel="nofollow noopener" target="_blank">Google Ads Settings</a>,
+          or opt out of third-party vendor cookies at
+          <a href="https://www.aboutads.info" class="text-fuchsia-700 underline" rel="nofollow noopener" target="_blank">aboutads.info</a>.
+        </p>
+
+        <h2>COPPA awareness</h2>
+        <p>
+          The U.S. Children’s Online Privacy Protection Act (COPPA) protects children under 13. Kids Arcade does not
+          knowingly collect personal information from children under 13. We do not allow users to submit personal
+          information anywhere on the site.
+        </p>
+
+        <h2>Analytics</h2>
+        <p>
+          We may use privacy-respecting, aggregate analytics to understand which games and pages are popular. This data is
+          anonymous and is never linked to the high-score data stored on your device.
+        </p>
+
+        <h2>Changes</h2>
+        <p>We may update this policy from time to time. Material changes will be reflected by the date above.</p>
+
+        <h2>Contact</h2>
+        <p>
+          Questions about this policy? Visit our <a href="/contact" class="text-fuchsia-700 underline">contact page</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>

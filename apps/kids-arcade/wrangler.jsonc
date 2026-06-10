@@ -1,0 +1,9 @@
+{
+  // Cloudflare Workers config — serves the Astro static build (dist/) as
+  // static assets. No server/SSR code; this is a pure static-assets Worker.
+  "name": "kids-arcade",
+  "compatibility_date": "2026-06-10",
+  "assets": {
+    "directory": "./dist"
+  }
+}

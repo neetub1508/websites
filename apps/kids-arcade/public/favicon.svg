@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
+  <defs>
+    <linearGradient id="g" x1="6" y1="4" x2="34" y2="36" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#a78bfa"/>
+      <stop offset="1" stop-color="#ec4899"/>
+    </linearGradient>
+  </defs>
+  <rect x="1" y="1" width="38" height="38" rx="10" fill="url(#g)"/>
+  <rect x="2.5" y="2.5" width="35" height="35" rx="8.5" fill="none" stroke="#fff" stroke-opacity="0.35" stroke-width="1.5"/>
+  <text x="20" y="28" text-anchor="middle" font-family="ui-rounded, system-ui, sans-serif" font-size="22" font-weight="800" fill="#fff">🎮</text>
+</svg>
