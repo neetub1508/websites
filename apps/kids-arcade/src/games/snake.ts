@@ -47,7 +47,25 @@ function init() {
   const dpadLeft = root.querySelector<HTMLButtonElement>('#snake-left')!;
   const dpadRight = root.querySelector<HTMLButtonElement>('#snake-right')!;
 
-  // High-DPI: scale the canvas backing store to match device pixels.
+  let snake: { x: number; y: number }[] = [];
+  let dir: Dir = 'right';
+  let nextDir: Dir = 'right';
+  let apple = { x: 0, y: 0 };
+  let tickHandle: number | null = null;
+  let score = 0;
+  let state: 'idle' | 'running' | 'paused' | 'over' = 'idle';
+  let lastStep = 0;
+
+  // Theme tokens (re-read on every draw so the theme switcher recolors live)
+  function themeColors() {
+    const css = getComputedStyle(document.documentElement);
+    const snakeHead = css.getPropertyValue('--snake-head').trim() || '#16a34a';
+    const snakeTail = css.getPropertyValue('--snake-tail').trim() || '#34d399';
+    const appleCol = css.getPropertyValue('--apple').trim() || '#ef4444';
+    const gridCol = css.getPropertyValue('--board-grid').trim() || 'rgba(255,255,255,0.6)';
+    return { snakeHead, snakeTail, apple: appleCol, grid: gridCol };
+  }
+
   function fitCanvas() {
     const rect = canvas.getBoundingClientRect();
     const dpr = window.devicePixelRatio || 1;
@@ -57,15 +75,6 @@ function init() {
     if (state === 'idle') draw();
   }
   window.addEventListener('resize', fitCanvas);
-
-  let snake: { x: number; y: number }[] = [];
-  let dir: Dir = 'right';
-  let nextDir: Dir = 'right';
-  let apple = { x: 0, y: 0 };
-  let tickHandle: number | null = null;
-  let score = 0;
-  let state: 'idle' | 'running' | 'paused' | 'over' = 'idle';
-  let lastStep = 0;
 
   function placeApple() {
     while (true) {
@@ -98,7 +107,6 @@ function init() {
   }
 
   function tickMs(): number {
-    // speed ramps: lose 2ms per apple, capped.
     return Math.max(MIN_TICK_MS, BASE_TICK_MS - score * 2);
   }
 
@@ -111,9 +119,7 @@ function init() {
     else if (dir === 'left') next.x -= 1;
     else if (dir === 'right') next.x += 1;
 
-    // wall collision
     if (next.x < 0 || next.x >= GRID || next.y < 0 || next.y >= GRID) return gameOver();
-    // self collision (skip the tail because it will move)
     if (snake.slice(0, -1).some((s) => s.x === next.x && s.y === next.y)) return gameOver();
 
     snake.unshift(next);
@@ -140,12 +146,12 @@ function init() {
     const rect = canvas.getBoundingClientRect();
     const size = Math.min(rect.width, rect.height);
     const cell = size / GRID;
+    const colors = themeColors();
 
-    // background
     ctx.clearRect(0, 0, rect.width, rect.height);
 
-    // grid (subtle)
-    ctx.strokeStyle = 'rgba(255,255,255,0.35)';
+    // grid
+    ctx.strokeStyle = colors.grid;
     ctx.lineWidth = 1;
     for (let i = 1; i < GRID; i++) {
       ctx.beginPath();
@@ -164,7 +170,7 @@ function init() {
     const r = cell * 0.38;
     const grad = ctx.createRadialGradient(ax, ay, 1, ax, ay, r);
     grad.addColorStop(0, '#fecaca');
-    grad.addColorStop(1, '#ef4444');
+    grad.addColorStop(1, colors.apple);
     ctx.fillStyle = grad;
     ctx.beginPath();
     ctx.arc(ax, ay, r, 0, Math.PI * 2);
@@ -173,10 +179,8 @@ function init() {
     // snake
     snake.forEach((seg, i) => {
       const t = i / Math.max(snake.length - 1, 1);
-      const r0 = Math.round(16 + (236 - 16) * t);
-      const g0 = Math.round(185 + (72 - 185) * t);
-      const b0 = Math.round(129 + (153 - 129) * t);
-      ctx.fillStyle = `rgb(${r0}, ${g0}, ${b0})`;
+      // linear-blend snake head → tail via canvas (simple)
+      ctx.fillStyle = i === 0 ? colors.snakeHead : colors.snakeTail;
       const pad = cell * 0.06;
       const x = seg.x * cell + pad;
       const y = seg.y * cell + pad;
@@ -229,7 +233,6 @@ function init() {
   }
 
   function setDir(d: Dir) {
-    // Block 180° reversals.
     if (d === 'up' && dir === 'down') return;
     if (d === 'down' && dir === 'up') return;
     if (d === 'left' && dir === 'right') return;
@@ -237,7 +240,6 @@ function init() {
     nextDir = d;
   }
 
-  // Keyboard
   window.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') {
       e.preventDefault();
@@ -259,13 +261,11 @@ function init() {
     }
   });
 
-  // On-screen D-pad
   dpadUp.addEventListener('click', () => setDir('up'));
   dpadDown.addEventListener('click', () => setDir('down'));
   dpadLeft.addEventListener('click', () => setDir('left'));
   dpadRight.addEventListener('click', () => setDir('right'));
 
-  // Swipe
   let touchStart: { x: number; y: number } | null = null;
   canvas.addEventListener('touchstart', (e) => {
     const t = e.touches[0];
@@ -294,7 +294,10 @@ function init() {
     else if (state === 'paused' || state === 'over') start();
   });
 
-  // Initial paint
+  // Redraw on theme change so colors update mid-pause
+  const mo = new MutationObserver(() => draw());
+  mo.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
   fitCanvas();
   reset();
   overlayTitle.textContent = 'Snake';

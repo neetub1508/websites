@@ -1,12 +1,10 @@
 ---
-// Poki-style instant client-side filter for the game grid. Tiny inline <script>
-// (rendered by Astro) filters GameCards by data-title/data-tags — no framework,
-// no rebuilds. Scales past 3 games.
+// Poki-style instant client-side filter for the game grid.
 ---
 <div class="relative max-w-xl mx-auto">
-  <div class="relative rounded-2xl border border-white/50 bg-white/40 backdrop-blur-xl shadow-glass">
+  <div class="relative rounded-2xl ka-glass">
     <svg
-      class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"
+      class="absolute left-4 top-1/2 -translate-y-1/2"
       width="20"
       height="20"
       viewBox="0 0 24 24"
@@ -16,6 +14,7 @@
       stroke-linecap="round"
       stroke-linejoin="round"
       aria-hidden="true"
+      style="color: rgb(var(--text-soft))"
     >
       <circle cx="11" cy="11" r="8" />
       <line x1="21" y1="21" x2="16.65" y2="16.65" />
@@ -26,7 +25,8 @@
       autocomplete="off"
       placeholder="Search games…"
       aria-label="Search for a game"
-      class="w-full bg-transparent rounded-2xl pl-12 pr-4 py-3.5 text-slate-900 placeholder:text-slate-500 focus:outline-none focus:ring-4 focus:ring-fuchsia-400/30 transition"
+      class="w-full bg-transparent rounded-2xl pl-12 pr-4 py-3.5 focus:outline-none focus:ring-4 transition"
+      style="color: rgb(var(--text))"
     />
   </div>
 </div>
@@ -50,7 +50,6 @@
   }
 
   search.addEventListener('input', applyFilter);
-  // Enter on search: jump to the first visible game's page
   search.addEventListener('keydown', (e) => {
     if (e.key !== 'Enter') return;
     const first = cards.find((c) => !c.classList.contains('hidden'));

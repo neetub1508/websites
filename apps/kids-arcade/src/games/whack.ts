@@ -56,6 +56,15 @@ function init() {
   let score = 0;
   let state: 'idle' | 'running' | 'over' = 'idle';
 
+  function readTheme(): { bg: string; rim: string; mole: string } {
+    const css = getComputedStyle(document.documentElement);
+    return {
+      bg: css.getPropertyValue('--hole-bg').trim() || 'radial-gradient(circle at 50% 30%, #fde68a 0%, #b45309 90%)',
+      rim: css.getPropertyValue('--hole-rim').trim() || 'rgba(180, 83, 9, 0.4)',
+      mole: css.getPropertyValue('--mole').trim() || '#92400e',
+    };
+  }
+
   function updateScore() {
     scoreEl.textContent = String(score);
     bestEl.textContent = String(readBest());
@@ -66,15 +75,16 @@ function init() {
   }
 
   function buildBoard() {
+    const { bg, rim } = readTheme();
     boardEl.innerHTML = Array.from({ length: HOLES }, (_, i) => `
       <button
         type="button"
         data-hole="${i}"
         aria-label="Hole ${i + 1}"
-        class="whack-hole relative aspect-square rounded-2xl border border-white/50 bg-white/30 backdrop-blur-md shadow-glass overflow-hidden flex items-end justify-center transition-transform"
+        class="whack-hole relative aspect-square rounded-2xl ka-glass overflow-hidden flex items-end justify-center transition-transform ka-hole"
+        style="background: ${bg}; border: 2px solid ${rim};"
       >
         <span class="whack-mole absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full text-6xl sm:text-7xl select-none pointer-events-none transition-transform duration-150" aria-hidden="true">🐹</span>
-        <span class="absolute inset-0 rounded-2xl bg-gradient-to-t from-amber-900/20 to-transparent" aria-hidden="true"></span>
       </button>
     `).join('');
     boardEl.querySelectorAll<HTMLButtonElement>('.whack-hole').forEach((btn) => {
@@ -84,7 +94,6 @@ function init() {
 
   function popOne() {
     if (state !== 'running') return;
-    // pick a hole different from the currently active one, if any
     let next: number;
     do {
       next = randInt(0, HOLES - 1);
@@ -111,7 +120,6 @@ function init() {
     popTimer = window.setTimeout(() => {
       if (state !== 'running') return;
       popOne();
-      // hide it after MIN_UP_MS..MAX_UP_MS
       const upFor = Math.max(0, activeUntil - Date.now());
       gapTimer = window.setTimeout(() => {
         if (state !== 'running') return;
@@ -126,7 +134,6 @@ function init() {
     if (idx !== activeHole) return;
     score += 1;
     updateScore();
-    // visual pop reaction
     const holeEl = boardEl.querySelector<HTMLButtonElement>(`[data-hole="${idx}"]`);
     if (holeEl) {
       holeEl.classList.add('whack-hit');
@@ -170,15 +177,21 @@ function init() {
     overlay.classList.remove('hidden');
   }
 
-  // Inject the small "hit" flash style
+  // Hit flash style — uses the theme's accent-1 for the ring
   if (!document.getElementById('whack-styles')) {
     const style = document.createElement('style');
     style.id = 'whack-styles';
-    style.textContent = `.whack-hit { transform: scale(0.95); box-shadow: 0 0 0 4px rgba(244, 114, 182, 0.4); }`;
+    style.textContent = `.whack-hit { transform: scale(0.95); box-shadow: 0 0 0 4px rgba(var(--accent-1), 0.5); }`;
     document.head.appendChild(style);
   }
 
   startBtn.addEventListener('click', start);
+
+  // Re-build the board on theme change so the holes re-pick up the new colors
+  const mo = new MutationObserver(() => {
+    if (state !== 'running') buildBoard();
+  });
+  mo.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 
   buildBoard();
   updateScore();

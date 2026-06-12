@@ -1,7 +1,5 @@
 ---
 // Reusable FAQ accordion. Renders <details>/<summary> with glass styling.
-// Heading is rendered separately by the calling page so the page can control
-// typography and the FAQPage schema can reference the page heading.
 interface Props {
   faqs: { q: string; a: string }[];
 }
@@ -9,12 +7,16 @@ const { faqs } = Astro.props;
 ---
 <div class="space-y-3">
   {faqs.map((f) => (
-    <details class="group rounded-2xl border border-white/50 bg-white/40 backdrop-blur-xl px-5 open:shadow-glass-lg open:bg-white/60 transition">
-      <summary class="flex justify-between items-center cursor-pointer list-none font-bold text-slate-800 py-4">
+    <details class="group rounded-2xl ka-glass px-5 open:ka-glass-lg open:shadow-lg transition">
+      <summary class="flex justify-between items-center cursor-pointer list-none font-bold py-4" style="color: rgb(var(--text))">
         <span>{f.q}</span>
-        <span class="ml-4 shrink-0 grid place-items-center w-7 h-7 rounded-full bg-white/70 text-slate-600 group-open:bg-fuchsia-100 group-open:text-fuchsia-700 group-open:rotate-45 transition">+</span>
+        <span
+          class="ml-4 shrink-0 grid place-items-center w-7 h-7 rounded-full transition group-open:rotate-45"
+          style="background: rgba(var(--glass-bg), 0.7); color: rgb(var(--text-soft))"
+          aria-hidden="true"
+        >+</span>
       </summary>
-      <p class="text-slate-700 leading-relaxed pb-5 -mt-1">{f.a}</p>
+      <p class="leading-relaxed pb-5 -mt-1" style="color: rgb(var(--text-soft))">{f.a}</p>
     </details>
   ))}
 </div>

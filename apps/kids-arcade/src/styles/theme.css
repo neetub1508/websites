@@ -1,0 +1,261 @@
+/* =========================================================
+   Kids Arcade — Theme tokens
+   Three discrete visual directions. All chrome reads from
+   these CSS variables so themes swap without rebuilds.
+   Default theme: pastel.
+   ========================================================= */
+
+:root,
+[data-theme='pastel'] {
+  /* Surfaces */
+  --bg-grad: linear-gradient(135deg, #fdf2f8 0%, #e0f2fe 50%, #fef3c7 100%);
+  --bg-anim-from: 0% 50%;
+  --bg-anim-to: 100% 50%;
+
+  /* Glass */
+  --glass-bg: 255 255 255;          /* rgb */
+  --glass-bg-alpha: 0.55;
+  --glass-border: 255 255 255;
+  --glass-border-alpha: 0.6;
+  --glass-shadow: 0 8px 32px rgba(31, 38, 135, 0.12);
+  --glass-shadow-lg: 0 12px 40px rgba(31, 38, 135, 0.16);
+
+  /* Text */
+  --text: 15 23 42;                 /* slate-900 */
+  --text-soft: 71 85 105;           /* slate-600 */
+  --text-muted: 100 116 139;        /* slate-500 */
+
+  /* Accent / brand */
+  --accent-1: 217 70 239;           /* fuchsia-500 */
+  --accent-2: 14 165 233;           /* sky-500 */
+  --accent-3: 245 158 11;           /* amber-500 */
+  --accent-1-soft: 252 231 243;     /* fuchsia-100 */
+  --accent-1-ink: 157 23 77;        /* fuchsia-800 */
+  --accent-2-ink: 12 74 110;        /* sky-800 */
+
+  /* Game surfaces (also see game-specific overrides below) */
+  --card-back-bg: rgb(244 114 182 / 0.18);
+  --card-back-border: rgb(244 114 182 / 0.45);
+  --board-bg: linear-gradient(135deg, #f0f9ff 0%, #ecfdf5 100%);
+  --board-border: rgb(186 230 253 / 0.7);
+  --board-grid: rgba(255, 255, 255, 0.6);
+  --hole-bg: radial-gradient(circle at 50% 30%, #fde68a 0%, #b45309 90%);
+  --hole-rim: rgb(180 83 9 / 0.4);
+  --snake-head: #16a34a;
+  --snake-tail: #34d399;
+  --apple: #ef4444;
+  --mole: #92400e;
+
+  /* Headings font */
+  --font-display: 'Fredoka', ui-rounded, 'SF Pro Rounded', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-body: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+[data-theme='neon'] {
+  --bg-grad: linear-gradient(135deg, #1e1b4b 0%, #312e81 35%, #0f172a 100%);
+  --bg-anim-from: 0% 50%;
+  --bg-anim-to: 100% 50%;
+
+  --glass-bg: 30 41 59;             /* slate-800 */
+  --glass-bg-alpha: 0.45;
+  --glass-border: 168 85 247;       /* purple-500 */
+  --glass-border-alpha: 0.4;
+  --glass-shadow: 0 0 0 1px rgba(168, 85, 247, 0.4), 0 8px 32px rgba(168, 85, 247, 0.25);
+  --glass-shadow-lg: 0 0 0 1px rgba(168, 85, 247, 0.6), 0 12px 40px rgba(168, 85, 247, 0.35);
+
+  --text: 248 250 252;              /* slate-50 */
+  --text-soft: 203 213 225;         /* slate-300 */
+  --text-muted: 148 163 184;        /* slate-400 */
+
+  --accent-1: 217 70 239;           /* fuchsia-500 */
+  --accent-2: 34 211 238;           /* cyan-400 */
+  --accent-3: 250 204 21;           /* yellow-400 */
+  --accent-1-soft: 88 28 135;       /* purple-800 */
+  --accent-1-ink: 232 121 249;      /* fuchsia-400 */
+  --accent-2-ink: 103 232 249;      /* cyan-300 */
+
+  --card-back-bg: rgb(34 211 238 / 0.15);
+  --card-back-border: rgb(34 211 238 / 0.55);
+  --board-bg: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+  --board-border: rgb(168 85 247 / 0.5);
+  --board-grid: rgba(168, 85, 247, 0.18);
+  --hole-bg: radial-gradient(circle at 50% 30%, #581c87 0%, #0c0a09 90%);
+  --hole-rim: rgb(168 85 247 / 0.5);
+  --snake-head: #22d3ee;
+  --snake-tail: #a78bfa;
+  --apple: #f43f5e;
+  --mole: #fde68a;
+
+  --font-display: 'Press Start 2P', ui-monospace, 'SF Mono', Menlo, monospace;
+  --font-body: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+[data-theme='illustrated'] {
+  --bg-grad: linear-gradient(135deg, #fef7ed 0%, #ecfdf5 50%, #f5f3ff 100%);
+  --bg-anim-from: 0% 50%;
+  --bg-anim-to: 100% 50%;
+
+  --glass-bg: 253 246 237;          /* warm cream */
+  --glass-bg-alpha: 0.7;
+  --glass-border: 255 255 255;
+  --glass-border-alpha: 0.7;
+  --glass-shadow: 0 8px 28px rgba(120, 53, 15, 0.1);
+  --glass-shadow-lg: 0 12px 36px rgba(120, 53, 15, 0.14);
+
+  --text: 28 25 23;                 /* stone-900 */
+  --text-soft: 87 83 78;            /* stone-600 */
+  --text-muted: 120 113 108;        /* stone-500 */
+
+  --accent-1: 16 185 129;           /* emerald-500 — sage/leaf */
+  --accent-2: 244 114 182;          /* pink-400 — terracotta-pink */
+  --accent-3: 234 88 12;            /* orange-500 — terracotta */
+  --accent-1-soft: 209 250 229;     /* emerald-100 */
+  --accent-1-ink: 6 95 70;          /* emerald-800 */
+  --accent-2-ink: 157 23 77;        /* pink-800 */
+
+  --card-back-bg: rgb(254 215 170 / 0.7);  /* orange-200 */
+  --card-back-border: rgb(234 88 12 / 0.4);
+  --board-bg: linear-gradient(135deg, #fef7ed 0%, #ecfdf5 100%);
+  --board-border: rgb(167 243 208 / 0.8);
+  --board-grid: rgba(120, 53, 15, 0.08);
+  --hole-bg: radial-gradient(circle at 50% 30%, #c2410c 0%, #431407 90%);
+  --hole-rim: rgb(120 53 15 / 0.5);
+  --snake-head: #059669;
+  --snake-tail: #fbbf24;
+  --apple: #dc2626;
+  --mole: #92400e;
+
+  --font-display: 'Fraunces', 'Caveat', ui-serif, Georgia, serif;
+  --font-body: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* =========================================================
+   Global element overrides — read from theme tokens.
+   Components use Tailwind utilities; these rules just
+   re-color chrome that Tailwind can't easily theme (e.g.
+   the animated body background, glass card basics).
+   ========================================================= */
+
+html, body {
+  font-family: var(--font-body);
+  color: rgb(var(--text));
+  background: var(--bg-grad);
+  background-size: 200% 200%;
+  animation: gradient-drift 22s ease-in-out infinite;
+}
+
+@keyframes gradient-drift {
+  0%, 100% { background-position: var(--bg-anim-from); }
+  50% { background-position: var(--bg-anim-to); }
+}
+
+h1, h2, h3, .font-display {
+  font-family: var(--font-display);
+  color: rgb(var(--text));
+}
+
+[data-theme='neon'] h1,
+[data-theme='neon'] h2,
+[data-theme='neon'] h3,
+[data-theme='neon'] .font-display {
+  text-shadow: 0 0 18px rgba(var(--accent-1), 0.35);
+}
+
+/* Glass surface — readable across themes */
+.ka-glass {
+  background: rgba(var(--glass-bg), var(--glass-bg-alpha));
+  border: 1px solid rgba(var(--glass-border), var(--glass-border-alpha));
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: var(--glass-shadow);
+}
+.ka-glass-lg {
+  background: rgba(var(--glass-bg), var(--glass-bg-alpha));
+  border: 1px solid rgba(var(--glass-border), var(--glass-border-alpha));
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: var(--glass-shadow-lg);
+}
+
+/* Accent button — used by Game cards "Play" CTA, Snake Start, Memory New game, etc. */
+.ka-btn-accent {
+  background-image: linear-gradient(135deg, rgb(var(--accent-1)) 0%, rgb(var(--accent-2)) 100%);
+  color: #fff;
+  font-weight: 800;
+  border-radius: 0.9rem;
+  padding: 0.55rem 1rem;
+  box-shadow: 0 6px 18px rgba(var(--accent-1), 0.35);
+  transition: transform .15s ease, box-shadow .15s ease, opacity .15s ease;
+}
+.ka-btn-accent:hover { transform: translateY(-1px); opacity: 0.95; }
+.ka-btn-accent:active { transform: translateY(0); }
+
+.ka-btn-ghost {
+  background: rgba(var(--glass-bg), 0.55);
+  border: 1px solid rgba(var(--glass-border), 0.7);
+  color: rgb(var(--text));
+  font-weight: 700;
+  border-radius: 0.9rem;
+  padding: 0.55rem 1rem;
+  transition: background .15s ease, transform .15s ease;
+}
+.ka-btn-ghost:hover { background: rgba(var(--glass-bg), 0.8); }
+
+/* Card grid back (memory match) */
+.ka-card-back {
+  background: var(--card-back-bg);
+  border: 2px solid var(--card-back-border);
+}
+
+/* Game board (snake) */
+.ka-board {
+  background: var(--board-bg);
+  border: 1px solid var(--board-border);
+}
+
+/* Mole hole */
+.ka-hole {
+  background: var(--hole-bg);
+  border: 2px solid var(--hole-rim);
+}
+
+/* Theme switcher chip */
+.ka-theme-switcher {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 50;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 999px;
+}
+.ka-theme-chip {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 999px;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.ka-theme-chip:hover { transform: scale(1.1); }
+.ka-theme-chip[aria-pressed='true'] {
+  transform: scale(1.15);
+  box-shadow: 0 0 0 3px rgba(var(--accent-1), 0.6), 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+/* Selection color follows accent */
+::selection {
+  background: rgba(var(--accent-1), 0.4);
+  color: rgb(var(--text));
+}
+
+/* Reduce default blue link on dark themes */
+[data-theme='neon'] a:not(.ka-btn-accent):not(.ka-btn-ghost) {
+  color: rgb(var(--accent-1-ink));
+}
+[data-theme='neon'] a:not(.ka-btn-accent):not(.ka-btn-ghost):hover {
+  color: rgb(var(--accent-2-ink));
+}

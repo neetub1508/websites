@@ -53,6 +53,16 @@ function writeBest(b: Best) {
   }
 }
 
+// Theme integration — read the --card-back-bg / --card-back-border CSS vars
+// and use them as inline styles. This lets the theme switcher re-skin cards
+// live without rebuilding the page.
+function readCardBackColors(): { bg: string; border: string } {
+  const root = getComputedStyle(document.documentElement);
+  const bg = root.getPropertyValue('--card-back-bg').trim() || 'rgba(244, 114, 182, 0.18)';
+  const border = root.getPropertyValue('--card-back-border').trim() || 'rgba(244, 114, 182, 0.45)';
+  return { bg, border };
+}
+
 function init() {
   const root = document.getElementById('memory-root');
   if (!root) return;
@@ -79,6 +89,7 @@ function init() {
   const prevBestEl = root.querySelector<HTMLElement>('#memory-prev-best')!;
 
   function render() {
+    const { bg, border } = readCardBackColors();
     boardEl.innerHTML = board
       .map(
         (c, i) => `
@@ -86,9 +97,8 @@ function init() {
           type="button"
           data-idx="${i}"
           aria-label="Card ${i + 1}"
-          class="memory-card relative aspect-square rounded-2xl border border-white/50 bg-white/30 backdrop-blur-md shadow-glass text-4xl sm:text-5xl font-bold flex items-center justify-center select-none transition-transform duration-300 ${
-            c.flipped || c.matched ? 'memory-card-flipped' : ''
-          } ${c.matched ? 'memory-card-matched' : ''}"
+          class="memory-card relative aspect-square rounded-2xl ka-glass text-5xl sm:text-6xl font-bold flex items-center justify-center select-none transition-transform duration-300 ka-card-back ${c.matched ? 'memory-card-matched' : ''}"
+          style="background: ${bg}; border: 2px solid ${border};"
         >
           <span class="memory-card-inner">${c.flipped || c.matched ? c.emoji : ''}</span>
         </button>`,
@@ -205,15 +215,16 @@ function init() {
     render();
   }
 
-  // Inject a small <style> for the flip + matched animations so we don't need
-  // an external stylesheet just for this one game.
+  // Inject small flip + matched styles, themed to current accent.
   if (!document.getElementById('memory-styles')) {
     const style = document.createElement('style');
     style.id = 'memory-styles';
     style.textContent = `
       .memory-card:hover { transform: translateY(-2px); }
-      .memory-card-flipped { background: rgba(255,255,255,0.85); }
-      .memory-card-matched { background: rgba(217, 70, 239, 0.15); border-color: rgba(217,70,239,0.5); }
+      .memory-card .memory-card-inner { transition: opacity .2s ease, transform .25s ease; }
+      .memory-card:not(.memory-card-matched) .memory-card-inner { opacity: 0; }
+      .memory-card-flipped { /* legacy hook */ }
+      .memory-card-matched { background: rgba(var(--accent-1), 0.18) !important; border-color: rgba(var(--accent-1), 0.55) !important; }
     `;
     document.head.appendChild(style);
   }
@@ -224,11 +235,14 @@ function init() {
     reset();
   });
 
+  // Re-render when the theme changes (cards re-pick up the new back colors)
+  const mo = new MutationObserver(() => render());
+  mo.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
   showBest();
   render();
 }
 
-// Astro loads the script as a module — fire init when DOM is ready.
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', init);
 } else {

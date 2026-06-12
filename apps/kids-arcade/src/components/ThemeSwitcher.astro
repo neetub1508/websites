@@ -1,0 +1,57 @@
+---
+// Floating theme switcher. Renders three color chips at the bottom-right of
+// every page. The selected chip has an outline; clicking writes the choice
+// to <html data-theme="..."> and to localStorage. The Layout's inline script
+// re-applies the saved theme on first paint to prevent FOUC.
+const themes = [
+  { id: 'pastel', label: 'Pastel', bg: 'linear-gradient(135deg, #fdf2f8, #e0f2fe 50%, #fef3c7)' },
+  { id: 'neon', label: 'Neon Arcade', bg: 'linear-gradient(135deg, #1e1b4b, #312e81 50%, #0f172a)' },
+  { id: 'illustrated', label: 'Illustrated', bg: 'linear-gradient(135deg, #fef7ed, #ecfdf5 50%, #f5f3ff)' },
+];
+---
+<div class="ka-theme-switcher ka-glass-lg" role="group" aria-label="Choose visual theme">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color: rgb(var(--text-soft))">
+    <circle cx="13.5" cy="6.5" r="0.5" fill="currentColor"/>
+    <circle cx="17.5" cy="10.5" r="0.5" fill="currentColor"/>
+    <circle cx="8.5" cy="7.5" r="0.5" fill="currentColor"/>
+    <circle cx="6.5" cy="12.5" r="0.5" fill="currentColor"/>
+    <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>
+  </svg>
+  {themes.map((t) => (
+    <button
+      type="button"
+      class="ka-theme-chip"
+      data-theme-value={t.id}
+      aria-label={t.label}
+      aria-pressed="false"
+      title={t.label}
+      style={`background: ${t.bg}`}
+    ></button>
+  ))}
+</div>
+
+<script>
+  const KEY = 'ka_theme';
+  const VALID = new Set(['pastel', 'neon', 'illustrated']);
+
+  function apply(theme: string) {
+    if (!VALID.has(theme)) theme = 'pastel';
+    document.documentElement.setAttribute('data-theme', theme);
+    document.querySelectorAll<HTMLButtonElement>('.ka-theme-chip').forEach((btn) => {
+      btn.setAttribute('aria-pressed', btn.dataset.themeValue === theme ? 'true' : 'false');
+    });
+  }
+
+  // Wire the chips
+  document.querySelectorAll<HTMLButtonElement>('.ka-theme-chip').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const t = btn.dataset.themeValue ?? 'pastel';
+      try { localStorage.setItem(KEY, t); } catch { /* ignore */ }
+      apply(t);
+    });
+  });
+
+  // Reflect whatever the inline script already applied
+  const current = document.documentElement.getAttribute('data-theme') ?? 'pastel';
+  apply(current);
+</script>

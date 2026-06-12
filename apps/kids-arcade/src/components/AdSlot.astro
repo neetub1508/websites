@@ -10,12 +10,12 @@ const { label = 'Advertisement', minHeight = '250px', width } = Astro.props;
 const style = `min-height:${minHeight}` + (width ? `;width:${width}` : '');
 ---
 <div
-  class="rounded-2xl border border-dashed border-white/60 bg-white/30 backdrop-blur-md grid place-items-center text-center shadow-glass"
-  style={style}
+  class="rounded-2xl border border-dashed ka-glass grid place-items-center text-center"
+  style={`${style}; border-color: rgba(var(--glass-border), 0.45)`}
   aria-label="Advertisement"
 >
   <div>
-    <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">{label}</p>
-    <p class="text-[11px] text-slate-400 mt-1">reserved space — no layout shift</p>
+    <p class="text-[11px] font-semibold uppercase tracking-[0.2em]" style="color: rgb(var(--text-soft))">{label}</p>
+    <p class="text-[11px] mt-1" style="color: rgb(var(--text-muted))">reserved space — no layout shift</p>
   </div>
 </div>
