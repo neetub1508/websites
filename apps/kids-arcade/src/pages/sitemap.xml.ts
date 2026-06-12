@@ -8,7 +8,7 @@ const STATIC_PAGES = ['', 'about', 'contact', 'privacy', 'terms'];
 
 export const GET: APIRoute = () => {
   const urls = [
-    ...STATIC_PAGES.map((p) => (p ? `${SITE}/${p}` : SITE)),
+    ...STATIC_PAGES.map((p) => (p ? `${SITE}/${p}` : `${SITE}/`)),
     ...GAMES.map((g) => `${SITE}/games/${g.slug}`),
   ];
 

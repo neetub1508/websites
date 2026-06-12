@@ -10,7 +10,10 @@ interface Props {
   schema?: object | object[];
 }
 const { title, description, schema } = Astro.props;
-const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : Astro.url.pathname;
+// Strip any trailing slash (root stays "/") so the canonical always matches the
+// slash-less URLs used in the sitemap and internal links.
+const canonicalPath = Astro.url.pathname.replace(/\/+$/, '') || '/';
+const canonical = Astro.site ? new URL(canonicalPath, Astro.site).href : canonicalPath;
 const jsonLd = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
 ---
 <!doctype html>
