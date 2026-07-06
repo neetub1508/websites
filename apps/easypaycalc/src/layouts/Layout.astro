@@ -6,6 +6,7 @@ interface Props {
 }
 import AdSlot from '../components/AdSlot.astro';
 import { popularStates } from '../lib/states';
+import { GUIDES } from '../lib/guides';
 const { title, description, schema } = Astro.props;
 // Strip any trailing slash (root stays "/") so the canonical always matches the
 // slash-less URLs used in the sitemap and internal links.
@@ -63,7 +64,7 @@ const jsonLd = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
         </a>
         <nav class="text-sm font-medium text-slate-600 hidden sm:flex items-center gap-7">
           <a href="/" class="hover:text-teal-700 transition">Calculator</a>
-          <a href="#how-it-works" class="hover:text-teal-700 transition">How it works</a>
+          <a href="/guides" class="hover:text-teal-700 transition">Guides</a>
           <a href="#faq" class="hover:text-teal-700 transition">FAQ</a>
           <a href="/" class="rounded-lg bg-slate-900 text-white px-3.5 py-1.5 hover:bg-slate-700 transition">All states</a>
         </nav>
@@ -96,11 +97,12 @@ const jsonLd = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
           <p class="text-slate-500 leading-relaxed">Free, instant take-home pay calculators for all 50 U.S. states.</p>
         </div>
         <div>
-          <h3 class="font-semibold text-slate-800 mb-3">Tool</h3>
+          <h3 class="font-semibold text-slate-800 mb-3">Guides</h3>
           <ul class="space-y-2 text-slate-500">
-            <li><a href="/" class="hover:text-teal-700">Paycheck calculator</a></li>
-            <li><a href="/#how-it-works" class="hover:text-teal-700">How it works</a></li>
-            <li><a href="/#faq" class="hover:text-teal-700">FAQ</a></li>
+            {GUIDES.slice(0, 4).map((g) => (
+              <li><a href={`/guides/${g.slug}`} class="hover:text-teal-700">{g.title}</a></li>
+            ))}
+            <li><a href="/guides" class="text-teal-700 font-medium hover:text-teal-800">All guides →</a></li>
           </ul>
         </div>
         <div>

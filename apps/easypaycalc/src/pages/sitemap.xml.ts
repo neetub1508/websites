@@ -1,14 +1,17 @@
 import type { APIRoute } from 'astro';
 import { STATES } from '../lib/states';
+import { GUIDES } from '../lib/guides';
 
 // Generates /sitemap.xml at build time from our actual routes — adding a state
-// to states.ts automatically adds it here. Referenced from public/robots.txt.
+// to states.ts (or a guide to guides.ts) automatically adds it here.
+// Referenced from public/robots.txt.
 const SITE = 'https://easypaycalc.com';
-const STATIC_PAGES = ['', 'about', 'contact', 'privacy', 'terms'];
+const STATIC_PAGES = ['', 'about', 'contact', 'privacy', 'terms', 'guides'];
 
 export const GET: APIRoute = () => {
   const urls = [
     ...STATIC_PAGES.map((p) => (p ? `${SITE}/${p}` : `${SITE}/`)),
+    ...GUIDES.map((g) => `${SITE}/guides/${g.slug}`),
     ...STATES.map((s) => `${SITE}/${s.slug}`),
   ];
 

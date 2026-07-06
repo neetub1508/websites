@@ -1,0 +1,228 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const title = 'Gross Pay vs Net Pay Explained (2025) — What’s Subtracted From Your Paycheck';
+const description =
+  'Gross pay vs net pay, made simple: what your employer subtracts between the two — federal and state income tax, Social Security, Medicare, and pre-tax deductions — why take-home pay is always lower, and how to estimate net from gross with a worked example.';
+
+const faqs = [
+  {
+    q: 'What is the difference between gross pay and net pay?',
+    a: 'Gross pay is the full amount you earn before anything is taken out — your salary or your hours multiplied by your rate. Net pay, also called take-home pay, is what actually lands in your bank account after taxes and other deductions are subtracted. Net is always lower than gross.',
+  },
+  {
+    q: 'What gets subtracted from gross pay to get net pay?',
+    a: 'The main deductions are federal income tax, state income tax (in most states), Social Security tax (6.2%), and Medicare tax (1.45%). Many workers also have pre-tax items like 401(k) contributions and health insurance premiums taken out, plus any post-tax deductions such as Roth 401(k) or wage garnishments.',
+  },
+  {
+    q: 'Why is my net pay so much lower than my gross pay?',
+    a: 'Several deductions stack on top of each other. Federal income tax can range from 10% to 37% of taxable income, FICA takes another 7.65% (Social Security plus Medicare), and most states add their own income tax. Together these can reduce a paycheck by 20% to 35% or more before you see a dollar.',
+  },
+  {
+    q: 'How do I estimate my net pay from my gross salary?',
+    a: 'Start with gross, subtract any pre-tax deductions to get taxable wages, then subtract federal income tax, state income tax, and 7.65% for Social Security and Medicare. A quick rule of thumb is that take-home pay lands somewhere around 70% to 80% of gross for many middle incomes, but it varies by state and situation. A paycheck calculator gives a much closer figure.',
+  },
+  {
+    q: 'Do pre-tax deductions increase my net pay?',
+    a: 'Not directly — a pre-tax deduction like a traditional 401(k) still leaves your account. But because it lowers your taxable wages, it reduces the income tax withheld, so the true cost to your take-home pay is less than the full contribution. That is the tax advantage of pre-tax benefits.',
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'Gross Pay vs Net Pay Explained (2025)',
+  description,
+  author: { '@type': 'Organization', name: 'EasyPayCalc' },
+  publisher: { '@type': 'Organization', name: 'EasyPayCalc', url: 'https://easypaycalc.com' },
+  mainEntityOfPage: 'https://easypaycalc.com/guides/gross-vs-net-pay',
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://easypaycalc.com' },
+    { '@type': 'ListItem', position: 2, name: 'Guides', item: 'https://easypaycalc.com/guides' },
+    { '@type': 'ListItem', position: 3, name: 'Gross vs Net Pay', item: 'https://easypaycalc.com/guides/gross-vs-net-pay' },
+  ],
+};
+---
+
+<Layout title={title} description={description} schema={[articleSchema, faqSchema, breadcrumbSchema]}>
+  <article class="mx-auto max-w-3xl px-5 py-12">
+    <!-- Breadcrumb -->
+    <nav class="text-sm text-slate-400" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-teal-700">Home</a>
+      <span class="mx-1.5">/</span>
+      <a href="/guides" class="hover:text-teal-700">Guides</a>
+      <span class="mx-1.5">/</span>
+      <span class="text-slate-600">Gross vs net pay</span>
+    </nav>
+
+    <header class="mt-6">
+      <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-teal-700 bg-teal-100/80 ring-1 ring-teal-200 rounded-full px-3 py-1">
+        <span class="w-1.5 h-1.5 rounded-full bg-teal-500"></span> Updated for 2025
+      </span>
+      <h1 class="mt-5 text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 text-balance">
+        Gross pay vs net pay, explained
+      </h1>
+      <p class="mt-4 text-lg text-slate-500 leading-relaxed">
+        The number in your job offer and the number in your bank account are rarely the same. Here is exactly what
+        gets subtracted between your gross pay and your take-home net pay — and how to estimate what you’ll really keep.
+      </p>
+    </header>
+
+    <div class="mt-10 space-y-10 text-slate-600 leading-relaxed">
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900">Gross pay: the number before anything is taken out</h2>
+        <p class="mt-4">
+          <strong>Gross pay</strong> is the total you earn for a pay period before a single deduction is applied. If
+          you’re salaried, it’s your annual salary divided by the number of pay periods — a $60,000 salary paid twice a
+          month is $2,500 in gross pay each time. If you’re paid hourly, gross pay is simply your hours worked multiplied
+          by your rate, plus any overtime, bonuses, or commissions.
+        </p>
+        <p class="mt-4">
+          Gross pay is the headline figure employers advertise because it’s the biggest number. But nobody takes home
+          their gross pay. Between that figure and your deposit sits a stack of mandatory taxes and optional deductions
+          that together make up the gap.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900">Net pay: what actually reaches your bank account</h2>
+        <p class="mt-4">
+          <strong>Net pay</strong> — also called <strong>take-home pay</strong> — is what’s left after every deduction
+          comes out of your gross pay. It’s the number on your direct deposit and the amount you can genuinely budget
+          around. Because deductions can only reduce your earnings, never add to them, net pay is <em>always</em> lower
+          than gross pay.
+        </p>
+        <p class="mt-4">
+          The simple formula is:
+          <strong>Net pay = Gross pay − taxes − pre-tax deductions − post-tax deductions.</strong>
+          The rest of this guide walks through each of those subtractions so you can see where your money goes.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900">What gets subtracted between gross and net</h2>
+        <p class="mt-4">
+          Your paycheck deductions fall into a few clear buckets. Here they are, roughly in the order a payroll system
+          applies them:
+        </p>
+        <ul class="mt-4 space-y-2.5">
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-teal-500 shrink-0"></span><span><strong>Pre-tax deductions</strong> — things like a traditional 401(k) contribution or health insurance premiums, subtracted <em>before</em> tax is calculated so they lower your taxable wages.</span></li>
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-teal-500 shrink-0"></span><span><strong>Social Security tax</strong> — 6.2% of your wages, up to the 2025 wage base of $176,100. Earnings above that cap aren’t subject to Social Security tax.</span></li>
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-teal-500 shrink-0"></span><span><strong>Medicare tax</strong> — 1.45% of <em>all</em> your wages, with no cap. High earners pay an extra 0.9% on wages above $200,000 (single) or $250,000 (married filing jointly).</span></li>
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-teal-500 shrink-0"></span><span><strong>Federal income tax</strong> — withheld based on your W-4 and the IRS brackets, which run from 10% up to 37% of taxable income after the standard deduction ($15,000 single / $30,000 married filing jointly for 2025).</span></li>
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-teal-500 shrink-0"></span><span><strong>State (and sometimes local) income tax</strong> — varies widely: nine states levy no income tax at all, while the highest-tax states take over 10% from top earners.</span></li>
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-teal-500 shrink-0"></span><span><strong>Post-tax deductions</strong> — items taken out after tax, such as a Roth 401(k), union dues, or a wage garnishment.</span></li>
+        </ul>
+        <p class="mt-4">
+          Social Security and Medicare together are known as <strong>FICA</strong>, and combined they total 7.65% of most
+          workers’ wages. That flat slice comes out no matter which tax bracket you fall into.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900">Why net pay is always lower — and by how much</h2>
+        <p class="mt-4">
+          Because these deductions stack, they add up faster than people expect. FICA alone removes 7.65%. Federal
+          income tax adds more on top, and most workers also lose a few percent to state tax. For many middle incomes,
+          the combined effect brings take-home pay to somewhere around <strong>70% to 80% of gross</strong> — meaning a
+          meaningful share of every paycheck never touches your account.
+        </p>
+        <p class="mt-4">
+          Two people with identical salaries can still take home very different amounts. Someone in a no-income-tax
+          state keeps more than someone in a high-tax state, and someone contributing heavily to a pre-tax 401(k) shows
+          a lower taxable wage — and therefore less income tax withheld — than a colleague who contributes nothing.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900">A worked example: $60,000 salary</h2>
+        <p class="mt-4">
+          Let’s trace a single filer earning <strong>$60,000</strong> a year in a state with <strong>no income
+          tax</strong>, taking the standard deduction and making no pre-tax contributions. Here’s the rough path from
+          gross to net:
+        </p>
+        <div class="mt-6 rounded-2xl border border-teal-100 bg-gradient-to-br from-teal-50 to-white p-6">
+          <h3 class="font-bold text-slate-900">From $60,000 gross to take-home pay</h3>
+          <ul class="mt-3 space-y-2 text-sm">
+            <li class="flex justify-between gap-4"><span>Gross pay</span><span class="font-semibold text-slate-900">$60,000</span></li>
+            <li class="flex justify-between gap-4"><span>− Social Security (6.2%)</span><span class="text-slate-700">≈ $3,720</span></li>
+            <li class="flex justify-between gap-4"><span>− Medicare (1.45%)</span><span class="text-slate-700">≈ $870</span></li>
+            <li class="flex justify-between gap-4"><span>− Federal income tax (after $15,000 standard deduction)</span><span class="text-slate-700">≈ $5,000–$6,000</span></li>
+            <li class="flex justify-between gap-4"><span>− State income tax</span><span class="text-slate-700">$0</span></li>
+            <li class="flex justify-between gap-4 border-t border-teal-200 pt-2 mt-1"><span class="font-semibold text-slate-900">Estimated net pay</span><span class="font-bold text-teal-700">≈ $48,000–$50,000</span></li>
+          </ul>
+          <p class="mt-4 text-sm text-slate-600">
+            That’s roughly <strong>$4,000 a month</strong> in take-home pay from a $5,000 monthly gross. These are
+            estimates — your exact net depends on your state, your W-4 elections, and any benefits you enroll in. In a
+            state that <em>does</em> tax income, subtract another few thousand dollars.
+          </p>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900">How to estimate your own net pay</h2>
+        <p class="mt-4">
+          You can approximate take-home pay by hand: start with gross, subtract pre-tax deductions to find your taxable
+          wages, subtract 7.65% for FICA, then subtract your federal and state income tax. But the brackets, the wage
+          base, and per-state rules make it easy to be off by hundreds of dollars.
+        </p>
+        <p class="mt-4">
+          The fastest way to get an accurate figure is to use our
+          <a href="/" class="text-teal-600 font-medium underline decoration-teal-200 hover:decoration-teal-500">free paycheck calculator</a>.
+          Enter your gross salary or hourly rate and pick your state, and it applies the current federal brackets, FICA
+          rates, and your state’s income tax to show your estimated net pay per paycheck, per month, and per year.
+        </p>
+      </section>
+
+      <!-- FAQ -->
+      <section id="faq">
+        <h2 class="text-2xl font-bold text-slate-900">Frequently asked questions</h2>
+        <div class="mt-6 space-y-3">
+          {faqs.map((f) => (
+            <details class="group rounded-2xl border border-slate-200 bg-white px-5 open:shadow-sm transition">
+              <summary class="flex justify-between items-center cursor-pointer list-none font-semibold text-slate-800 py-4">
+                {f.q}
+                <span class="ml-4 shrink-0 grid place-items-center w-6 h-6 rounded-full bg-slate-100 text-slate-500 group-open:bg-teal-100 group-open:text-teal-700 group-open:rotate-45 transition">+</span>
+              </summary>
+              <p class="text-slate-600 leading-relaxed pb-5 -mt-1">{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <div class="rounded-2xl bg-teal-50 border border-teal-100 p-6 text-center">
+        <h2 class="text-xl font-bold text-slate-900">See your real take-home pay in seconds</h2>
+        <p class="mt-2 text-slate-600">Enter your salary and state to turn your gross pay into an accurate net-pay estimate.</p>
+        <a href="/" class="mt-4 inline-flex items-center gap-1.5 rounded-xl bg-teal-600 text-white font-semibold px-5 py-3 hover:bg-teal-700 transition">Open the paycheck calculator →</a>
+      </div>
+
+      <!-- Related guides -->
+      <section>
+        <h2 class="text-lg font-bold text-slate-900">Related guides</h2>
+        <ul class="mt-4 space-y-2">
+          <li><a href="/guides/how-to-read-your-pay-stub" class="text-teal-600 hover:text-teal-800 underline decoration-teal-200 hover:decoration-teal-500">How to read your pay stub</a></li>
+          <li><a href="/guides/what-is-fica" class="text-teal-600 hover:text-teal-800 underline decoration-teal-200 hover:decoration-teal-500">What is FICA? Social Security &amp; Medicare explained</a></li>
+          <li><a href="/guides/salary-vs-hourly-pay" class="text-teal-600 hover:text-teal-800 underline decoration-teal-200 hover:decoration-teal-500">Salary vs hourly pay: which pays more?</a></li>
+        </ul>
+      </section>
+
+      <p class="text-xs text-slate-400 leading-relaxed border-t border-slate-100 pt-6">
+        Disclaimer: This guide is for educational purposes only and does not constitute tax, legal, or financial advice.
+        Tax rules change and individual situations vary. Verify details with the IRS, your state tax agency, or a
+        qualified professional before making decisions.
+      </p>
+    </div>
+  </article>
+</Layout>

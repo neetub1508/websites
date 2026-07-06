@@ -1,0 +1,68 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { GUIDES } from '../../lib/guides';
+import { TAX_YEAR } from '../../lib/tax';
+
+const title = `Paycheck & Take-Home Pay Guides ${TAX_YEAR} — EasyPayCalc`;
+const description =
+  'Plain-English guides to your paycheck: gross vs net pay, how to read a pay stub, FICA taxes, pre-tax deductions, salary vs hourly, and states with no income tax.';
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://easypaycalc.com' },
+    { '@type': 'ListItem', position: 2, name: 'Guides', item: 'https://easypaycalc.com/guides' },
+  ],
+};
+
+const listSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  itemListElement: GUIDES.map((g, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: g.title,
+    url: `https://easypaycalc.com/guides/${g.slug}`,
+  })),
+};
+---
+
+<Layout title={title} description={description} schema={[breadcrumbSchema, listSchema]}>
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0 -z-10 bg-gradient-to-b from-teal-50/80 via-white to-white"></div>
+    <div class="mx-auto max-w-4xl px-5 pt-16 pb-8 text-center">
+      <nav class="text-sm text-slate-400 mb-6" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-teal-700">Home</a>
+        <span class="mx-1.5">/</span>
+        <span class="text-slate-600">Guides</span>
+      </nav>
+      <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-slate-900 text-balance">
+        Paycheck &amp; take-home pay guides
+      </h1>
+      <p class="mt-4 text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
+        Understand exactly where your money goes between gross salary and your bank account — taxes, deductions, and
+        how to keep more of every paycheck.
+      </p>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-5 pb-8">
+    <div class="grid sm:grid-cols-2 gap-4">
+      {GUIDES.map((g) => (
+        <a href={`/guides/${g.slug}`}
+          class="group flex flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md hover:border-teal-300 transition">
+          <h2 class="font-bold text-lg text-slate-900 group-hover:text-teal-700 transition">{g.title}</h2>
+          <p class="mt-2 text-sm text-slate-500 leading-relaxed flex-1">{g.blurb}</p>
+          <span class="mt-4 text-sm font-semibold text-teal-600 inline-flex items-center gap-1">Read guide <span class="group-hover:translate-x-0.5 transition">→</span></span>
+        </a>
+      ))}
+    </div>
+
+    <div class="mt-10 rounded-2xl bg-teal-50 border border-teal-100 p-6 text-center">
+      <h2 class="text-xl font-bold text-slate-900">See your own take-home pay</h2>
+      <p class="mt-2 text-slate-600">Pick your state and enter your salary for an instant, itemized breakdown of your paycheck.</p>
+      <a href="/" class="mt-4 inline-flex items-center gap-1.5 rounded-xl bg-teal-600 text-white font-semibold px-5 py-3 hover:bg-teal-700 transition">Open the paycheck calculator →</a>
+    </div>
+  </section>
+</Layout>

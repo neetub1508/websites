@@ -1,0 +1,230 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const title = 'Salary vs Hourly Pay: How Your Paycheck Is Calculated (2025)';
+const description =
+  'How gross pay is computed for salaried and hourly workers, how to convert between an hourly rate and an annual salary, how pay periods (weekly, biweekly, semimonthly, monthly) change each check, overtime, and why taxes work the same either way.';
+
+const faqs = [
+  {
+    q: 'How do I convert an hourly wage to an annual salary?',
+    a: 'Multiply your hourly rate by the number of hours you work in a year. Full-time is commonly 40 hours a week for 52 weeks, or 2,080 hours a year. So $25 an hour × 2,080 = $52,000 a year. To go the other way, divide the salary by 2,080: $52,000 ÷ 2,080 ≈ $25 an hour.',
+  },
+  {
+    q: 'Does getting paid biweekly mean I earn more than getting paid monthly?',
+    a: 'No. Your total annual pay is the same — the pay period only changes how that total is sliced up. A biweekly employee gets 26 smaller checks a year, while a monthly employee gets 12 larger ones. Divide the same annual salary by the number of pay periods and you get the gross for each check.',
+  },
+  {
+    q: 'What is the difference between semimonthly and biweekly pay?',
+    a: 'Semimonthly means twice a month, usually on set dates like the 15th and the last day, giving 24 checks a year. Biweekly means every two weeks, giving 26 checks a year — and because of that, biweekly pay includes two months each year with three paychecks.',
+  },
+  {
+    q: 'Do salaried employees get overtime?',
+    a: 'Often not. Overtime at 1.5× the regular rate for hours over 40 in a week is a federal FLSA protection for non-exempt employees, most of whom are hourly. Many salaried roles are classified as exempt and do not receive overtime, though exemption depends on job duties and pay level, not just being paid a salary.',
+  },
+  {
+    q: 'Are taxes different for salaried versus hourly workers?',
+    a: 'No. Federal income tax, Social Security, and Medicare are calculated on the gross pay in each check the same way regardless of whether you are salaried or hourly. Two people earning the same annual amount owe the same payroll and income tax; the pay structure does not change the tax rules.',
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'Salary vs Hourly Pay: How Your Paycheck Is Calculated',
+  description,
+  author: { '@type': 'Organization', name: 'EasyPayCalc' },
+  publisher: { '@type': 'Organization', name: 'EasyPayCalc', url: 'https://easypaycalc.com' },
+  mainEntityOfPage: 'https://easypaycalc.com/guides/salary-vs-hourly-pay',
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://easypaycalc.com' },
+    { '@type': 'ListItem', position: 2, name: 'Guides', item: 'https://easypaycalc.com/guides' },
+    { '@type': 'ListItem', position: 3, name: 'Salary vs Hourly', item: 'https://easypaycalc.com/guides/salary-vs-hourly-pay' },
+  ],
+};
+---
+
+<Layout title={title} description={description} schema={[articleSchema, faqSchema, breadcrumbSchema]}>
+  <article class="mx-auto max-w-3xl px-5 py-12">
+    <!-- Breadcrumb -->
+    <nav class="text-sm text-slate-400" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-teal-700">Home</a>
+      <span class="mx-1.5">/</span>
+      <a href="/guides" class="hover:text-teal-700">Guides</a>
+      <span class="mx-1.5">/</span>
+      <span class="text-slate-600">Salary vs hourly</span>
+    </nav>
+
+    <header class="mt-6">
+      <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-teal-700 bg-teal-100/80 ring-1 ring-teal-200 rounded-full px-3 py-1">
+        <span class="w-1.5 h-1.5 rounded-full bg-teal-500"></span> Updated for 2025
+      </span>
+      <h1 class="mt-5 text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 text-balance">
+        Salary vs hourly pay: how your paycheck is calculated
+      </h1>
+      <p class="mt-4 text-lg text-slate-500 leading-relaxed">
+        Whether your job pays a fixed salary or an hourly wage, the number on your paycheck comes from the same simple
+        arithmetic. Here is how gross pay is built for each, how to convert between the two, and why your pay schedule
+        changes the size of each check but not your yearly total.
+      </p>
+    </header>
+
+    <div class="mt-10 space-y-10 text-slate-600 leading-relaxed">
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900">Two ways to describe the same paycheck</h2>
+        <p class="mt-4">
+          A <strong>salaried</strong> job quotes your pay as a fixed annual amount — say $52,000 a year — no matter how
+          many hours a given week takes. Payroll simply divides that annual figure by the number of pay periods and pays
+          you the same gross amount each time.
+        </p>
+        <p class="mt-4">
+          An <strong>hourly</strong> job quotes a rate per hour and multiplies it by the hours you actually work in each
+          period. Two 40-hour weeks at $25 an hour produce the same $2,000 that a salaried worker on $52,000 would see
+          biweekly — but if the hourly worker picks up extra shifts, their check grows, and if they take unpaid time,
+          it shrinks. That variability is the core difference: salary trades flexibility for predictability.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900">Converting between hourly and annual</h2>
+        <p class="mt-4">
+          The bridge between the two is the number of hours in a full-time year. Full-time is commonly
+          <strong>40 hours a week × 52 weeks = 2,080 hours a year</strong>. That single number lets you translate in
+          either direction:
+        </p>
+        <ul class="mt-4 space-y-2.5">
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-teal-500 shrink-0"></span><span><strong>Hourly → annual:</strong> hourly rate × 2,080 ≈ annual salary.</span></li>
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-teal-500 shrink-0"></span><span><strong>Annual → hourly:</strong> annual salary ÷ 2,080 ≈ hourly rate.</span></li>
+        </ul>
+        <div class="mt-6 rounded-2xl border border-slate-200 bg-gradient-to-br from-teal-50 to-white p-6">
+          <h3 class="font-bold text-slate-900">Worked example</h3>
+          <p class="mt-3 text-sm">
+            Suppose you earn <strong>$25 an hour</strong> full-time. Multiply by 2,080 hours:
+            $25 × 2,080 = <strong>$52,000 a year</strong>. Now find the gross on a biweekly check by dividing that
+            salary by 26 pay periods: $52,000 ÷ 26 = <strong>$2,000 per paycheck</strong>. The same $52,000 paid monthly
+            would be $52,000 ÷ 12 ≈ <strong>$4,333 per check</strong> instead — bigger checks, but only 12 of them.
+          </p>
+        </div>
+        <p class="mt-4">
+          These conversions assume a standard full-time schedule. If you regularly work fewer or more than 2,080 hours a
+          year, adjust the hour count to match — the method stays the same.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900">Pay periods: how often you get paid</h2>
+        <p class="mt-4">
+          Employers run payroll on a schedule, and that schedule decides how your annual pay is divided. There are four
+          common cadences, and each maps to a fixed number of paychecks per year:
+        </p>
+        <div class="mt-5 overflow-x-auto">
+          <table class="w-full text-sm border border-slate-200 rounded-xl overflow-hidden">
+            <thead class="bg-slate-50 text-slate-500 text-left">
+              <tr>
+                <th class="px-4 py-2.5 font-semibold">Pay period</th>
+                <th class="px-4 py-2.5 font-semibold">How often</th>
+                <th class="px-4 py-2.5 font-semibold">Checks per year</th>
+                <th class="px-4 py-2.5 font-semibold">Gross per check on $52,000</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              <tr><td class="px-4 py-2.5 font-medium text-slate-800">Weekly</td><td class="px-4 py-2.5">Every week</td><td class="px-4 py-2.5">52</td><td class="px-4 py-2.5">$1,000</td></tr>
+              <tr><td class="px-4 py-2.5 font-medium text-slate-800">Biweekly</td><td class="px-4 py-2.5">Every 2 weeks</td><td class="px-4 py-2.5">26</td><td class="px-4 py-2.5">$2,000</td></tr>
+              <tr><td class="px-4 py-2.5 font-medium text-slate-800">Semimonthly</td><td class="px-4 py-2.5">Twice a month</td><td class="px-4 py-2.5">24</td><td class="px-4 py-2.5">$2,167</td></tr>
+              <tr><td class="px-4 py-2.5 font-medium text-slate-800">Monthly</td><td class="px-4 py-2.5">Once a month</td><td class="px-4 py-2.5">12</td><td class="px-4 py-2.5">$4,333</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="mt-4 text-sm text-slate-500">
+          Notice the annual total is identical in every row — only the slice size changes. Biweekly and semimonthly are
+          easy to confuse: biweekly (26) tracks the calendar in two-week blocks and gives you two three-paycheck months a
+          year, while semimonthly (24) lands on fixed dates such as the 15th and the last day. Our
+          <a href="/" class="text-teal-600 font-medium underline decoration-teal-200 hover:decoration-teal-500">take-home pay calculator</a>
+          lets you pick your pay period so the per-check figures match what you actually see.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900">Overtime for hourly workers</h2>
+        <p class="mt-4">
+          One place salary and hourly genuinely diverge is overtime. Under the federal Fair Labor Standards Act (FLSA),
+          non-exempt employees — most of whom are hourly — must be paid at least <strong>1.5× their regular rate</strong>
+          for hours worked over 40 in a week. At $25 an hour, that means $37.50 for each overtime hour.
+        </p>
+        <p class="mt-4">
+          Many salaried employees are classified as <em>exempt</em> and receive no extra pay for long weeks, so the same
+          annual figure can represent very different workloads. Whether a role is exempt depends on job duties and a
+          minimum salary level, not simply on being paid a salary. When you compare a salary offer against an hourly one,
+          it is worth asking how many hours the salary really expects.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900">Taxes work the same for both</h2>
+        <p class="mt-4">
+          Here is the part that surprises people: <strong>taxes do not care whether your gross came from a salary or an
+          hourly wage.</strong> Payroll applies the same rules to the gross amount in each check:
+        </p>
+        <ul class="mt-4 space-y-2.5">
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-teal-500 shrink-0"></span><span><strong>Federal income tax</strong> — a progressive 10%–37% applied after the standard deduction ($15,000 single / $30,000 married filing jointly for 2025).</span></li>
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-teal-500 shrink-0"></span><span><strong>FICA</strong> — Social Security at 6.2% on wages up to a $176,100 base, plus Medicare at 1.45% on all wages.</span></li>
+        </ul>
+        <p class="mt-4">
+          Two people who both earn $52,000 a year — one salaried, one hourly — owe the same income tax and the same FICA.
+          The pay structure only changes how the money arrives, not how it is taxed. That is why your take-home pay
+          depends on your gross, your filing status, and your deductions, and not on the label attached to your job.
+        </p>
+      </section>
+
+      <!-- FAQ -->
+      <section id="faq">
+        <h2 class="text-2xl font-bold text-slate-900">Frequently asked questions</h2>
+        <div class="mt-6 space-y-3">
+          {faqs.map((f) => (
+            <details class="group rounded-2xl border border-slate-200 bg-white px-5 open:shadow-sm transition">
+              <summary class="flex justify-between items-center cursor-pointer list-none font-semibold text-slate-800 py-4">
+                {f.q}
+                <span class="ml-4 shrink-0 grid place-items-center w-6 h-6 rounded-full bg-slate-100 text-slate-500 group-open:bg-teal-100 group-open:text-teal-700 group-open:rotate-45 transition">+</span>
+              </summary>
+              <p class="text-slate-600 leading-relaxed pb-5 -mt-1">{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <div class="rounded-2xl bg-teal-50 border border-teal-100 p-6 text-center">
+        <h2 class="text-xl font-bold text-slate-900">See your real take-home pay in seconds</h2>
+        <p class="mt-2 text-slate-600">Enter your salary or hourly rate, choose your pay period, and get the gross and net for every check.</p>
+        <a href="/" class="mt-4 inline-flex items-center gap-1.5 rounded-xl bg-teal-600 text-white font-semibold px-5 py-3 hover:bg-teal-700 transition">Open the take-home pay calculator →</a>
+      </div>
+
+      <!-- Related guides -->
+      <section>
+        <h2 class="text-lg font-bold text-slate-900">Related guides</h2>
+        <ul class="mt-4 space-y-2">
+          <li><a href="/guides/gross-vs-net-pay" class="text-teal-600 hover:text-teal-800 underline decoration-teal-200 hover:decoration-teal-500">Gross vs. net pay explained</a></li>
+          <li><a href="/guides/how-to-read-your-pay-stub" class="text-teal-600 hover:text-teal-800 underline decoration-teal-200 hover:decoration-teal-500">How to read your pay stub</a></li>
+          <li><a href="/guides/what-is-fica" class="text-teal-600 hover:text-teal-800 underline decoration-teal-200 hover:decoration-teal-500">What is FICA?</a></li>
+        </ul>
+      </section>
+
+      <p class="text-xs text-slate-400 leading-relaxed border-t border-slate-100 pt-6">
+        Disclaimer: This guide is for educational purposes only and does not constitute tax, legal, or financial advice.
+        Pay rules and tax figures change and individual situations vary. Verify details with the IRS, the U.S. Department
+        of Labor, or a qualified professional before making decisions.
+      </p>
+    </div>
+  </article>
+</Layout>

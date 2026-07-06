@@ -1,0 +1,234 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const title = 'States With No Income Tax (2025): What It Means for Your Paycheck';
+const description =
+  'Nine U.S. states levy no tax on wage income in 2025. See the full list, how it raises your take-home pay, the New Hampshire and Washington nuances, and the sales- and property-tax tradeoffs.';
+
+const faqs = [
+  {
+    q: 'Which states have no income tax in 2025?',
+    a: 'Nine states impose no tax on wage or salary income: Alaska, Florida, Nevada, New Hampshire, South Dakota, Tennessee, Texas, Washington, and Wyoming. In these states your paycheck has no state income tax withheld.',
+  },
+  {
+    q: 'Does no state income tax mean I pay no tax on my paycheck?',
+    a: 'No. Federal income tax and FICA still apply everywhere. Social Security is withheld at 6.2% on wages up to $176,100, and Medicare at 1.45% with no cap. "No income tax" only removes the state portion of the withholding.',
+  },
+  {
+    q: 'Why do New Hampshire and Washington sometimes appear with an asterisk?',
+    a: 'Neither taxes ordinary wages. New Hampshire historically taxed interest and dividend income (not wages), and that tax has now been phased down to zero. Washington has a capital-gains tax on high earners but no tax on regular wage income.',
+  },
+  {
+    q: 'How much more take-home pay do these states give you?',
+    a: 'It depends on income and the state you compare against, but state income tax typically runs a few percent of gross pay. Removing it can add hundreds to a few thousand dollars a year to your net pay, since that money is no longer withheld.',
+  },
+  {
+    q: 'Is living in a no-income-tax state always cheaper?',
+    a: 'Not necessarily. States without an income tax often raise revenue through higher sales taxes and property taxes. Whether you come out ahead depends on your income, spending, and whether you own property.',
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'States With No Income Tax (2025): What It Means for Your Paycheck',
+  description,
+  author: { '@type': 'Organization', name: 'EasyPayCalc' },
+  publisher: { '@type': 'Organization', name: 'EasyPayCalc', url: 'https://easypaycalc.com' },
+  mainEntityOfPage: 'https://easypaycalc.com/guides/states-with-no-income-tax',
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://easypaycalc.com' },
+    { '@type': 'ListItem', position: 2, name: 'Guides', item: 'https://easypaycalc.com/guides' },
+    { '@type': 'ListItem', position: 3, name: 'States With No Income Tax', item: 'https://easypaycalc.com/guides/states-with-no-income-tax' },
+  ],
+};
+---
+
+<Layout title={title} description={description} schema={[articleSchema, faqSchema, breadcrumbSchema]}>
+  <article class="mx-auto max-w-3xl px-5 py-12">
+    <!-- Breadcrumb -->
+    <nav class="text-sm text-slate-400" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-teal-700">Home</a>
+      <span class="mx-1.5">/</span>
+      <a href="/guides" class="hover:text-teal-700">Guides</a>
+      <span class="mx-1.5">/</span>
+      <span class="text-slate-600">States with no income tax</span>
+    </nav>
+
+    <header class="mt-6">
+      <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-teal-700 bg-teal-100/80 ring-1 ring-teal-200 rounded-full px-3 py-1">
+        <span class="w-1.5 h-1.5 rounded-full bg-teal-500"></span> Updated for 2025
+      </span>
+      <h1 class="mt-5 text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 text-balance">
+        States with no income tax: what it means for your paycheck
+      </h1>
+      <p class="mt-4 text-lg text-slate-500 leading-relaxed">
+        Nine states take no cut of your wages at the state level — so more of every paycheck lands in your account.
+        Here is the full list, the fine print on New Hampshire and Washington, and the tradeoffs that come with it.
+      </p>
+    </header>
+
+    <div class="mt-10 space-y-10 text-slate-600 leading-relaxed">
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900">The nine states with no income tax</h2>
+        <p class="mt-4">
+          Most U.S. states withhold a slice of your wages for state income tax, on top of what the federal government
+          takes. But <strong>nine states levy no tax on wage or salary income</strong> at all. If you work in one of
+          them, your pay stub simply has no line for state income tax withholding.
+        </p>
+        <div class="mt-5 overflow-x-auto">
+          <table class="w-full text-sm border border-slate-200 rounded-xl overflow-hidden">
+            <thead class="bg-slate-50 text-slate-500 text-left">
+              <tr>
+                <th class="px-4 py-2.5 font-semibold">State</th>
+                <th class="px-4 py-2.5 font-semibold">Tax on wages</th>
+                <th class="px-4 py-2.5 font-semibold">Notes</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              <tr><td class="px-4 py-2.5 font-medium"><a href="/alaska" class="text-teal-700 underline decoration-teal-200 hover:decoration-teal-500">Alaska</a></td><td class="px-4 py-2.5">None</td><td class="px-4 py-2.5">No state income tax and no state sales tax</td></tr>
+              <tr><td class="px-4 py-2.5 font-medium"><a href="/florida" class="text-teal-700 underline decoration-teal-200 hover:decoration-teal-500">Florida</a></td><td class="px-4 py-2.5">None</td><td class="px-4 py-2.5">Relies on sales &amp; tourism taxes</td></tr>
+              <tr><td class="px-4 py-2.5 font-medium"><a href="/nevada" class="text-teal-700 underline decoration-teal-200 hover:decoration-teal-500">Nevada</a></td><td class="px-4 py-2.5">None</td><td class="px-4 py-2.5">Gaming and sales taxes fund the state</td></tr>
+              <tr><td class="px-4 py-2.5 font-medium"><a href="/new-hampshire" class="text-teal-700 underline decoration-teal-200 hover:decoration-teal-500">New Hampshire</a></td><td class="px-4 py-2.5">None</td><td class="px-4 py-2.5">Old interest &amp; dividend tax phased to zero</td></tr>
+              <tr><td class="px-4 py-2.5 font-medium"><a href="/south-dakota" class="text-teal-700 underline decoration-teal-200 hover:decoration-teal-500">South Dakota</a></td><td class="px-4 py-2.5">None</td><td class="px-4 py-2.5">No state income tax</td></tr>
+              <tr><td class="px-4 py-2.5 font-medium"><a href="/tennessee" class="text-teal-700 underline decoration-teal-200 hover:decoration-teal-500">Tennessee</a></td><td class="px-4 py-2.5">None</td><td class="px-4 py-2.5">Former investment-income tax fully repealed</td></tr>
+              <tr><td class="px-4 py-2.5 font-medium"><a href="/texas" class="text-teal-700 underline decoration-teal-200 hover:decoration-teal-500">Texas</a></td><td class="px-4 py-2.5">None</td><td class="px-4 py-2.5">Higher property taxes are common</td></tr>
+              <tr><td class="px-4 py-2.5 font-medium"><a href="/washington" class="text-teal-700 underline decoration-teal-200 hover:decoration-teal-500">Washington</a></td><td class="px-4 py-2.5">None</td><td class="px-4 py-2.5">Capital-gains tax on high earners only</td></tr>
+              <tr><td class="px-4 py-2.5 font-medium"><a href="/wyoming" class="text-teal-700 underline decoration-teal-200 hover:decoration-teal-500">Wyoming</a></td><td class="px-4 py-2.5">None</td><td class="px-4 py-2.5">Mineral revenue keeps taxes low</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="mt-4 text-sm text-slate-500">
+          Click any state to open its dedicated paycheck calculator and see your exact take-home pay.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900">What "no income tax" actually removes</h2>
+        <p class="mt-4">
+          It is easy to read &ldquo;no income tax&rdquo; as &ldquo;no tax on my paycheck.&rdquo; That is not the case.
+          Living in one of these states removes <strong>only the state portion</strong> of your withholding. Everything
+          the federal government charges stays exactly the same, no matter where you live:
+        </p>
+        <ul class="mt-4 space-y-2.5">
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-teal-500 shrink-0"></span><span><strong>Federal income tax</strong> — still withheld from every paycheck based on your W-4.</span></li>
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-teal-500 shrink-0"></span><span><strong>Social Security</strong> — 6.2% of wages, up to the $176,100 wage base for 2025.</span></li>
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-teal-500 shrink-0"></span><span><strong>Medicare</strong> — 1.45% of all wages, with no income cap.</span></li>
+        </ul>
+        <p class="mt-4">
+          Together those federal deductions, known as FICA, make up the bulk of most people&rsquo;s payroll withholding.
+          A no-income-tax state simply skips the extra state layer that residents of California, New York, or Oregon pay
+          on top.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900">How much more do you keep?</h2>
+        <p class="mt-4">
+          State income tax rates vary widely, but they commonly take a few percent of your gross pay — and in high-tax
+          states, considerably more at higher incomes. Because that percentage comes off <em>before</em> the money ever
+          reaches your bank account, removing it can add anywhere from a few hundred to a few thousand dollars a year to
+          your net pay.
+        </p>
+        <div class="mt-6 rounded-2xl border border-slate-200 bg-gradient-to-br from-teal-50 to-white p-6">
+          <h3 class="font-bold text-slate-900">Quick example</h3>
+          <p class="mt-3 text-sm">
+            Suppose you earn <strong>$60,000</strong> a year. In a state that charges roughly 5% state income tax, that
+            is about <strong>$3,000</strong> withheld annually — around $115 out of a biweekly paycheck. Move to Texas or
+            Florida and that line disappears entirely, so the full amount stays in your take-home pay. Run your own
+            numbers with the <a href="/" class="text-teal-600 font-medium underline decoration-teal-200 hover:decoration-teal-500">EasyPayCalc paycheck calculator</a>
+            to see the difference for your salary and state.
+          </p>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900">The New Hampshire and Washington nuance</h2>
+        <p class="mt-4">
+          Two states on the list deserve a footnote, because their &ldquo;no income tax&rdquo; status has an asterisk —
+          though neither affects ordinary wages.
+        </p>
+        <ul class="mt-4 space-y-2.5">
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-teal-500 shrink-0"></span><span><strong>New Hampshire</strong> historically taxed <em>interest and dividend income</em> — never wages. That tax has been phased down and now sits at zero, so investment income is no longer taxed there either.</span></li>
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-teal-500 shrink-0"></span><span><strong>Washington</strong> introduced a <em>capital-gains tax</em> that applies to high earners on certain investment profits. Regular wage income remains completely untaxed by the state.</span></li>
+        </ul>
+        <p class="mt-4">
+          For someone earning a normal salary or hourly wage, both states behave exactly like the others: no state tax
+          comes out of your paycheck.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900">The tradeoff: where the money comes from instead</h2>
+        <p class="mt-4">
+          States still have to fund roads, schools, and services. With no income tax to lean on, many of these states
+          raise revenue in other ways — most often through <strong>higher sales taxes and property taxes</strong>.
+        </p>
+        <div class="mt-6 rounded-2xl border border-amber-200 bg-amber-50 p-6">
+          <h3 class="font-bold text-slate-900">Look at the whole picture</h3>
+          <p class="mt-3 text-sm text-slate-700">
+            Texas, for example, has no income tax but some of the highest property-tax rates in the country, which hits
+            homeowners. Tennessee leans on one of the highest combined sales-tax rates. Whether you truly come out ahead
+            depends on how much you earn, how much you spend, and whether you own property — not on the income-tax
+            headline alone.
+          </p>
+        </div>
+        <p class="mt-4">
+          For a renter with a solid salary, a no-income-tax state can be a clear win. For a homeowner in a high-property-tax
+          county, the savings may be smaller than expected. The only way to know is to compare your full tax burden, not
+          just the paycheck line.
+        </p>
+      </section>
+
+      <!-- FAQ -->
+      <section id="faq">
+        <h2 class="text-2xl font-bold text-slate-900">Frequently asked questions</h2>
+        <div class="mt-6 space-y-3">
+          {faqs.map((f) => (
+            <details class="group rounded-2xl border border-slate-200 bg-white px-5 open:shadow-sm transition">
+              <summary class="flex justify-between items-center cursor-pointer list-none font-semibold text-slate-800 py-4">
+                {f.q}
+                <span class="ml-4 shrink-0 grid place-items-center w-6 h-6 rounded-full bg-slate-100 text-slate-500 group-open:bg-teal-100 group-open:text-teal-700 group-open:rotate-45 transition">+</span>
+              </summary>
+              <p class="text-slate-600 leading-relaxed pb-5 -mt-1">{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <div class="rounded-2xl bg-teal-50 border border-teal-100 p-6 text-center">
+        <h2 class="text-xl font-bold text-slate-900">See your take-home pay in any state</h2>
+        <p class="mt-2 text-slate-600">Enter your salary and state to instantly compare your paycheck with and without state income tax.</p>
+        <a href="/" class="mt-4 inline-flex items-center gap-1.5 rounded-xl bg-teal-600 text-white font-semibold px-5 py-3 hover:bg-teal-700 transition">Open the paycheck calculator →</a>
+      </div>
+
+      <!-- Related guides -->
+      <section>
+        <h2 class="text-lg font-bold text-slate-900">Related guides</h2>
+        <ul class="mt-4 space-y-2">
+          <li><a href="/guides/gross-vs-net-pay" class="text-teal-600 hover:text-teal-800 underline decoration-teal-200 hover:decoration-teal-500">Gross vs. net pay explained</a></li>
+          <li><a href="/guides/how-to-read-your-pay-stub" class="text-teal-600 hover:text-teal-800 underline decoration-teal-200 hover:decoration-teal-500">How to read your pay stub</a></li>
+          <li><a href="/guides/salary-vs-hourly-pay" class="text-teal-600 hover:text-teal-800 underline decoration-teal-200 hover:decoration-teal-500">Salary vs. hourly pay</a></li>
+        </ul>
+      </section>
+
+      <p class="text-xs text-slate-400 leading-relaxed border-t border-slate-100 pt-6">
+        Disclaimer: This guide is for educational purposes only and does not constitute tax, legal, or financial advice.
+        Tax rules change and individual situations vary. Verify details with your state revenue department, the IRS, or a
+        qualified tax professional before making decisions.
+      </p>
+    </div>
+  </article>
+</Layout>

@@ -1,0 +1,67 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { GUIDES } from '../../lib/guides';
+
+const title = '1099 & Self-Employment Tax Guides — Freelancer Tax Explained';
+const description =
+  'Plain-English guides to self-employment and 1099 taxes: self-employment tax, quarterly estimated payments, deductions, the QBI deduction, 1099 vs W-2, and how much to set aside.';
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://1099estimator.com' },
+    { '@type': 'ListItem', position: 2, name: 'Guides', item: 'https://1099estimator.com/guides' },
+  ],
+};
+
+const listSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  itemListElement: GUIDES.map((g, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: g.title,
+    url: `https://1099estimator.com/guides/${g.slug}`,
+  })),
+};
+---
+
+<Layout title={title} description={description} schema={[breadcrumbSchema, listSchema]}>
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0 -z-10 bg-gradient-to-b from-indigo-50/80 via-white to-white"></div>
+    <div class="mx-auto max-w-4xl px-5 pt-16 pb-8 text-center">
+      <nav class="text-sm text-slate-400 mb-6" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-indigo-700">Home</a>
+        <span class="mx-1.5">/</span>
+        <span class="text-slate-600">Guides</span>
+      </nav>
+      <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-slate-900 text-balance">
+        1099 &amp; self-employment tax guides
+      </h1>
+      <p class="mt-4 text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
+        Clear, up-to-date explainers on how taxes work when you’re self-employed — so you know what you owe, when, and
+        how to keep more of it.
+      </p>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-5 pb-8">
+    <div class="grid sm:grid-cols-2 gap-4">
+      {GUIDES.map((g) => (
+        <a href={`/guides/${g.slug}`}
+          class="group flex flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md hover:border-indigo-300 transition">
+          <h2 class="font-bold text-lg text-slate-900 group-hover:text-indigo-700 transition">{g.title}</h2>
+          <p class="mt-2 text-sm text-slate-500 leading-relaxed flex-1">{g.blurb}</p>
+          <span class="mt-4 text-sm font-semibold text-indigo-600 inline-flex items-center gap-1">Read guide <span class="group-hover:translate-x-0.5 transition">→</span></span>
+        </a>
+      ))}
+    </div>
+
+    <div class="mt-10 rounded-2xl bg-indigo-50 border border-indigo-100 p-6 text-center">
+      <h2 class="text-xl font-bold text-slate-900">Ready to run your own numbers?</h2>
+      <p class="mt-2 text-slate-600">Enter your 1099 income and expenses for an instant estimate of your total tax and quarterly payments.</p>
+      <a href="/" class="mt-4 inline-flex items-center gap-1.5 rounded-xl bg-indigo-600 text-white font-semibold px-5 py-3 hover:bg-indigo-700 transition">Open the 1099 tax calculator →</a>
+    </div>
+  </section>
+</Layout>

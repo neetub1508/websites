@@ -1,9 +1,18 @@
 import type { APIRoute } from 'astro';
+import { GUIDES } from '../lib/guides';
 
 const SITE = 'https://1099estimator.com';
 
 // Central list of indexable routes. Add per-state pages here as they ship (spec §4).
-const ROUTES = ['/', '/about', '/contact', '/privacy', '/terms'];
+const ROUTES = [
+  '/',
+  '/about',
+  '/contact',
+  '/privacy',
+  '/terms',
+  '/guides',
+  ...GUIDES.map((g) => `/guides/${g.slug}`),
+];
 
 export const GET: APIRoute = () => {
   const urls = ROUTES.map(

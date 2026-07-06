@@ -1,0 +1,219 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const title = 'Pre-Tax Deductions: How 401(k), HSA & FSA Boost Your Take-Home Pay';
+const description =
+  'A clear guide to pre-tax payroll deductions: how 401(k), HSA, FSA, and health-insurance premiums lower your taxable income, the difference between pre-tax and post-tax, the FICA nuance, and a worked example of the tax savings.';
+
+const faqs = [
+  {
+    q: 'What is a pre-tax deduction?',
+    a: 'A pre-tax deduction is money taken out of your paycheck before income tax is calculated. Because it reduces your taxable income, you pay tax on a smaller amount, which lowers your total tax bill. Common examples are traditional 401(k) contributions, HSA and FSA contributions, and employer health-insurance premiums.',
+  },
+  {
+    q: 'Do 401(k) contributions reduce Social Security and Medicare taxes?',
+    a: 'No. Traditional 401(k) and 403(b) contributions are exempt from federal income tax, but they are still subject to Social Security (6.2%) and Medicare (1.45%) FICA taxes. So a 401(k) lowers your income tax but not your FICA — your future Social Security benefit is calculated on the full amount.',
+  },
+  {
+    q: 'What is the difference between pre-tax and post-tax deductions?',
+    a: 'A pre-tax deduction comes out before income tax is figured, so it shrinks your taxable income. A post-tax (after-tax) deduction comes out after tax has already been calculated, so it does not reduce your taxable income. A Roth 401(k) contribution and wage garnishments are examples of post-tax deductions.',
+  },
+  {
+    q: 'Can an HSA save me both income tax and FICA?',
+    a: 'It can. When you fund a Health Savings Account through your employer’s cafeteria (Section 125) plan by payroll deduction, the contribution can be exempt from both federal income tax and FICA. That is a stronger tax break than a 401(k), which only avoids income tax.',
+  },
+  {
+    q: 'How much do pre-tax deductions actually save me?',
+    a: 'Each pre-tax dollar saves tax at your marginal rate. With federal income tax brackets running from 10% to 37%, a worker in the 22% bracket saves about 22 cents of federal income tax for every pre-tax dollar — plus any state income tax and, for a cafeteria-plan HSA, FICA on top.',
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'Pre-Tax Deductions: How 401(k), HSA & FSA Boost Your Take-Home Pay',
+  description,
+  author: { '@type': 'Organization', name: 'EasyPayCalc' },
+  publisher: { '@type': 'Organization', name: 'EasyPayCalc', url: 'https://easypaycalc.com' },
+  mainEntityOfPage: 'https://easypaycalc.com/guides/pre-tax-deductions-401k-hsa',
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://easypaycalc.com' },
+    { '@type': 'ListItem', position: 2, name: 'Guides', item: 'https://easypaycalc.com/guides' },
+    { '@type': 'ListItem', position: 3, name: 'Pre-Tax Deductions', item: 'https://easypaycalc.com/guides/pre-tax-deductions-401k-hsa' },
+  ],
+};
+---
+
+<Layout title={title} description={description} schema={[articleSchema, faqSchema, breadcrumbSchema]}>
+  <article class="mx-auto max-w-3xl px-5 py-12">
+    <!-- Breadcrumb -->
+    <nav class="text-sm text-slate-400" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-teal-700">Home</a>
+      <span class="mx-1.5">/</span>
+      <a href="/guides" class="hover:text-teal-700">Guides</a>
+      <span class="mx-1.5">/</span>
+      <span class="text-slate-600">Pre-tax deductions</span>
+    </nav>
+
+    <header class="mt-6">
+      <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-teal-700 bg-teal-100/80 ring-1 ring-teal-200 rounded-full px-3 py-1">
+        <span class="w-1.5 h-1.5 rounded-full bg-teal-500"></span> Updated for 2025
+      </span>
+      <h1 class="mt-5 text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 text-balance">
+        Pre-tax deductions: how 401(k), HSA &amp; FSA boost your take-home pay
+      </h1>
+      <p class="mt-4 text-lg text-slate-500 leading-relaxed">
+        A few smart choices on your benefits form can shrink your tax bill without shrinking your lifestyle. Here is how
+        pre-tax deductions work, which ones cut which taxes, and exactly how much you can save.
+      </p>
+    </header>
+
+    <div class="mt-10 space-y-10 text-slate-600 leading-relaxed">
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900">What a pre-tax deduction actually does</h2>
+        <p class="mt-4">
+          Your paycheck doesn’t tax every dollar you earn. A <strong>pre-tax deduction</strong> is money your employer
+          pulls out of your gross pay <em>before</em> income tax is calculated. Because the tax is figured on what’s left,
+          you’re taxed on a smaller number — and a smaller taxable income means a smaller tax bill.
+        </p>
+        <p class="mt-4">
+          Think of it as a discount you set up in advance. If you earn $60,000 and route $5,000 into a traditional
+          401(k), the IRS treats your taxable wages as $55,000. You never see that $5,000 on your W-2 as taxable income,
+          so it’s never taxed at your income-tax rate this year. That’s the entire mechanism behind &ldquo;pre-tax.&rdquo;
+          You can watch this play out live in our
+          <a href="/" class="text-teal-600 font-medium underline decoration-teal-200 hover:decoration-teal-500">take-home pay calculator</a> —
+          it has a pre-tax deduction input, so you can type in a 401(k) or HSA amount and see net pay change instantly.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900">Pre-tax vs. post-tax: the key difference</h2>
+        <p class="mt-4">
+          The distinction that trips people up is <strong>when</strong> the deduction happens relative to the tax
+          calculation.
+        </p>
+        <ul class="mt-4 space-y-2.5">
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-teal-500 shrink-0"></span><span><strong>Pre-tax</strong> — taken out before income tax is figured, so it lowers your taxable income. Traditional 401(k), HSA, FSA, and employer health premiums.</span></li>
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-teal-500 shrink-0"></span><span><strong>Post-tax</strong> — taken out after tax is already calculated, so it does <em>not</em> lower your taxable income. Roth 401(k) contributions, wage garnishments, and most union dues.</span></li>
+        </ul>
+        <p class="mt-4">
+          Neither is automatically &ldquo;better.&rdquo; A Roth 401(k) is post-tax today but grows tax-free for
+          retirement; a traditional 401(k) is pre-tax today but taxed when you withdraw. This guide focuses on the
+          pre-tax side, because that’s what raises your take-home pay <em>right now</em>.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900">The main pre-tax deductions to know</h2>
+        <p class="mt-4">Four types cover almost every paycheck:</p>
+        <ul class="mt-4 space-y-2.5">
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-teal-500 shrink-0"></span><span><strong>Traditional 401(k) / 403(b)</strong> — retirement contributions that come out of pay before income tax. The 403(b) is the nonprofit and public-school version of the 401(k).</span></li>
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-teal-500 shrink-0"></span><span><strong>HSA (Health Savings Account)</strong> — for people on a qualifying high-deductible health plan. Contributions made through payroll can dodge both income tax and FICA (more on that below).</span></li>
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-teal-500 shrink-0"></span><span><strong>FSA (Flexible Spending Account)</strong> — pre-tax money set aside for medical costs or dependent care. Note the classic &ldquo;use it or lose it&rdquo; rule: unspent funds may be forfeited at year-end.</span></li>
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-teal-500 shrink-0"></span><span><strong>Employer health-insurance premiums</strong> — your share of medical, dental, and vision premiums is usually taken pre-tax through a Section 125 cafeteria plan.</span></li>
+        </ul>
+        <p class="mt-4">
+          Each of these has an annual cap set by the IRS. Because those limits are adjusted for inflation nearly every
+          year, always <strong>check the current IRS limit</strong> before you decide how much to contribute rather than
+          relying on last year’s figure.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900">The FICA nuance most people miss</h2>
+        <p class="mt-4">
+          &ldquo;Pre-tax&rdquo; doesn’t always mean exempt from <em>all</em> taxes. There are really two payroll taxes to
+          think about: <strong>federal income tax</strong> and <strong>FICA</strong> (Social Security at 6.2% and
+          Medicare at 1.45%). Pre-tax deductions don’t all treat FICA the same way.
+        </p>
+        <ul class="mt-4 space-y-2.5">
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-teal-500 shrink-0"></span><span>A <strong>traditional 401(k)</strong> lowers your income tax, but the contribution is <strong>still subject to Social Security and Medicare taxes</strong>. FICA is withheld on the full amount, which is why your 401(k) contributions still count toward your future Social Security benefit.</span></li>
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-teal-500 shrink-0"></span><span>An <strong>HSA funded through an employer cafeteria plan</strong> can be exempt from <strong>both income tax and FICA</strong>. That extra 7.65% of savings is what makes the payroll HSA one of the most tax-efficient deductions available.</span></li>
+        </ul>
+        <p class="mt-4">
+          Health-insurance premiums and FSAs run through a cafeteria plan generally get the same both-tax treatment as
+          the payroll HSA. The takeaway: a 401(k) saves you income tax only, while cafeteria-plan health accounts can
+          save you income tax and FICA.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900">A worked example of the tax savings</h2>
+        <p class="mt-4">
+          Each pre-tax dollar saves tax at your <strong>marginal rate</strong> — the rate on your last dollar of income.
+          Federal brackets run from 10% to 37%, so the higher your bracket, the more each pre-tax dollar is worth.
+        </p>
+        <div class="mt-6 rounded-2xl border border-teal-200 bg-gradient-to-br from-teal-50 to-white p-6">
+          <h3 class="font-bold text-slate-900">Example: a worker in the 22% bracket</h3>
+          <p class="mt-3 text-sm">
+            Suppose you contribute <strong>$5,000</strong> to a traditional 401(k) and your marginal federal income-tax
+            rate is <strong>22%</strong>. That deduction cuts your taxable income by $5,000, saving roughly
+            <strong>$1,100 in federal income tax</strong> (5,000 × 22%). If your state charges, say, a 5% income tax,
+            that’s another <strong>$250</strong> saved. FICA still applies to the 401(k), so no savings there.
+          </p>
+          <p class="mt-3 text-sm">
+            Now put <strong>$2,000</strong> into a payroll <strong>HSA</strong> instead. You save the same 22% income tax
+            (~$440) <em>plus</em> 7.65% FICA (~$153) — about <strong>$593 total</strong> on $2,000, because the HSA dodges
+            both taxes. Dollar for dollar, the cafeteria-plan HSA delivers the bigger break.
+          </p>
+        </div>
+        <p class="mt-4">
+          These figures are illustrative — your real savings depend on your bracket, your state, and how your employer’s
+          plan is set up. To see the effect on your own paycheck, plug your gross pay and a pre-tax amount into the
+          <a href="/" class="text-teal-600 font-medium underline decoration-teal-200 hover:decoration-teal-500">EasyPayCalc take-home pay calculator</a>
+          and compare net pay with and without the deduction.
+        </p>
+      </section>
+
+      <!-- FAQ -->
+      <section id="faq">
+        <h2 class="text-2xl font-bold text-slate-900">Frequently asked questions</h2>
+        <div class="mt-6 space-y-3">
+          {faqs.map((f) => (
+            <details class="group rounded-2xl border border-slate-200 bg-white px-5 open:shadow-sm transition">
+              <summary class="flex justify-between items-center cursor-pointer list-none font-semibold text-slate-800 py-4">
+                {f.q}
+                <span class="ml-4 shrink-0 grid place-items-center w-6 h-6 rounded-full bg-slate-100 text-slate-500 group-open:bg-teal-100 group-open:text-teal-700 group-open:rotate-45 transition">+</span>
+              </summary>
+              <p class="text-slate-600 leading-relaxed pb-5 -mt-1">{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <div class="rounded-2xl bg-teal-50 border border-teal-100 p-6 text-center">
+        <h2 class="text-xl font-bold text-slate-900">See your pre-tax deductions in action</h2>
+        <p class="mt-2 text-slate-600">Enter your gross pay and a 401(k) or HSA amount to watch your take-home pay update instantly.</p>
+        <a href="/" class="mt-4 inline-flex items-center gap-1.5 rounded-xl bg-teal-600 text-white font-semibold px-5 py-3 hover:bg-teal-700 transition">Open the take-home pay calculator →</a>
+      </div>
+
+      <!-- Related guides -->
+      <section>
+        <h2 class="text-lg font-bold text-slate-900">Related guides</h2>
+        <ul class="mt-4 space-y-2">
+          <li><a href="/guides/how-to-read-your-pay-stub" class="text-teal-600 hover:text-teal-800 underline decoration-teal-200 hover:decoration-teal-500">How to read your pay stub</a></li>
+          <li><a href="/guides/gross-vs-net-pay" class="text-teal-600 hover:text-teal-800 underline decoration-teal-200 hover:decoration-teal-500">Gross vs. net pay explained</a></li>
+          <li><a href="/guides/what-is-fica" class="text-teal-600 hover:text-teal-800 underline decoration-teal-200 hover:decoration-teal-500">What is FICA?</a></li>
+        </ul>
+      </section>
+
+      <p class="text-xs text-slate-400 leading-relaxed border-t border-slate-100 pt-6">
+        Disclaimer: This guide is for educational purposes only and does not constitute tax, legal, or financial advice.
+        Contribution limits and tax rules change and individual situations vary. Verify details with the IRS or a
+        qualified tax professional before making decisions.
+      </p>
+    </div>
+  </article>
+</Layout>

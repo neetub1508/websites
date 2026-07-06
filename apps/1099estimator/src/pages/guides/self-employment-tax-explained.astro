@@ -1,0 +1,240 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const title = 'Self-Employment Tax Explained (2025–2026) — The 15.3% Breakdown';
+const description =
+  'A plain-English guide to self-employment tax for freelancers and 1099 workers: what the 15.3% covers, the 92.35% adjustment, the Social Security wage cap, the Additional Medicare Tax, the half-SE-tax deduction, and a full worked example.';
+
+const faqs = [
+  {
+    q: 'What is self-employment tax and why do I owe it?',
+    a: 'Self-employment tax is how the self-employed pay into Social Security and Medicare. At a regular job your employer withholds half of these taxes and pays the other half for you. When you work for yourself, you are both the employer and the employee, so you cover both halves — a combined 15.3% rate.',
+  },
+  {
+    q: 'Is self-employment tax charged on all of my income?',
+    a: 'No. It applies to your net profit — revenue minus business expenses — and even then only to 92.35% of it. The IRS lets you reduce net profit by 7.65% before applying the 15.3% rate, which mirrors the employer-side deduction that W-2 workers receive.',
+  },
+  {
+    q: 'Does the 15.3% rate ever stop?',
+    a: 'The 12.4% Social Security portion stops once your earnings reach the annual wage base — $176,100 in 2025 and $184,500 in 2026. Above that, only the 2.9% Medicare portion continues, because Medicare has no cap.',
+  },
+  {
+    q: 'What is the Additional Medicare Tax?',
+    a: 'High earners pay an extra 0.9% Medicare tax on earnings above $200,000 for single filers, $250,000 for married filing jointly, and $125,000 for married filing separately. These thresholds are set by statute and are not adjusted for inflation.',
+  },
+  {
+    q: 'Can I deduct any of the self-employment tax I pay?',
+    a: 'Yes. You deduct one-half of your self-employment tax as an above-the-line deduction on your income-tax return. It lowers your taxable income (not the SE tax itself), and you get it whether or not you itemize.',
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'Self-Employment Tax Explained (2025–2026)',
+  description,
+  author: { '@type': 'Organization', name: '1099 Estimator' },
+  publisher: { '@type': 'Organization', name: '1099 Estimator', url: 'https://1099estimator.com' },
+  mainEntityOfPage: 'https://1099estimator.com/guides/self-employment-tax-explained',
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://1099estimator.com' },
+    { '@type': 'ListItem', position: 2, name: 'Guides', item: 'https://1099estimator.com/guides' },
+    { '@type': 'ListItem', position: 3, name: 'Self-Employment Tax', item: 'https://1099estimator.com/guides/self-employment-tax-explained' },
+  ],
+};
+---
+
+<Layout title={title} description={description} schema={[articleSchema, faqSchema, breadcrumbSchema]}>
+  <article class="mx-auto max-w-3xl px-5 py-12">
+    <!-- Breadcrumb -->
+    <nav class="text-sm text-slate-400" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-indigo-700">Home</a>
+      <span class="mx-1.5">/</span>
+      <a href="/guides" class="hover:text-indigo-700">Guides</a>
+      <span class="mx-1.5">/</span>
+      <span class="text-slate-600">Self-employment tax explained</span>
+    </nav>
+
+    <header class="mt-6">
+      <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-700 bg-indigo-100/80 ring-1 ring-indigo-200 rounded-full px-3 py-1">
+        <span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span> Updated for the 2025 &amp; 2026 tax years
+      </span>
+      <h1 class="mt-5 text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 text-balance">
+        Self-employment tax explained
+      </h1>
+      <p class="mt-4 text-lg text-slate-500 leading-relaxed">
+        For most 1099 workers, self-employment tax is the single biggest line on their tax bill — bigger, often, than
+        federal income tax. Here is exactly what the 15.3% covers, how it is calculated, and where it stops.
+      </p>
+    </header>
+
+    <div class="mt-10 space-y-10 text-slate-600 leading-relaxed">
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900">What self-employment tax actually is</h2>
+        <p class="mt-4">
+          Self-employment (SE) tax is not a separate penalty for working for yourself — it is simply how the
+          self-employed pay into <strong>Social Security and Medicare</strong>. At a traditional job, these are the
+          FICA taxes taken out of every paycheck. Your employer withholds your half and quietly pays a matching half on
+          top, so you never see the full cost.
+        </p>
+        <p class="mt-4">
+          When you earn 1099 income, there is no employer to cover that other half. You are treated as
+          <strong>both the employer and the employee</strong>, which means you owe both portions yourself. That is why
+          the SE tax rate feels high compared with the FICA line on an old W-2 — you are now seeing the whole bill, not
+          just your share of it.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900">The 15.3% breakdown</h2>
+        <p class="mt-4">The 15.3% self-employment tax rate is made of two separate pieces:</p>
+        <ul class="mt-4 space-y-2.5">
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-indigo-500 shrink-0"></span><span><strong>12.4% for Social Security</strong> — funds retirement, disability, and survivor benefits.</span></li>
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-indigo-500 shrink-0"></span><span><strong>2.9% for Medicare</strong> — funds hospital insurance for people 65 and older.</span></li>
+        </ul>
+        <p class="mt-4">
+          Add them together and you get 15.3%. Each half of that (the 7.65% an employer would normally pay, and the
+          7.65% an employee would normally pay) is folded into one figure on your return. The key subtlety is that these
+          two pieces behave differently once your income gets large — the Social Security portion has a ceiling, and the
+          Medicare portion does not.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900">The 92.35% adjustment</h2>
+        <p class="mt-4">
+          Here is a detail that trips up almost everyone: <strong>SE tax is not charged on your full net profit.</strong>
+          Before applying the 15.3%, the IRS lets you multiply your net profit (business revenue minus deductible
+          expenses) by <strong>92.35%</strong>. In other words, you knock 7.65% off first.
+        </p>
+        <p class="mt-4">
+          Why 7.65%? It exists so that self-employed people get a rough equivalent of the deduction W-2 workers enjoy —
+          an employee is not taxed on the employer's half of FICA, so the IRS shaves an equivalent slice off your profit
+          before the SE rate applies. Practically, it means your effective SE rate on net profit is closer to
+          <strong>14.13%</strong> than the headline 15.3%.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900">The Social Security wage cap and Additional Medicare Tax</h2>
+        <p class="mt-4">
+          The 12.4% Social Security portion only applies up to an annual <strong>wage base</strong>. Earn more than the
+          cap and the Social Security piece simply stops — only the 2.9% Medicare portion continues on the rest, because
+          <strong>Medicare has no cap.</strong> The wage base rises most years:
+        </p>
+        <div class="mt-5 overflow-x-auto">
+          <table class="w-full text-sm border border-slate-200 rounded-xl overflow-hidden">
+            <thead class="bg-slate-50 text-slate-500 text-left">
+              <tr>
+                <th class="px-4 py-2.5 font-semibold">Tax year</th>
+                <th class="px-4 py-2.5 font-semibold">Social Security wage base</th>
+                <th class="px-4 py-2.5 font-semibold">Medicare cap</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              <tr><td class="px-4 py-2.5 font-medium text-slate-800">2025</td><td class="px-4 py-2.5">$176,100</td><td class="px-4 py-2.5">None</td></tr>
+              <tr><td class="px-4 py-2.5 font-medium text-slate-800">2026</td><td class="px-4 py-2.5">$184,500</td><td class="px-4 py-2.5">None</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="mt-4">
+          On top of that, higher earners pay an <strong>Additional Medicare Tax of 0.9%</strong> on earnings above a
+          fixed threshold: <strong>$200,000</strong> for single filers, <strong>$250,000</strong> for married filing
+          jointly, and <strong>$125,000</strong> for married filing separately. Unlike the wage base, these thresholds
+          are written into law and are <em>not</em> adjusted for inflation, so more people cross them each year.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900">The half-of-SE-tax deduction</h2>
+        <p class="mt-4">
+          The system gives something back. You get to <strong>deduct one-half of your self-employment tax</strong> as an
+          above-the-line deduction on your income-tax return. &ldquo;Above the line&rdquo; means it lowers your adjusted
+          gross income directly — you claim it whether or not you itemize.
+        </p>
+        <p class="mt-4">
+          Be careful what this deduction does: it <strong>reduces your taxable income for income-tax purposes</strong>,
+          not the SE tax itself. You still write the full SE-tax check, but the deduction softens the income tax stacked
+          on top of it. It is another way the rules put you on roughly equal footing with an employee, whose employer
+          also does not pay income tax on its half of FICA.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900">A worked example, start to finish</h2>
+        <p class="mt-4">
+          Numbers make this concrete. Say you are a freelancer with <strong>$68,000 in net profit</strong> — that is
+          after subtracting your business expenses. Here is how the SE tax flows:
+        </p>
+        <div class="mt-6 rounded-2xl border border-slate-200 bg-gradient-to-br from-indigo-50 to-white p-6">
+          <h3 class="font-bold text-slate-900">Net profit of $68,000</h3>
+          <ul class="mt-4 space-y-2.5 text-sm">
+            <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-indigo-500 shrink-0"></span><span>Apply the 92.35% adjustment: $68,000 &times; 92.35% = <strong>$62,798</strong> of taxable SE earnings.</span></li>
+            <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-indigo-500 shrink-0"></span><span>Apply the 15.3% rate: $62,798 &times; 15.3% = about <strong>$9,608</strong> in self-employment tax.</span></li>
+            <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-indigo-500 shrink-0"></span><span>Deduct half: $9,608 &divide; 2 = <strong>$4,804</strong> comes off your income before income tax is figured.</span></li>
+          </ul>
+          <p class="mt-4 text-sm">
+            Because this profit is well under the $176,100 (2025) wage base, the full 15.3% applies — no cap kicks in,
+            and the Additional Medicare Tax does not apply either.
+          </p>
+        </div>
+        <p class="mt-4">
+          That $9,608 is <em>only</em> the self-employment tax — your federal income tax sits on top of it. To see both
+          together for your own numbers, run them through our
+          <a href="/" class="text-indigo-600 font-medium underline decoration-indigo-200 hover:decoration-indigo-500">1099 tax calculator</a>,
+          which applies the 92.35% adjustment, the wage cap, and the half-SE-tax deduction automatically.
+        </p>
+      </section>
+
+      <!-- FAQ -->
+      <section id="faq">
+        <h2 class="text-2xl font-bold text-slate-900">Frequently asked questions</h2>
+        <div class="mt-6 space-y-3">
+          {faqs.map((f) => (
+            <details class="group rounded-2xl border border-slate-200 bg-white px-5 open:shadow-sm transition">
+              <summary class="flex justify-between items-center cursor-pointer list-none font-semibold text-slate-800 py-4">
+                {f.q}
+                <span class="ml-4 shrink-0 grid place-items-center w-6 h-6 rounded-full bg-slate-100 text-slate-500 group-open:bg-indigo-100 group-open:text-indigo-700 group-open:rotate-45 transition">+</span>
+              </summary>
+              <p class="text-slate-600 leading-relaxed pb-5 -mt-1">{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <div class="rounded-2xl bg-indigo-50 border border-indigo-100 p-6 text-center">
+        <h2 class="text-xl font-bold text-slate-900">See your self-employment tax in seconds</h2>
+        <p class="mt-2 text-slate-600">Enter your net profit and the calculator applies the 92.35% adjustment, 15.3% rate, and half-SE-tax deduction for you.</p>
+        <a href="/" class="mt-4 inline-flex items-center gap-1.5 rounded-xl bg-indigo-600 text-white font-semibold px-5 py-3 hover:bg-indigo-700 transition">Open the 1099 tax calculator →</a>
+      </div>
+
+      <!-- Related guides -->
+      <section>
+        <h2 class="text-lg font-bold text-slate-900">Related guides</h2>
+        <ul class="mt-4 space-y-2">
+          <li><a href="/guides/quarterly-estimated-taxes" class="text-indigo-600 hover:text-indigo-800 underline decoration-indigo-200 hover:decoration-indigo-500">How to pay quarterly estimated taxes</a></li>
+          <li><a href="/guides/self-employed-tax-deductions" class="text-indigo-600 hover:text-indigo-800 underline decoration-indigo-200 hover:decoration-indigo-500">Top tax deductions for the self-employed</a></li>
+          <li><a href="/guides/qbi-deduction" class="text-indigo-600 hover:text-indigo-800 underline decoration-indigo-200 hover:decoration-indigo-500">The QBI deduction for the self-employed</a></li>
+        </ul>
+      </section>
+
+      <p class="text-xs text-slate-400 leading-relaxed border-t border-slate-100 pt-6">
+        Disclaimer: This guide is for educational purposes only and does not constitute tax, legal, or financial advice.
+        Tax rules change and individual situations vary. Verify details with the IRS or a qualified tax professional
+        before making decisions.
+      </p>
+    </div>
+  </article>
+</Layout>

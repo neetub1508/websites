@@ -1,0 +1,236 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const title = '1099 vs W-2: Tax Differences Explained (2025–2026)';
+const description =
+  'A clear breakdown of 1099 vs W-2 taxes: who pays Social Security and Medicare, withholding vs quarterly estimated payments, deductions and benefits, and how take-home pay compares on the same headline salary.';
+
+const faqs = [
+  {
+    q: 'What is the main tax difference between 1099 and W-2?',
+    a: 'A W-2 employee splits the 15.3% Social Security and Medicare tax with their employer — each side pays 7.65%. A 1099 independent contractor pays the full 15.3% themselves as self-employment tax. The contractor can deduct half of that self-employment tax, but they still shoulder the whole cost up front.',
+  },
+  {
+    q: 'Do 1099 contractors pay more tax than W-2 employees?',
+    a: 'On the same headline pay, a 1099 worker owes more payroll tax because they cover both halves of Social Security and Medicare. But contractors can deduct business expenses on Schedule C and may qualify for the 20% QBI deduction, which often narrows or closes the gap. The real difference depends on how many legitimate expenses you have.',
+  },
+  {
+    q: 'Why is nothing withheld from a 1099 payment?',
+    a: 'A 1099 payment is not a paycheck — the payer is a client, not an employer, so they send the full amount with no tax taken out. Because there is no withholding, the IRS asks contractors to make quarterly estimated payments instead so tax is still paid throughout the year.',
+  },
+  {
+    q: 'Can W-2 employees deduct job expenses like 1099 workers?',
+    a: 'Generally no. Under current federal rules, W-2 employees cannot deduct unreimbursed job expenses on their federal return. A 1099 contractor, by contrast, can deduct ordinary and necessary business expenses on Schedule C, which directly lowers the income that is taxed.',
+  },
+  {
+    q: 'Is the Social Security tax capped for both 1099 and W-2 workers?',
+    a: 'Yes. The 12.4% Social Security portion applies only up to an annual wage base — $176,100 for 2025 and $184,500 for 2026 — for employees and contractors alike. The 2.9% Medicare portion has no cap and applies to all earnings.',
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: '1099 vs W-2: Tax Differences Explained',
+  description,
+  author: { '@type': 'Organization', name: '1099 Estimator' },
+  publisher: { '@type': 'Organization', name: '1099 Estimator', url: 'https://1099estimator.com' },
+  mainEntityOfPage: 'https://1099estimator.com/guides/1099-vs-w2',
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://1099estimator.com' },
+    { '@type': 'ListItem', position: 2, name: 'Guides', item: 'https://1099estimator.com/guides' },
+    { '@type': 'ListItem', position: 3, name: '1099 vs W-2', item: 'https://1099estimator.com/guides/1099-vs-w2' },
+  ],
+};
+---
+
+<Layout title={title} description={description} schema={[articleSchema, faqSchema, breadcrumbSchema]}>
+  <article class="mx-auto max-w-3xl px-5 py-12">
+    <!-- Breadcrumb -->
+    <nav class="text-sm text-slate-400" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-indigo-700">Home</a>
+      <span class="mx-1.5">/</span>
+      <a href="/guides" class="hover:text-indigo-700">Guides</a>
+      <span class="mx-1.5">/</span>
+      <span class="text-slate-600">1099 vs W-2</span>
+    </nav>
+
+    <header class="mt-6">
+      <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-700 bg-indigo-100/80 ring-1 ring-indigo-200 rounded-full px-3 py-1">
+        <span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span> Updated for the 2025 &amp; 2026 tax years
+      </span>
+      <h1 class="mt-5 text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 text-balance">
+        1099 vs W-2: the tax differences explained
+      </h1>
+      <p class="mt-4 text-lg text-slate-500 leading-relaxed">
+        The same $80,000 can leave two people with very different tax bills — one an employee, one a contractor. Here is
+        how the two forms actually differ, who pays which taxes, and why your take-home isn’t what the headline number
+        suggests.
+      </p>
+    </header>
+
+    <div class="mt-10 space-y-10 text-slate-600 leading-relaxed">
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900">What the two forms really mean</h2>
+        <p class="mt-4">
+          A <strong>W-2</strong> is the form an employer sends an <strong>employee</strong>. It reports the wages you
+          earned and — crucially — the taxes your employer already withheld and sent to the IRS on your behalf. A
+          <strong>1099</strong> (usually a 1099-NEC) is the form a client sends an <strong>independent contractor</strong>.
+          It reports what they paid you and nothing else, because a client doesn’t withhold anything.
+        </p>
+        <p class="mt-4">
+          That single distinction — employee versus contractor — drives every tax difference that follows. It isn’t about
+          the kind of work you do; it’s about your legal relationship with whoever pays you. This guide explains the tax
+          mechanics only, and doesn’t address how a worker should be legally classified — that’s a separate question with
+          its own rules.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900">Who pays Social Security and Medicare</h2>
+        <p class="mt-4">
+          Social Security (12.4%) and Medicare (2.9%) together make up a <strong>15.3% payroll tax</strong> on earnings.
+          The difference between 1099 and W-2 is simply <em>who writes the check</em>.
+        </p>
+        <ul class="mt-4 space-y-2.5">
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-indigo-500 shrink-0"></span><span>As a <strong>W-2 employee</strong>, you pay <strong>half — 7.65%</strong> — through FICA withholding on each paycheck. Your employer quietly pays the matching 7.65%. You may never notice their half, but it’s a real cost of employing you.</span></li>
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-indigo-500 shrink-0"></span><span>As a <strong>1099 contractor</strong>, there is no employer to match you, so you pay the <strong>full 15.3% yourself</strong> as <em>self-employment tax</em>. It’s calculated on 92.35% of your net profit, and you can <strong>deduct half of it</strong> as an above-the-line adjustment on your return.</span></li>
+        </ul>
+        <p class="mt-4">
+          That deduction for half of self-employment tax is the tax code’s way of putting contractors on more even footing
+          with employees, since the employer’s share isn’t taxable to a W-2 worker either. It softens the blow, but a 1099
+          worker still funds both halves of the tax out of their own income.
+        </p>
+        <p class="mt-4">
+          One thing is identical for both: the 12.4% Social Security portion only applies up to an annual
+          <strong>wage base — $176,100 in 2025 and $184,500 in 2026</strong>. Earnings above that cap owe no more Social
+          Security tax. The 2.9% Medicare portion, however, has <strong>no cap</strong> and applies to every dollar.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900">Withholding vs quarterly estimated payments</h2>
+        <p class="mt-4">
+          Because a W-2 employer withholds income tax and FICA from every paycheck, an employee’s tax is paid
+          automatically as they earn — they mostly just reconcile it once a year when they file. A 1099 contractor gets
+          the full payment with <strong>nothing withheld</strong>, so the responsibility shifts to them.
+        </p>
+        <p class="mt-4">
+          The U.S. system is &ldquo;pay-as-you-go,&rdquo; so contractors replace paycheck withholding with
+          <strong>quarterly estimated payments</strong> — four deliberate payments across the year. Miss them and you can
+          owe an underpayment penalty even if you pay in full at tax time. Our
+          <a href="/" class="text-indigo-600 font-medium underline decoration-indigo-200 hover:decoration-indigo-500">1099 tax calculator</a>
+          estimates your total federal tax and splits it into four so you know what to set aside.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900">Deductions and benefits</h2>
+        <p class="mt-4">
+          Payroll tax is only one side of the ledger. Contractors get deductions employees don’t, while employees get
+          benefits contractors have to buy for themselves.
+        </p>
+        <ul class="mt-4 space-y-2.5">
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-indigo-500 shrink-0"></span><span><strong>Business expenses:</strong> a 1099 contractor deducts ordinary and necessary costs — software, equipment, mileage, a home office — on <strong>Schedule C</strong>, lowering the profit that gets taxed. W-2 employees generally <strong>cannot</strong> deduct unreimbursed job expenses on their federal return.</span></li>
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-indigo-500 shrink-0"></span><span><strong>QBI deduction:</strong> contractors may qualify for the <strong>20% Qualified Business Income deduction</strong>, which can shave 20% off qualifying business profit before income tax is applied. Wages don’t qualify.</span></li>
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-indigo-500 shrink-0"></span><span><strong>Benefits:</strong> employees often receive health insurance, paid leave, and a retirement match. Contractors fund all of that themselves — though self-employed health insurance and retirement contributions can bring their own deductions.</span></li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900">1099 vs W-2 at a glance</h2>
+        <p class="mt-4">
+          Here’s how the same headline pay is treated differently depending on which form you receive:
+        </p>
+        <div class="mt-5 overflow-x-auto">
+          <table class="w-full text-sm border border-slate-200 rounded-xl overflow-hidden">
+            <thead class="bg-slate-50 text-slate-500 text-left">
+              <tr>
+                <th class="px-4 py-2.5 font-semibold">Feature</th>
+                <th class="px-4 py-2.5 font-semibold">W-2 employee</th>
+                <th class="px-4 py-2.5 font-semibold">1099 contractor</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              <tr><td class="px-4 py-2.5 font-medium text-slate-800">Social Security + Medicare</td><td class="px-4 py-2.5">You pay 7.65%; employer pays 7.65%</td><td class="px-4 py-2.5">You pay all 15.3% yourself</td></tr>
+              <tr><td class="px-4 py-2.5 font-medium text-slate-800">Deduct half the payroll tax?</td><td class="px-4 py-2.5">N/A (employer share isn’t taxed to you)</td><td class="px-4 py-2.5">Yes — deduct half of SE tax</td></tr>
+              <tr><td class="px-4 py-2.5 font-medium text-slate-800">Income tax paid via</td><td class="px-4 py-2.5">Paycheck withholding</td><td class="px-4 py-2.5">Quarterly estimated payments</td></tr>
+              <tr><td class="px-4 py-2.5 font-medium text-slate-800">Business expense deductions</td><td class="px-4 py-2.5">Generally none</td><td class="px-4 py-2.5">Schedule C expenses</td></tr>
+              <tr><td class="px-4 py-2.5 font-medium text-slate-800">20% QBI deduction</td><td class="px-4 py-2.5">Not eligible</td><td class="px-4 py-2.5">May qualify</td></tr>
+              <tr><td class="px-4 py-2.5 font-medium text-slate-800">Benefits</td><td class="px-4 py-2.5">Often employer-provided</td><td class="px-4 py-2.5">Self-funded</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900">Comparing take-home on the same pay</h2>
+        <p class="mt-4">
+          Put it together and the picture is nuanced. On <strong>$80,000</strong> of headline pay, the W-2 employee pays
+          7.65% in FICA (about $6,120) while the employer covers the matching share behind the scenes. The 1099 contractor
+          on the same $80,000 owes the full 15.3% self-employment tax on 92.35% of net profit — noticeably more payroll
+          tax — but only after subtracting business expenses.
+        </p>
+        <p class="mt-4">
+          That’s the catch that makes a flat comparison misleading. A contractor with <strong>few expenses</strong> tends
+          to keep less than a comparable employee, because they’re absorbing the employer’s payroll share with little to
+          offset it. A contractor with <strong>meaningful deductible expenses</strong> and a QBI deduction can end up
+          close to — or even ahead of — the employee, because those deductions shrink the income that gets taxed. The
+          honest answer is: it depends on your expenses. The fastest way to see your own number is to
+          <a href="/" class="text-indigo-600 font-medium underline decoration-indigo-200 hover:decoration-indigo-500">run your figures through the calculator</a>
+          and compare.
+        </p>
+      </section>
+
+      <!-- FAQ -->
+      <section id="faq">
+        <h2 class="text-2xl font-bold text-slate-900">Frequently asked questions</h2>
+        <div class="mt-6 space-y-3">
+          {faqs.map((f) => (
+            <details class="group rounded-2xl border border-slate-200 bg-white px-5 open:shadow-sm transition">
+              <summary class="flex justify-between items-center cursor-pointer list-none font-semibold text-slate-800 py-4">
+                {f.q}
+                <span class="ml-4 shrink-0 grid place-items-center w-6 h-6 rounded-full bg-slate-100 text-slate-500 group-open:bg-indigo-100 group-open:text-indigo-700 group-open:rotate-45 transition">+</span>
+              </summary>
+              <p class="text-slate-600 leading-relaxed pb-5 -mt-1">{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <div class="rounded-2xl bg-indigo-50 border border-indigo-100 p-6 text-center">
+        <h2 class="text-xl font-bold text-slate-900">See your 1099 tax bill in seconds</h2>
+        <p class="mt-2 text-slate-600">Enter your contractor income and expenses to estimate self-employment tax, income tax, and quarterly payments.</p>
+        <a href="/" class="mt-4 inline-flex items-center gap-1.5 rounded-xl bg-indigo-600 text-white font-semibold px-5 py-3 hover:bg-indigo-700 transition">Open the 1099 tax calculator →</a>
+      </div>
+
+      <!-- Related guides -->
+      <section>
+        <h2 class="text-lg font-bold text-slate-900">Related guides</h2>
+        <ul class="mt-4 space-y-2">
+          <li><a href="/guides/self-employment-tax-explained" class="text-indigo-600 hover:text-indigo-800 underline decoration-indigo-200 hover:decoration-indigo-500">Self-employment tax explained</a></li>
+          <li><a href="/guides/quarterly-estimated-taxes" class="text-indigo-600 hover:text-indigo-800 underline decoration-indigo-200 hover:decoration-indigo-500">How to pay quarterly estimated taxes</a></li>
+          <li><a href="/guides/self-employed-tax-deductions" class="text-indigo-600 hover:text-indigo-800 underline decoration-indigo-200 hover:decoration-indigo-500">Top tax deductions for the self-employed</a></li>
+        </ul>
+      </section>
+
+      <p class="text-xs text-slate-400 leading-relaxed border-t border-slate-100 pt-6">
+        Disclaimer: This guide is for educational purposes only and does not constitute tax, legal, or financial advice,
+        and it does not address worker-classification decisions. Tax rules change and individual situations vary. Verify
+        details with the IRS or a qualified tax professional before making decisions.
+      </p>
+    </div>
+  </article>
+</Layout>

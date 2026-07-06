@@ -1,0 +1,224 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const title = 'How to Read Your Pay Stub (2025) — Every Line Explained';
+const description =
+  'A plain-English guide to reading your U.S. pay stub: gross vs. net pay, the pay period, federal and state income tax withholding, FICA (Social Security and Medicare), pre-tax and post-tax deductions, YTD totals, and how to spot payroll errors.';
+
+const faqs = [
+  {
+    q: 'What is the difference between gross pay and net pay on my stub?',
+    a: 'Gross pay is what you earned before anything is taken out. Net pay — often labeled "take-home pay" — is what actually lands in your bank account after taxes and deductions are subtracted. The gap between the two is the sum of every withholding and deduction line on your stub.',
+  },
+  {
+    q: 'What do FICA, OASDI, and Med mean on a pay stub?',
+    a: 'They are your payroll taxes. FICA is Social Security plus Medicare combined. OASDI (Old-Age, Survivors, and Disability Insurance) is the Social Security portion — 6.2% of wages up to a $176,100 wage base in 2025. "Med" or "Medicare" is 1.45% of all wages, with an extra 0.9% on wages above $200,000.',
+  },
+  {
+    q: 'Why is my taxable income lower than my gross pay?',
+    a: 'Pre-tax deductions such as traditional 401(k) contributions, HSA contributions, and many health-insurance premiums are subtracted from your gross pay before income tax is calculated. That lowers the wage figure your federal and state withholding is based on, so your taxable income shows up smaller than your gross.',
+  },
+  {
+    q: 'What does YTD mean on my pay stub?',
+    a: 'YTD stands for "year-to-date." Each YTD column adds up that line — gross pay, a specific tax, or a deduction — from January 1 through the current pay date. YTD totals are useful for checking your annual tax withholding and confirming benefit contributions are on track.',
+  },
+  {
+    q: 'How can I tell if there is an error on my pay stub?',
+    a: 'Recompute gross pay from your hours and rate, confirm your pay period dates and hours are correct, check that Social Security is 6.2% and Medicare is 1.45% of the right wage base, and verify your deductions match what you elected. If a YTD figure jumps unexpectedly or a deduction appears that you never signed up for, ask your payroll or HR department.',
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'How to Read Your Pay Stub (2025)',
+  description,
+  author: { '@type': 'Organization', name: 'EasyPayCalc' },
+  publisher: { '@type': 'Organization', name: 'EasyPayCalc', url: 'https://easypaycalc.com' },
+  mainEntityOfPage: 'https://easypaycalc.com/guides/how-to-read-your-pay-stub',
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://easypaycalc.com' },
+    { '@type': 'ListItem', position: 2, name: 'Guides', item: 'https://easypaycalc.com/guides' },
+    { '@type': 'ListItem', position: 3, name: 'How to Read Your Pay Stub', item: 'https://easypaycalc.com/guides/how-to-read-your-pay-stub' },
+  ],
+};
+---
+
+<Layout title={title} description={description} schema={[articleSchema, faqSchema, breadcrumbSchema]}>
+  <article class="mx-auto max-w-3xl px-5 py-12">
+    <!-- Breadcrumb -->
+    <nav class="text-sm text-slate-400" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-teal-700">Home</a>
+      <span class="mx-1.5">/</span>
+      <a href="/guides" class="hover:text-teal-700">Guides</a>
+      <span class="mx-1.5">/</span>
+      <span class="text-slate-600">How to read your pay stub</span>
+    </nav>
+
+    <header class="mt-6">
+      <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-teal-700 bg-teal-100/80 ring-1 ring-teal-200 rounded-full px-3 py-1">
+        <span class="w-1.5 h-1.5 rounded-full bg-teal-500"></span> Updated for 2025
+      </span>
+      <h1 class="mt-5 text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 text-balance">
+        How to read your pay stub
+      </h1>
+      <p class="mt-4 text-lg text-slate-500 leading-relaxed">
+        Your pay stub is a receipt for your paycheck: it shows what you earned, everything that was withheld, and what
+        finally reached your account. Here is what every line means — and how to catch a mistake before it costs you.
+      </p>
+    </header>
+
+    <div class="mt-10 space-y-10 text-slate-600 leading-relaxed">
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900">Gross pay, net pay, and the pay period</h2>
+        <p class="mt-4">
+          Start at the top. Three anchor figures frame the whole stub:
+        </p>
+        <ul class="mt-4 space-y-2.5">
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-teal-500 shrink-0"></span><span><strong>Gross pay</strong> — everything you earned this period before a single deduction: your salary or hourly wages, plus overtime, bonuses, commissions, and tips.</span></li>
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-teal-500 shrink-0"></span><span><strong>Net pay</strong> — your <em>take-home pay</em>, the amount actually deposited after all taxes and deductions come out. This is the number you can spend.</span></li>
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-teal-500 shrink-0"></span><span><strong>Pay period</strong> — the date range this check covers (e.g. a two-week window), along with the pay date. Weekly, biweekly, semimonthly, and monthly schedules all change the size of each check even when your annual salary is identical.</span></li>
+        </ul>
+        <p class="mt-4">
+          Every other line on the stub exists to explain the distance between gross and net. If you want to see that math
+          play out for your own salary and state before payday, run it through the
+          <a href="/" class="text-teal-600 font-medium underline decoration-teal-200 hover:decoration-teal-500">EasyPayCalc paycheck calculator</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900">Income tax withholding: federal and state</h2>
+        <p class="mt-4">
+          The largest cluster of deductions is usually income tax that your employer withholds and sends to the
+          government on your behalf.
+        </p>
+        <ul class="mt-4 space-y-2.5">
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-teal-500 shrink-0"></span><span><strong>Federal income tax</strong> — withheld based on the W-4 you filed and the IRS withholding tables. Federal tax is <em>progressive</em>, running from 10% up to 37% across brackets, and it applies to your income after the standard deduction ($15,000 for single filers and $30,000 for married-filing-jointly in 2025).</span></li>
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-teal-500 shrink-0"></span><span><strong>State (and sometimes local) income tax</strong> — withheld the same way where your state charges it. A handful of states have no income tax at all, so this line may be blank depending on where you work.</span></li>
+        </ul>
+        <div class="mt-6 rounded-2xl border border-teal-100 bg-teal-50 p-6">
+          <h3 class="font-bold text-slate-900">Withholding is an estimate, not your final bill</h3>
+          <p class="mt-3 text-sm">
+            The tax withheld each period is your employer's best guess at what you will owe for the year. If too much is
+            withheld you get a refund at tax time; if too little, you owe. Adjusting your W-4 raises or lowers this line —
+            it does not change the actual tax you owe, only the timing.
+          </p>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900">FICA: Social Security and Medicare</h2>
+        <p class="mt-4">
+          <strong>FICA</strong> stands for the Federal Insurance Contributions Act, and on your stub it is Social
+          Security plus Medicare combined. These are flat payroll taxes — not progressive brackets — and they may appear
+          under labels like "OASDI," "Soc Sec," "Med," or "Fed MED/EE."
+        </p>
+        <ul class="mt-4 space-y-2.5">
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-teal-500 shrink-0"></span><span><strong>Social Security</strong> — 6.2% of your wages, but only up to a <strong>$176,100 wage base</strong> in 2025. Once your year-to-date wages pass that cap, this deduction stops for the rest of the year.</span></li>
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-teal-500 shrink-0"></span><span><strong>Medicare</strong> — 1.45% of <em>all</em> your wages, with no cap. High earners pay an <strong>extra 0.9%</strong> on wages above $200,000 (single) or $250,000 (married), which shows up as an additional Medicare line.</span></li>
+        </ul>
+        <p class="mt-4">
+          Your employer quietly matches your Social Security and Medicare contributions dollar for dollar — that match
+          does not appear on your stub, but it is part of why these taxes fund your future benefits.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900">Pre-tax vs. post-tax deductions</h2>
+        <p class="mt-4">
+          Deductions come in two flavors, and the order matters because pre-tax items shrink the income your taxes are
+          calculated on.
+        </p>
+        <ul class="mt-4 space-y-2.5">
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-teal-500 shrink-0"></span><span><strong>Pre-tax deductions</strong> come out <em>before</em> income tax: traditional 401(k) contributions, HSA and FSA contributions, and most employer health, dental, and vision insurance premiums. Because they lower your taxable wages, they reduce your federal and state withholding — which is why your taxable income is smaller than your gross pay.</span></li>
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-teal-500 shrink-0"></span><span><strong>Post-tax deductions</strong> come out <em>after</em> taxes and do not reduce your taxable income: Roth 401(k) contributions, wage garnishments, union dues, and charitable giving through payroll.</span></li>
+        </ul>
+        <p class="mt-4">
+          This is why two coworkers with the same salary can take home different amounts — the one contributing more to a
+          traditional 401(k) or HSA lowers their taxable wages and their withholding.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900">Reading the YTD columns</h2>
+        <p class="mt-4">
+          Nearly every line on your stub has two numbers: the amount for <strong>this pay period</strong> and the
+          <strong>year-to-date (YTD)</strong> total. The YTD column adds up that item from January 1 through the current
+          pay date, and it is one of the most useful parts of the stub.
+        </p>
+        <ul class="mt-4 space-y-2.5">
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-teal-500 shrink-0"></span><span>Track your <strong>total tax withheld</strong> so far to gauge whether you are on pace for a refund or a bill.</span></li>
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-teal-500 shrink-0"></span><span>Confirm your <strong>retirement and HSA contributions</strong> are on track toward the annual limits you intended.</span></li>
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-teal-500 shrink-0"></span><span>Watch for the point where <strong>Social Security stops</strong> once YTD wages cross the $176,100 wage base.</span></li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900">How to spot a pay stub error</h2>
+        <p class="mt-4">
+          Payroll mistakes are common, and a quick review each period catches most of them. Run through this checklist:
+        </p>
+        <ul class="mt-4 space-y-2.5">
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-teal-500 shrink-0"></span><span><strong>Recompute gross pay.</strong> Multiply your hours by your rate (plus any overtime at the correct premium) and confirm it matches.</span></li>
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-teal-500 shrink-0"></span><span><strong>Check the FICA math.</strong> Social Security should be 6.2% and Medicare 1.45% of the correct wage base. If these look off, flag it.</span></li>
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-teal-500 shrink-0"></span><span><strong>Verify your deductions.</strong> Every benefit and contribution line should match what you elected — no phantom deductions you never signed up for.</span></li>
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-teal-500 shrink-0"></span><span><strong>Scan the YTD totals.</strong> A sudden, unexplained jump in a YTD figure is a red flag worth questioning.</span></li>
+        </ul>
+        <p class="mt-4">
+          If a number does not add up, contact your payroll or HR department promptly — the sooner an error is caught,
+          the easier it is to correct before it compounds across future checks or your annual W-2.
+        </p>
+      </section>
+
+      <!-- FAQ -->
+      <section id="faq">
+        <h2 class="text-2xl font-bold text-slate-900">Frequently asked questions</h2>
+        <div class="mt-6 space-y-3">
+          {faqs.map((f) => (
+            <details class="group rounded-2xl border border-slate-200 bg-white px-5 open:shadow-sm transition">
+              <summary class="flex justify-between items-center cursor-pointer list-none font-semibold text-slate-800 py-4">
+                {f.q}
+                <span class="ml-4 shrink-0 grid place-items-center w-6 h-6 rounded-full bg-slate-100 text-slate-500 group-open:bg-teal-100 group-open:text-teal-700 group-open:rotate-45 transition">+</span>
+              </summary>
+              <p class="text-slate-600 leading-relaxed pb-5 -mt-1">{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <div class="rounded-2xl bg-teal-50 border border-teal-100 p-6 text-center">
+        <h2 class="text-xl font-bold text-slate-900">See exactly where your paycheck goes</h2>
+        <p class="mt-2 text-slate-600">Enter your salary and state to break your gross pay into taxes, deductions, and take-home pay in seconds.</p>
+        <a href="/" class="mt-4 inline-flex items-center gap-1.5 rounded-xl bg-teal-600 text-white font-semibold px-5 py-3 hover:bg-teal-700 transition">Open the paycheck calculator →</a>
+      </div>
+
+      <!-- Related guides -->
+      <section>
+        <h2 class="text-lg font-bold text-slate-900">Related guides</h2>
+        <ul class="mt-4 space-y-2">
+          <li><a href="/guides/gross-vs-net-pay" class="text-teal-600 hover:text-teal-800 underline decoration-teal-200 hover:decoration-teal-500">Gross vs. net pay explained</a></li>
+          <li><a href="/guides/what-is-fica" class="text-teal-600 hover:text-teal-800 underline decoration-teal-200 hover:decoration-teal-500">What is FICA on my paycheck?</a></li>
+          <li><a href="/guides/pre-tax-deductions-401k-hsa" class="text-teal-600 hover:text-teal-800 underline decoration-teal-200 hover:decoration-teal-500">Pre-tax deductions: 401(k) and HSA</a></li>
+        </ul>
+      </section>
+
+      <p class="text-xs text-slate-400 leading-relaxed border-t border-slate-100 pt-6">
+        Disclaimer: This guide is for educational purposes only and does not constitute tax, legal, or financial advice.
+        Tax rules change and individual situations vary. Verify details with the IRS, your state tax authority, or a
+        qualified professional before making decisions.
+      </p>
+    </div>
+  </article>
+</Layout>

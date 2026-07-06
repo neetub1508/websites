@@ -1,0 +1,232 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const title = '1099 Tax Rate: How Much Should You Set Aside for Taxes?';
+const description =
+  'What is the real tax rate on 1099 income? A plain-English guide to the 15.3% self-employment tax, federal income tax on top of it, the popular 25%–30% set-aside rule, and roughly how much to save by income band.';
+
+const faqs = [
+  {
+    q: 'What is the tax rate on 1099 income?',
+    a: 'There is no single 1099 tax rate. You pay 15.3% self-employment tax on 92.35% of your net profit, and then federal income tax at 10%–37% brackets on top of that. Your all-in rate depends on how much you earn and how many deductions you claim.',
+  },
+  {
+    q: 'How much of my 1099 income should I set aside for taxes?',
+    a: 'A common rule of thumb is to save 25%–30% of your net 1099 income for federal taxes. Lower earners may get away with a bit less, while high earners in the top brackets can need 30%–37% or more. These figures exclude any state income tax.',
+  },
+  {
+    q: 'Is setting aside 30% enough for 1099 taxes?',
+    a: 'For many mid-income freelancers, 30% of net income covers federal self-employment and income tax comfortably. It can fall short if you live in a state with income tax, have few deductions, or earn enough to reach the higher federal brackets — so treat 30% as a starting point, not a guarantee.',
+  },
+  {
+    q: 'What is the difference between my effective and marginal tax rate?',
+    a: 'Your marginal rate is the bracket that applies to your next dollar of income — the headline number, like 22% or 24%. Your effective rate is your total tax divided by your income, which is lower because your earlier dollars are taxed at lower rates. The effective rate is what actually leaves your bank account.',
+  },
+  {
+    q: 'Do deductions lower my 1099 tax rate?',
+    a: 'Yes. Business expenses reduce your net profit, which shrinks both self-employment tax and income tax. The standard deduction and the QBI deduction further cut your taxable income. More deductions mean a lower effective rate, which is why a rule of thumb can only get you close.',
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: '1099 Tax Rate: How Much Should You Set Aside for Taxes?',
+  description,
+  author: { '@type': 'Organization', name: '1099 Estimator' },
+  publisher: { '@type': 'Organization', name: '1099 Estimator', url: 'https://1099estimator.com' },
+  mainEntityOfPage: 'https://1099estimator.com/guides/1099-tax-rate-how-much-to-set-aside',
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://1099estimator.com' },
+    { '@type': 'ListItem', position: 2, name: 'Guides', item: 'https://1099estimator.com/guides' },
+    { '@type': 'ListItem', position: 3, name: 'How Much to Set Aside', item: 'https://1099estimator.com/guides/1099-tax-rate-how-much-to-set-aside' },
+  ],
+};
+---
+
+<Layout title={title} description={description} schema={[articleSchema, faqSchema, breadcrumbSchema]}>
+  <article class="mx-auto max-w-3xl px-5 py-12">
+    <!-- Breadcrumb -->
+    <nav class="text-sm text-slate-400" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-indigo-700">Home</a>
+      <span class="mx-1.5">/</span>
+      <a href="/guides" class="hover:text-indigo-700">Guides</a>
+      <span class="mx-1.5">/</span>
+      <span class="text-slate-600">How much to set aside</span>
+    </nav>
+
+    <header class="mt-6">
+      <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-700 bg-indigo-100/80 ring-1 ring-indigo-200 rounded-full px-3 py-1">
+        <span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span> The real all-in rate on self-employed income
+      </span>
+      <h1 class="mt-5 text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 text-balance">
+        1099 tax rate: how much should you set aside?
+      </h1>
+      <p class="mt-4 text-lg text-slate-500 leading-relaxed">
+        There is no single &ldquo;1099 tax rate.&rdquo; Your real bill is built from two separate taxes stacked on top of
+        each other — and knowing how they add up tells you exactly how much of every payment to save.
+      </p>
+    </header>
+
+    <div class="mt-10 space-y-10 text-slate-600 leading-relaxed">
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900">Why there is no single 1099 tax rate</h2>
+        <p class="mt-4">
+          When you earn W-2 wages, an employer quietly handles your taxes in the background. As a 1099 contractor, you
+          are both the worker and the business — and that means two different taxes land on the same income. Add them
+          together and you get your true, all-in rate.
+        </p>
+        <p class="mt-4">
+          The first is <strong>self-employment (SE) tax</strong>. It is a flat <strong>15.3%</strong>, applied to
+          92.35% of your net profit, and it covers Social Security and Medicare. Crucially, this tax exists
+          <em>before</em> any income tax — even a low earner who owes zero income tax can still owe SE tax. The second is
+          ordinary <strong>federal income tax</strong>, charged at graduated brackets from <strong>10% up to 37%</strong>
+          after your standard deduction and any qualified business income (QBI) deduction. Stack the two and your
+          combined rate on 1099 profit is meaningfully higher than the income-tax rate alone.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900">The 25%–30% set-aside rule</h2>
+        <p class="mt-4">
+          The most repeated piece of freelancer advice is to <strong>set aside 25%&ndash;30% of your net 1099
+          income</strong> for federal taxes. It is popular because it is roughly right for a large middle band of
+          earners: SE tax eats up a chunk, income tax adds more, and deductions pull the total back down toward that
+          quarter-to-third range.
+        </p>
+        <p class="mt-4">
+          But a rule of thumb is a starting point, not a promise. It can be <strong>too low</strong> if you have few
+          deductions, live in a state with its own income tax, or earn enough to reach the higher federal brackets. It
+          can be <strong>too high</strong> if your income is modest, you have significant business expenses, or the QBI
+          deduction takes a large bite out of your taxable income. The only way to know your real number is to run your
+          actual figures.
+        </p>
+        <div class="mt-6 rounded-2xl border border-indigo-100 bg-indigo-50/70 p-6">
+          <h3 class="font-bold text-slate-900">The safest way to save</h3>
+          <p class="mt-3 text-sm">
+            Open a <strong>separate savings account</strong> just for taxes. Every time a client pays you, immediately
+            move your set-aside percentage into it — before the money feels like income. When quarterly deadlines
+            arrive, the cash is already there and untouched. Treating the tax portion as &ldquo;never yours&rdquo; is the
+            single habit that prevents the April panic.
+          </p>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900">Roughly how much to set aside by income</h2>
+        <p class="mt-4">
+          The table below is a <strong>rough guide only</strong>. The percentages are estimates of what a typical single
+          filer might set aside from net 1099 income for <em>federal</em> taxes; they exclude state income tax and assume
+          ordinary deductions. Your own figure can land higher or lower depending on your deductions, filing status, and
+          other income.
+        </p>
+        <div class="mt-5 overflow-x-auto">
+          <table class="w-full text-sm border border-slate-200 rounded-xl overflow-hidden">
+            <thead class="bg-slate-50 text-slate-500 text-left">
+              <tr>
+                <th class="px-4 py-2.5 font-semibold">Net 1099 income</th>
+                <th class="px-4 py-2.5 font-semibold">Rough set-aside</th>
+                <th class="px-4 py-2.5 font-semibold">Why</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              <tr><td class="px-4 py-2.5 font-medium text-slate-800">Lower (under ~$45k)</td><td class="px-4 py-2.5">~20%&ndash;25%</td><td class="px-4 py-2.5">SE tax dominates; income tax is small after deductions</td></tr>
+              <tr><td class="px-4 py-2.5 font-medium text-slate-800">Middle (~$45k&ndash;$95k)</td><td class="px-4 py-2.5">~25%&ndash;30%</td><td class="px-4 py-2.5">SE tax plus the 12%&ndash;22% income brackets</td></tr>
+              <tr><td class="px-4 py-2.5 font-medium text-slate-800">Upper-middle (~$95k&ndash;$180k)</td><td class="px-4 py-2.5">~30%&ndash;35%</td><td class="px-4 py-2.5">Income moves into the 24%&ndash;32% brackets</td></tr>
+              <tr><td class="px-4 py-2.5 font-medium text-slate-800">Higher (~$180k+)</td><td class="px-4 py-2.5">~35%&ndash;37%+</td><td class="px-4 py-2.5">Top brackets; SE tax continues on Medicare portion</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="mt-4 text-sm text-slate-500">
+          These are estimates for planning, not precise tax figures. If your state taxes income, add several more
+          percentage points on top.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900">Effective rate vs marginal rate</h2>
+        <p class="mt-4">
+          People often panic when they hear they are &ldquo;in the 24% bracket&rdquo; and assume 24% of everything
+          disappears. It doesn&rsquo;t — and understanding why keeps you from over-saving.
+        </p>
+        <ul class="mt-4 space-y-2.5">
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-indigo-500 shrink-0"></span><span><strong>Marginal rate</strong> is the bracket on your <em>next</em> dollar of income — the highest rate you touch. It is the number that decides whether a deduction is worth chasing.</span></li>
+          <li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-indigo-500 shrink-0"></span><span><strong>Effective rate</strong> is your <em>total</em> tax divided by your income. Because your earliest dollars are taxed at 10% and 12% before you ever reach a higher bracket, this number is always lower than your marginal rate.</span></li>
+        </ul>
+        <p class="mt-4">
+          For set-aside purposes, your effective rate — including SE tax — is what actually leaves your account, so that
+          is the figure to save toward. The marginal rate just tells you how hard the next dollar gets hit.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900">How deductions change the math</h2>
+        <p class="mt-4">
+          Deductions are the biggest reason two freelancers earning the same gross income can owe very different amounts.
+          Legitimate <strong>business expenses</strong> lower your net profit, which shrinks both SE tax and income tax at
+          once. The <strong>standard deduction</strong> reduces your taxable income before the brackets apply, and the
+          <strong>QBI deduction</strong> can remove up to a fifth of your qualified business income from income tax
+          entirely.
+        </p>
+        <p class="mt-4">
+          The practical takeaway: the more you can legitimately deduct, the lower your effective rate — and the closer
+          your real set-aside sits to the bottom of each range above rather than the top. This is exactly why a flat
+          percentage can only get you close. To turn the rough range into a real number, use the
+          <a href="/" class="text-indigo-600 font-medium underline decoration-indigo-200 hover:decoration-indigo-500">1099 tax calculator</a>:
+          enter your income and expenses and it returns an <strong>exact estimated figure</strong> — both the total and
+          a per-quarter amount — instead of a one-size-fits-all guess.
+        </p>
+      </section>
+
+      <!-- FAQ -->
+      <section id="faq">
+        <h2 class="text-2xl font-bold text-slate-900">Frequently asked questions</h2>
+        <div class="mt-6 space-y-3">
+          {faqs.map((f) => (
+            <details class="group rounded-2xl border border-slate-200 bg-white px-5 open:shadow-sm transition">
+              <summary class="flex justify-between items-center cursor-pointer list-none font-semibold text-slate-800 py-4">
+                {f.q}
+                <span class="ml-4 shrink-0 grid place-items-center w-6 h-6 rounded-full bg-slate-100 text-slate-500 group-open:bg-indigo-100 group-open:text-indigo-700 group-open:rotate-45 transition">+</span>
+              </summary>
+              <p class="text-slate-600 leading-relaxed pb-5 -mt-1">{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <div class="rounded-2xl bg-indigo-50 border border-indigo-100 p-6 text-center">
+        <h2 class="text-xl font-bold text-slate-900">Stop guessing your set-aside percentage</h2>
+        <p class="mt-2 text-slate-600">Enter your 1099 income and expenses to see your exact estimated tax — total and per quarter — instead of a rule of thumb.</p>
+        <a href="/" class="mt-4 inline-flex items-center gap-1.5 rounded-xl bg-indigo-600 text-white font-semibold px-5 py-3 hover:bg-indigo-700 transition">Open the 1099 tax calculator →</a>
+      </div>
+
+      <!-- Related guides -->
+      <section>
+        <h2 class="text-lg font-bold text-slate-900">Related guides</h2>
+        <ul class="mt-4 space-y-2">
+          <li><a href="/guides/self-employment-tax-explained" class="text-indigo-600 hover:text-indigo-800 underline decoration-indigo-200 hover:decoration-indigo-500">Self-employment tax explained</a></li>
+          <li><a href="/guides/quarterly-estimated-taxes" class="text-indigo-600 hover:text-indigo-800 underline decoration-indigo-200 hover:decoration-indigo-500">How to pay quarterly estimated taxes</a></li>
+          <li><a href="/guides/self-employed-tax-deductions" class="text-indigo-600 hover:text-indigo-800 underline decoration-indigo-200 hover:decoration-indigo-500">Top tax deductions for the self-employed</a></li>
+        </ul>
+      </section>
+
+      <p class="text-xs text-slate-400 leading-relaxed border-t border-slate-100 pt-6">
+        Disclaimer: This guide is for educational purposes only and does not constitute tax, legal, or financial advice.
+        The percentages shown are rough estimates for planning and exclude state taxes. Tax rules change and individual
+        situations vary. Verify details with the IRS or a qualified tax professional before making decisions.
+      </p>
+    </div>
+  </article>
+</Layout>
