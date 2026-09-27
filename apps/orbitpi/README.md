@@ -1,7 +1,7 @@
 # OrbitPi website
 
 Marketing site for OrbitPi, the AI business suite (DocAI, Stock, Leads, Assets, Ledger).
-Astro 4 + Tailwind, static output for Cloudflare Pages — same stack as the other apps in this repo.
+Astro 4 + Tailwind, static output deployed as a Cloudflare Worker (static assets) — same stack as the other apps in this repo.
 
 ## Develop
 
@@ -27,7 +27,8 @@ src/
   components/                Header, Footer, Faq, Breadcrumbs, CtaBanner, cards …
   components/home/           ProductDemo, IndustryExplorer, VoiceCallCard (vanilla JS islands)
   pages/                     routes (index, products, industries, pricing, about, contact, privacy, terms, 404, sitemap.xml)
-functions/api/contact.ts     Cloudflare Pages Function for the demo form
+worker/index.ts              Cloudflare Worker for the demo form (POST /api/contact)
+wrangler.jsonc               Worker config: serves dist/ as static assets
 public/                      robots.txt, _headers, favicon, manifest, images/
 ```
 
@@ -51,11 +52,11 @@ sitemap entry and structured data automatically.
 - [ ] Add photos: `public/images/industries/<slug>.webp` (manufacturing, distribution,
       logistics-3pl, retail-ecommerce, healthcare-pharma, real-estate). Frames show a
       soft gradient until images exist.
-- [ ] Set `CONTACT_WEBHOOK_URL` in Cloudflare (Settings → Environment variables)
+- [ ] Set `CONTACT_WEBHOOK_URL` in Cloudflare (Worker → Settings → Variables and Secrets)
 - [ ] Submit `https://orbitpi.com/sitemap.xml` in Google Search Console
 
-## Deploy (Cloudflare Pages)
+## Deploy (Cloudflare Workers)
 
 - Root directory: `apps/orbitpi`
-- Build command: `npm run build` · Output: `dist` · `NODE_VERSION = 22`
+- Build command: `npm run build` · Deploy command: `npx wrangler deploy` · `NODE_VERSION = 22`
 - Release branches as in `DEPLOYMENTS.md`: `./release.sh patch orbitpi` → `orbitpi-v0.1.1`

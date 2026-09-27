@@ -1,0 +1,13 @@
+{
+  // Cloudflare Workers config — serves the Astro static build (dist/) as
+  // static assets. Requests that match no file (only POST /api/contact) fall
+  // through to worker/index.ts.
+  "name": "orbitpi",
+  "compatibility_date": "2026-09-27",
+  "main": "./worker/index.ts",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "404-page"
+  }
+}

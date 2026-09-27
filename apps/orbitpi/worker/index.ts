@@ -1,12 +1,24 @@
-// Cloudflare Pages Function: POST /api/contact
+// Cloudflare Worker: handles POST /api/contact; everything else is a static asset.
 // Validates the demo form and forwards it as JSON to CONTACT_WEBHOOK_URL
-// (set in Cloudflare → Settings → Environment variables; e.g. a Slack, Zapier or CRM webhook).
+// (set in Cloudflare → Settings → Variables and Secrets; e.g. a Slack, Zapier or CRM webhook).
 
-interface Env { CONTACT_WEBHOOK_URL?: string }
+interface Env {
+  CONTACT_WEBHOOK_URL?: string;
+  ASSETS: { fetch: (request: Request) => Promise<Response> };
+}
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-export const onRequestPost = async ({ request, env }: { request: Request; env: Env }): Promise<Response> => {
+export default {
+  async fetch(request: Request, env: Env): Promise<Response> {
+    const { pathname } = new URL(request.url);
+    if (pathname !== '/api/contact') return env.ASSETS.fetch(request);
+    if (request.method !== 'POST') return new Response('Method Not Allowed', { status: 405, headers: { Allow: 'POST' } });
+    return handleContact(request, env);
+  },
+};
+
+async function handleContact(request: Request, env: Env): Promise<Response> {
   const form = await request.formData();
   const field = (k: string) => String(form.get(k) ?? '').trim().slice(0, 2000);
   const wantsJson = (request.headers.get('Accept') ?? '').includes('application/json');
@@ -30,7 +42,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     if (!res.ok) return respond(request, wantsJson, false, 502);
   }
   return respond(request, wantsJson, true);
-};
+}
 
 function respond(request: Request, json: boolean, ok: boolean, status = 200): Response {
   if (json) return Response.json({ ok }, { status: ok ? 200 : status });
