@@ -1,0 +1,74 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import ImageFrame from '@/components/ImageFrame.astro';
+import ProductCard from '@/components/ProductCard.astro';
+import Faq from '@/components/Faq.astro';
+import CtaBanner from '@/components/CtaBanner.astro';
+import { INDUSTRIES, industryHref, type Industry } from '@/lib/industries';
+import { getProduct, type Product } from '@/lib/products';
+import { absoluteUrl } from '@/lib/site';
+import { graph, webPage, breadcrumbs, faqPage } from '@/lib/schema';
+
+export function getStaticPaths() {
+  return INDUSTRIES.map((i) => ({ params: { slug: i.slug }, props: { industry: i } }));
+}
+
+interface Props { industry: Industry }
+const { industry: ind } = Astro.props;
+const path = industryHref(ind.slug);
+const crumbs = [{ name: 'Home', path: '/' }, { name: 'Industries', path: '/industries/' }, { name: ind.name, path }];
+const products = ind.products.map((s) => getProduct(s)).filter((p): p is Product => Boolean(p));
+const others = INDUSTRIES.filter((i) => i.slug !== ind.slug);
+const schema = graph(webPage(absoluteUrl(path), ind.metaTitle, ind.metaDescription), breadcrumbs(crumbs), faqPage(ind.faqs));
+---
+
+<BaseLayout title={ind.metaTitle} description={ind.metaDescription} schema={schema}>
+  <Breadcrumbs items={crumbs} />
+
+  <section aria-labelledby="page-title" class="container-page grid items-center gap-12 pb-20 pt-10 lg:grid-cols-2">
+    <div class="flex flex-col items-start gap-6">
+      <p class="eyebrow">{ind.name}</p>
+      <h1 id="page-title" class="text-[clamp(38px,5vw,60px)] font-bold leading-[1.04] tracking-tightest">{ind.h1}</h1>
+      <p class="lead">{ind.intro}</p>
+      <ul class="flex flex-col gap-2.5">
+        {ind.wins.map((w) => <li class="flex gap-2.5 text-[15px] text-ink-700"><span aria-hidden="true" class="text-brand">✓</span>{w}</li>)}
+      </ul>
+      <a href="/contact/" class="btn-primary">Book a demo</a>
+    </div>
+    <ImageFrame src={`/images/industries/${ind.slug}.webp`} alt={`${ind.name} operations managed with OrbitPi`} eager class="aspect-[4/3] rounded-[20px] border border-line-strong" />
+  </section>
+
+  <section aria-labelledby="challenges-title" class="border-y border-line bg-mist">
+    <div class="container-page flex flex-col gap-12 py-24">
+      <SectionHeading id="challenges-title" eyebrow="Challenges we solve" title={`Common ${ind.name.toLowerCase()} problems OrbitPi fixes`} />
+      <ul class="grid gap-4 md:grid-cols-3">
+        {ind.challenges.map((c) => (
+          <li class="flex flex-col gap-2.5 rounded-2xl border border-line bg-white p-6">
+            <h3 class="text-lg font-semibold">{c.title}</h3>
+            <p class="text-[15px] leading-relaxed text-ink-500">{c.body}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section aria-labelledby="products-title" class="container-page flex flex-col gap-12 py-24">
+    <SectionHeading id="products-title" eyebrow="Recommended products" title={`OrbitPi products for ${ind.name.toLowerCase()}`} />
+    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      {products.map((p) => <ProductCard product={p} />)}
+    </div>
+  </section>
+
+  <div class="border-t border-line bg-mist"><Faq faqs={ind.faqs} title={`OrbitPi for ${ind.name}: FAQ`} /></div>
+
+  <nav aria-labelledby="other-title" class="container-page flex flex-col gap-6 py-20">
+    <h2 id="other-title" class="text-xl font-semibold">Other industries</h2>
+    <ul class="flex flex-wrap gap-2">
+      {others.map((o) => <li><a href={industryHref(o.slug)} class="block rounded-full border border-line-strong px-4 py-2 text-sm hover:border-ink">{o.name}</a></li>)}
+    </ul>
+  </nav>
+
+  <CtaBanner />
+</BaseLayout>

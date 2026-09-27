@@ -1,0 +1,47 @@
+---
+import Logo from '@/components/Logo.astro';
+import { SITE, COMPANY_LINKS, LEGAL_LINKS } from '@/lib/site';
+import { PRODUCTS, productHref } from '@/lib/products';
+import { INDUSTRIES, industryHref } from '@/lib/industries';
+
+const cols = [
+  { heading: 'Products', links: PRODUCTS.map((p) => ({ label: p.category, href: productHref(p.slug) })) },
+  { heading: 'Industries', links: INDUSTRIES.map((i) => ({ label: i.name, href: industryHref(i.slug) })) },
+  { heading: 'Company', links: COMPANY_LINKS },
+];
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-line bg-white">
+  <div class="container-page flex flex-col gap-12 pb-8 pt-16">
+    <div class="grid grid-cols-2 gap-10 md:grid-cols-4">
+      <div class="col-span-2 flex flex-col gap-4 md:col-span-1">
+        <Logo />
+        <address class="text-sm not-italic leading-relaxed text-ink-500">
+          {SITE.legalName}<br />
+          {SITE.address.street}<br />
+          {SITE.address.city}, {SITE.address.region} {SITE.address.postalCode}<br />
+          {SITE.address.country}
+        </address>
+        <div class="flex flex-col gap-1 text-sm text-ink-700">
+          <a href={`mailto:${SITE.email}`} class="hover:text-brand">{SITE.email}</a>
+          <a href={`tel:${SITE.phoneHref}`} class="hover:text-brand">{SITE.phone}</a>
+        </div>
+      </div>
+      {cols.map((c) => (
+        <nav aria-label={c.heading} class="flex flex-col gap-3">
+          <p class="text-[13px] font-semibold">{c.heading}</p>
+          <ul class="flex flex-col gap-2.5">
+            {c.links.map((l) => <li><a href={l.href} class="text-sm text-ink-500 hover:text-brand">{l.label}</a></li>)}
+          </ul>
+        </nav>
+      ))}
+    </div>
+    <div class="flex flex-wrap justify-between gap-4 border-t border-line pt-6 text-[13px] text-ink-400">
+      <p>© {year} {SITE.legalName}. All rights reserved.</p>
+      <ul class="flex flex-wrap gap-5">
+        {LEGAL_LINKS.map((l) => <li><a href={l.href} class="hover:text-brand">{l.label}</a></li>)}
+      </ul>
+    </div>
+  </div>
+</footer>

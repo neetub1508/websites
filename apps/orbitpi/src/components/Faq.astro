@@ -1,0 +1,23 @@
+---
+// Accessible FAQ using native <details>. Pair with faqPage() schema on the page
+// so the visible text and structured data always match.
+import SectionHeading from '@/components/SectionHeading.astro';
+import type { Faq } from '@/lib/products';
+interface Props { faqs: Faq[]; title?: string; id?: string }
+const { faqs, title = 'Frequently asked questions', id = 'faq' } = Astro.props;
+---
+
+<section aria-labelledby={id} class="mx-auto flex max-w-[820px] flex-col gap-8 px-6 py-24">
+  <SectionHeading eyebrow="FAQ" title={title} id={id} />
+  <div class="flex flex-col gap-2.5">
+    {faqs.map((f, i) => (
+      <details class="group rounded-[14px] border border-line bg-white open:border-line-strong" open={i === 0}>
+        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-[22px] py-[18px] [&::-webkit-details-marker]:hidden">
+          <h3 class="text-base font-semibold">{f.q}</h3>
+          <span aria-hidden="true" class="text-ink-400 transition group-open:rotate-45">+</span>
+        </summary>
+        <p class="px-[22px] pb-5 text-[15px] leading-relaxed text-ink-500">{f.a}</p>
+      </details>
+    ))}
+  </div>
+</section>

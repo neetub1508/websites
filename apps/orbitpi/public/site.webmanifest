@@ -1,0 +1,8 @@
+{
+  "name": "OrbitPi",
+  "short_name": "OrbitPi",
+  "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }],
+  "theme_color": "#FFFFFF",
+  "background_color": "#FFFFFF",
+  "display": "browser"
+}

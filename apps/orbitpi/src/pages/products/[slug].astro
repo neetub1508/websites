@@ -1,0 +1,126 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import ProductBadge from '@/components/ProductBadge.astro';
+import ProductCard from '@/components/ProductCard.astro';
+import ProductPreview from '@/components/ProductPreview.astro';
+import Faq from '@/components/Faq.astro';
+import CtaBanner from '@/components/CtaBanner.astro';
+import { PRODUCTS, getProduct, productHref, type Product } from '@/lib/products';
+import { INDUSTRIES, industryHref } from '@/lib/industries';
+import { absoluteUrl } from '@/lib/site';
+import { graph, webPage, breadcrumbs, faqPage, softwareApp } from '@/lib/schema';
+
+export function getStaticPaths() {
+  return PRODUCTS.map((p) => ({ params: { slug: p.slug }, props: { product: p } }));
+}
+
+interface Props { product: Product }
+const { product: p } = Astro.props;
+const accent = p.theme === 'ledger' ? '#2F4BFF' : p.color;
+const path = productHref(p.slug);
+const crumbs = [{ name: 'Home', path: '/' }, { name: 'Products', path: '/products/' }, { name: p.fullName, path }];
+const industries = INDUSTRIES.filter((i) => i.products.includes(p.slug));
+const connected = p.connects.map((c) => ({ ...c, product: getProduct(c.slug)! }));
+const others = PRODUCTS.filter((x) => x.slug !== p.slug).slice(0, 3);
+
+const schema = graph(
+  webPage(absoluteUrl(path), p.metaTitle, p.metaDescription),
+  breadcrumbs(crumbs),
+  softwareApp(p),
+  faqPage(p.faqs),
+);
+---
+
+<BaseLayout title={p.metaTitle} description={p.metaDescription} schema={schema}>
+  <Breadcrumbs items={crumbs} />
+
+  <section aria-labelledby="page-title" class="container-page grid items-center gap-12 pb-20 pt-10 lg:grid-cols-[1.05fr_1fr]" style={`--accent:${accent}`}>
+    <div class="flex flex-col items-start gap-6">
+      <p class="flex items-center gap-2.5 text-sm font-medium"><ProductBadge product={p} size="md" />{p.fullName} · {p.category}</p>
+      <h1 id="page-title" class="text-[clamp(38px,5vw,60px)] font-bold leading-[1.04] tracking-tightest">{p.h1}</h1>
+      <p class="lead">{p.intro}</p>
+      <div class="flex flex-wrap gap-3">
+        <a href="/contact/" class="btn-primary">Book a demo</a>
+        <a href="#features" class="btn-ghost">See features</a>
+      </div>
+      <ul class="flex flex-wrap gap-x-6 gap-y-2 text-[13px] text-ink-500">
+        {p.highlights.map((h) => <li class="flex gap-1.5"><span aria-hidden="true" class="text-[var(--accent)]">✓</span>{h}</li>)}
+      </ul>
+    </div>
+    <ProductPreview product={p} />
+  </section>
+
+  <section id="features" aria-labelledby="features-title" class="border-y border-line bg-mist">
+    <div class="container-page flex flex-col gap-12 py-24">
+      <SectionHeading id="features-title" eyebrow="Features" title={`${p.fullName} features`} lead={`Everything you need for ${p.category.toLowerCase()} in one product.`} />
+      <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {p.features.map((f) => (
+          <li class="flex flex-col gap-2.5 rounded-2xl border border-line bg-white p-6">
+            <h3 class="text-base font-semibold tracking-[-0.01em]">{f.title}</h3>
+            <p class="text-[14.5px] leading-relaxed text-ink-500">{f.body}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section aria-labelledby="how-title" class="container-page flex flex-col gap-12 py-24">
+    <SectionHeading id="how-title" eyebrow="How it works" title={`How ${p.fullName} works`} />
+    <ol class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {p.steps.map((s, i) => (
+        <li class="flex flex-col gap-3 rounded-2xl border border-line p-6">
+          <span class="grid size-8 place-items-center rounded-full text-sm font-semibold" style={`background:${p.soft};color:${accent}`}>{i + 1}</span>
+          <h3 class="text-lg font-semibold tracking-[-0.02em]">{s.title}</h3>
+          <p class="text-[15px] leading-normal text-ink-500">{s.body}</p>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section aria-labelledby="uses-title" class="bg-ink text-white">
+    <div class="container-page flex flex-col gap-12 py-24">
+      <SectionHeading id="uses-title" eyebrow="Use cases" title={`Who uses ${p.fullName}`} inverted />
+      <ul class="grid gap-4 md:grid-cols-3">
+        {p.useCases.map((u) => (
+          <li class="flex flex-col gap-2.5 rounded-2xl border border-[#252935] bg-[#15181F] p-6">
+            <h3 class="text-lg font-semibold">{u.title}</h3>
+            <p class="text-[15px] leading-relaxed text-[#B9BDC9]">{u.body}</p>
+          </li>
+        ))}
+      </ul>
+      {industries.length > 0 && (
+        <p class="text-center text-[15px] text-[#B9BDC9]">
+          Popular in:{' '}
+          {industries.map((ind, i) => (<><a href={industryHref(ind.slug)} class="font-medium text-white underline-offset-4 hover:underline">{ind.name}</a>{i < industries.length - 1 && ', '}</>))}
+        </p>
+      )}
+    </div>
+  </section>
+
+  <section aria-labelledby="connect-title" class="container-page flex flex-col gap-10 py-24">
+    <SectionHeading id="connect-title" eyebrow="Better together" title={`Connect ${p.name} with other OrbitPi products`} />
+    <ul class="grid gap-4 md:grid-cols-2">
+      {connected.map((c) => (
+        <li>
+          <a href={productHref(c.slug)} class="card flex items-start gap-4 !p-6">
+            <ProductBadge product={c.product} size="lg" />
+            <span class="flex flex-col gap-1"><strong class="font-semibold">{p.name} + {c.product.name}</strong><span class="text-[15px] text-ink-500">{c.body}</span></span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <div class="border-t border-line bg-mist"><Faq faqs={p.faqs} title={`${p.fullName} FAQ`} /></div>
+
+  <section aria-labelledby="more-title" class="container-page flex flex-col gap-10 py-24">
+    <SectionHeading id="more-title" title="Explore more OrbitPi products" />
+    <div class="grid gap-4 md:grid-cols-3">
+      {others.map((o) => <ProductCard product={o} />)}
+    </div>
+  </section>
+
+  <CtaBanner title={`See ${p.fullName} on your own data`} />
+</BaseLayout>

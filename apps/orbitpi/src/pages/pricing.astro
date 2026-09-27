@@ -1,0 +1,68 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import ProductBadge from '@/components/ProductBadge.astro';
+import Faq from '@/components/Faq.astro';
+import CtaBanner from '@/components/CtaBanner.astro';
+import { PRODUCTS, productHref } from '@/lib/products';
+import { absoluteUrl } from '@/lib/site';
+import { graph, webPage, breadcrumbs, faqPage } from '@/lib/schema';
+
+const title = 'Pricing | OrbitPi AI Business Software';
+const description = 'OrbitPi pricing is per product. Start with one AI product, add more with suite bundle pricing, or choose Enterprise for multi-company groups.';
+const crumbs = [{ name: 'Home', path: '/' }, { name: 'Pricing', path: '/pricing/' }];
+
+const plans = [
+  { name: 'Single product', text: 'One OrbitPi product for one team.', cta: 'Get a quote', featured: false,
+    points: ['Any one of the five products', 'Web and mobile apps', 'Email support', 'Standard onboarding'] },
+  { name: 'Suite', text: 'Two or more products on shared data.', cta: 'Get suite pricing', featured: true,
+    points: ['Bundle pricing across products', 'Data shared between products', 'One login for every product', 'Guided onboarding'] },
+  { name: 'Enterprise', text: 'For multi-company groups with custom needs.', cta: 'Talk to sales', featured: false,
+    points: ['Multiple companies and branches', 'API access and integrations', 'Custom roles and approvals', 'Dedicated success manager'] },
+];
+
+const faqs = [
+  { q: 'How is OrbitPi priced?', a: 'OrbitPi is priced per product. You pay only for the products you use, and bundle pricing applies when you use two or more.' },
+  { q: 'Can I start with one product and add more later?', a: 'Yes. You can add products at any time, and they connect to your existing data automatically.' },
+  { q: 'Is there a free demo?', a: 'Yes. Book a demo and we will run OrbitPi on a sample of your own documents or data.' },
+  { q: 'Do you offer pricing for large groups?', a: 'Yes. The Enterprise plan covers multiple companies and branches, API access and a dedicated success manager.' },
+];
+
+const schema = graph(webPage(absoluteUrl('/pricing/'), title, description), breadcrumbs(crumbs), faqPage(faqs));
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <Breadcrumbs items={crumbs} />
+  <section class="container-page flex flex-col gap-12 pb-24 pt-12">
+    <SectionHeading as="h1" eyebrow="Pricing" title="Pay only for the products you use" lead="Every plan is quoted for your team size and products. Tell us what you need and we’ll send a quote." />
+    <ul class="grid gap-4 lg:grid-cols-3">
+      {plans.map((pl) => (
+        <li class:list={['flex flex-col gap-5 rounded-[20px] border p-8', pl.featured ? 'border-brand bg-brand text-white' : 'border-line-strong bg-white']}>
+          <h2 class="text-2xl font-semibold tracking-[-0.03em]">{pl.name}</h2>
+          <p class:list={['text-[15px]', pl.featured ? 'text-white' : 'text-ink-500']}>{pl.text}</p>
+          <ul class="flex flex-1 flex-col gap-2.5 text-[15px]">
+            {pl.points.map((pt) => <li class="flex gap-2.5"><span aria-hidden="true">✓</span>{pt}</li>)}
+          </ul>
+          <a href="/contact/" class:list={[pl.featured ? 'btn-light' : 'btn-dark', 'self-start']}>{pl.cta}</a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section aria-labelledby="products-title" class="border-y border-line bg-mist">
+    <div class="container-page flex flex-col gap-10 py-24">
+      <SectionHeading id="products-title" title="Choose your products" />
+      <ul class="grid gap-3 md:grid-cols-2 lg:grid-cols-5">
+        {PRODUCTS.map((p) => (
+          <li><a href={productHref(p.slug)} class="flex h-full flex-col gap-3 rounded-2xl border border-line bg-white p-5 hover:border-ink">
+            <ProductBadge product={p} size="lg" /><strong class="font-semibold">{p.fullName}</strong><span class="text-sm text-ink-500">{p.category}</span>
+          </a></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <Faq faqs={faqs} title="Pricing FAQ" />
+  <CtaBanner title="Get a quote for your team" cta="Talk to sales" />
+</BaseLayout>

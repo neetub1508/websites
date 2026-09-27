@@ -1,0 +1,45 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import ProductCard from '@/components/ProductCard.astro';
+import CtaBanner from '@/components/CtaBanner.astro';
+import { PRODUCTS, productHref } from '@/lib/products';
+import { absoluteUrl } from '@/lib/site';
+import { graph, webPage, breadcrumbs, itemList } from '@/lib/schema';
+
+const title = 'OrbitPi Products: AI OCR, Inventory, Leads, Assets & Accounting';
+const description = 'Explore the five OrbitPi AI products: DocAI document OCR, Stock warehouse inventory, Leads with AI voice agent, Assets management and Ledger accounting.';
+const crumbs = [{ name: 'Home', path: '/' }, { name: 'Products', path: '/products/' }];
+const schema = graph(
+  webPage(absoluteUrl('/products/'), title, description, 'CollectionPage'),
+  breadcrumbs(crumbs),
+  itemList('OrbitPi products', PRODUCTS.map((p) => ({ name: p.fullName, path: productHref(p.slug) }))),
+);
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <Breadcrumbs items={crumbs} />
+  <section class="container-page flex flex-col gap-12 pb-24 pt-12">
+    <SectionHeading as="h1" eyebrow="Products" title="AI software for every part of the back office" lead="Five products that work on their own and work better together, because they share one set of customers, items and accounts." />
+    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      {PRODUCTS.map((p) => <ProductCard product={p} headingLevel="h2" />)}
+    </div>
+  </section>
+
+  <section aria-labelledby="together-title" class="border-y border-line bg-mist">
+    <div class="container-page flex flex-col gap-10 py-24">
+      <SectionHeading id="together-title" eyebrow="Better together" title="How OrbitPi products connect" />
+      <ul class="grid gap-4 md:grid-cols-2">
+        {PRODUCTS.flatMap((p) => p.connects.map((c) => ({ from: p, to: PRODUCTS.find((x) => x.slug === c.slug)!, body: c.body }))).slice(0, 6).map((l) => (
+          <li class="flex flex-col gap-2 rounded-2xl border border-line bg-white p-6">
+            <p class="text-sm font-semibold"><a href={productHref(l.from.slug)} class="hover:text-brand">{l.from.name}</a> <span aria-hidden="true" class="text-ink-400">→</span> <a href={productHref(l.to.slug)} class="hover:text-brand">{l.to.name}</a></p>
+            <p class="text-[15px] text-ink-500">{l.body}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <div class="pt-24"><CtaBanner /></div>
+</BaseLayout>

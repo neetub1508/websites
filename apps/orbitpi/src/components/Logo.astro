@@ -1,0 +1,13 @@
+---
+import { SITE } from '@/lib/site';
+interface Props { inverted?: boolean }
+const { inverted = false } = Astro.props;
+---
+
+<a href="/" aria-label={`${SITE.name} home`} class:list={['flex items-center gap-2.5 text-lg font-bold tracking-[-0.02em]', inverted ? 'text-white' : 'text-ink']}>
+  <span aria-hidden="true" class:list={['relative grid size-6 place-items-center rounded-[7px]', inverted ? 'bg-white' : 'bg-ink']}>
+    <span class:list={['size-2.5 rounded-full border-2', inverted ? 'border-ink' : 'border-white']}></span>
+    <span class="absolute right-[3px] top-[3px] size-[5px] rounded-full bg-brand"></span>
+  </span>
+  {SITE.name}
+</a>

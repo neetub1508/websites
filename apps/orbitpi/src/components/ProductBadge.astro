@@ -1,0 +1,12 @@
+---
+import type { Product } from '@/lib/products';
+interface Props { product: Product; size?: 'sm' | 'md' | 'lg' }
+const { product, size = 'md' } = Astro.props;
+const sizes = { sm: 'size-[22px] rounded-md text-[10px]', md: 'size-[34px] rounded-[9px] text-xs', lg: 'size-10 rounded-[11px] text-[13px]' };
+---
+
+<span
+  aria-hidden="true"
+  class:list={['grid flex-none place-items-center font-mono font-medium', sizes[size]]}
+  style={`background:${product.soft};color:${product.color}`}
+>{product.abbr}</span>

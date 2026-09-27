@@ -1,0 +1,79 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import { PRODUCTS } from '@/lib/products';
+import { SITE, absoluteUrl } from '@/lib/site';
+import { graph, webPage, breadcrumbs } from '@/lib/schema';
+
+const title = 'Contact OrbitPi | Book a Demo';
+const description = `Book an OrbitPi demo or talk to sales. Visit us at ${SITE.address.street}, ${SITE.address.city}, or email ${SITE.email}.`;
+const crumbs = [{ name: 'Home', path: '/' }, { name: 'Contact', path: '/contact/' }];
+const schema = graph(webPage(absoluteUrl('/contact/'), title, description, 'ContactPage'), breadcrumbs(crumbs));
+const input = 'w-full rounded-[10px] border border-line-strong bg-white px-3.5 py-3 text-[15px] outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20';
+const mapQuery = encodeURIComponent(`${SITE.address.street}, ${SITE.address.city}`);
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <Breadcrumbs items={crumbs} />
+  <section class="container-page grid gap-12 pb-24 pt-12 lg:grid-cols-[1fr_1.1fr]">
+    <div class="flex flex-col gap-8">
+      <SectionHeading as="h1" eyebrow="Contact" title="Book a demo" align="left" lead="Tell us what you want to automate. We’ll show you OrbitPi on a sample of your own documents or data." />
+      <dl class="grid gap-6 sm:grid-cols-2">
+        <div class="flex flex-col gap-1"><dt class="text-[13px] font-semibold">Office</dt><dd><address class="text-[15px] not-italic leading-relaxed text-ink-500">{SITE.legalName}<br />{SITE.address.street}<br />{SITE.address.city}, {SITE.address.region} {SITE.address.postalCode}<br />{SITE.address.country}</address></dd></div>
+        <div class="flex flex-col gap-1"><dt class="text-[13px] font-semibold">Sales</dt><dd class="flex flex-col text-[15px] text-ink-500"><a href={`mailto:${SITE.salesEmail}`} class="hover:text-brand">{SITE.salesEmail}</a><a href={`tel:${SITE.phoneHref}`} class="hover:text-brand">{SITE.phone}</a></dd></div>
+        <div class="flex flex-col gap-1"><dt class="text-[13px] font-semibold">General</dt><dd class="text-[15px] text-ink-500"><a href={`mailto:${SITE.email}`} class="hover:text-brand">{SITE.email}</a></dd></div>
+        <div class="flex flex-col gap-1"><dt class="text-[13px] font-semibold">Hours</dt><dd class="text-[15px] text-ink-500">{SITE.hours}</dd></div>
+      </dl>
+      <a href={`https://www.google.com/maps/search/?api=1&query=${mapQuery}`} target="_blank" rel="noopener" class="text-sm font-medium text-brand hover:underline">Open in Google Maps →</a>
+    </div>
+
+    <form data-contact method="post" action="/api/contact" class="flex flex-col gap-5 rounded-[20px] border border-line-strong bg-white p-[clamp(24px,4vw,40px)] shadow-card" novalidate>
+      <div class="grid gap-5 sm:grid-cols-2">
+        <label class="flex flex-col gap-1.5 text-sm font-medium">Full name<input name="name" required autocomplete="name" class={input} /></label>
+        <label class="flex flex-col gap-1.5 text-sm font-medium">Work email<input name="email" type="email" required autocomplete="email" class={input} /></label>
+        <label class="flex flex-col gap-1.5 text-sm font-medium">Company<input name="company" required autocomplete="organization" class={input} /></label>
+        <label class="flex flex-col gap-1.5 text-sm font-medium">Phone <span class="font-normal text-ink-400">(optional)</span><input name="phone" type="tel" autocomplete="tel" class={input} /></label>
+      </div>
+      <fieldset class="flex flex-col gap-2.5">
+        <legend class="pb-2.5 text-sm font-medium">Products you’re interested in</legend>
+        <div class="flex flex-wrap gap-2">
+          {PRODUCTS.map((p) => (
+            <label class="flex cursor-pointer items-center gap-2 rounded-full border border-line-strong px-3.5 py-2 text-sm has-[:checked]:border-brand has-[:checked]:bg-brand-soft has-[:checked]:text-brand">
+              <input type="checkbox" name="products" value={p.fullName} class="sr-only" />{p.name}
+            </label>
+          ))}
+        </div>
+      </fieldset>
+      <label class="flex flex-col gap-1.5 text-sm font-medium">What would you like to automate?<textarea name="message" rows="4" class={input}></textarea></label>
+      <label class="hidden" aria-hidden="true">Leave empty<input name="website" tabindex="-1" autocomplete="off" /></label>
+      <button type="submit" class="btn-primary self-start">Book my demo</button>
+      <p data-status role="status" class="text-sm text-ink-500"></p>
+      <p class="text-xs text-ink-400">By submitting, you agree to our <a href="/privacy/" class="underline">Privacy Policy</a>.</p>
+    </form>
+  </section>
+</BaseLayout>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('form[data-contact]');
+  if (form) {
+    const status = form.querySelector<HTMLElement>('[data-status]')!;
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+      button.disabled = true;
+      status.textContent = 'Sending…';
+      try {
+        const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+        if (!res.ok) throw new Error(String(res.status));
+        form.reset();
+        status.textContent = 'Thank you. Our team will contact you shortly.';
+      } catch {
+        status.textContent = 'Something went wrong. Please email us instead.';
+      } finally {
+        button.disabled = false;
+      }
+    });
+  }
+</script>

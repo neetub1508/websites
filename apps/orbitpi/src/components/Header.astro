@@ -1,0 +1,74 @@
+---
+import Logo from '@/components/Logo.astro';
+import ProductBadge from '@/components/ProductBadge.astro';
+import { MAIN_NAV } from '@/lib/site';
+import { PRODUCTS, productHref } from '@/lib/products';
+
+const path = Astro.url.pathname;
+const isActive = (href: string) => path.startsWith(href);
+---
+
+<header class="sticky top-0 z-30 border-b border-line bg-white/80 backdrop-blur-md backdrop-saturate-150">
+  <nav aria-label="Main" class="container-page flex h-16 items-center gap-6 lg:gap-9">
+    <Logo />
+
+    <ul class="hidden flex-1 items-center gap-1 text-sm text-ink-700 md:flex">
+      <li class="relative">
+        <details class="group" data-menu>
+          <summary class="flex cursor-pointer list-none items-center gap-1 rounded-lg px-3 py-2 hover:bg-[#F3F4F6] [&::-webkit-details-marker]:hidden">
+            Products
+            <svg aria-hidden="true" class="size-3 transition group-open:rotate-180" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 4.5 6 7.5 9 4.5" /></svg>
+          </summary>
+          <div class="absolute left-0 top-12 grid w-[min(760px,90vw)] grid-cols-2 gap-1 rounded-2xl border border-line-strong bg-white p-3 shadow-[0_24px_48px_-16px_rgba(11,13,18,0.18)]">
+            {PRODUCTS.map((p) => (
+              <a href={productHref(p.slug)} class="flex gap-3 rounded-[10px] p-3.5 hover:bg-mist">
+                <ProductBadge product={p} size="md" />
+                <span class="flex flex-col gap-0.5">
+                  <strong class="text-sm font-semibold text-ink">{p.fullName}</strong>
+                  <span class="text-[13px] text-ink-400">{p.category}</span>
+                </span>
+              </a>
+            ))}
+            <a href="/products/" class="flex items-center rounded-[10px] p-3.5 text-sm font-medium text-brand hover:bg-mist">View all products →</a>
+          </div>
+        </details>
+      </li>
+      {MAIN_NAV.map((l) => (
+        <li>
+          <a href={l.href} aria-current={isActive(l.href) ? 'page' : undefined} class="rounded-lg px-3 py-2 hover:bg-[#F3F4F6] aria-[current=page]:text-ink aria-[current=page]:font-medium">{l.label}</a>
+        </li>
+      ))}
+    </ul>
+
+    <a href="/contact/" class="btn-dark ml-auto hidden !rounded-[9px] !px-4 !py-2.5 !text-sm md:inline-flex">Book a demo</a>
+
+    <details class="ml-auto md:hidden" data-menu>
+      <summary class="flex size-11 cursor-pointer list-none items-center justify-center rounded-lg border border-line-strong [&::-webkit-details-marker]:hidden" aria-label="Open menu">
+        <svg aria-hidden="true" class="size-5" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h14M3 10h14M3 14h14" /></svg>
+      </summary>
+      <div class="absolute inset-x-0 top-16 max-h-[calc(100dvh-4rem)] overflow-y-auto border-b border-line bg-white px-6 pb-8 pt-4 shadow-lg">
+        <p class="pb-2 text-xs font-medium uppercase tracking-wider text-ink-400">Products</p>
+        <ul class="flex flex-col">
+          {PRODUCTS.map((p) => (
+            <li><a href={productHref(p.slug)} class="flex items-center gap-3 py-3"><ProductBadge product={p} size="sm" /><span class="font-medium">{p.fullName}</span></a></li>
+          ))}
+        </ul>
+        <ul class="mt-4 flex flex-col border-t border-line pt-4">
+          {MAIN_NAV.map((l) => <li><a href={l.href} class="block py-3 font-medium">{l.label}</a></li>)}
+        </ul>
+        <a href="/contact/" class="btn-primary mt-4 w-full">Book a demo</a>
+      </div>
+    </details>
+  </nav>
+</header>
+
+<script>
+  // Close open menus on outside click or Escape (the <details> elements work without JS).
+  const menus = document.querySelectorAll<HTMLDetailsElement>('details[data-menu]');
+  document.addEventListener('click', (e) => {
+    menus.forEach((m) => { if (m.open && !m.contains(e.target as Node)) m.open = false; });
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') menus.forEach((m) => (m.open = false));
+  });
+</script>

@@ -1,0 +1,128 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import ProductCard from '@/components/ProductCard.astro';
+import Faq from '@/components/Faq.astro';
+import CtaBanner from '@/components/CtaBanner.astro';
+import ProductDemo from '@/components/home/ProductDemo.astro';
+import IndustryExplorer from '@/components/home/IndustryExplorer.astro';
+import VoiceCallCard from '@/components/home/VoiceCallCard.astro';
+import { PRODUCTS, productHref } from '@/lib/products';
+import { SITE, absoluteUrl } from '@/lib/site';
+import { graph, webPage, faqPage, itemList, type JsonLd } from '@/lib/schema';
+
+const title = 'OrbitPi | AI OCR, Inventory, Lead, Asset & Accounting Software';
+const description = SITE.description;
+
+const steps = [
+  { title: 'Capture', body: 'Invoices arrive by email. Leads arrive from ads and forms.' },
+  { title: 'Understand', body: 'AI reads each document and calls each lead.' },
+  { title: 'Act', body: 'Stock, assets and books update on their own.' },
+  { title: 'Report', body: 'One set of numbers across the business.' },
+];
+
+const faqs = [
+  { q: 'What is OrbitPi?', a: 'OrbitPi is an AI business suite with five products: AI document OCR, warehouse inventory management, lead management with an AI voice agent, asset management and accounting.' },
+  { q: 'Can I buy just one OrbitPi product?', a: 'Yes. Each product works on its own. Add more later and they share the same data automatically.' },
+  { q: 'Which languages does the AI voice agent speak?', a: 'English, Hindi and French.' },
+  { q: 'Does OrbitPi support GST and TDS?', a: 'Yes. OrbitPi Ledger includes an India statutory pack for GST, TDS/TCS and statutory returns.' },
+  { q: 'Does OrbitPi work on mobile?', a: 'Yes. OrbitPi runs in the browser and has Android and iOS apps, including barcode and QR scanning for warehouse and asset teams.' },
+  { q: 'Where is OrbitPi based?', a: `OrbitPi Technologies is headquartered in ${SITE.address.city}, ${SITE.address.region}, India, and serves businesses in India and worldwide.` },
+];
+
+const software: JsonLd = {
+  '@type': 'SoftwareApplication',
+  name: SITE.name,
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web, Android, iOS',
+  description,
+  offers: { '@type': 'Offer', url: absoluteUrl('/pricing/') },
+};
+
+const schema = graph(
+  webPage(absoluteUrl('/'), title, description),
+  software,
+  itemList('OrbitPi products', PRODUCTS.map((p) => ({ name: p.fullName, path: productHref(p.slug) }))),
+  faqPage(faqs),
+);
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <section aria-labelledby="hero-title" class="relative overflow-hidden bg-[radial-gradient(60%_50%_at_50%_0%,#EEF1FF_0%,rgba(255,255,255,0)_70%)]">
+    <div class="container-page flex flex-col items-center gap-6 pb-24 pt-20 text-center md:pt-24">
+      <a href={productHref('lead-management-ai-voice-agent')} class="flex items-center gap-2.5 rounded-full border border-[#E1E4F5] bg-white py-1.5 pl-3.5 pr-1.5 text-[13px] text-ink-700 hover:border-brand hover:text-ink">
+        <span>AI voice agent now calls leads in Hindi</span>
+        <span class="rounded-full bg-brand-soft px-2.5 py-0.5 font-medium text-brand">Learn more →</span>
+      </a>
+      <h1 id="hero-title" class="h-display max-w-4xl">AI that runs your back office</h1>
+      <p class="lead max-w-xl">Document OCR, inventory, leads, assets and accounting. Five AI products that share one set of data.</p>
+      <div class="flex flex-wrap justify-center gap-3 pt-2">
+        <a href="/contact/" class="btn-primary">Book a demo</a>
+        <a href="#products" class="btn-ghost">Explore products</a>
+      </div>
+      <ul class="flex flex-wrap justify-center gap-6 text-[13px] text-ink-400">
+        <li>✓ Works alone or as a suite</li><li>✓ GST and TDS ready</li><li>✓ Web, Android and iOS</li>
+      </ul>
+      <ProductDemo />
+    </div>
+  </section>
+
+  <section id="products" aria-labelledby="products-title" class="container-page flex flex-col gap-12 py-24">
+    <SectionHeading eyebrow="Products" id="products-title" title="Five AI products. One source of truth." lead="Use one on its own, or connect them so data flows without re-keying." />
+    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      {PRODUCTS.map((p) => <ProductCard product={p} />)}
+      <a href="/contact/" class="flex flex-col justify-between gap-6 rounded-[18px] bg-ink bg-[radial-gradient(80%_60%_at_100%_0%,rgba(47,75,255,0.45),rgba(47,75,255,0))] p-7 text-white hover:text-white">
+        <span class="flex flex-col gap-2.5"><span class="text-2xl font-semibold leading-tight tracking-[-0.03em]">Run all five as one suite</span><span class="text-[15px] leading-normal text-[#B9BDC9]">Shared data, one login, bundle pricing.</span></span>
+        <span class="self-start rounded-[10px] bg-white px-[18px] py-[11px] text-sm font-medium text-ink">Book a suite demo</span>
+      </a>
+    </div>
+  </section>
+
+  <section aria-labelledby="voice-title" class="bg-ink text-white">
+    <div class="container-page grid items-center gap-14 py-24 md:grid-cols-2">
+      <div class="flex flex-col gap-[18px]">
+        <SectionHeading eyebrow="AI voice agent" id="voice-title" title="Every lead gets a call. Automatically." align="left" inverted lead="The AI voice agent calls new leads, asks your questions and books meetings for your sales team." />
+        <a href={productHref('lead-management-ai-voice-agent')} class="text-[15px] font-medium hover:text-brand-light">See AI calling →</a>
+      </div>
+      <VoiceCallCard />
+    </div>
+  </section>
+
+  <section aria-labelledby="how-title" class="container-page flex flex-col gap-12 py-24">
+    <SectionHeading eyebrow="How it works" id="how-title" title="Type nothing twice" />
+    <ol class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {steps.map((s, i) => (
+        <li class="flex flex-col gap-3 rounded-2xl border border-line p-6">
+          <span class="grid size-8 place-items-center rounded-full bg-brand-soft text-sm font-semibold text-brand">{i + 1}</span>
+          <h3 class="text-lg font-semibold tracking-[-0.02em]">{s.title}</h3>
+          <p class="text-[15px] leading-normal text-ink-500">{s.body}</p>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section aria-labelledby="ind-title" class="border-y border-line bg-mist">
+    <div class="container-page flex flex-col gap-10 py-24">
+      <div class="flex flex-wrap items-end justify-between gap-5">
+        <SectionHeading eyebrow="Industries" id="ind-title" title="Built for your industry" align="left" />
+        <p class="max-w-[420px] text-base leading-normal text-ink-500">Pick your industry to see which OrbitPi products fit and what they automate.</p>
+      </div>
+      <IndustryExplorer />
+    </div>
+  </section>
+
+  <section aria-labelledby="price-title" class="container-page pb-6 pt-24">
+    <div class="flex flex-wrap items-center justify-between gap-7 rounded-[20px] border border-line-strong p-[clamp(32px,5vw,56px)]">
+      <div class="flex max-w-xl flex-col gap-3">
+        <SectionHeading eyebrow="Pricing" id="price-title" title="Pay only for the products you use" align="left" lead="Start with one product. Add more anytime, with bundle pricing on the suite." />
+      </div>
+      <div class="flex flex-wrap gap-2.5">
+        <a href="/pricing/" class="btn-dark">View pricing</a>
+        <a href="/contact/" class="btn-ghost">Talk to sales</a>
+      </div>
+    </div>
+  </section>
+
+  <Faq faqs={faqs} />
+  <CtaBanner />
+</BaseLayout>

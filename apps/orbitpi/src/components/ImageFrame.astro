@@ -1,0 +1,19 @@
+---
+// Responsive image frame. Drop real photos into public/images/... at the given path.
+// If the file is missing, the frame shows a neutral gradient instead of a broken icon.
+interface Props { src: string; alt: string; width?: number; height?: number; class?: string; eager?: boolean }
+const { src, alt, width = 1200, height = 800, class: cls = '', eager = false } = Astro.props;
+---
+
+<div class:list={['relative overflow-hidden bg-gradient-to-br from-[#EEF1FF] via-mist to-[#E6F6F1]', cls]}>
+  <img
+    src={src}
+    alt={alt}
+    width={width}
+    height={height}
+    loading={eager ? 'eager' : 'lazy'}
+    decoding="async"
+    class="absolute inset-0 size-full object-cover"
+    onerror="this.remove()"
+  />
+</div>

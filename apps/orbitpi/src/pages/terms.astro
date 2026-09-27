@@ -1,0 +1,45 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+import { SITE, absoluteUrl } from '@/lib/site';
+import { graph, webPage, breadcrumbs } from '@/lib/schema';
+
+const title = 'Terms of Service | OrbitPi';
+const description = 'The terms that apply to your use of orbitpi.com and OrbitPi AI business software.';
+const crumbs = [{ name: 'Home', path: '/' }, { name: 'Terms of Service', path: '/terms/' }];
+const schema = graph(webPage(absoluteUrl('/terms/'), title, description), breadcrumbs(crumbs));
+const updated = '27 September 2026';
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <Breadcrumbs items={crumbs} />
+  <article class="prose-legal mx-auto max-w-3xl px-6 pb-24 pt-12">
+    <h1 class="h-section">Terms of Service</h1>
+    <p>Last updated: {updated}</p>
+    <p>These terms govern your use of orbitpi.com (the “Site”), operated by {SITE.legalName}. Use of OrbitPi products is governed by the subscription agreement signed with each customer.</p>
+
+    <h2>Use of the Site</h2>
+    <p>You may use the Site to learn about OrbitPi and contact us. You agree not to misuse it, including by attempting to disrupt it, access it without authorisation or scrape it at scale.</p>
+
+    <h2>Product information</h2>
+    <p>We describe our products as accurately as we can. Features, availability and pricing may change, and nothing on the Site is a binding offer until confirmed in a signed agreement.</p>
+
+    <h2>Demo data</h2>
+    <p>Names, figures and records shown in product screens on the Site are sample data for illustration only.</p>
+
+    <h2>Intellectual property</h2>
+    <p>The Site, the OrbitPi name and logo, and all content are owned by {SITE.legalName} or its licensors. You may not copy or reuse them without written permission.</p>
+
+    <h2>Third-party links</h2>
+    <p>The Site may link to other websites. We are not responsible for their content or practices.</p>
+
+    <h2>Disclaimer and liability</h2>
+    <p>The Site is provided “as is”. To the extent permitted by law, we are not liable for indirect or consequential losses arising from your use of the Site.</p>
+
+    <h2>Governing law</h2>
+    <p>These terms are governed by the laws of India. Courts in {SITE.address.city}, {SITE.address.region} have exclusive jurisdiction.</p>
+
+    <h2>Contact</h2>
+    <p>Questions about these terms: <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.</p>
+  </article>
+</BaseLayout>

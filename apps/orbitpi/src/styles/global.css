@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes wave { 0%, 100% { transform: scaleY(.35); } 50% { transform: scaleY(1); } }
+
+@layer base {
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body { @apply bg-white font-sans text-ink antialiased; }
+  a { @apply transition-colors; }
+  :focus-visible { @apply outline-none ring-2 ring-brand ring-offset-2; }
+  h1, h2, h3 { text-wrap: balance; }
+  p { text-wrap: pretty; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  }
+}
+
+@layer components {
+  .container-page { @apply mx-auto w-full max-w-page px-6; }
+  .eyebrow { @apply text-[13px] font-medium tracking-[0.02em] text-brand; }
+  .h-display { @apply text-[clamp(42px,6.2vw,76px)] font-bold leading-[1.02] tracking-tightest; }
+  .h-section { @apply text-[clamp(32px,4vw,48px)] font-bold leading-[1.08] tracking-display; }
+  .lead { @apply text-[clamp(17px,1.5vw,20px)] leading-relaxed text-ink-500; }
+  .btn { @apply inline-flex items-center justify-center gap-2 rounded-[11px] px-[22px] py-[14px] text-[15px] font-medium transition; }
+  .btn-primary { @apply btn bg-brand text-white shadow-cta hover:bg-brand-dark; }
+  .btn-dark { @apply btn bg-ink text-white hover:bg-brand; }
+  .btn-ghost { @apply btn border border-line-strong bg-white text-ink hover:border-ink; }
+  .btn-light { @apply btn bg-white text-ink hover:bg-brand hover:text-white; }
+  .card { @apply rounded-[18px] border border-line bg-mist p-7 transition hover:border-[#D5D8E0] hover:bg-white hover:shadow-card; }
+  .prose-legal h2 { @apply mt-10 text-2xl font-semibold tracking-[-0.02em]; }
+  .prose-legal h3 { @apply mt-6 text-lg font-semibold; }
+  .prose-legal p, .prose-legal li { @apply mt-3 text-[16px] leading-7 text-ink-700; }
+  .prose-legal ul { @apply list-disc pl-6; }
+  .prose-legal a { @apply text-brand underline underline-offset-2; }
+}

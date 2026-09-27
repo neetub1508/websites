@@ -1,0 +1,17 @@
+---
+interface Props { title?: string; text?: string; cta?: string; href?: string }
+const {
+  title = 'See OrbitPi on your own data',
+  text = 'Bring a sample invoice, stock sheet or lead list. We’ll run it live in a 30-minute demo.',
+  cta = 'Book a demo',
+  href = '/contact/',
+} = Astro.props;
+---
+
+<section aria-labelledby="cta-title" class="px-6 pb-24">
+  <div class="mx-auto flex max-w-page flex-col items-center gap-5 rounded-3xl bg-ink bg-[radial-gradient(60%_80%_at_50%_0%,rgba(47,75,255,0.5),rgba(47,75,255,0))] px-6 py-[clamp(48px,7vw,88px)] text-center text-white">
+    <h2 id="cta-title" class="h-section max-w-2xl">{title}</h2>
+    <p class="max-w-md text-[17px] text-[#B9BDC9]">{text}</p>
+    <a href={href} class="btn-light">{cta}</a>
+  </div>
+</section>

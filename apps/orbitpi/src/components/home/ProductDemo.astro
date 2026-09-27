@@ -1,0 +1,176 @@
+---
+// Interactive product demo for the home page. All five panels are rendered as
+// static HTML (crawlable, works without JS); the script adds tab switching,
+// auto-advance, row selection and the demo action button.
+import ProductBadge from '@/components/ProductBadge.astro';
+import { PRODUCTS } from '@/lib/products';
+import { DEMO, type Tone } from '@/lib/demo';
+
+const tone: Record<Tone, string> = {
+  ok: 'bg-[#E9F8EF] text-[#137A3F]',
+  warn: 'bg-[#FFF4E0] text-[#9A5B00]',
+  info: 'bg-brand-soft text-brand',
+};
+const panels = DEMO.map((d) => ({ ...d, product: PRODUCTS.find((p) => p.slug === d.slug)! }));
+const accentOf = (c: string) => (c === '#0B0D12' ? '#2F4BFF' : c);
+---
+
+<div data-demo class="mt-10 flex w-full flex-col gap-3.5 text-left">
+  <div role="tablist" aria-label="OrbitPi products" class="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
+    {panels.map((d, i) => (
+      <button
+        type="button" role="tab" id={`demo-tab-${i}`} aria-controls={`demo-panel-${i}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}
+        data-tab={i}
+        class="group relative flex flex-col gap-2 overflow-hidden rounded-[14px] border border-line bg-mist px-4 pb-4 pt-3.5 text-left transition hover:border-[#C9CDD8] aria-selected:border-ink aria-selected:bg-white aria-selected:shadow-[0_10px_24px_-14px_rgba(11,13,18,0.35)]"
+      >
+        <span class="flex items-center gap-2"><ProductBadge product={d.product} size="sm" /><strong class="text-[15px] font-semibold">{d.product.name}</strong></span>
+        <span class="text-[12.5px] leading-snug text-ink-400">{d.product.category}</span>
+        <span class="absolute inset-x-0 bottom-0 h-[3px] bg-[#EEEFF2]">
+          <span data-progress class="block h-full origin-left scale-x-0" style={`background:${d.product.color}`}></span>
+        </span>
+      </button>
+    ))}
+  </div>
+
+  <div class="overflow-hidden rounded-[18px] border border-line-strong bg-white shadow-window">
+    {panels.map((d, i) => {
+      const accent = accentOf(d.product.color);
+      const first = d.rows[0];
+      return (
+        <div role="tabpanel" id={`demo-panel-${i}`} aria-labelledby={`demo-tab-${i}`} data-panel={i} hidden={i !== 0} style={`--accent:${accent}`}>
+          <div class="flex items-center gap-3.5 border-b border-line bg-[#FBFBFC] px-4 py-3">
+            <span aria-hidden="true" class="flex gap-1.5"><span class="size-2.5 rounded-full bg-[#FF5F57]"></span><span class="size-2.5 rounded-full bg-[#FEBC2E]"></span><span class="size-2.5 rounded-full bg-[#28C840]"></span></span>
+            <span class="mx-auto hidden max-w-[360px] flex-1 rounded-lg border border-line bg-white px-3 py-1.5 text-center font-mono text-xs text-ink-400 sm:block">app.orbitpi.com/{d.path}</span>
+            <span class="ml-auto whitespace-nowrap rounded-full bg-[#E9F8EF] px-2.5 py-1 text-xs font-medium text-[#137A3F] sm:ml-0">● {d.status}</span>
+          </div>
+          <div class="grid min-h-[440px] md:grid-cols-2">
+            <div class="flex flex-col gap-3.5 border-line p-5 md:border-r">
+              <div class="flex items-baseline justify-between gap-3"><strong class="text-[17px] font-semibold">{d.title}</strong><span class="text-xs text-ink-400">{d.subtitle}</span></div>
+              <dl class="grid grid-cols-3 gap-2">
+                {d.kpis.map((k) => (
+                  <div class="flex flex-col-reverse gap-0.5 rounded-[10px] bg-mist px-3 py-2.5"><dd class="text-[19px] font-semibold tracking-[-0.02em]">{k.value}</dd><dt class="text-[11.5px] text-ink-400">{k.label}</dt></div>
+                ))}
+              </dl>
+              <p class="text-xs text-ink-400">Click a row to open it</p>
+              <ul class="flex flex-col gap-1">
+                {d.rows.map((r, j) => (
+                  <li>
+                    <button
+                      type="button" data-row={j} aria-pressed={j === 0 ? 'true' : 'false'}
+                      data-name={r.name} data-ref={r.ref} data-fields={JSON.stringify(r.fields)}
+                      class="grid w-full grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)_auto] items-center gap-2.5 rounded-[10px] px-3 py-2.5 text-left text-[13px] transition hover:bg-[#F5F6F8] aria-pressed:bg-white aria-pressed:shadow-[0_0_0_1px_#E1E3E8,0_4px_10px_-6px_rgba(11,13,18,0.2)]"
+                    >
+                      <span class="truncate font-medium">{r.name}</span>
+                      <span class="truncate font-mono text-[11.5px] text-ink-400">{r.ref}</span>
+                      <span data-status class:list={['whitespace-nowrap rounded-full px-2.5 py-0.5 text-[11.5px] font-medium', tone[r.tone]]}>{r.status}</span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div class="flex flex-col gap-4 bg-[#FBFBFC] p-5" aria-live="polite">
+              <div class="flex flex-col gap-1">
+                <span data-d-ref class="font-mono text-[11.5px] text-[var(--accent)]">{first.ref}</span>
+                <strong data-d-name class="text-xl font-semibold tracking-[-0.02em]">{first.name}</strong>
+              </div>
+              <dl class="flex flex-col rounded-xl border border-line bg-white">
+                {d.fieldLabels.map((label, k) => (
+                  <div class="flex justify-between gap-3 border-b border-[#F1F2F4] px-3.5 py-2.5 text-[13px] last:border-0"><dt class="text-ink-400">{label}</dt><dd data-d-field={k} class="text-right font-medium">{first.fields[k]}</dd></div>
+                ))}
+              </dl>
+              <div class="flex flex-col gap-2">
+                <p class="text-xs font-medium text-ink-400">AI activity</p>
+                <ul class="flex flex-col gap-2">
+                  {d.activity.map((a) => <li class="flex gap-2.5 text-[13px] text-ink-700"><span aria-hidden="true" class="text-[var(--accent)]">●</span>{a}</li>)}
+                </ul>
+              </div>
+              <div class="mt-auto flex flex-wrap items-center gap-2">
+                <button type="button" data-action class="rounded-[9px] bg-[var(--accent)] px-4 py-2.5 text-[13.5px] font-medium text-white transition hover:opacity-90">{d.action}</button>
+                <span data-done hidden class="rounded-[9px] bg-[#E9F8EF] px-4 py-2.5 text-[13.5px] font-medium text-[#137A3F]">✓ {d.done}</span>
+                <span class="text-xs text-ink-400">Interactive demo with sample data</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    })}
+  </div>
+</div>
+
+<script>
+  const INTERVAL = 6000;
+  const root = document.querySelector<HTMLElement>('[data-demo]');
+  if (root) {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('[data-tab]')];
+    const panels = [...root.querySelectorAll<HTMLElement>('[data-panel]')];
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let current = 0;
+    let auto = !reduced;
+    let timer: number | undefined;
+    const done = new Set<string>();
+
+    const animateBar = (i: number) => {
+      tabs.forEach((t, j) => {
+        const bar = t.querySelector<HTMLElement>('[data-progress]')!;
+        bar.getAnimations().forEach((a) => a.cancel());
+        bar.style.transform = j === i && !auto ? 'scaleX(1)' : 'scaleX(0)';
+        if (j === i && auto) bar.animate([{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }], { duration: INTERVAL, fill: 'forwards' });
+      });
+    };
+
+    const show = (i: number, focus = false) => {
+      current = i;
+      tabs.forEach((t, j) => { t.setAttribute('aria-selected', String(j === i)); t.tabIndex = j === i ? 0 : -1; });
+      panels.forEach((p, j) => (p.hidden = j !== i));
+      if (focus) tabs[i].focus();
+      animateBar(i);
+    };
+
+    const schedule = () => {
+      window.clearTimeout(timer);
+      if (auto) timer = window.setTimeout(() => { show((current + 1) % tabs.length); schedule(); }, INTERVAL);
+    };
+    const stop = () => { auto = false; window.clearTimeout(timer); animateBar(current); };
+
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => { stop(); show(i); });
+      t.addEventListener('keydown', (e) => {
+        const dir = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+        if (dir) { e.preventDefault(); stop(); show((i + dir + tabs.length) % tabs.length, true); }
+      });
+    });
+
+    root.addEventListener('mouseenter', () => { window.clearTimeout(timer); tabs[current].querySelector<HTMLElement>('[data-progress]')?.getAnimations().forEach((a) => a.pause()); });
+    root.addEventListener('mouseleave', () => { if (auto) { animateBar(current); schedule(); } });
+
+    panels.forEach((panel, pi) => {
+      const rows = [...panel.querySelectorAll<HTMLButtonElement>('[data-row]')];
+      const action = panel.querySelector<HTMLButtonElement>('[data-action]')!;
+      const doneMsg = panel.querySelector<HTMLElement>('[data-done]')!;
+      let sel = 0;
+      const render = () => {
+        const r = rows[sel];
+        rows.forEach((b, j) => b.setAttribute('aria-pressed', String(j === sel)));
+        panel.querySelector('[data-d-name]')!.textContent = r.dataset.name ?? '';
+        panel.querySelector('[data-d-ref]')!.textContent = r.dataset.ref ?? '';
+        const fields: string[] = JSON.parse(r.dataset.fields ?? '[]');
+        panel.querySelectorAll<HTMLElement>('[data-d-field]').forEach((el, k) => (el.textContent = fields[k] ?? ''));
+        const isDone = done.has(`${pi}-${sel}`);
+        action.hidden = isDone;
+        doneMsg.hidden = !isDone;
+      };
+      rows.forEach((b, j) => b.addEventListener('click', () => { stop(); sel = j; render(); }));
+      action.addEventListener('click', () => {
+        stop();
+        done.add(`${pi}-${sel}`);
+        const status = rows[sel].querySelector<HTMLElement>('[data-status]')!;
+        status.textContent = 'Done';
+        status.className = 'whitespace-nowrap rounded-full px-2.5 py-0.5 text-[11.5px] font-medium bg-[#E9F8EF] text-[#137A3F]';
+        render();
+      });
+    });
+
+    show(0);
+    schedule();
+  }
+</script>

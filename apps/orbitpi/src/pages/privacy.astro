@@ -1,0 +1,59 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+import { SITE, absoluteUrl } from '@/lib/site';
+import { graph, webPage, breadcrumbs } from '@/lib/schema';
+
+const title = 'Privacy Policy | OrbitPi';
+const description = 'How OrbitPi Technologies collects, uses, stores and protects personal data on orbitpi.com and in the OrbitPi products.';
+const crumbs = [{ name: 'Home', path: '/' }, { name: 'Privacy Policy', path: '/privacy/' }];
+const schema = graph(webPage(absoluteUrl('/privacy/'), title, description), breadcrumbs(crumbs));
+const updated = '27 September 2026';
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <Breadcrumbs items={crumbs} />
+  <article class="prose-legal mx-auto max-w-3xl px-6 pb-24 pt-12">
+    <h1 class="h-section">Privacy Policy</h1>
+    <p>Last updated: {updated}</p>
+    <p>This policy explains how {SITE.legalName} (“OrbitPi”, “we”, “us”) handles personal data when you visit orbitpi.com or use OrbitPi products. It is written to meet India’s Digital Personal Data Protection Act, 2023 and applicable laws in other countries where we operate.</p>
+
+    <h2>Information we collect</h2>
+    <ul>
+      <li><strong>Contact details</strong> you submit through forms, such as name, work email, company and phone number.</li>
+      <li><strong>Usage data</strong> such as pages visited, browser type and approximate location, collected through server logs.</li>
+      <li><strong>Customer data</strong> that our customers upload to OrbitPi products. We process it only on the customer’s instructions.</li>
+    </ul>
+
+    <h2>How we use information</h2>
+    <ul>
+      <li>To respond to demo requests and enquiries.</li>
+      <li>To provide, secure and improve our website and products.</li>
+      <li>To send service messages and, with consent, product updates. You can unsubscribe at any time.</li>
+    </ul>
+
+    <h2>Legal basis and consent</h2>
+    <p>We process personal data with your consent or for legitimate uses permitted by law, such as responding to a request you made.</p>
+
+    <h2>Sharing</h2>
+    <p>We do not sell personal data. We share it only with service providers who help us run OrbitPi, such as hosting and email providers, under contracts that require them to protect it, or when required by law.</p>
+
+    <h2>Retention</h2>
+    <p>We keep personal data only as long as needed for the purposes above or as required by law, then delete or anonymise it.</p>
+
+    <h2>Security</h2>
+    <p>We use encryption in transit, access controls and audit logging to protect data. No method of transmission or storage is completely secure, but we work to protect your information.</p>
+
+    <h2>Your rights</h2>
+    <p>You may request access to, correction of or erasure of your personal data, withdraw consent, or nominate another person to exercise your rights. Email <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.</p>
+
+    <h2>Cookies</h2>
+    <p>This website uses only cookies that are necessary for it to work. If we add analytics or marketing cookies, we will ask for your consent first.</p>
+
+    <h2>Grievance officer</h2>
+    <p>Grievance Officer, {SITE.legalName}, {SITE.address.street}, {SITE.address.city}, {SITE.address.region} {SITE.address.postalCode}, {SITE.address.country}. Email: <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.</p>
+
+    <h2>Changes</h2>
+    <p>We may update this policy. The date at the top shows when it last changed.</p>
+  </article>
+</BaseLayout>

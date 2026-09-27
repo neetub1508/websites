@@ -1,0 +1,40 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import ImageFrame from '@/components/ImageFrame.astro';
+import CtaBanner from '@/components/CtaBanner.astro';
+import { INDUSTRIES, industryHref } from '@/lib/industries';
+import { absoluteUrl } from '@/lib/site';
+import { graph, webPage, breadcrumbs, itemList } from '@/lib/schema';
+
+const title = 'Industries | OrbitPi AI Business Software';
+const description = 'OrbitPi AI software for manufacturing, distribution, logistics and 3PL, retail and e-commerce, healthcare and pharma, and real estate.';
+const crumbs = [{ name: 'Home', path: '/' }, { name: 'Industries', path: '/industries/' }];
+const schema = graph(
+  webPage(absoluteUrl('/industries/'), title, description, 'CollectionPage'),
+  breadcrumbs(crumbs),
+  itemList('Industries served by OrbitPi', INDUSTRIES.map((i) => ({ name: i.name, path: industryHref(i.slug) }))),
+);
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <Breadcrumbs items={crumbs} />
+  <section class="container-page flex flex-col gap-12 pb-24 pt-12">
+    <SectionHeading as="h1" eyebrow="Industries" title="AI back-office software built for your industry" lead="See how OrbitPi products fit the way your business already works." />
+    <ul class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      {INDUSTRIES.map((ind) => (
+        <li>
+          <a href={industryHref(ind.slug)} class="group flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-white transition hover:shadow-card">
+            <ImageFrame src={`/images/industries/${ind.slug}.webp`} alt={`${ind.name} business using OrbitPi`} class="aspect-[16/10]" />
+            <div class="flex flex-1 flex-col gap-2 p-5">
+              <h2 class="flex items-center justify-between text-lg font-semibold">{ind.name}<span aria-hidden="true" class="text-brand transition group-hover:translate-x-0.5">→</span></h2>
+              <p class="text-[14.5px] leading-relaxed text-ink-500">{ind.intro}</p>
+            </div>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+  <CtaBanner />
+</BaseLayout>

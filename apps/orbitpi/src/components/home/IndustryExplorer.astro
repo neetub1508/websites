@@ -1,0 +1,79 @@
+---
+// Industry explorer: tab list + detail card. All six panels are static HTML;
+// the script only toggles which one is visible.
+import ImageFrame from '@/components/ImageFrame.astro';
+import ProductBadge from '@/components/ProductBadge.astro';
+import { INDUSTRIES, industryHref } from '@/lib/industries';
+import { getProduct, productHref, type Product } from '@/lib/products';
+
+const items = INDUSTRIES.map((ind) => ({
+  ...ind,
+  mods: ind.products.map((s) => getProduct(s)).filter((p): p is Product => Boolean(p)),
+}));
+---
+
+<div data-industries class="flex flex-wrap items-stretch gap-5">
+  <div role="tablist" aria-label="Industries" aria-orientation="vertical" class="flex flex-[1_1_280px] flex-col gap-1.5">
+    {items.map((ind, i) => (
+      <button
+        type="button" role="tab" id={`ind-tab-${i}`} aria-controls={`ind-panel-${i}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}
+        data-tab={i}
+        class="group flex items-center justify-between gap-3 rounded-[14px] border border-transparent px-5 py-[18px] text-left transition hover:bg-white aria-selected:border-ink aria-selected:bg-white aria-selected:shadow-[0_10px_24px_-16px_rgba(11,13,18,0.35)]"
+      >
+        <span class="flex flex-col gap-0.5"><strong class="text-[17px] font-semibold">{ind.name}</strong><span class="text-[13px] text-ink-400">{ind.short}</span></span>
+        <span aria-hidden="true" class="text-lg text-[#C9CDD8] group-aria-selected:text-brand">→</span>
+      </button>
+    ))}
+  </div>
+
+  <div class="min-w-0 flex-[999_1_480px]">
+    {items.map((ind, i) => (
+      <article role="tabpanel" id={`ind-panel-${i}`} aria-labelledby={`ind-tab-${i}`} data-panel={i} hidden={i !== 0}
+        class="grid h-full overflow-hidden rounded-[20px] border border-line-strong bg-white shadow-[0_30px_60px_-32px_rgba(21,32,90,0.25)] md:grid-cols-2">
+        <ImageFrame src={`/images/industries/${ind.slug}.webp`} alt={`${ind.name} team using OrbitPi`} class="min-h-[260px] md:min-h-full" />
+        <div class="flex flex-col gap-5 p-7">
+          <div class="flex flex-col gap-2">
+            <h3 class="text-2xl font-semibold tracking-[-0.03em]">{ind.name}</h3>
+            <p class="text-[15px] leading-relaxed text-ink-500">{ind.intro}</p>
+          </div>
+          <div class="flex flex-col gap-2.5">
+            <p class="text-xs font-medium text-ink-400">Products used</p>
+            <ul class="flex flex-wrap gap-1.5">
+              {ind.mods.map((m) => (
+                <li>
+                  <a href={productHref(m.slug)} class="flex items-center gap-1.5 rounded-full py-1.5 pl-1.5 pr-2.5 text-[13px] font-medium" style={`background:${m.soft};color:${m.color}`}>
+                    <ProductBadge product={m} size="sm" />{m.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <ul class="flex flex-col gap-2.5">
+            {ind.wins.map((w) => <li class="flex gap-2.5 text-[14.5px] leading-snug text-ink-700"><span aria-hidden="true" class="text-brand">✓</span>{w}</li>)}
+          </ul>
+          <a href={industryHref(ind.slug)} class="mt-auto text-sm font-medium text-brand hover:underline">OrbitPi for {ind.name} <span aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    ))}
+  </div>
+</div>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-industries]');
+  if (root) {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('[data-tab]')];
+    const panels = [...root.querySelectorAll<HTMLElement>('[data-panel]')];
+    const show = (i: number, focus = false) => {
+      tabs.forEach((t, j) => { t.setAttribute('aria-selected', String(j === i)); t.tabIndex = j === i ? 0 : -1; });
+      panels.forEach((p, j) => (p.hidden = j !== i));
+      if (focus) tabs[i].focus();
+    };
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => show(i));
+      t.addEventListener('keydown', (e) => {
+        const dir = e.key === 'ArrowDown' ? 1 : e.key === 'ArrowUp' ? -1 : 0;
+        if (dir) { e.preventDefault(); show((i + dir + tabs.length) % tabs.length, true); }
+      });
+    });
+  }
+</script>
