@@ -6,6 +6,8 @@
 
 @layer base {
   html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  /* Keep the hidden attribute working on elements that also carry display utilities (e.g. `grid` tab panels). */
+  [hidden] { display: none !important; }
   body { @apply bg-white font-sans text-ink antialiased; }
   a { @apply transition-colors; }
   :focus-visible { @apply outline-none ring-2 ring-brand ring-offset-2; }
