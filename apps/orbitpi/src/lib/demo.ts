@@ -1,4 +1,5 @@
-// Sample data for the interactive product demo on the home page. Illustrative only.
+// Sample data for the home page demo and product page previews. Illustrative only;
+// activity and actions must describe shipped behaviour (Ledger is a design preview).
 export type Tone = 'ok' | 'warn' | 'info';
 
 export interface DemoRow { name: string; ref: string; status: string; tone: Tone; fields: string[] }
@@ -12,24 +13,24 @@ export interface DemoPanel {
 export const DEMO: DemoPanel[] = [
   {
     slug: 'ai-document-ocr', path: 'docai/inbox', title: 'Documents', subtitle: 'Inbox · purchase invoices', status: 'Processing',
-    kpis: [{ label: 'Read today', value: '1,284' }, { label: 'Auto-approved', value: '91%' }, { label: 'Needs review', value: '37' }],
-    fieldLabels: ['Vendor GSTIN', 'Amount', 'Line items', 'Confidence'],
-    activity: ['Read from ap@ inbox', 'Matched vendor master', 'Checked against PO'],
-    action: 'Approve & post to Ledger', done: 'Posted to Ledger and Stock',
+    kpis: [{ label: 'Read today', value: '1,284' }, { label: 'Passed checks', value: '1,247' }, { label: 'Needs review', value: '37' }],
+    fieldLabels: ['Supplier GSTIN', 'Amount', 'Line items', 'Checks'],
+    activity: ['Received by email intake', 'E-invoice QR matched to fields', 'Line items add up to total'],
+    action: 'Approve & export', done: 'Sent to your Excel export',
     rows: [
-      { name: 'Shree Balaji Traders', ref: 'INV-4471', status: 'Extracted', tone: 'ok', fields: ['06AABCS1429B1Z5', '₹1,84,560', '3 + tax', '98%'] },
-      { name: 'Apex Polymers', ref: 'INV-0932', status: 'Extracted', tone: 'ok', fields: ['07AAFCA2210K1Z2', '₹62,300', '5 + tax', '97%'] },
-      { name: 'Kaveri Logistics', ref: 'LR-22817', status: 'Review', tone: 'warn', fields: ['29AACCK7781M1Z9', '₹18,450', '2', '71% · check date'] },
-      { name: 'Nova Paper Mills', ref: 'INV-7710', status: 'Extracted', tone: 'ok', fields: ['24AAECN4410P1Z1', '₹2,10,900', '8 + tax', '99%'] },
-      { name: 'Sai Packaging', ref: 'PO-2291', status: 'Matched to PO', tone: 'info', fields: ['06AAHCS9012Q1Z4', '₹44,800', '4', '96%'] },
+      { name: 'Shree Balaji Traders', ref: 'INV-4471', status: 'Extracted', tone: 'ok', fields: ['06AABCS1429B1Z5', '₹1,84,560', '3 + tax', 'All passed'] },
+      { name: 'Apex Polymers', ref: 'INV-0932', status: 'Extracted', tone: 'ok', fields: ['07AAFCA2210K1Z2', '₹62,300', '5 + tax', 'All passed'] },
+      { name: 'Kaveri Logistics', ref: 'LR-22817', status: 'Review', tone: 'warn', fields: ['29AACCK7781M1Z9', '₹18,450', '2', 'Check date'] },
+      { name: 'Nova Paper Mills', ref: 'INV-7710', status: 'Extracted', tone: 'ok', fields: ['24AAECN4410P1Z1', '₹2,10,900', '8 + tax', 'All passed'] },
+      { name: 'Sai Packaging', ref: 'CN-2291', status: 'Credit note', tone: 'info', fields: ['06AAHCS9012Q1Z4', '₹44,800', '4', 'All passed'] },
     ],
   },
   {
     slug: 'warehouse-inventory-management', path: 'stock/on-hand', title: 'Stock on hand', subtitle: '3 warehouses · 1,240 bins', status: 'Live',
     kpis: [{ label: 'SKUs', value: '4,812' }, { label: 'Stock value', value: '₹2.4 Cr' }, { label: 'Low stock', value: '18' }],
     fieldLabels: ['On hand', 'Reserved', 'Reorder level', 'Lot'],
-    activity: ['Scanned at receiving dock', 'Put away to bin', 'Alert rule checked'],
-    action: 'Create reorder', done: 'Purchase request raised',
+    activity: ['Scanned in on GRN at dock 2', 'Put-away rule chose bin', 'Low-stock alert rule checked'],
+    action: 'Create reorder', done: 'Suggested PO created',
     rows: [
       { name: 'Kraft box 5-ply', ref: 'WH-A · R12-B3', status: '12,400', tone: 'ok', fields: ['12,400', '1,200', '4,000', 'L-2609-A'] },
       { name: 'Stretch film 23µ', ref: 'WH-A · R04-A1', status: '680', tone: 'ok', fields: ['680', '120', '500', 'L-2608-C'] },
@@ -39,17 +40,17 @@ export const DEMO: DemoPanel[] = [
     ],
   },
   {
-    slug: 'lead-management-ai-voice-agent', path: 'leads/ai-calls', title: 'AI calls', subtitle: 'Voice agent · today', status: 'Calling',
-    kpis: [{ label: 'Calls made', value: '342' }, { label: 'Qualified', value: '96' }, { label: 'Meetings', value: '41' }],
-    fieldLabels: ['Source', 'Language', 'Need', 'Next step'],
-    activity: ['Called soon after enquiry', 'Asked 4 qualifying questions', 'Transcript saved'],
-    action: 'Assign to sales rep', done: 'Assigned to Priya S.',
+    slug: 'lead-management-ai-voice-agent', path: 'leads/worklist', title: 'Lead worklist', subtitle: 'Follow-ups due today', status: 'Live',
+    kpis: [{ label: 'New today', value: '64' }, { label: 'Follow-ups due', value: '38' }, { label: 'SLA at risk', value: '5' }],
+    fieldLabels: ['Source', 'Owner', 'Stage', 'Next action'],
+    activity: ['Captured from website form with UTM', 'Assigned by branch routing rule', 'WhatsApp template sent'],
+    action: 'Log call outcome', done: 'Follow-up scheduled',
     rows: [
-      { name: 'Rohit Mehta', ref: 'Hindi · 2m 14s', status: 'Qualified', tone: 'ok', fields: ['Website form', 'Hindi', '20,000 boxes / mo', 'Demo Thu 11:00'] },
-      { name: 'Sara Thomas', ref: 'English · 1m 02s', status: 'Callback', tone: 'warn', fields: ['Google Ads', 'English', 'Pricing sheet', 'Call back 5 pm'] },
-      { name: 'Imran Qureshi', ref: 'Hindi · 3m 40s', status: 'Meeting booked', tone: 'info', fields: ['Marketplace', 'Hindi', 'Custom printing', 'Meeting booked'] },
-      { name: 'Neha Gupta', ref: 'English · 2m 51s', status: 'Qualified', tone: 'ok', fields: ['Referral', 'English', 'Bulk order', 'Send quote'] },
-      { name: 'Arjun Rao', ref: 'In progress', status: 'Live', tone: 'info', fields: ['Website chat', 'English', 'Qualifying…', 'Live call'] },
+      { name: 'Rohit Mehta', ref: 'Google Ads', status: 'New', tone: 'info', fields: ['Website form · Google Ads', 'Priya S.', 'New', 'First call due 11:30'] },
+      { name: 'Sara Thomas', ref: 'Walk-in', status: 'Follow-up', tone: 'warn', fields: ['Walk-in · Pune branch', 'Aman K.', 'Contacted', 'Send price list'] },
+      { name: 'Imran Qureshi', ref: 'Meta Ads', status: 'SLA at risk', tone: 'warn', fields: ['Website form · Meta Ads', 'Unassigned pool', 'New', 'Claim and call'] },
+      { name: 'Neha Gupta', ref: 'Referral', status: 'Qualified', tone: 'ok', fields: ['Import · Referral list', 'Priya S.', 'Qualified', 'Site visit Sat'] },
+      { name: 'Arjun Rao', ref: 'Website', status: 'Contacted', tone: 'ok', fields: ['Website form · Organic', 'Dev M.', 'Contacted', 'Call back 5 pm'] },
     ],
   },
   {
@@ -70,7 +71,7 @@ export const DEMO: DemoPanel[] = [
     slug: 'accounting-software', path: 'ledger/day-book', title: 'Day book', subtitle: 'FY 2026-27 · Gurugram HQ', status: 'Balanced',
     kpis: [{ label: 'Vouchers today', value: '218' }, { label: 'GST input', value: '₹7.2 L' }, { label: 'Unreconciled', value: '6' }],
     fieldLabels: ['Debit', 'Credit', 'GST / TDS', 'Branch'],
-    activity: ['Created from DocAI bill', 'GST rules applied', 'Awaiting approver'],
+    activity: ['Entered by accounts team', 'Tax code applied', 'Awaiting approver'],
     action: 'Approve voucher', done: 'Voucher posted',
     rows: [
       { name: 'Purchase · Shree Balaji', ref: 'PV-26-4471', status: 'Posted', tone: 'ok', fields: ['Purchases ₹1,56,407', 'Shree Balaji ₹1,84,560', 'ITC ₹28,153', 'Gurugram'] },

@@ -1,9 +1,9 @@
 ---
-// Interactive product demo for the home page. All five panels are rendered as
+// Interactive product demo for the home page. One panel per available product, are rendered as
 // static HTML (crawlable, works without JS); the script adds tab switching,
 // auto-advance, row selection and the demo action button.
 import ProductBadge from '@/components/ProductBadge.astro';
-import { PRODUCTS } from '@/lib/products';
+import { PRODUCTS, isAvailable } from '@/lib/products';
 import { DEMO, type Tone } from '@/lib/demo';
 
 const tone: Record<Tone, string> = {
@@ -11,12 +11,12 @@ const tone: Record<Tone, string> = {
   warn: 'bg-[#FFF4E0] text-[#9A5B00]',
   info: 'bg-brand-soft text-brand',
 };
-const panels = DEMO.map((d) => ({ ...d, product: PRODUCTS.find((p) => p.slug === d.slug)! }));
+const panels = DEMO.map((d) => ({ ...d, product: PRODUCTS.find((p) => p.slug === d.slug)! })).filter((d) => isAvailable(d.product));
 const accentOf = (c: string) => (c === '#0B0D12' ? '#2F4BFF' : c);
 ---
 
 <div data-demo class="mt-10 flex w-full flex-col gap-3.5 text-left">
-  <div role="tablist" aria-label="OrbitPi products" class="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
+  <div role="tablist" aria-label="OrbitPi products" class="grid grid-cols-2 gap-2 lg:grid-cols-4">
     {panels.map((d, i) => (
       <button
         type="button" role="tab" id={`demo-tab-${i}`} aria-controls={`demo-panel-${i}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}
@@ -79,7 +79,7 @@ const accentOf = (c: string) => (c === '#0B0D12' ? '#2F4BFF' : c);
                 ))}
               </dl>
               <div class="flex flex-col gap-2">
-                <p class="text-xs font-medium text-ink-400">AI activity</p>
+                <p class="text-xs font-medium text-ink-400">Activity</p>
                 <ul class="flex flex-col gap-2">
                   {d.activity.map((a) => <li class="flex gap-2.5 text-[13px] text-ink-700"><span aria-hidden="true" class="text-[var(--accent)]">●</span>{a}</li>)}
                 </ul>

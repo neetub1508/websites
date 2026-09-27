@@ -1,6 +1,6 @@
 ---
 import ProductBadge from '@/components/ProductBadge.astro';
-import { productHref, type Product } from '@/lib/products';
+import { productHref, isAvailable, type Product } from '@/lib/products';
 interface Props { product: Product; headingLevel?: 'h2' | 'h3' }
 const { product: p, headingLevel: H = 'h3' } = Astro.props;
 const accent = p.theme === 'ledger' ? '#2F4BFF' : p.color;
@@ -11,7 +11,7 @@ const accent = p.theme === 'ledger' ? '#2F4BFF' : p.color;
     <ProductBadge product={p} size="lg" />
     <div class="flex flex-col">
       <H class="text-lg font-semibold tracking-[-0.02em]">{p.fullName}</H>
-      <span class="text-[13px] text-ink-400">{p.category}</span>
+      <span class="flex items-center gap-2 text-[13px] text-ink-400">{p.category}{!isAvailable(p) && <span class="rounded-full bg-[#FFF4E0] px-2 py-px text-[11px] font-medium text-[#9A5B00]">Coming soon</span>}</span>
     </div>
   </div>
   <p class="text-base leading-normal text-ink-700">{p.summary}</p>

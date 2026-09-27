@@ -4,11 +4,11 @@
 import ImageFrame from '@/components/ImageFrame.astro';
 import ProductBadge from '@/components/ProductBadge.astro';
 import { INDUSTRIES, industryHref } from '@/lib/industries';
-import { getProduct, productHref, type Product } from '@/lib/products';
+import { getProduct, productHref, isAvailable, type Product } from '@/lib/products';
 
 const items = INDUSTRIES.map((ind) => ({
   ...ind,
-  mods: ind.products.map((s) => getProduct(s)).filter((p): p is Product => Boolean(p)),
+  mods: ind.products.map((s) => getProduct(s)).filter((p): p is Product => Boolean(p) && isAvailable(p!)),
 }));
 ---
 
@@ -30,7 +30,7 @@ const items = INDUSTRIES.map((ind) => ({
     {items.map((ind, i) => (
       <article role="tabpanel" id={`ind-panel-${i}`} aria-labelledby={`ind-tab-${i}`} data-panel={i} hidden={i !== 0}
         class="grid h-full overflow-hidden rounded-[20px] border border-line-strong bg-white shadow-[0_30px_60px_-32px_rgba(21,32,90,0.25)] md:grid-cols-2">
-        <ImageFrame src={`/images/industries/${ind.slug}.webp`} alt={`${ind.name} team using OrbitPi`} class="min-h-[260px] md:min-h-full" />
+        <ImageFrame src={`/images/industries/${ind.slug}.svg`} alt={`Illustration of ${ind.name.toLowerCase()} operations managed with OrbitPi`} width={1200} height={900} fit="contain" class="min-h-[260px] md:min-h-full" />
         <div class="flex flex-col gap-5 p-7">
           <div class="flex flex-col gap-2">
             <h3 class="text-2xl font-semibold tracking-[-0.03em]">{ind.name}</h3>

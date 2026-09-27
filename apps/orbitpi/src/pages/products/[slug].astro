@@ -7,7 +7,7 @@ import ProductCard from '@/components/ProductCard.astro';
 import ProductPreview from '@/components/ProductPreview.astro';
 import Faq from '@/components/Faq.astro';
 import CtaBanner from '@/components/CtaBanner.astro';
-import { PRODUCTS, getProduct, productHref, type Product } from '@/lib/products';
+import { PRODUCTS, productHref, isAvailable, type Product } from '@/lib/products';
 import { INDUSTRIES, industryHref } from '@/lib/industries';
 import { absoluteUrl } from '@/lib/site';
 import { graph, webPage, breadcrumbs, faqPage, softwareApp } from '@/lib/schema';
@@ -22,13 +22,13 @@ const accent = p.theme === 'ledger' ? '#2F4BFF' : p.color;
 const path = productHref(p.slug);
 const crumbs = [{ name: 'Home', path: '/' }, { name: 'Products', path: '/products/' }, { name: p.fullName, path }];
 const industries = INDUSTRIES.filter((i) => i.products.includes(p.slug));
-const connected = p.connects.map((c) => ({ ...c, product: getProduct(c.slug)! }));
-const others = PRODUCTS.filter((x) => x.slug !== p.slug).slice(0, 3);
+const available = isAvailable(p);
+const others = PRODUCTS.filter((x) => x.slug !== p.slug && isAvailable(x)).slice(0, 3);
 
 const schema = graph(
   webPage(absoluteUrl(path), p.metaTitle, p.metaDescription),
   breadcrumbs(crumbs),
-  softwareApp(p),
+  ...(available ? [softwareApp(p)] : []),
   faqPage(p.faqs),
 );
 ---
@@ -38,12 +38,12 @@ const schema = graph(
 
   <section aria-labelledby="page-title" class="container-page grid items-center gap-12 pb-20 pt-10 lg:grid-cols-[1.05fr_1fr]" style={`--accent:${accent}`}>
     <div class="flex flex-col items-start gap-6">
-      <p class="flex items-center gap-2.5 text-sm font-medium"><ProductBadge product={p} size="md" />{p.fullName} · {p.category}</p>
+      <p class="flex flex-wrap items-center gap-2.5 text-sm font-medium"><ProductBadge product={p} size="md" />{p.fullName} · {p.category}{!available && <span class="rounded-full bg-[#FFF4E0] px-2.5 py-0.5 text-xs font-medium text-[#9A5B00]">Coming soon</span>}</p>
       <h1 id="page-title" class="text-[clamp(38px,5vw,60px)] font-bold leading-[1.04] tracking-tightest">{p.h1}</h1>
       <p class="lead">{p.intro}</p>
       <div class="flex flex-wrap gap-3">
-        <a href="/contact/" class="btn-primary">Book a demo</a>
-        <a href="#features" class="btn-ghost">See features</a>
+        <a href="/contact/" class="btn-primary">{available ? 'Book a demo' : 'Ask for early access'}</a>
+        <a href="#features" class="btn-ghost">{available ? 'See features' : 'See planned features'}</a>
       </div>
       <ul class="flex flex-wrap gap-x-6 gap-y-2 text-[13px] text-ink-500">
         {p.highlights.map((h) => <li class="flex gap-1.5"><span aria-hidden="true" class="text-[var(--accent)]">✓</span>{h}</li>)}
@@ -54,7 +54,7 @@ const schema = graph(
 
   <section id="features" aria-labelledby="features-title" class="border-y border-line bg-mist">
     <div class="container-page flex flex-col gap-12 py-24">
-      <SectionHeading id="features-title" eyebrow="Features" title={`${p.fullName} features`} lead={`Everything you need for ${p.category.toLowerCase()} in one product.`} />
+      <SectionHeading id="features-title" eyebrow={available ? 'Features' : 'Planned features'} title={`${p.fullName} features`} lead={available ? `What ${p.fullName} does today, feature by feature.` : `What we are building into ${p.fullName}. None of this is available yet.`} />
       <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {p.features.map((f) => (
           <li class="flex flex-col gap-2.5 rounded-2xl border border-line bg-white p-6">
@@ -68,6 +68,11 @@ const schema = graph(
 
   <section aria-labelledby="how-title" class="container-page flex flex-col gap-12 py-24">
     <SectionHeading id="how-title" eyebrow="How it works" title={`How ${p.fullName} works`} />
+    {p.image && (
+      <figure class="overflow-hidden rounded-[20px] border border-line bg-[#FCFAF4]">
+        <img src={p.image.src} srcset={`${p.image.srcSmall} 640w, ${p.image.src} ${p.image.width}w`} sizes="(min-width: 1440px) 1392px, 100vw" alt={p.image.alt} width={p.image.width} height={p.image.height} loading="lazy" decoding="async" class="mx-auto h-auto w-full max-w-[1000px]" />
+      </figure>
+    )}
     <ol class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
       {p.steps.map((s, i) => (
         <li class="flex flex-col gap-3 rounded-2xl border border-line p-6">
@@ -99,19 +104,30 @@ const schema = graph(
     </div>
   </section>
 
-  <section aria-labelledby="connect-title" class="container-page flex flex-col gap-10 py-24">
-    <SectionHeading id="connect-title" eyebrow="Better together" title={`Connect ${p.name} with other OrbitPi products`} />
-    <ul class="grid gap-4 md:grid-cols-2">
-      {connected.map((c) => (
-        <li>
-          <a href={productHref(c.slug)} class="card flex items-start gap-4 !p-6">
-            <ProductBadge product={c.product} size="lg" />
-            <span class="flex flex-col gap-1"><strong class="font-semibold">{p.name} + {c.product.name}</strong><span class="text-[15px] text-ink-500">{c.body}</span></span>
-          </a>
-        </li>
-      ))}
-    </ul>
-  </section>
+  {p.upcoming && (
+    <section aria-labelledby="upcoming-title" class="container-page pt-24">
+      <div class="flex flex-col gap-3 rounded-[20px] border border-[#F5D9A8] bg-[#FFF9EE] p-[clamp(24px,4vw,40px)]">
+        <p class="text-xs font-semibold uppercase tracking-wider text-[#9A5B00]">Coming soon</p>
+        <h2 id="upcoming-title" class="text-2xl font-semibold tracking-[-0.03em]">{p.upcoming.title}</h2>
+        <p class="max-w-3xl text-[16px] leading-relaxed text-ink-700">{p.upcoming.body}</p>
+      </div>
+    </section>
+  )}
+
+  {p.integrations.length > 0 && (
+    <section aria-labelledby="works-title" class="container-page flex flex-col gap-10 py-24">
+      <SectionHeading id="works-title" eyebrow="Integrations" title={`What ${p.fullName} works with`} lead="Get data in and out with the tools you already use." />
+      <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {p.integrations.map((it) => (
+          <li class="flex flex-col gap-2 rounded-2xl border border-line p-6">
+            <h3 class="text-base font-semibold">{it.title}</h3>
+            <p class="text-[14.5px] leading-relaxed text-ink-500">{it.body}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+  {p.integrations.length === 0 && <div class="pb-24"></div>}
 
   <div class="border-t border-line bg-mist"><Faq faqs={p.faqs} title={`${p.fullName} FAQ`} /></div>
 
@@ -122,5 +138,7 @@ const schema = graph(
     </div>
   </section>
 
-  <CtaBanner title={`See ${p.fullName} on your own data`} />
+  {available
+    ? <CtaBanner title={`See ${p.fullName} on your own data`} />
+    : <CtaBanner title={`Get early access to ${p.fullName}`} text="Tell us how your finance team works today and we will keep you updated as Ledger is built." cta="Contact us" />}
 </BaseLayout>

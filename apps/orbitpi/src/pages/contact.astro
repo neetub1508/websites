@@ -2,11 +2,11 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Breadcrumbs from '@/components/Breadcrumbs.astro';
 import SectionHeading from '@/components/SectionHeading.astro';
-import { PRODUCTS } from '@/lib/products';
+import { PRODUCTS, isAvailable } from '@/lib/products';
 import { SITE, absoluteUrl } from '@/lib/site';
 import { graph, webPage, breadcrumbs } from '@/lib/schema';
 
-const title = 'Contact OrbitPi | Book a Demo';
+const title = 'Contact OrbitPi | Book a Demo of Our AI Business Software';
 const description = `Book an OrbitPi demo or talk to sales. Visit us at ${SITE.address.street}, ${SITE.address.city}, or email ${SITE.email}.`;
 const crumbs = [{ name: 'Home', path: '/' }, { name: 'Contact', path: '/contact/' }];
 const schema = graph(webPage(absoluteUrl('/contact/'), title, description, 'ContactPage'), breadcrumbs(crumbs));
@@ -40,7 +40,7 @@ const mapQuery = encodeURIComponent(`${SITE.address.street}, ${SITE.address.city
         <div class="flex flex-wrap gap-2">
           {PRODUCTS.map((p) => (
             <label class="flex cursor-pointer items-center gap-2 rounded-full border border-line-strong px-3.5 py-2 text-sm has-[:checked]:border-brand has-[:checked]:bg-brand-soft has-[:checked]:text-brand">
-              <input type="checkbox" name="products" value={p.fullName} class="sr-only" />{p.name}
+              <input type="checkbox" name="products" value={p.fullName} class="sr-only" />{p.name}{!isAvailable(p) && ' (early access)'}
             </label>
           ))}
         </div>

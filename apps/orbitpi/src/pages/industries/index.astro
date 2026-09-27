@@ -8,8 +8,8 @@ import { INDUSTRIES, industryHref } from '@/lib/industries';
 import { absoluteUrl } from '@/lib/site';
 import { graph, webPage, breadcrumbs, itemList } from '@/lib/schema';
 
-const title = 'Industries | OrbitPi AI Business Software';
-const description = 'OrbitPi AI software for manufacturing, distribution, logistics and 3PL, retail and e-commerce, healthcare and pharma, and real estate.';
+const title = 'Industries We Serve | OrbitPi AI Business Software for India';
+const description = 'See how OrbitPi AI software helps Indian manufacturers, distributors, 3PLs, retailers, pharma and healthcare businesses, and real estate sales teams.';
 const crumbs = [{ name: 'Home', path: '/' }, { name: 'Industries', path: '/industries/' }];
 const schema = graph(
   webPage(absoluteUrl('/industries/'), title, description, 'CollectionPage'),
@@ -26,7 +26,7 @@ const schema = graph(
       {INDUSTRIES.map((ind) => (
         <li>
           <a href={industryHref(ind.slug)} class="group flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-white transition hover:shadow-card">
-            <ImageFrame src={`/images/industries/${ind.slug}.webp`} alt={`${ind.name} business using OrbitPi`} class="aspect-[16/10]" />
+            <ImageFrame src={`/images/industries/${ind.slug}.svg`} alt={`Illustration of a ${ind.name.toLowerCase()} business using OrbitPi`} width={1200} height={900} fit="contain" class="aspect-[16/10]" />
             <div class="flex flex-1 flex-col gap-2 p-5">
               <h2 class="flex items-center justify-between text-lg font-semibold">{ind.name}<span aria-hidden="true" class="text-brand transition group-hover:translate-x-0.5">→</span></h2>
               <p class="text-[14.5px] leading-relaxed text-ink-500">{ind.intro}</p>

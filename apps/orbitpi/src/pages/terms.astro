@@ -5,7 +5,7 @@ import { SITE, absoluteUrl } from '@/lib/site';
 import { graph, webPage, breadcrumbs } from '@/lib/schema';
 
 const title = 'Terms of Service | OrbitPi';
-const description = 'The terms that apply to your use of orbitpi.com and OrbitPi AI business software.';
+const description = 'The terms that apply to your use of orbitpi.com and OrbitPi AI business software, covering site use, product information, intellectual property and liability.';
 const crumbs = [{ name: 'Home', path: '/' }, { name: 'Terms of Service', path: '/terms/' }];
 const schema = graph(webPage(absoluteUrl('/terms/'), title, description), breadcrumbs(crumbs));
 const updated = '27 September 2026';

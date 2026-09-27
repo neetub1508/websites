@@ -29,7 +29,8 @@ src/
   pages/                     routes (index, products, industries, pricing, about, contact, privacy, terms, 404, sitemap.xml)
 worker/index.ts              Cloudflare Worker for the demo form (POST /api/contact)
 wrangler.jsonc               Worker config: serves dist/ as static assets
-public/                      robots.txt, _headers, favicon, manifest, images/
+public/                      robots.txt, _headers, favicon, manifest, og-image.png, logo.png,
+                             images/products/*.webp (launch-art crops), images/industries/*.svg
 ```
 
 Adding a product or industry to its data file creates its page, menu/footer links,
@@ -48,10 +49,8 @@ sitemap entry and structured data automatically.
 ## Before launch
 
 - [ ] Replace placeholder address/phone/email in `src/lib/site.ts`
-- [ ] Add `public/og-image.png` (1200×630)
-- [ ] Add photos: `public/images/industries/<slug>.webp` (manufacturing, distribution,
-      logistics-3pl, retail-ecommerce, healthcare-pharma, real-estate). Frames show a
-      soft gradient until images exist.
+- [ ] Keep product claims in sync with the task repos: update `src/lib/products.ts` when
+      Ledger or the Leads AI voice agent ships (both are labelled "coming soon" today)
 - [ ] Set `CONTACT_WEBHOOK_URL` in Cloudflare (Worker → Settings → Variables and Secrets)
 - [ ] Submit `https://orbitpi.com/sitemap.xml` in Google Search Console
 

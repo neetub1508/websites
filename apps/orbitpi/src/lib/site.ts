@@ -7,7 +7,7 @@ export const SITE = {
   url: 'https://orbitpi.com',
   tagline: 'AI that runs your back office',
   description:
-    'OrbitPi is an AI business suite: AI document OCR, warehouse inventory management, lead management with AI voice calling, asset management and GST accounting software.',
+    'OrbitPi builds AI business software for Indian businesses: AI document OCR, warehouse inventory with e-way bills, lead management and fixed asset management.',
   email: 'hello@orbitpi.com',
   salesEmail: 'sales@orbitpi.com',
   phone: '+91 124 400 0000',
@@ -22,6 +22,7 @@ export const SITE = {
   },
   hours: 'Monday to Friday, 9:30 am to 6:30 pm IST',
   ogImage: '/og-image.png',
+  logo: '/logo.png',
   locale: 'en_IN',
   foundingYear: 2026,
 } as const;

@@ -4,37 +4,44 @@ import Breadcrumbs from '@/components/Breadcrumbs.astro';
 import SectionHeading from '@/components/SectionHeading.astro';
 import ProductCard from '@/components/ProductCard.astro';
 import CtaBanner from '@/components/CtaBanner.astro';
-import { PRODUCTS, productHref } from '@/lib/products';
+import { PRODUCTS, productHref, isAvailable } from '@/lib/products';
 import { absoluteUrl } from '@/lib/site';
 import { graph, webPage, breadcrumbs, itemList } from '@/lib/schema';
 
-const title = 'OrbitPi Products: AI OCR, Inventory, Leads, Assets & Accounting';
-const description = 'Explore the five OrbitPi AI products: DocAI document OCR, Stock warehouse inventory, Leads with AI voice agent, Assets management and Ledger accounting.';
+const title = 'OrbitPi Products: AI OCR, Inventory, Lead & Asset Software';
+const description = 'Explore OrbitPi DocAI for document OCR, Stock for warehouse inventory, Leads for lead management and Assets for asset management. Ledger is coming soon.';
 const crumbs = [{ name: 'Home', path: '/' }, { name: 'Products', path: '/products/' }];
+const india = [
+  { title: 'GST e-invoice QR checks', body: 'DocAI reads the QR code on GST e-invoices and compares it with the extracted invoice values.', slug: 'ai-document-ocr', link: 'DocAI' },
+  { title: 'E-way bills and challans', body: 'Stock manages the e-way bill lifecycle and delivery challans, and blocks dispatch without an active bill.', slug: 'warehouse-inventory-management', link: 'Stock' },
+  { title: 'CARO asset verification', body: 'Assets runs physical verification campaigns and keeps the fixed asset register auditors ask for.', slug: 'asset-management-software', link: 'Assets' },
+  { title: 'WhatsApp follow-ups', body: 'Leads sends approved WhatsApp templates and checks the do-not-contact list before every message.', slug: 'lead-management-ai-voice-agent', link: 'Leads' },
+];
 const schema = graph(
   webPage(absoluteUrl('/products/'), title, description, 'CollectionPage'),
   breadcrumbs(crumbs),
-  itemList('OrbitPi products', PRODUCTS.map((p) => ({ name: p.fullName, path: productHref(p.slug) }))),
+  itemList('OrbitPi products', PRODUCTS.filter(isAvailable).map((p) => ({ name: p.fullName, path: productHref(p.slug) }))),
 );
 ---
 
 <BaseLayout title={title} description={description} schema={schema}>
   <Breadcrumbs items={crumbs} />
   <section class="container-page flex flex-col gap-12 pb-24 pt-12">
-    <SectionHeading as="h1" eyebrow="Products" title="AI software for every part of the back office" lead="Five products that work on their own and work better together, because they share one set of customers, items and accounts." />
+    <SectionHeading as="h1" eyebrow="Products" title="AI software for every part of the back office" lead="Four products available today and one in development. Each works on its own, and all run on the same OrbitPi platform with shared users, branches and roles." />
     <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
       {PRODUCTS.map((p) => <ProductCard product={p} headingLevel="h2" />)}
     </div>
   </section>
 
-  <section aria-labelledby="together-title" class="border-y border-line bg-mist">
+  <section aria-labelledby="india-title" class="border-y border-line bg-mist">
     <div class="container-page flex flex-col gap-10 py-24">
-      <SectionHeading id="together-title" eyebrow="Better together" title="How OrbitPi products connect" />
-      <ul class="grid gap-4 md:grid-cols-2">
-        {PRODUCTS.flatMap((p) => p.connects.map((c) => ({ from: p, to: PRODUCTS.find((x) => x.slug === c.slug)!, body: c.body }))).slice(0, 6).map((l) => (
+      <SectionHeading id="india-title" eyebrow="Built for India" title="Indian business rules, built in" lead="The details Indian teams deal with every day are part of each product, not add-ons." />
+      <ul class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        {india.map((f) => (
           <li class="flex flex-col gap-2 rounded-2xl border border-line bg-white p-6">
-            <p class="text-sm font-semibold"><a href={productHref(l.from.slug)} class="hover:text-brand">{l.from.name}</a> <span aria-hidden="true" class="text-ink-400">→</span> <a href={productHref(l.to.slug)} class="hover:text-brand">{l.to.name}</a></p>
-            <p class="text-[15px] text-ink-500">{l.body}</p>
+            <h3 class="text-base font-semibold">{f.title}</h3>
+            <p class="text-[14.5px] leading-relaxed text-ink-500">{f.body}</p>
+            <a href={productHref(f.slug)} class="mt-auto pt-2 text-sm font-medium text-brand hover:underline">{f.link} <span aria-hidden="true">→</span></a>
           </li>
         ))}
       </ul>

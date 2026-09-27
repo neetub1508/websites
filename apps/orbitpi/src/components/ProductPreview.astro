@@ -1,7 +1,7 @@
 ---
 // Static product screen built from demo data. Used on product pages instead of a screenshot.
 import { DEMO, type Tone } from '@/lib/demo';
-import type { Product } from '@/lib/products';
+import { isAvailable, type Product } from '@/lib/products';
 
 interface Props { product: Product }
 const { product } = Astro.props;
@@ -10,10 +10,11 @@ const tone: Record<Tone, string> = { ok: 'bg-[#E9F8EF] text-[#137A3F]', warn: 'b
 ---
 
 <figure class="overflow-hidden rounded-[20px] border border-line-strong bg-white shadow-window">
-  <figcaption class="sr-only">{product.fullName} screen: {d.title}</figcaption>
+  <figcaption class="sr-only">{isAvailable(product) ? `${product.fullName} screen with sample data: ${d.title}` : `Design preview of ${product.fullName}, which is in development`}</figcaption>
   <div class="flex items-center gap-3 border-b border-line bg-[#FBFBFC] px-4 py-3">
     <span aria-hidden="true" class="flex gap-1.5"><span class="size-2.5 rounded-full bg-[#FF5F57]"></span><span class="size-2.5 rounded-full bg-[#FEBC2E]"></span><span class="size-2.5 rounded-full bg-[#28C840]"></span></span>
     <span class="mx-auto truncate font-mono text-xs text-ink-400">app.orbitpi.com/{d.path}</span>
+    <span class="whitespace-nowrap rounded-full bg-mist px-2.5 py-0.5 text-[11px] text-ink-400">{isAvailable(product) ? 'Sample data' : 'Design preview'}</span>
   </div>
   <div class="flex flex-col gap-3.5 p-5">
     <div class="flex items-baseline justify-between gap-3"><strong class="text-base font-semibold">{d.title}</strong><span class="text-xs text-ink-400">{d.subtitle}</span></div>

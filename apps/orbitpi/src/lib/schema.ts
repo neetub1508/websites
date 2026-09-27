@@ -13,7 +13,7 @@ export const organization = (): JsonLd => ({
   name: SITE.name,
   legalName: SITE.legalName,
   url: `${SITE.url}/`,
-  logo: absoluteUrl('/favicon.svg'),
+  logo: absoluteUrl(SITE.logo),
   email: SITE.email,
   telephone: SITE.phone,
   address: {
@@ -29,7 +29,7 @@ export const organization = (): JsonLd => ({
     contactType: 'sales',
     email: SITE.salesEmail,
     telephone: SITE.phone,
-    areaServed: 'Worldwide',
+    areaServed: 'IN',
     availableLanguage: ['English', 'Hindi'],
   },
 });
@@ -39,7 +39,7 @@ export const website = (): JsonLd => ({
   '@id': WEBSITE_ID,
   url: `${SITE.url}/`,
   name: SITE.name,
-  inLanguage: 'en',
+  inLanguage: 'en-IN',
   publisher: { '@id': ORG_ID },
 });
 
@@ -49,7 +49,7 @@ export const webPage = (url: string, name: string, description: string, type = '
   url,
   name,
   description,
-  inLanguage: 'en',
+  inLanguage: 'en-IN',
   isPartOf: { '@id': WEBSITE_ID },
   publisher: { '@id': ORG_ID },
 });
@@ -79,11 +79,10 @@ export const softwareApp = (p: Product): JsonLd => ({
   name: p.fullName,
   applicationCategory: 'BusinessApplication',
   applicationSubCategory: p.category,
-  operatingSystem: 'Web, Android, iOS',
+  operatingSystem: 'Web',
   description: p.metaDescription,
   url: absoluteUrl(`/products/${p.slug}/`),
   featureList: p.features.map((f) => f.title),
-  offers: { '@type': 'Offer', url: absoluteUrl('/pricing/'), availability: 'https://schema.org/InStock' },
   publisher: { '@id': ORG_ID },
 });
 

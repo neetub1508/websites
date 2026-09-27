@@ -1,5 +1,5 @@
 ---
-// Decorative call card for the AI voice agent section. Waveform respects reduced motion.
+// Decorative preview of the planned AI voice agent (not yet available). Waveform respects reduced motion.
 const bars = Array.from({ length: 22 }, (_, i) => ({ h: 10 + ((i * 29) % 30), d: 0.7 + (i % 4) * 0.15, delay: (i % 6) * 0.07 }));
 const facts = [
   { k: 'Need', v: '20,000 boxes / month' },
@@ -10,10 +10,10 @@ const facts = [
 ---
 
 <figure class="flex flex-col gap-[18px] rounded-[18px] border border-[#252935] bg-[#15181F] p-6">
-  <figcaption class="sr-only">Example AI voice agent call qualifying a lead</figcaption>
+  <figcaption class="sr-only">Design preview of a planned AI voice agent call qualifying a lead</figcaption>
   <div class="flex items-center justify-between">
     <span class="flex flex-col gap-0.5"><strong class="text-base font-semibold">Rohit Mehta</strong><span class="text-[13px] text-[#8C91A0]">Website enquiry · Delhi</span></span>
-    <span class="font-mono text-xs text-[#FB923C]">● 02:14 · Hindi</span>
+    <span class="rounded-full bg-[#252935] px-2.5 py-0.5 text-[11px] text-[#B9BDC9]">Design preview</span>
   </div>
   <div aria-hidden="true" class="flex h-12 items-center justify-center gap-[3px]">
     {bars.map((b) => (

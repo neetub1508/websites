@@ -15,7 +15,7 @@ export default {
         ledger: { DEFAULT: '#0B0D12', soft: '#EEEFF2' },
       },
       fontFamily: {
-        sans: ['Geist', 'system-ui', '-apple-system', 'Segoe UI', 'sans-serif'],
+        sans: ['"Geist Variable"', 'system-ui', '-apple-system', 'Segoe UI', 'sans-serif'],
         mono: ['"Geist Mono"', 'ui-monospace', 'SFMono-Regular', 'monospace'],
       },
       maxWidth: { page: '1440px' },

@@ -2,7 +2,7 @@
 import Logo from '@/components/Logo.astro';
 import ProductBadge from '@/components/ProductBadge.astro';
 import { MAIN_NAV } from '@/lib/site';
-import { PRODUCTS, productHref } from '@/lib/products';
+import { PRODUCTS, productHref, isAvailable } from '@/lib/products';
 
 const path = Astro.url.pathname;
 const isActive = (href: string) => path.startsWith(href);
@@ -24,7 +24,7 @@ const isActive = (href: string) => path.startsWith(href);
               <a href={productHref(p.slug)} class="flex gap-3 rounded-[10px] p-3.5 hover:bg-mist">
                 <ProductBadge product={p} size="md" />
                 <span class="flex flex-col gap-0.5">
-                  <strong class="text-sm font-semibold text-ink">{p.fullName}</strong>
+                  <strong class="flex items-center gap-2 text-sm font-semibold text-ink">{p.fullName}{!isAvailable(p) && <span class="rounded-full bg-[#FFF4E0] px-2 py-px text-[11px] font-medium text-[#9A5B00]">Soon</span>}</strong>
                   <span class="text-[13px] text-ink-400">{p.category}</span>
                 </span>
               </a>
@@ -50,7 +50,7 @@ const isActive = (href: string) => path.startsWith(href);
         <p class="pb-2 text-xs font-medium uppercase tracking-wider text-ink-400">Products</p>
         <ul class="flex flex-col">
           {PRODUCTS.map((p) => (
-            <li><a href={productHref(p.slug)} class="flex items-center gap-3 py-3"><ProductBadge product={p} size="sm" /><span class="font-medium">{p.fullName}</span></a></li>
+            <li><a href={productHref(p.slug)} class="flex items-center gap-3 py-3"><ProductBadge product={p} size="sm" /><span class="font-medium">{p.fullName}</span>{!isAvailable(p) && <span class="rounded-full bg-[#FFF4E0] px-2 py-px text-[11px] font-medium text-[#9A5B00]">Soon</span>}</a></li>
           ))}
         </ul>
         <ul class="mt-4 flex flex-col border-t border-line pt-4">
