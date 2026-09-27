@@ -29,7 +29,7 @@ const { title, description, schema, ogType = 'website', noindex = false, image, 
 const canonical = noindex ? undefined : absoluteUrl(Astro.url.pathname);
 const social: SocialImage = image ?? {
   src: SITE.ogImage,
-  alt: 'OrbitPi: AI for your back office. Documents, stock, leads and assets. Accounting and Voice AI coming soon.',
+  alt: 'OrbitPi: AI for your back office. Documents, inventory, leads and assets. Accounting and Voice AI coming soon.',
   width: 1200,
   height: 630,
 };
@@ -73,7 +73,8 @@ const geistFaces = [
     <meta name="twitter:image:alt" content={social.alt} />
 
     <meta name="theme-color" content="#FFFFFF" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-96.png" type="image/png" sizes="96x96" />
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />

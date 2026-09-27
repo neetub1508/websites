@@ -1,13 +1,8 @@
 ---
 import { SITE } from '@/lib/site';
-interface Props { inverted?: boolean }
-const { inverted = false } = Astro.props;
+// Brand wordmark (public/images/brand/). 480px wide source keeps it sharp at up to ~4x density.
 ---
 
-<a href="/" aria-label={`${SITE.name} home`} class:list={['flex items-center gap-2.5 text-lg font-bold tracking-[-0.02em]', inverted ? 'text-white' : 'text-ink']}>
-  <span aria-hidden="true" class:list={['relative grid size-6 place-items-center rounded-[7px]', inverted ? 'bg-white' : 'bg-ink']}>
-    <span class:list={['size-2.5 rounded-full border-2', inverted ? 'border-ink' : 'border-white']}></span>
-    <span class="absolute right-[3px] top-[3px] size-[5px] rounded-full bg-brand"></span>
-  </span>
-  {SITE.name}
+<a href="/" class="flex shrink-0 items-center">
+  <img src="/images/brand/orbitpi-logo.webp" alt={`${SITE.name} home`} width="480" height="121" decoding="async" class="h-8 w-auto sm:h-9" />
 </a>
