@@ -36,7 +36,7 @@ const schema = graph(webPage(absoluteUrl('/pricing/'), title, description), brea
 <BaseLayout title={title} description={description} schema={schema}>
   <Breadcrumbs items={crumbs} />
   <section class="container-page flex flex-col gap-12 pb-24 pt-12">
-    <SectionHeading as="h1" eyebrow="Pricing" title="OrbitPi software pricing" lead="Every plan is quoted for your team size and products. Tell us what you need and we’ll send a quote." />
+    <SectionHeading as="h1" title="OrbitPi software pricing" lead="Every plan is quoted for your team size and products. Tell us what you need and we’ll send a quote." />
     <ul class="grid gap-4 lg:grid-cols-3">
       {plans.map((pl) => (
         <li class:list={['flex flex-col gap-5 rounded-[20px] border p-8', pl.featured ? 'border-brand bg-brand text-white' : 'border-line-strong bg-white']}>

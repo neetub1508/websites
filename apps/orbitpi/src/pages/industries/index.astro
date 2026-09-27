@@ -31,7 +31,7 @@ const schema = graph(
 <BaseLayout title={title} description={description} schema={schema}>
   <Breadcrumbs items={crumbs} />
   <section class="container-page flex flex-col gap-12 pb-24 pt-12">
-    <SectionHeading as="h1" eyebrow="Industries" title="Business software by industry" lead="OrbitPi builds document OCR, warehouse inventory, lead management and fixed asset software for Indian businesses. Pick your industry to see the workflows each product handles and the problems it solves." />
+    <SectionHeading as="h1" title="Business software by industry" lead="OrbitPi builds document OCR, warehouse inventory, lead management and fixed asset software for Indian businesses. Pick your industry to see the workflows each product handles and the problems it solves." />
     <ul class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
       {INDUSTRIES.map((ind, i) => (
         <li>

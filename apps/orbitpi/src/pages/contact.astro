@@ -18,7 +18,7 @@ const mapQuery = encodeURIComponent(`${SITE.address.street}, ${SITE.address.city
   <Breadcrumbs items={crumbs} />
   <section class="container-page grid gap-12 pb-24 pt-12 lg:grid-cols-[1fr_1.1fr]">
     <div class="flex flex-col gap-8">
-      <SectionHeading as="h1" eyebrow="Contact" title="Book a demo" align="left" lead="Tell us what you want to automate. We’ll show you OrbitPi on a sample of your own documents or data." />
+      <SectionHeading as="h1" title="Book a demo" align="left" lead="Tell us what you want to automate. We’ll show you OrbitPi on a sample of your own documents or data." />
       <dl class="grid gap-6 sm:grid-cols-2">
         {SITE.contactDetailsVerified && <div class="flex flex-col gap-1"><dt class="text-[13px] font-semibold">Office</dt><dd><address class="text-[15px] not-italic leading-relaxed text-ink-500">{SITE.legalName}<br />{SITE.address.street}<br />{SITE.address.city}, {SITE.address.region} {SITE.address.postalCode}<br />{SITE.address.country}</address></dd></div>}
         <div class="flex flex-col gap-1"><dt class="text-[13px] font-semibold">Sales</dt><dd class="flex flex-col text-[15px] text-ink-500"><a href={`mailto:${SITE.salesEmail}`} class="hover:text-brand">{SITE.salesEmail}</a>{SITE.contactDetailsVerified && <a href={`tel:${SITE.phoneHref}`} class="hover:text-brand">{SITE.phone}</a>}</dd></div>

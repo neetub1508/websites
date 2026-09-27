@@ -27,7 +27,7 @@ const schema = graph(
 <BaseLayout title={title} description={description} schema={schema}>
   <Breadcrumbs items={crumbs} />
   <section class="container-page flex flex-col gap-12 pb-24 pt-12">
-    <SectionHeading as="h1" eyebrow="Products" title="Business software products for Indian companies" lead="Four products available today and one in development. Each works on its own, and all run on the same OrbitPi platform with shared users, branches and roles." />
+    <SectionHeading as="h1" title="Business software products for Indian companies" lead="Four products available today and one in development. Each works on its own, and all run on the same OrbitPi platform with shared users, branches and roles." />
     <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
       {PRODUCTS.map((p) => <ProductCard product={p} headingLevel="h2" showImage />)}
     </div>
@@ -35,7 +35,7 @@ const schema = graph(
 
   <section aria-labelledby="india-title" class="border-y border-line bg-mist">
     <div class="container-page flex flex-col gap-10 py-24">
-      <SectionHeading id="india-title" eyebrow="Built for India" title="Indian business rules, built in" lead="The details Indian teams deal with every day are part of each product, not add-ons." />
+      <SectionHeading id="india-title" title="Indian business rules, built in" lead="The details Indian teams deal with every day are part of each product, not add-ons." />
       <ul class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {india.map((f) => (
           <li class="flex flex-col gap-2 rounded-2xl border border-line bg-white p-6">

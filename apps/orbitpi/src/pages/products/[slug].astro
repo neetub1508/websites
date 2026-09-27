@@ -57,7 +57,7 @@ const schema = graph(
 
   <section id="features" aria-labelledby="features-title" class="border-y border-line bg-mist">
     <div class="container-page flex flex-col gap-12 py-24">
-      <SectionHeading id="features-title" eyebrow={available ? 'Features' : 'Planned features'} title={`${p.fullName} features`} lead={available ? `What ${p.fullName} does today, feature by feature.` : `What we are building into ${p.fullName}. None of this is available yet.`} />
+      <SectionHeading id="features-title" title={`${p.fullName} features`} lead={available ? `What ${p.fullName} does today, feature by feature.` : `What we are building into ${p.fullName}. None of this is available yet.`} />
       <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {p.features.map((f) => (
           <li class="flex flex-col gap-2.5 rounded-2xl border border-line bg-white p-6">
@@ -70,7 +70,7 @@ const schema = graph(
   </section>
 
   <section aria-labelledby="how-title" class="container-page flex flex-col gap-12 py-24">
-    <SectionHeading id="how-title" eyebrow="How it works" title={available ? `How ${p.fullName} works` : `Planned ${p.fullName} workflow`} />
+    <SectionHeading id="how-title" title={available ? `How ${p.fullName} works` : `Planned ${p.fullName} workflow`} />
     {p.image && (
       <figure class="overflow-hidden rounded-[20px] border border-line bg-[#FCFAF4]">
         <img src={p.image.src} srcset={`${p.image.srcSmall} 640w, ${p.image.src} ${p.image.width}w`} sizes="(min-width:1048px) 1000px, calc(100vw - 50px)" alt={p.image.alt} width={p.image.width} height={p.image.height} loading="lazy" decoding="async" class="mx-auto h-auto w-full max-w-[1000px]" />
@@ -89,7 +89,7 @@ const schema = graph(
 
   <section aria-labelledby="uses-title" class="bg-ink text-white">
     <div class="container-page flex flex-col gap-12 py-24">
-      <SectionHeading id="uses-title" eyebrow="Use cases" title={`Who ${p.fullName} is for`} inverted />
+      <SectionHeading id="uses-title" title={`Who ${p.fullName} is for`} inverted />
       <ul class="grid gap-4 md:grid-cols-3">
         {p.useCases.map((u) => (
           <li class="flex flex-col gap-2.5 rounded-2xl border border-[#252935] bg-[#15181F] p-6">
@@ -122,7 +122,7 @@ const schema = graph(
 
   {p.integrations.length > 0 && (
     <section aria-labelledby="works-title" class="container-page flex flex-col gap-10 py-24">
-      <SectionHeading id="works-title" eyebrow="Integrations" title={`What ${p.fullName} works with`} lead="Get data in and out with the tools you already use." />
+      <SectionHeading id="works-title" title={`What ${p.fullName} works with`} lead="Get data in and out with the tools you already use." />
       <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {p.integrations.map((it) => (
           <li class="flex flex-col gap-2 rounded-2xl border border-line p-6">
@@ -136,7 +136,7 @@ const schema = graph(
   {p.integrations.length === 0 && <div class="pb-24"></div>}
 
   <section aria-labelledby="evaluation-title" class="container-page flex flex-col gap-10 pb-24">
-    <SectionHeading id="evaluation-title" eyebrow={available ? 'Evaluate the software' : 'Plan ahead'} title={available ? `What to check in your ${p.fullName} demo` : 'Discuss your accounting software requirements'} lead={available ? 'Use a representative sample of your work to check fit, setup and outputs before choosing a product.' : 'Share your requirements while Ledger is in development. Availability and scope will be confirmed before launch.'} />
+    <SectionHeading id="evaluation-title" title={available ? `What to check in your ${p.fullName} demo` : 'Discuss your accounting software requirements'} lead={available ? 'Use a representative sample of your work to check fit, setup and outputs before choosing a product.' : 'Share your requirements while Ledger is in development. Availability and scope will be confirmed before launch.'} />
     <ul class="grid gap-4 md:grid-cols-3">
       {p.evaluation.map((item) => (
         <li class="flex flex-col gap-2.5 rounded-2xl border border-line p-6">

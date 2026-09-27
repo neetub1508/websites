@@ -27,7 +27,7 @@ const principles = [
 <BaseLayout title={title} description={description} schema={schema}>
   <Breadcrumbs items={crumbs} />
   <section class="container-page flex flex-col gap-8 pb-20 pt-12">
-    <SectionHeading as="h1" eyebrow="About OrbitPi" title="A software product company built around business operations" align="left" />
+    <SectionHeading as="h1" title="A software product company built around business operations" align="left" />
     <div class="grid gap-8 text-[17px] leading-relaxed text-ink-700 md:grid-cols-2">
       <p>OrbitPi is a software product company. We develop DocAI for document OCR, Stock for warehouse inventory, Leads for sales enquiries and Assets for fixed asset management. Each product addresses a specific operational workflow and can be used on its own.</p>
       <p>We build for Indian businesses, from distributors and manufacturers to multi-branch teams. Our browser-based products share users, branches and roles, with tools for Indian business workflows such as GST documents and asset verification. Accounting software and the AI voice agent are in development.</p>
@@ -37,7 +37,7 @@ const principles = [
 
   <section aria-labelledby="build-title" class="border-y border-line bg-mist">
     <div class="container-page flex flex-col gap-10 py-24">
-      <SectionHeading id="build-title" eyebrow="What we build" title="OrbitPi products" />
+      <SectionHeading id="build-title" title="OrbitPi products" />
       <ul class="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
         {PRODUCTS.map((p) => (
           <li>
@@ -54,7 +54,7 @@ const principles = [
   </section>
 
   <section aria-labelledby="principles-title" class="container-page flex flex-col gap-12 py-24">
-    <SectionHeading id="principles-title" eyebrow="What we believe" title="How we build OrbitPi" />
+    <SectionHeading id="principles-title" title="How we build OrbitPi" />
     <ul class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
       {principles.map((p) => (
         <li class="flex flex-col gap-2.5 rounded-2xl border border-line p-6">
@@ -67,7 +67,7 @@ const principles = [
 
   <section aria-labelledby="who-title" class="border-t border-line bg-mist">
     <div class="container-page flex flex-col gap-8 py-24">
-      <SectionHeading id="who-title" eyebrow="Who we serve" title="Industries we work with" align="left" lead="OrbitPi is designed for businesses that need to track stock, documents, sales enquiries and equipment across teams and locations." />
+      <SectionHeading id="who-title" title="Industries we work with" align="left" lead="OrbitPi is designed for businesses that need to track stock, documents, sales enquiries and equipment across teams and locations." />
       <ul class="flex flex-wrap gap-2">
         {INDUSTRIES.map((i) => <li><a href={industryHref(i.slug)} class="block rounded-full border border-line-strong bg-white px-4 py-2 text-sm hover:border-ink">{i.name}</a></li>)}
       </ul>

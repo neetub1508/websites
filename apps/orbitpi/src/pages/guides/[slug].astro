@@ -36,7 +36,6 @@ const schema = graph(
   <article class="container-page grid gap-12 pb-24 pt-10 lg:grid-cols-[minmax(0,1fr)_280px]">
     <div class="flex min-w-0 max-w-3xl flex-col gap-10">
       <header class="flex flex-col gap-5">
-        <p class="eyebrow">{g.topic}</p>
         <h1 class="text-[clamp(34px,4.6vw,52px)] font-bold leading-[1.06] tracking-display">{g.title}</h1>
         <p class="text-[13px] text-ink-500">By the OrbitPi product team · Updated <time datetime={g.modified}>{date(g.modified)}</time> · {minutes} min read</p>
         <p class="lead">{g.summary}</p>

@@ -21,7 +21,6 @@
 
 @layer components {
   .container-page { @apply mx-auto w-full max-w-page px-6; }
-  .eyebrow { @apply text-[13px] font-medium tracking-[0.02em] text-brand; }
   .h-display { @apply text-[clamp(42px,6.2vw,76px)] font-bold leading-[1.02] tracking-tightest; }
   .h-section { @apply text-[clamp(32px,4vw,48px)] font-bold leading-[1.08] tracking-display; }
   .lead { @apply text-[clamp(17px,1.5vw,20px)] leading-relaxed text-ink-500; }

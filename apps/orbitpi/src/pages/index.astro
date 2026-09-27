@@ -60,7 +60,7 @@ const schema = graph(
   </section>
 
   <section id="products" aria-labelledby="products-title" class="container-page flex flex-col gap-12 py-24">
-    <SectionHeading eyebrow="Products" id="products-title" title="Four products today. One more on the way." lead="Each product solves one job well and runs on the same OrbitPi platform, with shared users, branches and roles." />
+    <SectionHeading id="products-title" title="Four products today. One more on the way." lead="Each product solves one job well and runs on the same OrbitPi platform, with shared users, branches and roles." />
     <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
       {PRODUCTS.map((p) => <ProductCard product={p} showImage />)}
       <a href="/contact/" class="flex flex-col justify-between gap-6 rounded-[18px] bg-ink bg-[radial-gradient(80%_60%_at_100%_0%,rgba(47,75,255,0.45),rgba(47,75,255,0))] p-7 text-white hover:text-white">
@@ -72,8 +72,9 @@ const schema = graph(
 
   <section aria-labelledby="voice-title" class="bg-ink text-white">
     <div class="container-page grid items-center gap-14 py-24 md:grid-cols-2">
-      <div class="flex flex-col gap-[18px]">
-        <SectionHeading eyebrow="Coming soon: AI voice agent" id="voice-title" title="An AI voice agent for every new lead" align="left" inverted lead="We are building an agent that calls new enquiries in Hindi and English, asks your qualifying questions and logs the answers in OrbitPi Leads. Until it launches, Leads routes every enquiry and reminds your team when to call." />
+      <div class="flex flex-col items-start gap-[18px]">
+        <span class="rounded-full bg-[#FFF4E0] px-2.5 py-0.5 text-xs font-medium text-[#9A5B00]">Coming soon</span>
+        <SectionHeading id="voice-title" title="An AI voice agent for every new lead" align="left" inverted lead="We are building an agent that calls new enquiries in Hindi and English, asks your qualifying questions and logs the answers in OrbitPi Leads. Until it launches, Leads routes every enquiry and reminds your team when to call." />
         <a href={productHref('lead-management-software')} class="text-[15px] font-medium hover:text-brand-light">See OrbitPi Leads →</a>
       </div>
       <VoiceCallCard />
@@ -81,7 +82,7 @@ const schema = graph(
   </section>
 
   <section aria-labelledby="how-title" class="container-page flex flex-col gap-12 py-24">
-    <SectionHeading eyebrow="How it works" id="how-title" title="Less typing, fewer missed steps" />
+    <SectionHeading id="how-title" title="Less typing, fewer missed steps" />
     <figure class="overflow-hidden rounded-[20px] border border-line bg-[#FCFAF4]">
       <img src="/images/platform/capture-check-review-report.webp" srcset="/images/platform/capture-check-review-report-800.webp 800w, /images/platform/capture-check-review-report.webp 1600w" sizes="(min-width:1440px) 1390px, calc(100vw - 50px)" alt="Documents move through capture, checking, human review and structured reporting." width="1600" height="600" loading="lazy" decoding="async" class="block h-auto w-full" />
     </figure>
@@ -99,7 +100,7 @@ const schema = graph(
   <section aria-labelledby="ind-title" class="border-y border-line bg-mist">
     <div class="container-page flex flex-col gap-10 py-24">
       <div class="flex flex-wrap items-end justify-between gap-5">
-        <SectionHeading eyebrow="Industries" id="ind-title" title="Built for your industry" align="left" />
+        <SectionHeading id="ind-title" title="Built for your industry" align="left" />
         <p class="max-w-[420px] text-base leading-normal text-ink-500">Pick your industry to see which OrbitPi products fit and what they handle for you.</p>
       </div>
       <IndustryExplorer />
@@ -109,7 +110,7 @@ const schema = graph(
   <section aria-labelledby="price-title" class="container-page pb-6 pt-24">
     <div class="flex flex-wrap items-center justify-between gap-7 rounded-[20px] border border-line-strong p-[clamp(32px,5vw,56px)]">
       <div class="flex max-w-xl flex-col gap-3">
-        <SectionHeading eyebrow="Pricing" id="price-title" title="Pay only for the products you use" align="left" lead="Start with one product. Add more anytime, with bundle pricing on the suite." />
+        <SectionHeading id="price-title" title="Pay only for the products you use" align="left" lead="Start with one product. Add more anytime, with bundle pricing on the suite." />
       </div>
       <div class="flex flex-wrap gap-2.5">
         <a href="/pricing/" class="btn-dark">View pricing</a>
@@ -120,7 +121,7 @@ const schema = graph(
 
   <section aria-labelledby="guides-title" class="container-page flex flex-col gap-10 pt-24">
     <div class="flex flex-wrap items-end justify-between gap-5">
-      <SectionHeading eyebrow="Guides" id="guides-title" title="Guides for back-office teams" align="left" lead="Plain-language explainers on GST documents, inventory valuation, fixed assets and lead follow-up." />
+      <SectionHeading id="guides-title" title="Guides for back-office teams" align="left" lead="Plain-language explainers on GST documents, inventory valuation, fixed assets and lead follow-up." />
       <a href="/guides/" class="btn-ghost">All guides</a>
     </div>
     <ul class="grid gap-4 md:grid-cols-3">

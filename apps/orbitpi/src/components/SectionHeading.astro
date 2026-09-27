@@ -1,6 +1,5 @@
 ---
 interface Props {
-  eyebrow?: string;
   title: string;
   lead?: string;
   align?: 'center' | 'left';
@@ -8,11 +7,10 @@ interface Props {
   id?: string;
   inverted?: boolean;
 }
-const { eyebrow, title, lead, align = 'center', as: Tag = 'h2', id, inverted = false } = Astro.props;
+const { title, lead, align = 'center', as: Tag = 'h2', id, inverted = false } = Astro.props;
 ---
 
 <div class:list={['flex flex-col gap-3.5', align === 'center' ? 'items-center text-center' : 'items-start']}>
-  {eyebrow && <p class:list={['eyebrow', inverted && '!text-brand-light']}>{eyebrow}</p>}
   <Tag id={id} class:list={[Tag === 'h1' ? 'h-display' : 'h-section', 'max-w-3xl']}>{title}</Tag>
   {lead && <p class:list={['max-w-xl text-[17px] leading-relaxed', inverted ? 'text-[#B9BDC9]' : 'text-ink-500']}>{lead}</p>}
 </div>
