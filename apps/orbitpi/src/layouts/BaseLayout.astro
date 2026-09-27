@@ -54,7 +54,7 @@ const ogImageAlt = 'OrbitPi: AI for your back office. Documents, stock, leads an
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
 
-    {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
+    {schema && <script type="application/ld+json" set:html={JSON.stringify(schema).replace(/</g, '\\u003c')} />}
   </head>
   <body>
     <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-white focus:px-4 focus:py-2">Skip to content</a>

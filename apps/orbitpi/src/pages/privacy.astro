@@ -51,7 +51,7 @@ const updated = '27 September 2026';
     <p>This website uses only cookies that are necessary for it to work. If we add analytics or marketing cookies, we will ask for your consent first.</p>
 
     <h2>Grievance officer</h2>
-    <p>Grievance Officer, {SITE.legalName}, {SITE.address.street}, {SITE.address.city}, {SITE.address.region} {SITE.address.postalCode}, {SITE.address.country}. Email: <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.</p>
+    <p>Grievance Officer, {SITE.legalName}{SITE.contactDetailsVerified && <>, {SITE.address.street}, {SITE.address.city}, {SITE.address.region} {SITE.address.postalCode}, {SITE.address.country}</>}. Email: <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.</p>
 
     <h2>Changes</h2>
     <p>We may update this policy. The date at the top shows when it last changed.</p>

@@ -19,13 +19,11 @@ const year = new Date().getFullYear();
         <Logo />
         <address class="text-sm not-italic leading-relaxed text-ink-500">
           {SITE.legalName}<br />
-          {SITE.address.street}<br />
-          {SITE.address.city}, {SITE.address.region} {SITE.address.postalCode}<br />
-          {SITE.address.country}
+          {SITE.contactDetailsVerified && <>{SITE.address.street}<br />{SITE.address.city}, {SITE.address.region} {SITE.address.postalCode}<br />{SITE.address.country}</>}
         </address>
         <div class="flex flex-col gap-1 text-sm text-ink-700">
           <a href={`mailto:${SITE.email}`} class="hover:text-brand">{SITE.email}</a>
-          <a href={`tel:${SITE.phoneHref}`} class="hover:text-brand">{SITE.phone}</a>
+          {SITE.contactDetailsVerified && <a href={`tel:${SITE.phoneHref}`} class="hover:text-brand">{SITE.phone}</a>}
         </div>
       </div>
       {cols.map((c) => (

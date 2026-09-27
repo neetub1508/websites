@@ -1,13 +1,14 @@
 // Single source of truth for company details, navigation and URLs.
-// Placeholder address/phone — replace before launch.
+// Confirm the address and phone before enabling them in public copy and structured data.
 
 export const SITE = {
   name: 'OrbitPi',
   legalName: 'OrbitPi Technologies Pvt. Ltd.',
   url: 'https://orbitpi.com',
-  tagline: 'AI that runs your back office',
+  tagline: 'Business software for Indian teams',
+  contactDetailsVerified: false,
   description:
-    'OrbitPi builds AI business software for Indian businesses: AI document OCR, warehouse inventory with e-way bills, lead management and fixed asset management.',
+    'OrbitPi builds business software for Indian companies: AI document OCR, warehouse inventory, lead management and fixed assets. Explore products and book a demo.',
   email: 'hello@orbitpi.com',
   salesEmail: 'sales@orbitpi.com',
   phone: '+91 124 400 0000',

@@ -11,6 +11,8 @@ npm install
 npm run dev       # http://localhost:4321
 npm run build     # astro check + static build to dist/
 npm run preview
+npm test          # Worker tests; webhook requests are mocked
+npm run check:seo # check generated dist/ after a successful build
 ```
 
 ## Structure
@@ -38,7 +40,7 @@ sitemap entry and structured data automatically.
 
 ## SEO built in
 
-- Unique `<title>` and meta description per page, canonical URL, hreflang, OG/Twitter tags
+- Unique `<title>` and meta description per page, canonical URL, OG/Twitter tags (English-only site; no alternate-language pages)
 - JSON-LD on every page: Organization, WebSite, WebPage, BreadcrumbList, plus
   SoftwareApplication (products), FAQPage (visible FAQ text matches schema), ItemList
 - One `<h1>` per page, ordered headings, breadcrumbs, descriptive internal links
@@ -46,9 +48,11 @@ sitemap entry and structured data automatically.
 - Static HTML, minimal JS (only demo tabs, menus, form), fonts with `display=swap`,
   images lazy-loaded with fixed dimensions (no layout shift)
 
+See [SEO-AUDIT.md](./SEO-AUDIT.md) for the live-site findings, implemented fixes, validation and owner/deployment follow-up.
+
 ## Before launch
 
-- [ ] Replace placeholder address/phone/email in `src/lib/site.ts`
+- [ ] Confirm contact email and replace placeholder address/phone in `src/lib/site.ts`; set `contactDetailsVerified` only after verification
 - [ ] Keep product claims in sync with the task repos: update `src/lib/products.ts` when
       Ledger or the Leads AI voice agent ships (both are labelled "coming soon" today)
 - [ ] Set `CONTACT_WEBHOOK_URL` in Cloudflare (Worker → Settings → Variables and Secrets)

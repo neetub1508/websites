@@ -36,7 +36,7 @@ const schema = graph(webPage(absoluteUrl('/pricing/'), title, description), brea
 <BaseLayout title={title} description={description} schema={schema}>
   <Breadcrumbs items={crumbs} />
   <section class="container-page flex flex-col gap-12 pb-24 pt-12">
-    <SectionHeading as="h1" eyebrow="Pricing" title="Pay only for the products you use" lead="Every plan is quoted for your team size and products. Tell us what you need and we’ll send a quote." />
+    <SectionHeading as="h1" eyebrow="Pricing" title="OrbitPi software pricing" lead="Every plan is quoted for your team size and products. Tell us what you need and we’ll send a quote." />
     <ul class="grid gap-4 lg:grid-cols-3">
       {plans.map((pl) => (
         <li class:list={['flex flex-col gap-5 rounded-[20px] border p-8', pl.featured ? 'border-brand bg-brand text-white' : 'border-line-strong bg-white']}>
@@ -48,6 +48,15 @@ const schema = graph(webPage(absoluteUrl('/pricing/'), title, description), brea
           <a href="/contact/" class:list={[pl.featured ? 'btn-light' : 'btn-dark', 'self-start']}>{pl.cta}</a>
         </li>
       ))}
+    </ul>
+  </section>
+
+  <section aria-labelledby="quote-title" class="container-page flex flex-col gap-8 pb-24">
+    <SectionHeading id="quote-title" title="What to include in your software pricing request" align="left" lead="There is no published fixed price list. Tell us which products and workflows you need so the quote can describe the scope for your team." />
+    <ul class="grid gap-4 md:grid-cols-3">
+      <li class="rounded-2xl border border-line p-6"><h3 class="text-lg font-semibold">Products and people</h3><p class="mt-2 text-[15px] leading-relaxed text-ink-500">List the products you need, team size, branches and locations. Distinguish the people who enter data from those who review, approve or report on it.</p></li>
+      <li class="rounded-2xl border border-line p-6"><h3 class="text-lg font-semibold">Volume and setup</h3><p class="mt-2 text-[15px] leading-relaxed text-ink-500">Share approximate document volumes, stock items, enquiries or assets. Include opening-data imports, templates, approvals and any workflows you want to see in the demo.</p></li>
+      <li class="rounded-2xl border border-line p-6"><h3 class="text-lg font-semibold">Integrations and services</h3><p class="mt-2 text-[15px] leading-relaxed text-ink-500">Specify exports, messaging providers and GST compliance connections. Ask the team to itemise onboarding, support, taxes and any external provider charges in your quote.</p></li>
     </ul>
   </section>
 

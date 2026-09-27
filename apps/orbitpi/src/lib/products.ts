@@ -32,6 +32,7 @@ export interface Product {
   image?: Illustration;
   features: Block[];
   steps: Block[];
+  evaluation: Block[];
   useCases: Block[];
   integrations: Block[];
   upcoming?: Block;
@@ -52,7 +53,7 @@ export const PRODUCTS: Product[] = [
     metaTitle: 'AI Document OCR for Invoices & Bank Statements | OrbitPi',
     metaDescription:
       'OrbitPi DocAI reads GST invoices, bank statements, PAN, RC and custom forms into Excel or your systems, with line items, e-invoice QR checks and human review.',
-    h1: 'AI document OCR that turns invoices and forms into clean data',
+    h1: 'AI document OCR software for invoices and forms',
     intro:
       'DocAI reads supplier invoices, bank statements, purchase orders, identity documents and your own forms. It extracts every field and line item, checks the numbers, and sends only doubtful values to a reviewer.',
     summary: 'Invoices, bank statements and forms into clean, checked data.',
@@ -80,6 +81,11 @@ export const PRODUCTS: Product[] = [
       { title: 'Extract', body: 'AI identifies each document type and reads its fields and line items.' },
       { title: 'Check and review', body: 'Automatic checks score every value. Doubtful ones go to a reviewer.' },
       { title: 'Deliver', body: 'Approved data goes to Excel, CSV or your own systems.' },
+    ],
+    evaluation: [
+      { title: 'Test representative documents', body: 'Bring supplier invoices, bank statements or forms with different layouts, including difficult scans. Compare extracted fields and line items with your checked values, and see which exceptions need review.' },
+      { title: 'Review before export', body: 'Follow an invoice from intake to validation, correction and approval. Check who can review it, how changes are recorded and what happens when a value is missing or uncertain.' },
+      { title: 'Check your destination format', body: 'Compare an Excel or CSV export with the columns your accounts team needs. If you use webhooks, S3, SFTP or database delivery, review the mapping; a direct Tally connector is not available today.' },
     ],
     useCases: [
       { title: 'Accounts payable', body: 'Turn supplier invoices, credit notes and debit notes into rows ready for your accounting system, without retyping.' },
@@ -115,7 +121,7 @@ export const PRODUCTS: Product[] = [
     metaTitle: 'Warehouse Inventory Management Software | OrbitPi Stock',
     metaDescription:
       'OrbitPi Stock is warehouse inventory software for Indian businesses: bins, batches and expiry, barcode scanning, FIFO valuation, GRNs, challans and e-way bills.',
-    h1: 'Warehouse inventory management for every bin, batch and e-way bill',
+    h1: 'Warehouse inventory management software for Indian businesses',
     intro:
       'Stock gives distributors, 3PLs and manufacturers one live record of inventory across warehouses and bins, with batch and expiry control, barcode scanning, GST documents and stock valuation built in.',
     summary: 'Bins, batches, expiry and GST documents in one live record.',
@@ -143,6 +149,11 @@ export const PRODUCTS: Product[] = [
       { title: 'Put away', body: 'Rules suggest the right bin by temperature, capacity and velocity.' },
       { title: 'Pick and dispatch', body: 'Reserved stock is picked, packed by scan and shipped with its e-way bill.' },
       { title: 'Count and value', body: 'Blind counts reconcile stock and valuation stays current.' },
+    ],
+    evaluation: [
+      { title: 'Map locations and opening stock', body: 'Bring a stock sheet with warehouses, bins, items and units. Include batch, expiry or serial details where needed, then review how opening quantities and user access map to your locations.' },
+      { title: 'Trace one receipt and dispatch', body: 'Use a sample purchase receipt and customer order to walk through receiving, putaway, allocation, picking and packing. Check a shortage or return as well as the normal flow.' },
+      { title: 'Check scanning and GST setup', body: 'Review the labels, browser-based scanners and print formats your floor team uses. Discuss the compliance-provider setup for e-way bills and compare valuation exports with your accounting workflow.' },
     ],
     useCases: [
       { title: 'Distributors and stockists', body: 'Run several warehouses and branches with one view of stock, value and ageing.' },
@@ -178,9 +189,9 @@ export const PRODUCTS: Product[] = [
     metaTitle: 'Lead Management Software for Indian Businesses | OrbitPi',
     metaDescription:
       'OrbitPi Leads captures enquiries with their campaign source, routes them by rule, tracks follow-ups and response SLAs, and sends WhatsApp and email messages.',
-    h1: 'Lead management software that follows up every enquiry',
+    h1: 'Lead management software for capture, routing and follow-up',
     intro:
-      'Leads captures each enquiry with its source, assigns it by rule, reminds reps when follow-ups are due and warns you before a response-time target is missed, so no enquiry is forgotten.',
+      'Leads captures each enquiry with its source, assigns it by rule, reminds reps when follow-ups are due and warns you before a response-time target is missed, so your team can identify enquiries that need attention.',
     summary: 'Capture, route and follow up every enquiry on time.',
     highlights: ['Web form with UTM and ad-click tracking', 'Routing rules, pools and round-robin', 'Response-time SLAs and reminders'],
     image: {
@@ -206,6 +217,11 @@ export const PRODUCTS: Product[] = [
       { title: 'Route', body: 'Rules assign each lead to the right branch and rep.' },
       { title: 'Follow up', body: 'Reps log calls, send WhatsApp or email and get reminders.' },
       { title: 'Measure', body: 'Reports show the funnel, ageing leads, SLA breaches and rep activity.' },
+    ],
+    evaluation: [
+      { title: 'Map enquiry sources and ownership', body: 'Bring sample web enquiries or a lead sheet with source and branch details. Check duplicates, routing rules, team pools and how an unassigned enquiry reaches the right sales rep.' },
+      { title: 'Follow a lead through its pipeline', body: 'Define your stages and response targets. Walk through a call note, next follow-up, overdue reminder and stage outcome, then check the funnel and activity reports your manager needs.' },
+      { title: 'Confirm communication channels', body: 'Review consent rules and approved WhatsApp or email templates with your provider setup. Current follow-ups are handled by your sales team; the AI voice agent is still in development.' },
     ],
     useCases: [
       { title: 'Inbound enquiries', body: 'Know which campaign produced each website enquiry and who is following it up.' },
@@ -245,7 +261,7 @@ export const PRODUCTS: Product[] = [
     metaTitle: 'Fixed Asset Management Software with QR Tags | OrbitPi',
     metaDescription:
       'OrbitPi Assets keeps your fixed asset register with QR tags, assignments, AMC and warranty tracking, maintenance, depreciation and CARO physical verification.',
-    h1: 'Asset management software for every asset you own',
+    h1: 'Fixed asset management software for equipment and IT assets',
     intro:
       'Assets keeps one register for laptops, machines, vehicles and equipment. Tag them with QR codes, assign and transfer them with approvals, schedule maintenance, track AMCs and warranties, and give auditors a fixed asset register they can trust.',
     summary: 'Tag, assign, maintain and verify every asset.',
@@ -273,6 +289,11 @@ export const PRODUCTS: Product[] = [
       { title: 'Assign', body: 'Issue assets to people, departments or locations.' },
       { title: 'Maintain', body: 'Handle complaints, service schedules and AMC claims.' },
       { title: 'Verify and report', body: 'Run depreciation and physical verification for your auditors.' },
+    ],
+    evaluation: [
+      { title: 'Review your asset register', body: 'Bring a register with asset types, locations, custodians and purchase details. Check the import mapping for laptops, machines and equipment, including the fields your finance team needs.' },
+      { title: 'Walk through custody and upkeep', body: 'Use a sample asset to review QR identification, assignment, transfer approval and a maintenance request. Check how warranty and annual maintenance contract dates are recorded.' },
+      { title: 'Check verification and finance reports', body: 'Compare a physical verification workflow and depreciation output with your internal policy. Review missing assets, discrepancies and disposal records with your operations and finance teams.' },
     ],
     useCases: [
       { title: 'IT assets', body: 'Laptops and devices issued to employees, plus software licences with seat counts and renewals.' },
@@ -336,6 +357,11 @@ export const PRODUCTS: Product[] = [
       { title: 'Record', body: 'Enter vouchers with approvals where you need them.' },
       { title: 'Reconcile', body: 'Match bank statements and clear open items.' },
       { title: 'Report', body: 'See the Day Book, trial balance and financial statements.' },
+    ],
+    evaluation: [
+      { title: 'Describe your books and controls', body: 'Share the companies, chart of accounts, voucher types and approval rules your finance team uses. These discussions inform the planned product; Ledger is not available for purchase yet.' },
+      { title: 'Review reconciliation needs', body: 'Discuss bank statement formats, open receivables and payables, posting periods and reports. Confirm requirements with the team rather than assuming every existing accounting workflow is covered.' },
+      { title: 'Plan continuity with current tools', body: 'Keep using your current accounting software while Ledger is developed. Tally Prime export is planned; direct import and GST return filing are not part of the current first-release scope.' },
     ],
     useCases: [
       { title: 'Growing businesses', body: 'Move from spreadsheets to proper double-entry books.' },

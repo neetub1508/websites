@@ -7,7 +7,7 @@ import { SITE, absoluteUrl } from '@/lib/site';
 import { graph, webPage, breadcrumbs } from '@/lib/schema';
 
 const title = 'Contact OrbitPi | Book a Demo of Our AI Business Software';
-const description = `Book an OrbitPi demo or talk to sales. Visit us at ${SITE.address.street}, ${SITE.address.city}, or email ${SITE.email}.`;
+const description = 'Book a demo of OrbitPi document OCR, warehouse inventory, lead or asset management software. Tell our team about your workflow and request product pricing.';
 const crumbs = [{ name: 'Home', path: '/' }, { name: 'Contact', path: '/contact/' }];
 const schema = graph(webPage(absoluteUrl('/contact/'), title, description, 'ContactPage'), breadcrumbs(crumbs));
 const input = 'w-full rounded-[10px] border border-line-strong bg-white px-3.5 py-3 text-[15px] outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20';
@@ -20,12 +20,12 @@ const mapQuery = encodeURIComponent(`${SITE.address.street}, ${SITE.address.city
     <div class="flex flex-col gap-8">
       <SectionHeading as="h1" eyebrow="Contact" title="Book a demo" align="left" lead="Tell us what you want to automate. We’ll show you OrbitPi on a sample of your own documents or data." />
       <dl class="grid gap-6 sm:grid-cols-2">
-        <div class="flex flex-col gap-1"><dt class="text-[13px] font-semibold">Office</dt><dd><address class="text-[15px] not-italic leading-relaxed text-ink-500">{SITE.legalName}<br />{SITE.address.street}<br />{SITE.address.city}, {SITE.address.region} {SITE.address.postalCode}<br />{SITE.address.country}</address></dd></div>
-        <div class="flex flex-col gap-1"><dt class="text-[13px] font-semibold">Sales</dt><dd class="flex flex-col text-[15px] text-ink-500"><a href={`mailto:${SITE.salesEmail}`} class="hover:text-brand">{SITE.salesEmail}</a><a href={`tel:${SITE.phoneHref}`} class="hover:text-brand">{SITE.phone}</a></dd></div>
+        {SITE.contactDetailsVerified && <div class="flex flex-col gap-1"><dt class="text-[13px] font-semibold">Office</dt><dd><address class="text-[15px] not-italic leading-relaxed text-ink-500">{SITE.legalName}<br />{SITE.address.street}<br />{SITE.address.city}, {SITE.address.region} {SITE.address.postalCode}<br />{SITE.address.country}</address></dd></div>}
+        <div class="flex flex-col gap-1"><dt class="text-[13px] font-semibold">Sales</dt><dd class="flex flex-col text-[15px] text-ink-500"><a href={`mailto:${SITE.salesEmail}`} class="hover:text-brand">{SITE.salesEmail}</a>{SITE.contactDetailsVerified && <a href={`tel:${SITE.phoneHref}`} class="hover:text-brand">{SITE.phone}</a>}</dd></div>
         <div class="flex flex-col gap-1"><dt class="text-[13px] font-semibold">General</dt><dd class="text-[15px] text-ink-500"><a href={`mailto:${SITE.email}`} class="hover:text-brand">{SITE.email}</a></dd></div>
         <div class="flex flex-col gap-1"><dt class="text-[13px] font-semibold">Hours</dt><dd class="text-[15px] text-ink-500">{SITE.hours}</dd></div>
       </dl>
-      <a href={`https://www.google.com/maps/search/?api=1&query=${mapQuery}`} target="_blank" rel="noopener" class="text-sm font-medium text-brand hover:underline">Open in Google Maps →</a>
+      {SITE.contactDetailsVerified && <a href={`https://www.google.com/maps/search/?api=1&query=${mapQuery}`} target="_blank" rel="noopener" class="text-sm font-medium text-brand hover:underline">Open in Google Maps →</a>}
       <img src="/images/platform/connected-platform.webp" srcset="/images/platform/connected-platform-720.webp 720w, /images/platform/connected-platform.webp 1440w" sizes="420px" alt="Document processing, stock, lead and asset tools connected through one shared platform." width="1440" height="960" loading="lazy" decoding="async" class="hidden max-w-[420px] lg:block aspect-[3/2] h-auto w-full rounded-[20px] border border-line bg-[#FCFAF4] object-contain" />
     </div>
 
