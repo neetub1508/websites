@@ -23,13 +23,14 @@ src/
     site.ts         company details, nav, placeholder Gurugram address
     products.ts     5 products → /products/<slug>/ (copy, features, FAQ)
     industries.ts   6 industries → /industries/<slug>/
+    guides.ts       6 guides → /guides/<slug>/ (Article + FAQ schema, official sources, review dates)
     demo.ts         sample data for the home-page demo
     schema.ts       schema.org JSON-LD builders
   layouts/BaseLayout.astro   <head>: title, description, canonical, OG/Twitter, JSON-LD
   components/                Header, Footer, Faq, Breadcrumbs, CtaBanner, cards …
   components/home/           ProductDemo, IndustryExplorer, VoiceCallCard (vanilla JS islands)
   pages/                     routes (index, products, industries, pricing, about, contact, privacy, terms, 404, sitemap.xml)
-worker/index.ts              Cloudflare Worker for the demo form (POST /api/contact)
+worker/index.ts              Cloudflare Worker: canonical URL redirects (HTTPS apex, lowercase, trailing slash, moved pages) and the demo form (POST /api/contact)
 wrangler.jsonc               Worker config: serves dist/ as static assets
 public/                      robots.txt, _headers, favicon, manifest, og-image.png, logo.png,
                              images/products/*.webp (launch-art crops), images/industries/*.svg
@@ -53,6 +54,9 @@ See [SEO-AUDIT.md](./SEO-AUDIT.md) for the live-site findings, implemented fixes
 ## Before launch
 
 - [ ] Confirm contact email and replace placeholder address/phone in `src/lib/site.ts`; set `contactDetailsVerified` only after verification
+- [ ] Add official company profiles (LinkedIn etc.) to `SITE.sameAs` in `src/lib/site.ts`
+- [ ] Bump `SITE.contentUpdated` (sitemap lastmod) when product, industry or company copy changes; bump a guide's `modified` when it changes
+- [ ] Have a chartered accountant review the tax/accounting guides and the privacy policy before relying on them
 - [ ] Keep product claims in sync with the task repos: update `src/lib/products.ts` when
       Ledger or the Leads AI voice agent ships (both are labelled "coming soon" today)
 - [ ] Set `CONTACT_WEBHOOK_URL` in Cloudflare (Worker → Settings → Variables and Secrets)

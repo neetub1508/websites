@@ -9,7 +9,7 @@ export type ProductStatus = 'available' | 'coming-soon';
 
 export interface Faq { q: string; a: string }
 export interface Block { title: string; body: string }
-export interface CardImage { src: string; srcSmall: string; width: number; height: number }
+export interface CardImage { src: string; srcMedium: string; srcSmall: string; width: number; height: number }
 // Wide workflow artwork on the product page; `card` is the 16:10 crop-free export for primary product cards (same alt).
 export interface Illustration { src: string; srcSmall: string; alt: string; width: number; height: number; card?: CardImage }
 
@@ -64,7 +64,7 @@ export const PRODUCTS: Product[] = [
       alt: 'Paper documents pass through a scanning frame into structured fields, with one field highlighted for human review.',
       width: 1254,
       height: 590,
-      card: { src: '/images/products/ai-document-ocr-card.webp', srcSmall: '/images/products/ai-document-ocr-card-400.webp', width: 800, height: 500 },
+      card: { src: '/images/products/ai-document-ocr-card.webp', srcMedium: '/images/products/ai-document-ocr-card-640.webp', srcSmall: '/images/products/ai-document-ocr-card-400.webp', width: 800, height: 500 },
     },
     features: [
       { title: 'Intake from anywhere', body: 'Upload single files, batches or ZIP archives, send documents to email intake, or point DocAI at a watched folder. Duplicate files are caught by fingerprint.' },
@@ -116,7 +116,7 @@ export const PRODUCTS: Product[] = [
     abbr: 'WH',
     theme: 'stock',
     status: 'available',
-    color: '#0E8A6A',
+    color: '#0A7558', // darkened from #0E8A6A for 4.5:1 contrast on the soft tint
     soft: '#E6F6F1',
     metaTitle: 'Warehouse Inventory Management Software | OrbitPi Stock',
     metaDescription:
@@ -132,7 +132,7 @@ export const PRODUCTS: Product[] = [
       alt: 'Labelled cartons, a barcode scanner and an inventory record illustrate tracked warehouse stock.',
       width: 1254,
       height: 590,
-      card: { src: '/images/products/warehouse-inventory-management-card.webp', srcSmall: '/images/products/warehouse-inventory-management-card-400.webp', width: 800, height: 500 },
+      card: { src: '/images/products/warehouse-inventory-management-card.webp', srcMedium: '/images/products/warehouse-inventory-management-card-640.webp', srcSmall: '/images/products/warehouse-inventory-management-card-400.webp', width: 800, height: 500 },
     },
     features: [
       { title: 'Warehouses, zones and bins', body: 'Model each warehouse as zones and bins, generate racks in bulk, block bins when needed, and see stock on hand by exact position.' },
@@ -177,7 +177,7 @@ export const PRODUCTS: Product[] = [
     ],
   },
   {
-    slug: 'lead-management-ai-voice-agent',
+    slug: 'lead-management-software',
     name: 'Leads',
     fullName: 'OrbitPi Leads',
     category: 'Lead management',
@@ -200,7 +200,7 @@ export const PRODUCTS: Product[] = [
       alt: 'An enquiry form feeds contact cards through a lead pipeline to a follow-up calendar.',
       width: 1254,
       height: 570,
-      card: { src: '/images/products/lead-management-ai-voice-agent-card.webp', srcSmall: '/images/products/lead-management-ai-voice-agent-card-400.webp', width: 800, height: 500 },
+      card: { src: '/images/products/lead-management-ai-voice-agent-card.webp', srcMedium: '/images/products/lead-management-ai-voice-agent-card-640.webp', srcSmall: '/images/products/lead-management-ai-voice-agent-card-400.webp', width: 800, height: 500 },
     },
     features: [
       { title: 'Capture with source tracking', body: 'A hosted web form records UTM tags, Google and Meta click IDs, referrer and landing page, blocks spam and removes duplicates. Walk-ins and imports follow the same rules.' },
@@ -272,7 +272,7 @@ export const PRODUCTS: Product[] = [
       alt: 'A tagged laptop and industrial motor connect to an asset register and scanning phone.',
       width: 1254,
       height: 590,
-      card: { src: '/images/products/asset-management-software-card.webp', srcSmall: '/images/products/asset-management-software-card-400.webp', width: 800, height: 500 },
+      card: { src: '/images/products/asset-management-software-card.webp', srcMedium: '/images/products/asset-management-software-card-640.webp', srcSmall: '/images/products/asset-management-software-card-400.webp', width: 800, height: 500 },
     },
     features: [
       { title: 'Fixed asset register', body: 'Record category, model, serial number, location, condition and status, with custom fields, parent and child components, and bulk import with an error report.' },
@@ -340,7 +340,7 @@ export const PRODUCTS: Product[] = [
       alt: 'Concept illustration of a ledger, vouchers, calculator and balanced accounts; Ledger is coming soon.',
       width: 1254,
       height: 590,
-      card: { src: '/images/products/accounting-software-card.webp', srcSmall: '/images/products/accounting-software-card-400.webp', width: 800, height: 500 },
+      card: { src: '/images/products/accounting-software-card.webp', srcMedium: '/images/products/accounting-software-card-640.webp', srcSmall: '/images/products/accounting-software-card-400.webp', width: 800, height: 500 },
     },
     features: [
       { title: 'Familiar voucher types', body: 'Sales, purchase, receipt, payment, contra and journal vouchers with gapless number series.' },

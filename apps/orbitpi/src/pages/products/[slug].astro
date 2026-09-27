@@ -9,6 +9,7 @@ import Faq from '@/components/Faq.astro';
 import CtaBanner from '@/components/CtaBanner.astro';
 import { PRODUCTS, productHref, isAvailable, type Product } from '@/lib/products';
 import { INDUSTRIES, industryHref } from '@/lib/industries';
+import { guidesFor, guideHref } from '@/lib/guides';
 import { absoluteUrl } from '@/lib/site';
 import { graph, webPage, breadcrumbs, faqPage, softwareApp } from '@/lib/schema';
 
@@ -24,6 +25,8 @@ const crumbs = [{ name: 'Home', path: '/' }, { name: 'Products', path: '/product
 const industries = INDUSTRIES.filter((i) => i.products.includes(p.slug));
 const available = isAvailable(p);
 const others = PRODUCTS.filter((x) => x.slug !== p.slug && isAvailable(x)).slice(0, 3);
+const guides = guidesFor(p.slug);
+const image = { src: `/images/og/${p.slug}.jpg`, alt: p.image?.alt ?? p.fullName, width: 1200, height: 630 };
 
 const schema = graph(
   { ...webPage(absoluteUrl(path), p.metaTitle, p.metaDescription), ...(available ? { mainEntity: { '@id': `${absoluteUrl(path)}#software` } } : {}) },
@@ -33,7 +36,7 @@ const schema = graph(
 );
 ---
 
-<BaseLayout title={p.metaTitle} description={p.metaDescription} schema={schema}>
+<BaseLayout title={p.metaTitle} description={p.metaDescription} schema={schema} image={image}>
   <Breadcrumbs items={crumbs} />
 
   <section aria-labelledby="page-title" class="container-page grid items-center gap-12 pb-20 pt-10 lg:grid-cols-[1.05fr_1fr]" style={`--accent:${accent}`}>
@@ -144,6 +147,21 @@ const schema = graph(
     </ul>
     <p class="text-[15px] text-ink-500">{available ? 'Compare single-product and suite options on our ' : 'See the available products on our '}<a href="/pricing/" class="font-medium text-brand hover:underline">software pricing page</a>, or <a href="/contact/" class="font-medium text-brand hover:underline">talk to the OrbitPi product team</a> about your requirements.</p>
   </section>
+
+  {guides.length > 0 && (
+    <section aria-labelledby="guides-title" class="container-page flex flex-col gap-6 pb-24">
+      <h2 id="guides-title" class="text-2xl font-semibold tracking-[-0.02em]">Guides for {p.category.toLowerCase()} teams</h2>
+      <ul class="grid gap-4 md:grid-cols-2">
+        {guides.map((g) => (
+          <li><a href={guideHref(g.slug)} class="flex h-full flex-col gap-2 rounded-2xl border border-line p-6 hover:border-ink">
+            <span class="text-[13px] text-ink-500">{g.topic}</span>
+            <span class="text-lg font-semibold leading-snug">{g.title}</span>
+            <span class="text-[14.5px] leading-relaxed text-ink-500">{g.metaDescription}</span>
+          </a></li>
+        ))}
+      </ul>
+    </section>
+  )}
 
   <div class="border-t border-line bg-mist"><Faq faqs={p.faqs} title={`${p.fullName} FAQ`} /></div>
 

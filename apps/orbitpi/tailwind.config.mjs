@@ -9,7 +9,7 @@ export default {
         mist: '#F8F9FB',
         brand: { DEFAULT: '#2F4BFF', dark: '#1F37D6', soft: '#EEF1FF', light: '#8FA0FF' },
         docai: { DEFAULT: '#2F4BFF', soft: '#EEF1FF' },
-        stock: { DEFAULT: '#0E8A6A', soft: '#E6F6F1' },
+        stock: { DEFAULT: '#0A7558', soft: '#E6F6F1' },
         leads: { DEFAULT: '#C2410C', soft: '#FDEEE6' },
         assets: { DEFAULT: '#7C3AED', soft: '#F2EDFF' },
         ledger: { DEFAULT: '#0B0D12', soft: '#EEEFF2' },

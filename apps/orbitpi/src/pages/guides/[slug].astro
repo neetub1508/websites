@@ -1,0 +1,137 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+import ProductBadge from '@/components/ProductBadge.astro';
+import Faq from '@/components/Faq.astro';
+import CtaBanner from '@/components/CtaBanner.astro';
+import { GUIDES, guideHref, type Guide } from '@/lib/guides';
+import { getProduct, productHref, type Product } from '@/lib/products';
+import { absoluteUrl } from '@/lib/site';
+import { graph, webPage, breadcrumbs, faqPage, article } from '@/lib/schema';
+
+export function getStaticPaths() {
+  return GUIDES.map((g) => ({ params: { slug: g.slug }, props: { guide: g } }));
+}
+
+interface Props { guide: Guide }
+const { guide: g } = Astro.props;
+const path = guideHref(g.slug);
+const product = getProduct(g.product) as Product;
+const crumbs = [{ name: 'Home', path: '/' }, { name: 'Guides', path: '/guides/' }, { name: g.title, path }];
+const related = GUIDES.filter((x) => x.slug !== g.slug).sort((a, b) => Number(b.product === g.product) - Number(a.product === g.product)).slice(0, 3);
+const words = [g.summary, ...g.takeaways, ...g.sections.flatMap((s) => [...(s.paragraphs ?? []), ...(s.list ?? []), ...(s.after ?? []), ...(s.table?.rows.flat() ?? [])]), ...g.faqs.flatMap((f) => [f.q, f.a])].join(' ').split(/\s+/).length;
+const minutes = Math.max(1, Math.round(words / 200));
+const date = (iso: string) => new Date(`${iso}T00:00:00Z`).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+const image = { src: `/images/og/${product.slug}.jpg`, alt: product.image?.alt ?? product.fullName, width: 1200, height: 630 };
+const schema = graph(
+  { ...webPage(absoluteUrl(path), g.metaTitle, g.metaDescription), mainEntity: { '@id': `${absoluteUrl(path)}#article` } },
+  breadcrumbs(crumbs),
+  article({ path, title: g.title, description: g.metaDescription, published: g.published, modified: g.modified, image: image.src, about: [g.topic, product.category] }),
+  faqPage(g.faqs),
+);
+---
+
+<BaseLayout title={g.metaTitle} description={g.metaDescription} schema={schema} ogType="article" image={image} published={g.published} modified={g.modified}>
+  <Breadcrumbs items={crumbs} />
+  <article class="container-page grid gap-12 pb-24 pt-10 lg:grid-cols-[minmax(0,1fr)_280px]">
+    <div class="flex min-w-0 max-w-3xl flex-col gap-10">
+      <header class="flex flex-col gap-5">
+        <p class="eyebrow">{g.topic}</p>
+        <h1 class="text-[clamp(34px,4.6vw,52px)] font-bold leading-[1.06] tracking-display">{g.title}</h1>
+        <p class="text-[13px] text-ink-500">By the OrbitPi product team · Updated <time datetime={g.modified}>{date(g.modified)}</time> · {minutes} min read</p>
+        <p class="lead">{g.summary}</p>
+      </header>
+
+      <section aria-labelledby="takeaways-title" class="rounded-[18px] border border-line bg-mist p-6">
+        <h2 id="takeaways-title" class="text-lg font-semibold">Key takeaways</h2>
+        <ul class="mt-3 flex flex-col gap-2.5">
+          {g.takeaways.map((t) => <li class="flex gap-2.5 text-[15px] leading-relaxed text-ink-700"><span aria-hidden="true" class="text-brand">✓</span>{t}</li>)}
+        </ul>
+      </section>
+
+      <nav aria-labelledby="contents-title" class="lg:hidden">
+        <h2 id="contents-title" class="text-sm font-semibold">On this page</h2>
+        <ol class="mt-2 flex list-decimal flex-col gap-1.5 pl-5 text-[15px] text-ink-500">
+          {g.sections.map((s) => <li><a href={`#${s.id}`} class="hover:text-brand">{s.heading}</a></li>)}
+        </ol>
+      </nav>
+
+      <div class="prose-legal flex flex-col">
+        {g.sections.map((s) => (
+          <section aria-labelledby={s.id}>
+            <h2 id={s.id} class="scroll-mt-24">{s.heading}</h2>
+            {s.paragraphs?.map((p) => <p>{p}</p>)}
+            {s.list && (s.ordered
+              ? <ol class="mt-3 list-decimal pl-6">{s.list.map((li) => <li>{li}</li>)}</ol>
+              : <ul>{s.list.map((li) => <li>{li}</li>)}</ul>)}
+            {s.table && (
+              <div class="mt-5 overflow-x-auto rounded-2xl border border-line">
+                <table class="w-full min-w-[520px] border-collapse text-left text-[14.5px]">
+                  <caption class="border-b border-line bg-mist px-4 py-3 text-left text-[13px] font-medium text-ink-500">{s.table.caption}</caption>
+                  <thead><tr>{s.table.head.map((h) => <th scope="col" class="border-b border-line px-4 py-3 font-semibold">{h}</th>)}</tr></thead>
+                  <tbody>
+                    {s.table.rows.map((row) => (
+                      <tr class="border-b border-line last:border-0">
+                        {row.map((cell, i) => i === 0 ? <th scope="row" class="px-4 py-3 align-top font-medium">{cell}</th> : <td class="px-4 py-3 align-top text-ink-700">{cell}</td>)}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+            {s.after?.map((p) => <p>{p}</p>)}
+          </section>
+        ))}
+      </div>
+
+      {g.disclaimer && (
+        <p role="note" class="rounded-2xl border border-[#F5D9A8] bg-[#FFF9EE] p-5 text-[14.5px] leading-relaxed text-ink-700">
+          <strong>General information, not professional advice.</strong> This guide summarises the rules as we understand them on the date shown. Laws, notifications and thresholds change, and their application depends on your facts. Check the official sources below and consult a chartered accountant or tax adviser before acting on it.
+        </p>
+      )}
+
+      <section aria-labelledby="product-title" class="flex flex-col gap-4 rounded-[20px] border border-line-strong p-6 sm:flex-row sm:items-start">
+        <ProductBadge product={product} size="lg" />
+        <div class="flex flex-col gap-2">
+          <h2 id="product-title" class="text-lg font-semibold">How {product.fullName} helps</h2>
+          <p class="text-[15px] leading-relaxed text-ink-500">{g.productPitch}</p>
+          <a href={productHref(product.slug)} class="self-start text-sm font-medium text-brand hover:underline">Explore {product.category.toLowerCase()} software <span aria-hidden="true">→</span></a>
+        </div>
+      </section>
+
+      {g.sources.length > 0 && (
+        <section aria-labelledby="sources-title">
+          <h2 id="sources-title" class="text-lg font-semibold">Official sources</h2>
+          <ul class="mt-3 flex list-disc flex-col gap-1.5 pl-5 text-[15px] text-ink-700">
+            {g.sources.map((src) => <li><a href={src.url} rel="noopener" class="text-brand underline underline-offset-2">{src.label}</a></li>)}
+          </ul>
+        </section>
+      )}
+    </div>
+
+    <aside class="hidden lg:block">
+      <nav aria-label="On this page" class="sticky top-24 flex flex-col gap-3 border-l border-line pl-5">
+        <p class="text-sm font-semibold">On this page</p>
+        <ol class="flex flex-col gap-2 text-[14px] text-ink-500">
+          {g.sections.map((s) => <li><a href={`#${s.id}`} class="hover:text-brand">{s.heading}</a></li>)}
+        </ol>
+      </nav>
+    </aside>
+  </article>
+
+  <div class="border-t border-line bg-mist"><Faq faqs={g.faqs} title={`${g.title.split(/[:,]/)[0]}: FAQ`} /></div>
+
+  <nav aria-labelledby="related-title" class="container-page flex flex-col gap-6 py-20">
+    <h2 id="related-title" class="text-xl font-semibold">Related guides</h2>
+    <ul class="grid gap-4 md:grid-cols-3">
+      {related.map((r) => (
+        <li><a href={guideHref(r.slug)} class="flex h-full flex-col gap-2 rounded-2xl border border-line p-5 hover:border-ink">
+          <span class="text-[13px] text-ink-500">{r.topic}</span>
+          <span class="font-semibold">{r.title}</span>
+        </a></li>
+      ))}
+    </ul>
+  </nav>
+
+  <CtaBanner title={`See ${product.fullName} on your own data`} />
+</BaseLayout>

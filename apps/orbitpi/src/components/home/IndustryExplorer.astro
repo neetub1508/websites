@@ -28,10 +28,10 @@ const items = INDUSTRIES.map((ind) => ({
 
   <div class="min-w-0 flex-[999_1_480px]">
     {items.map((ind, i) => (
-      <article role="tabpanel" id={`ind-panel-${i}`} aria-labelledby={`ind-tab-${i}`} data-panel={i} hidden={i !== 0}
-        class="grid h-full overflow-hidden rounded-[20px] border border-line-strong bg-white shadow-[0_30px_60px_-32px_rgba(21,32,90,0.25)] md:grid-cols-2">
-        <ImageFrame src={`/images/industries/${ind.slug}.webp`} srcset={`/images/industries/${ind.slug}-640.webp 640w, /images/industries/${ind.slug}.webp 1200w`} sizes="(min-width:1440px) 546px, (min-width:828px) calc((100vw - 348px)/2), (min-width:768px) calc((100vw - 48px)/2), calc(100vw - 48px)" alt={ind.imageAlt} width={1200} height={900} fit="contain" class="min-h-[260px] md:min-h-full" />
-        <div class="flex flex-col gap-5 p-7">
+      <div role="tabpanel" id={`ind-panel-${i}`} aria-labelledby={`ind-tab-${i}`} data-panel={i} hidden={i !== 0}
+        class="grid h-full overflow-hidden rounded-[20px] border border-line-strong bg-white shadow-[0_30px_60px_-32px_rgba(21,32,90,0.25)] md:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]">
+        <ImageFrame src={`/images/industries/${ind.slug}.webp`} srcset={`/images/industries/${ind.slug}-640.webp 640w, /images/industries/${ind.slug}.webp 1200w`} sizes="(min-width:1440px) 500px, (min-width:828px) calc((100vw - 348px)*5/11), (min-width:768px) calc((100vw - 48px)*5/11), calc(100vw - 48px)" alt={ind.imageAlt} width={1200} height={900} fit="contain" class="min-h-[260px] md:min-h-full" />
+        <div class="flex flex-col gap-6 p-7 md:p-8">
           <div class="flex flex-col gap-2">
             <h3 class="text-2xl font-semibold tracking-[-0.03em]">{ind.name}</h3>
             <p class="text-[15px] leading-relaxed text-ink-500">{ind.intro}</p>
@@ -48,12 +48,13 @@ const items = INDUSTRIES.map((ind) => ({
               ))}
             </ul>
           </div>
-          <ul class="flex flex-col gap-2.5">
-            {ind.wins.map((w) => <li class="flex gap-2.5 text-[14.5px] leading-snug text-ink-700"><span aria-hidden="true" class="text-brand">✓</span>{w}</li>)}
-          </ul>
-          <a href={industryHref(ind.slug)} class="mt-auto text-sm font-medium text-brand hover:underline">OrbitPi for {ind.name} <span aria-hidden="true">→</span></a>
+          <div class="flex flex-col gap-3 border-t border-line pt-5">
+            <h4 class="text-base font-semibold tracking-[-0.01em]">How OrbitPi works for {ind.name}</h4>
+            {ind.overview.map((para) => <p class="text-[14.5px] leading-relaxed text-ink-500">{para}</p>)}
+          </div>
+          <a href={industryHref(ind.slug)} class="mt-auto inline-flex items-center gap-1.5 self-start rounded-xl border border-line-strong px-4 py-2.5 text-sm font-medium text-ink transition hover:border-brand hover:text-brand">Explore {ind.h1.charAt(0).toLowerCase() + ind.h1.slice(1)} <span aria-hidden="true">→</span></a>
         </div>
-      </article>
+      </div>
     ))}
   </div>
 </div>

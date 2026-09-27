@@ -21,7 +21,26 @@ test('HTTP and www requests permanently redirect and retain path, query and POST
   }
 });
 test('Canonical production and local preview requests still serve assets', async () => {
-  for (const url of ['https://orbitpi.com/', 'http://localhost:8787/']) assert.equal(await (await worker.fetch(new Request(url), { ASSETS: assets })).text(), 'asset');
+  for (const url of ['https://orbitpi.com/', 'http://localhost:8787/', 'https://orbitpi.com/about/?utm_source=x', 'https://orbitpi.com/_astro/about.BS6RIQxn.css', 'https://orbitpi.com/sitemap.xml', 'https://orbitpi.com/404.html']) {
+    assert.equal(await (await worker.fetch(new Request(url), { ASSETS: assets })).text(), 'asset', url);
+  }
+});
+test('Non-canonical page paths take one permanent hop to the canonical URL', async () => {
+  const cases = {
+    'https://orbitpi.com/about': 'https://orbitpi.com/about/',
+    'https://orbitpi.com/about?utm_source=x': 'https://orbitpi.com/about/?utm_source=x',
+    'https://orbitpi.com/index.html': 'https://orbitpi.com/',
+    'https://orbitpi.com/pricing/index.html': 'https://orbitpi.com/pricing/',
+    'https://orbitpi.com/ABOUT/': 'https://orbitpi.com/about/',
+    'http://www.orbitpi.com/Products': 'https://orbitpi.com/products/',
+    'https://orbitpi.com/products/lead-management-ai-voice-agent/': 'https://orbitpi.com/products/lead-management-software/',
+    'https://orbitpi.com/products/lead-management-ai-voice-agent': 'https://orbitpi.com/products/lead-management-software/',
+  };
+  for (const [from, to] of Object.entries(cases)) {
+    const response = await worker.fetch(new Request(from), { ASSETS: assets });
+    assert.equal(response.status, 308, from);
+    assert.equal(response.headers.get('Location'), to, from);
+  }
 });
 test('Contact endpoint only accepts POST', async () => {
   const response = await worker.fetch(new Request('https://orbitpi.com/api/contact'), { ASSETS: assets });

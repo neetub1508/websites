@@ -9,14 +9,34 @@ interface Env {
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+// Retired page URLs → their current canonical route (permanent redirect).
+const MOVED: Record<string, string> = {
+  '/products/lead-management-ai-voice-agent/': '/products/lead-management-software/',
+};
+
+// Canonical form of a page path: lowercase, ending in a slash, without index.html.
+// Paths with a file extension (assets, sitemap.xml, 404.html) are left alone because
+// hashed asset names are case-sensitive.
+function canonicalPath(pathname: string): string {
+  let path = pathname.endsWith('/index.html') ? pathname.slice(0, -'index.html'.length) : pathname;
+  const last = path.slice(path.lastIndexOf('/') + 1);
+  if (!last.includes('.')) {
+    path = path.toLowerCase();
+    if (!path.endsWith('/')) path += '/';
+  }
+  return MOVED[path] ?? path;
+}
+
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
-    if ((url.hostname === 'orbitpi.com' || url.hostname === 'www.orbitpi.com') && (url.protocol !== 'https:' || url.hostname !== 'orbitpi.com')) {
+    if (url.hostname === 'orbitpi.com' || url.hostname === 'www.orbitpi.com') {
       url.protocol = 'https:';
       url.hostname = 'orbitpi.com';
-      return Response.redirect(url.toString(), 308);
     }
+    // One permanent hop to the canonical URL: HTTPS apex host plus a normalised page path.
+    if ((request.method === 'GET' || request.method === 'HEAD') && url.pathname !== '/api/contact') url.pathname = canonicalPath(url.pathname);
+    if (url.toString() !== request.url) return Response.redirect(url.toString(), 308);
     const { pathname } = url;
     if (pathname !== '/api/contact') return env.ASSETS.fetch(request);
     if (request.method !== 'POST') return new Response('Method Not Allowed', { status: 405, headers: { Allow: 'POST' } });

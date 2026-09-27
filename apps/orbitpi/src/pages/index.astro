@@ -8,8 +8,9 @@ import ProductDemo from '@/components/home/ProductDemo.astro';
 import IndustryExplorer from '@/components/home/IndustryExplorer.astro';
 import VoiceCallCard from '@/components/home/VoiceCallCard.astro';
 import { PRODUCTS, productHref, isAvailable } from '@/lib/products';
+import { GUIDES, guideHref } from '@/lib/guides';
 import { SITE, absoluteUrl } from '@/lib/site';
-import { graph, webPage, faqPage, itemList, type JsonLd } from '@/lib/schema';
+import { graph, webPage, faqPage, itemList } from '@/lib/schema';
 
 const LIVE = PRODUCTS.filter(isAvailable);
 const title = 'Business Software for Indian Companies | OrbitPi';
@@ -31,18 +32,8 @@ const faqs = [
   { q: 'Is OrbitPi accounting software available?', a: 'Not yet. OrbitPi Ledger is in development. DocAI can export invoice data to Excel, CSV, webhooks and other destinations for the accounting software you use today.' },
 ];
 
-const software: JsonLd = {
-  '@type': 'SoftwareApplication',
-  name: SITE.name,
-  applicationCategory: 'BusinessApplication',
-  operatingSystem: 'Web',
-  description,
-  publisher: { '@id': `${SITE.url}/#org` },
-};
-
 const schema = graph(
   webPage(absoluteUrl('/'), title, description),
-  software,
   itemList('OrbitPi products', LIVE.map((p) => ({ name: p.fullName, path: productHref(p.slug) }))),
   faqPage(faqs),
 );
@@ -55,7 +46,7 @@ const schema = graph(
         <span>Four products live · Accounting coming soon</span>
         <span class="rounded-full bg-brand-soft px-2.5 py-0.5 font-medium text-brand">See products →</span>
       </a>
-      <h1 id="hero-title" class="h-display max-w-4xl">Business software for Indian teams</h1>
+      <h1 id="hero-title" class="h-display max-w-4xl">Business software for Indian companies</h1>
       <p class="lead max-w-2xl">OrbitPi builds software for the work behind your business: AI document OCR, warehouse inventory, lead management and fixed assets. Start with one product or connect several on the same platform.</p>
       <div class="flex flex-wrap justify-center gap-3 pt-2">
         <a href="/contact/" class="btn-primary">Book a demo</a>
@@ -83,7 +74,7 @@ const schema = graph(
     <div class="container-page grid items-center gap-14 py-24 md:grid-cols-2">
       <div class="flex flex-col gap-[18px]">
         <SectionHeading eyebrow="Coming soon: AI voice agent" id="voice-title" title="An AI voice agent for every new lead" align="left" inverted lead="We are building an agent that calls new enquiries in Hindi and English, asks your qualifying questions and logs the answers in OrbitPi Leads. Until it launches, Leads routes every enquiry and reminds your team when to call." />
-        <a href={productHref('lead-management-ai-voice-agent')} class="text-[15px] font-medium hover:text-brand-light">See OrbitPi Leads →</a>
+        <a href={productHref('lead-management-software')} class="text-[15px] font-medium hover:text-brand-light">See OrbitPi Leads →</a>
       </div>
       <VoiceCallCard />
     </div>
@@ -125,6 +116,21 @@ const schema = graph(
         <a href="/contact/" class="btn-ghost">Talk to sales</a>
       </div>
     </div>
+  </section>
+
+  <section aria-labelledby="guides-title" class="container-page flex flex-col gap-10 pt-24">
+    <div class="flex flex-wrap items-end justify-between gap-5">
+      <SectionHeading eyebrow="Guides" id="guides-title" title="Guides for back-office teams" align="left" lead="Plain-language explainers on GST documents, inventory valuation, fixed assets and lead follow-up." />
+      <a href="/guides/" class="btn-ghost">All guides</a>
+    </div>
+    <ul class="grid gap-4 md:grid-cols-3">
+      {GUIDES.slice(0, 3).map((g) => (
+        <li><a href={guideHref(g.slug)} class="flex h-full flex-col gap-2 rounded-2xl border border-line p-6 hover:border-ink">
+          <span class="text-[13px] text-ink-500">{g.topic}</span>
+          <span class="text-lg font-semibold leading-snug">{g.title}</span>
+        </a></li>
+      ))}
+    </ul>
   </section>
 
   <Faq faqs={faqs} />

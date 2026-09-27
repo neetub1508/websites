@@ -16,6 +16,8 @@ export const organization = (): JsonLd => ({
   description: SITE.description,
   logo: absoluteUrl(SITE.logo),
   email: SITE.email,
+  areaServed: 'IN',
+  ...(SITE.sameAs.length ? { sameAs: SITE.sameAs } : {}),
   ...(SITE.contactDetailsVerified ? { telephone: SITE.phone, address: {
     '@type': 'PostalAddress',
     streetAddress: SITE.address.street,
@@ -87,6 +89,21 @@ export const softwareApp = (p: Product): JsonLd => ({
   url: absoluteUrl(`/products/${p.slug}/`),
   featureList: p.features.map((f) => f.title),
   publisher: { '@id': ORG_ID },
+});
+
+export const article = (a: { path: string; title: string; description: string; published: string; modified: string; image: string; about: string[] }): JsonLd => ({
+  '@type': 'Article',
+  '@id': `${absoluteUrl(a.path)}#article`,
+  headline: a.title,
+  description: a.description,
+  image: absoluteUrl(a.image),
+  datePublished: a.published,
+  dateModified: a.modified,
+  inLanguage: 'en-IN',
+  author: { '@id': ORG_ID },
+  publisher: { '@id': ORG_ID },
+  mainEntityOfPage: { '@id': `${absoluteUrl(a.path)}#webpage` },
+  about: a.about.map((name) => ({ '@type': 'Thing', name })),
 });
 
 export const itemList = (name: string, items: { name: string; path: string }[]): JsonLd => ({

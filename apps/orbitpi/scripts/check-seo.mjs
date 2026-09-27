@@ -39,12 +39,21 @@ for (const [route, source] of pages) {
   check(Boolean(description), `${route}: missing description`);
   check((source.match(/<h1\b/g) || []).length === 1, `${route}: expected one H1`);
   check(tags(source, 'html')[0]?.lang === 'en-IN', `${route}: incorrect document language`);
-  // Astro renders the 404 route as /404/ and writes its artifact to 404.html.
-  const canonicalRoute = route === '/404.html' ? '/404/' : route;
   const canonicals = tags(source, 'link').filter((l) => l.rel === 'canonical');
-  check(canonicals.length === 1 && canonicals[0].href === origin + canonicalRoute, `${route}: incorrect canonical`);
-  check(getMeta('og:url') === origin + canonicalRoute, `${route}: incorrect OG URL`);
-  check(getMeta('og:image') === origin + '/og-image.png', `${route}: incorrect social image`);
+  if (noindex) {
+    // Noindex pages (404, thank-you) have no indexable URL, so no canonical or og:url.
+    check(canonicals.length === 0 && !getMeta('og:url'), `${route}: noindex page must not declare a canonical`);
+  } else {
+    check(canonicals.length === 1 && canonicals[0].href === origin + route, `${route}: incorrect canonical`);
+    check(getMeta('og:url') === origin + route, `${route}: incorrect OG URL`);
+  }
+  const ogImage = getMeta('og:image') ?? '';
+  check(ogImage.startsWith(origin + '/'), `${route}: social image must be an absolute site URL`);
+  if (ogImage.startsWith(origin + '/')) {
+    try { await access(routeFile(new URL(ogImage).pathname)); }
+    catch { errors.push(`${route}: missing social image ${ogImage}`); }
+  }
+  check(getMeta('og:image:width') === '1200' && getMeta('og:image:height') === '630', `${route}: social image must be 1200x630`);
   check(Boolean(getMeta('twitter:image:alt')), `${route}: missing social image alt`);
   if (!noindex) {
     indexable.push(origin + route);
@@ -67,6 +76,12 @@ for (const [route, source] of pages) {
   for (const node of nodes.filter((n) => n['@type'] === 'SoftwareApplication' && route.startsWith('/products/'))) {
     check(Boolean(node.image), `${route}: software schema missing image`);
     check(node.mainEntityOfPage?.['@id'] === origin + route + '#webpage', `${route}: software not linked to page entity`);
+  }
+  if (route.startsWith('/guides/') && route !== '/guides/') {
+    const art = nodes.find((n) => n['@type'] === 'Article');
+    check(Boolean(art?.headline && art?.datePublished && art?.dateModified && art?.image && art?.author), `${route}: incomplete Article schema`);
+    check(art?.mainEntityOfPage?.['@id'] === origin + route + '#webpage', `${route}: article not linked to page entity`);
+    check(getMeta('article:modified_time') === art?.dateModified, `${route}: article modified date mismatch`);
   }
   for (const img of tags(source, 'img')) {
     imageCount++;
@@ -94,6 +109,7 @@ for (const [route, source] of pages) {
 }
 const sitemap = await readFile(path.join(dist, 'sitemap.xml'), 'utf8');
 const locations = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((m) => m[1]);
+check([...sitemap.matchAll(/<url><loc>[^<]+<\/loc><lastmod>\d{4}-\d{2}-\d{2}<\/lastmod><\/url>/g)].length === locations.length, 'Every sitemap URL needs a lastmod date');
 check(new Set(locations).size === locations.length, 'Sitemap has duplicate URLs');
 for (const url of indexable) check(locations.includes(url), `Indexable page missing from sitemap: ${url}`);
 for (const url of locations) check(indexable.includes(url), `Sitemap includes a missing or noindex page: ${url}`);
@@ -102,6 +118,6 @@ check(robots.includes(`Sitemap: ${origin}/sitemap.xml`), 'robots.txt missing sit
 for (const route of ['/404.html', '/contact/thanks/']) check(pages.get(route)?.includes('noindex'), `${route}: missing noindex`);
 const ledger = pages.get('/products/accounting-software/');
 check(ledger?.includes('Coming soon') && !ledger.includes('"@type":"SoftwareApplication"'), 'Unreleased Ledger must not be marked as released software');
-check(pages.get('/products/lead-management-ai-voice-agent/')?.includes('AI voice agent, coming soon'), 'Voice AI availability label missing');
+check(pages.get('/products/lead-management-software/')?.includes('AI voice agent, coming soon'), 'Voice AI availability label missing');
 assert.equal(errors.length, 0, errors.join('\n'));
 console.log(`SEO checks passed: ${pages.size} HTML pages, ${indexable.length} indexable URLs and ${imageCount} image placements. Metadata, sitemap, internal links, assets and structured data verified.`);

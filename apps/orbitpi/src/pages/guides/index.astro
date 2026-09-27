@@ -1,0 +1,49 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import ProductBadge from '@/components/ProductBadge.astro';
+import CtaBanner from '@/components/CtaBanner.astro';
+import { GUIDES, guideHref } from '@/lib/guides';
+import { getProduct, type Product } from '@/lib/products';
+import { absoluteUrl } from '@/lib/site';
+import { graph, webPage, breadcrumbs, itemList } from '@/lib/schema';
+
+const title = 'Guides: GST, Inventory, Fixed Assets and Sales | OrbitPi';
+const description = 'Practical guides for Indian businesses on e-way bills, GST e-invoice QR codes, inventory valuation, depreciation, CARO asset verification and lead routing.';
+const crumbs = [{ name: 'Home', path: '/' }, { name: 'Guides', path: '/guides/' }];
+const topics = [...new Set(GUIDES.map((g) => g.topic))];
+const schema = graph(
+  webPage(absoluteUrl('/guides/'), title, description, 'CollectionPage'),
+  breadcrumbs(crumbs),
+  itemList('OrbitPi guides', GUIDES.map((g) => ({ name: g.title, path: guideHref(g.slug) }))),
+);
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <Breadcrumbs items={crumbs} />
+  <section class="container-page flex flex-col gap-14 pb-24 pt-12">
+    <SectionHeading as="h1" eyebrow="Guides" title="Guides to GST, inventory, fixed assets and sales" align="left" lead="Plain-language explainers on the back-office rules and workflows Indian teams deal with every day, with worked examples and links to the official sources." />
+    {topics.map((topic) => (
+      <section aria-labelledby={`topic-${topic.toLowerCase().replace(/\W+/g, '-')}`} class="flex flex-col gap-5">
+        <h2 id={`topic-${topic.toLowerCase().replace(/\W+/g, '-')}`} class="text-2xl font-semibold tracking-[-0.02em]">{topic}</h2>
+        <ul class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {GUIDES.filter((g) => g.topic === topic).map((g) => {
+            const p = getProduct(g.product) as Product;
+            return (
+              <li>
+                <a href={guideHref(g.slug)} class="group flex h-full flex-col gap-3 rounded-2xl border border-line bg-white p-6 transition hover:shadow-card">
+                  <span class="flex items-center gap-2 text-[13px] text-ink-500"><ProductBadge product={p} size="sm" />Related: {p.fullName}</span>
+                  <h3 class="text-lg font-semibold leading-snug">{g.title}</h3>
+                  <p class="text-[14.5px] leading-relaxed text-ink-500">{g.metaDescription}</p>
+                  <span class="mt-auto text-sm font-medium text-brand">Read the guide <span aria-hidden="true" class="inline-block transition group-hover:translate-x-0.5">→</span></span>
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      </section>
+    ))}
+  </section>
+  <CtaBanner />
+</BaseLayout>

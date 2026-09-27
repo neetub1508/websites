@@ -95,3 +95,21 @@ Primary references:
 - [Google Search documentation updates](https://developers.google.com/search/updates)
 - [Cloudflare Worker/static-asset routing](https://developers.cloudflare.com/workers/static-assets/routing/worker-script/)
 - [Cloudflare HTML and trailing-slash handling](https://developers.cloudflare.com/workers/static-assets/routing/advanced/html-handling/)
+
+## Second pass (seo-audit skill review), 27 September 2026
+
+Local source and build only; **not deployed**. Verified with `npm run build` (0 errors), `npm test` (9 worker tests), `npm run check:seo` (28 pages, 26 indexable) and local Lighthouse (100/100/100/100 on home, a product, an industry, the industries hub, the guides hub and a guide).
+
+| Area | Change |
+| --- | --- |
+| Redirects | Worker now sends one 308 hop to the canonical URL: HTTPS apex, lowercase page paths, trailing slash, `/index.html` removed (previously 307 from the asset layer). |
+| URL | Leads moved to `/products/lead-management-software/`; the old `…-ai-voice-agent/` URL 308-redirects. Voice AI is still labelled coming soon. |
+| Canonicals | Noindex pages (404, thank-you) no longer declare a canonical or `og:url`. |
+| Sitemap | `lastmod` on every URL (`SITE.contentUpdated`, or a guide's `modified`). |
+| Performance | CSS inlined; font CSS limited to Latin subsets (78 KB → 36 KB); Geist preloaded; `fetchpriority="high"` on eager hero images; first industries-hub card eager; 640w card variants; week-long cache on root icons and images. |
+| Accessibility | Stock accent darkened to `#0A7558` (contrast 5.1:1); `article role="tabpanel"` replaced with `div`. |
+| Schema | Removed the suite-level `SoftwareApplication` from the home page (duplicated the product entities); added `Article` for guides, `areaServed` and optional `sameAs` for the organisation. Product `SoftwareApplication` has no `offers` or ratings, so it is not eligible for software rich results until real pricing or reviews exist. |
+| On-page | Home H1 aligned with the title; industries hub retitled "Business software by industry" with a comparison table and FAQ; per-page 1200×630 share images for products, industries and guides. |
+| Content | New `/guides/` hub and six guides (e-way bills, e-invoice QR codes, CARO 2020 verification, FIFO vs weighted average, SLM vs WDV depreciation, lead routing), linked from nav, footer, home and product pages. Privacy policy expanded (DPDP rights, processor role, transfers, children). Terms no longer name the unverified city in the jurisdiction clause. |
+
+Needs owner input (not invented): verified address and phone, company profiles for `sameAs`, named team/founders, customer evidence (testimonials, case studies, logos), analytics choice, Search Console/Bing submission, legal and CA review of the policy and guides, and comparison pages (need verified competitor facts).

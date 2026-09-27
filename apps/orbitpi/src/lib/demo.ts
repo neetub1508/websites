@@ -40,7 +40,7 @@ export const DEMO: DemoPanel[] = [
     ],
   },
   {
-    slug: 'lead-management-ai-voice-agent', path: 'leads/worklist', title: 'Lead worklist', subtitle: 'Follow-ups due today', status: 'Live',
+    slug: 'lead-management-software', path: 'leads/worklist', title: 'Lead worklist', subtitle: 'Follow-ups due today', status: 'Live',
     kpis: [{ label: 'New today', value: '64' }, { label: 'Follow-ups due', value: '38' }, { label: 'SLA at risk', value: '5' }],
     fieldLabels: ['Source', 'Owner', 'Stage', 'Next action'],
     activity: ['Captured from website form with UTM', 'Assigned by branch routing rule', 'WhatsApp template sent'],

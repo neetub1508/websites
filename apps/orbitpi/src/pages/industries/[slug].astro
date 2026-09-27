@@ -22,9 +22,10 @@ const crumbs = [{ name: 'Home', path: '/' }, { name: 'Industries', path: '/indus
 const products = ind.products.map((s) => getProduct(s)).filter((p): p is Product => Boolean(p));
 const others = INDUSTRIES.filter((i) => i.slug !== ind.slug);
 const schema = graph(webPage(absoluteUrl(path), ind.metaTitle, ind.metaDescription), breadcrumbs(crumbs), faqPage(ind.faqs));
+const image = { src: `/images/og/industry-${ind.slug}.jpg`, alt: ind.imageAlt, width: 1200, height: 630 };
 ---
 
-<BaseLayout title={ind.metaTitle} description={ind.metaDescription} schema={schema}>
+<BaseLayout title={ind.metaTitle} description={ind.metaDescription} schema={schema} image={image}>
   <Breadcrumbs items={crumbs} />
 
   <section aria-labelledby="page-title" class="container-page grid items-center gap-12 pb-20 pt-10 lg:grid-cols-2">

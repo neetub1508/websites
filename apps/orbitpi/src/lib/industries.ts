@@ -14,6 +14,7 @@ export interface Industry {
   imageAlt: string; // shared alt for /images/industries/<slug>*.webp (hero, card and home explorer)
   products: string[]; // product slugs, most relevant first
   wins: string[];
+  overview: string[]; // short paragraphs for the home page industry explorer
   challenges: Block[];
   workflow: Block[];
   faqs: Faq[];
@@ -31,6 +32,11 @@ export const INDUSTRIES: Industry[] = [
     imageAlt: 'A CNC machine, raw metal stock and tagged motor illustrate manufacturing inventory and maintenance.',
     products: ['warehouse-inventory-management', 'asset-management-software', 'ai-document-ocr'],
     wins: ['Raw material tracked by batch and bin', 'Machines serviced on schedule, AMCs tracked', 'Supplier invoices read into clean data'],
+    overview: [
+      'OrbitPi Stock tracks raw material by batch and bin from the moment it is received against a purchase order, including material sent out for job work with ITC-04 support. Planners can see what is on hand before they commit to a production run.',
+      'OrbitPi Assets keeps plant machinery running with preventive maintenance schedules, QR-tagged fault reporting and AMC tracking, and records downtime, MTTR and MTBF for every machine.',
+      'OrbitPi DocAI reads each supplier invoice, checks the line items against the total and exports clean data for your accounts team, so bills no longer need retyping.',
+    ],
     challenges: [
       { title: 'Raw material goes missing', body: 'Stock tracks every lot by bin, including material sent out for job work, so you know what is on hand before planning a run.' },
       { title: 'Machines fail without warning', body: 'Assets schedules preventive maintenance, tracks AMC contracts and records downtime, MTTR and MTBF for every machine.' },
@@ -58,8 +64,13 @@ export const INDUSTRIES: Industry[] = [
     h1: 'Inventory and lead management software for distributors',
     intro: 'Run stock across warehouses and branches, ship with the right GST paperwork, and follow up every dealer enquiry on time.',
     imageAlt: 'Warehouse racks, pallets, delivery records and a van illustrate wholesale receiving and dispatch.',
-    products: ['warehouse-inventory-management', 'lead-management-ai-voice-agent', 'ai-document-ocr'],
+    products: ['warehouse-inventory-management', 'lead-management-software', 'ai-document-ocr'],
     wins: ['Live stock across warehouses and branches', 'E-way bills and delivery challans built in', 'Every dealer enquiry routed and followed up'],
+    overview: [
+      'OrbitPi Stock gives distributors and wholesalers one live view of inventory by warehouse, bin and batch. Transfers are tracked from send to receive, and reorder points suggest purchase orders before fast-moving items run out.',
+      'Delivery challans and e-way bills are created from each shipment through a GST compliance provider, and dispatch is held until the e-way bill is active.',
+      'OrbitPi Leads captures every dealer enquiry with its source, routes it to the right branch and rep, and warns before a response-time target is missed.',
+    ],
     challenges: [
       { title: 'Stock is spread across sites', body: 'Stock shows quantities by warehouse, bin and batch in one view, with transfers tracked from send to receive.' },
       { title: 'Dispatch waits on paperwork', body: 'Delivery challans and e-way bills are created from the shipment, and dispatch is blocked until the e-way bill is active.' },
@@ -89,6 +100,11 @@ export const INDUSTRIES: Industry[] = [
     imageAlt: 'Separate client pallets, a loading dock and delivery record illustrate third-party logistics.',
     products: ['warehouse-inventory-management', 'ai-document-ocr', 'asset-management-software'],
     wins: ['Separate stock per client owner', 'Pallet (LPN) tracking and scanning', 'Delivery documents read by AI'],
+    overview: [
+      'In OrbitPi Stock every stock line carries an owner, so each 3PL client’s inventory and reports stay separate inside a shared warehouse. Client rate cards and SLA tracking are included.',
+      'Pallets and cartons carry license plate numbers (LPNs) that are received, moved, split and merged by scan, and orders ship with manifests, gate passes and LR consignments.',
+      'OrbitPi DocAI reads lorry receipts and proof-of-delivery documents into structured data for billing, while OrbitPi Assets tracks forklifts, scanners and racks with QR tags and AMC cover.',
+    ],
     challenges: [
       { title: 'Many clients, one warehouse', body: 'Every stock line in Stock carries an owner, so each client’s inventory and reports stay separate.' },
       { title: 'Paperwork slows billing', body: 'DocAI reads the delivery documents you define, such as lorry receipts and proof of delivery, into structured data.' },
@@ -116,8 +132,13 @@ export const INDUSTRIES: Industry[] = [
     h1: 'Inventory software for retail and e-commerce',
     intro: 'Keep store and warehouse stock accurate, reserve stock for every open order, and process returns without losing track.',
     imageAlt: 'Online product listings connect to packing, barcode scanning and organized stock.',
-    products: ['warehouse-inventory-management', 'lead-management-ai-voice-agent', 'ai-document-ocr'],
+    products: ['warehouse-inventory-management', 'lead-management-software', 'ai-document-ocr'],
     wins: ['Stock by store, warehouse and bin', 'Stock reserved for open orders', 'Returns and RTO handled with serials'],
+    overview: [
+      'OrbitPi Stock tracks retail and e-commerce inventory by store, warehouse and bin, and reserves stock for every open order so the same unit is never promised twice.',
+      'Orders are picked in waves and packed with scan verification. Customer returns, RMAs and RTO shipments are inspected before stock is available again, with serial numbers tracked through sale and return.',
+      'OrbitPi DocAI reads supplier invoices and credit notes into data your accounts team can review and export.',
+    ],
     challenges: [
       { title: 'Overselling', body: 'Stock reserves quantities for open orders, so available stock stays accurate across locations.' },
       { title: 'Returns and RTO', body: 'Customer returns, RMAs and return-to-origin shipments are recorded, and serial numbers are tracked through sale and return.' },
@@ -147,6 +168,11 @@ export const INDUSTRIES: Industry[] = [
     imageAlt: 'Medicine batches, an expiry calendar and tagged equipment illustrate pharmacy stock and maintenance.',
     products: ['warehouse-inventory-management', 'asset-management-software', 'ai-document-ocr'],
     wins: ['Batch, expiry and recall control', 'Equipment register with QR tags', 'Purchase documents captured by AI'],
+    overview: [
+      'OrbitPi Stock receives medicine batches with their expiry dates, enforces minimum shelf life and allocates earliest expiry first, with near-expiry filters at 30, 60, 90 or 180 days.',
+      'If a batch is recalled, it is quarantined where it sits, the consignees who received it are listed and WhatsApp alerts can be sent.',
+      'OrbitPi Assets keeps a QR-tagged register of medical equipment with warranties, AMC contracts, service history and calibration certificates, and DocAI reads supplier invoices and delivery documents for review.',
+    ],
     challenges: [
       { title: 'Expired stock', body: 'Stock filters near-expiry batches, allocates earliest expiry first and enforces minimum shelf life at receipt.' },
       { title: 'Recalls', body: 'A recalled batch is quarantined where it sits, the affected consignees are listed and WhatsApp alerts can be sent.' },
@@ -174,8 +200,13 @@ export const INDUSTRIES: Industry[] = [
     h1: 'Real estate lead management and document software',
     intro: 'Capture every property enquiry with its campaign source, get it to the right rep fast, and turn KYC paperwork into records.',
     imageAlt: 'Property enquiries connect to a contact pipeline, appointment calendar and residential buildings.',
-    products: ['lead-management-ai-voice-agent', 'ai-document-ocr'],
+    products: ['lead-management-software', 'ai-document-ocr'],
     wins: ['Every enquiry captured with its campaign', 'Leads routed to the right branch and rep', 'KYC documents read into records'],
+    overview: [
+      'OrbitPi Leads captures every property enquiry from your website form and site-visit walk-ins with its UTM tags, ad click ID and landing page, so you can see which campaigns bring buyers.',
+      'Routing rules and round-robin send each lead to an available rep at the right branch. Reps log calls, send approved WhatsApp templates and get follow-up reminders, with SLA warnings if nobody responds in time.',
+      'OrbitPi DocAI reads PAN cards and your own application and booking forms into records, with a consent prompt for identity documents and a review step before export.',
+    ],
     challenges: [
       { title: 'Enquiry spikes', body: 'Leads captures every enquiry, removes duplicates and routes it by rule, with SLA warnings if nobody responds in time.' },
       { title: 'Which campaign works?', body: 'Every lead from your web form carries its UTM tags, ad click ID and landing page, so you can see which campaigns bring buyers.' },

@@ -4,29 +4,39 @@ import Breadcrumbs from '@/components/Breadcrumbs.astro';
 import SectionHeading from '@/components/SectionHeading.astro';
 import ImageFrame from '@/components/ImageFrame.astro';
 import CtaBanner from '@/components/CtaBanner.astro';
+import Faq from '@/components/Faq.astro';
 import { INDUSTRIES, industryHref } from '@/lib/industries';
+import { getProduct, productHref, type Product } from '@/lib/products';
 import { absoluteUrl } from '@/lib/site';
-import { graph, webPage, breadcrumbs, itemList } from '@/lib/schema';
+import { graph, webPage, breadcrumbs, itemList, faqPage } from '@/lib/schema';
 
-const title = 'Industries We Serve | OrbitPi AI Business Software for India';
-const description = 'See how OrbitPi AI software helps Indian manufacturers, distributors, 3PLs, retailers, pharma and healthcare businesses, and real estate sales teams.';
+const title = 'Business Software by Industry for Indian Companies | OrbitPi';
+const description = 'Business software by industry: which OrbitPi products fit manufacturers, distributors, 3PLs, retail, pharma and real estate teams in India.';
+const faqs = [
+  { q: 'Which industries does OrbitPi software support?', a: 'OrbitPi has workflow pages for manufacturing, distribution and wholesale, 3PL and logistics, retail and e-commerce, healthcare and pharma, and real estate. The products are not limited to these industries: any business that needs document OCR, warehouse inventory, lead management or fixed asset management can use them.' },
+  { q: 'Which OrbitPi product should I start with?', a: 'Start with the workflow that takes the most manual effort or causes the most errors today, such as retyping supplier invoices, stock that does not match the books, missed enquiries or an out-of-date asset register. Each product works on its own, and you can add others later on the same platform.' },
+  { q: 'Can one business use several OrbitPi products?', a: 'Yes. All products run on the same platform with shared users, branches and roles, and suite pricing applies when you use two or more.' },
+  { q: 'Is OrbitPi built for Indian compliance requirements?', a: 'Yes. The products handle GSTINs, HSN codes, e-way bills, delivery challans, GST e-invoice QR checks and CARO physical verification, depending on the product.' },
+];
+const rows = INDUSTRIES.map((i) => ({ ...i, mods: i.products.map((s) => getProduct(s)).filter((p): p is Product => Boolean(p)) }));
 const crumbs = [{ name: 'Home', path: '/' }, { name: 'Industries', path: '/industries/' }];
 const schema = graph(
   webPage(absoluteUrl('/industries/'), title, description, 'CollectionPage'),
   breadcrumbs(crumbs),
   itemList('Industries served by OrbitPi', INDUSTRIES.map((i) => ({ name: i.name, path: industryHref(i.slug) }))),
+  faqPage(faqs),
 );
 ---
 
 <BaseLayout title={title} description={description} schema={schema}>
   <Breadcrumbs items={crumbs} />
   <section class="container-page flex flex-col gap-12 pb-24 pt-12">
-    <SectionHeading as="h1" eyebrow="Industries" title="AI back-office software built for your industry" lead="See how OrbitPi products fit the way your business already works." />
+    <SectionHeading as="h1" eyebrow="Industries" title="Business software by industry" lead="OrbitPi builds document OCR, warehouse inventory, lead management and fixed asset software for Indian businesses. Pick your industry to see the workflows each product handles and the problems it solves." />
     <ul class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {INDUSTRIES.map((ind) => (
+      {INDUSTRIES.map((ind, i) => (
         <li>
           <a href={industryHref(ind.slug)} class="group flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-white transition hover:shadow-card">
-            <ImageFrame src={`/images/industries/${ind.slug}-card.webp`} srcset={`/images/industries/${ind.slug}-card-480.webp 480w, /images/industries/${ind.slug}-card.webp 960w`} sizes="(min-width:1440px) 452px, (min-width:1024px) calc((100vw - 80px)/3), (min-width:768px) calc((100vw - 64px)/2), calc(100vw - 48px)" alt={ind.imageAlt} width={960} height={600} fit="contain" class="aspect-[16/10]" />
+            <ImageFrame src={`/images/industries/${ind.slug}-card.webp`} srcset={`/images/industries/${ind.slug}-card-480.webp 480w, /images/industries/${ind.slug}-card-640.webp 640w, /images/industries/${ind.slug}-card.webp 960w`} sizes="(min-width:1440px) 452px, (min-width:1024px) calc((100vw - 80px)/3), (min-width:768px) calc((100vw - 64px)/2), calc(100vw - 48px)" alt={ind.imageAlt} width={960} height={600} fit="contain" eager={i === 0} class="aspect-[16/10]" />
             <div class="flex flex-1 flex-col gap-2 p-5">
               <h2 class="flex items-center justify-between text-lg font-semibold">{ind.name}<span aria-hidden="true" class="text-brand transition group-hover:translate-x-0.5">→</span></h2>
               <p class="text-[14.5px] leading-relaxed text-ink-500">{ind.intro}</p>
@@ -36,5 +46,29 @@ const schema = graph(
       ))}
     </ul>
   </section>
+
+  <section aria-labelledby="compare-title" class="border-y border-line bg-mist">
+    <div class="container-page flex flex-col gap-8 py-24">
+      <SectionHeading id="compare-title" title="Which OrbitPi products fit your industry?" align="left" lead="The main workflows OrbitPi handles in each industry, and the products that cover them, most relevant first." />
+      <div class="overflow-x-auto rounded-2xl border border-line bg-white">
+        <table class="w-full min-w-[640px] border-collapse text-left text-[14.5px]">
+          <caption class="sr-only">OrbitPi products and workflows by industry</caption>
+          <thead><tr class="border-b border-line"><th scope="col" class="px-5 py-3.5 font-semibold">Industry</th><th scope="col" class="px-5 py-3.5 font-semibold">Workflows covered</th><th scope="col" class="px-5 py-3.5 font-semibold">Products</th></tr></thead>
+          <tbody>
+            {rows.map((r) => (
+              <tr class="border-b border-line align-top last:border-0">
+                <th scope="row" class="px-5 py-4 font-medium"><a href={industryHref(r.slug)} class="text-brand hover:underline">{r.name}</a></th>
+                <td class="px-5 py-4 text-ink-700"><ul class="flex flex-col gap-1">{r.wins.map((w) => <li>{w}</li>)}</ul></td>
+                <td class="px-5 py-4"><ul class="flex flex-col gap-1">{r.mods.map((m) => <li><a href={productHref(m.slug)} class="text-ink-700 hover:text-brand">{m.fullName}</a></li>)}</ul></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="text-[15px] leading-relaxed text-ink-500">Industry not listed? The products are not industry-specific. See the <a href="/products/" class="font-medium text-brand hover:underline">full product range</a> or read our <a href="/guides/" class="font-medium text-brand hover:underline">guides to GST, inventory and fixed assets</a>.</p>
+    </div>
+  </section>
+
+  <Faq faqs={faqs} title="Business software by industry: FAQ" />
   <CtaBanner />
 </BaseLayout>
