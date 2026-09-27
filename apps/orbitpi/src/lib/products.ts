@@ -9,7 +9,9 @@ export type ProductStatus = 'available' | 'coming-soon';
 
 export interface Faq { q: string; a: string }
 export interface Block { title: string; body: string }
-export interface Illustration { src: string; srcSmall: string; alt: string; width: number; height: number }
+export interface CardImage { src: string; srcSmall: string; width: number; height: number }
+// Wide workflow artwork on the product page; `card` is the 16:10 crop-free export for primary product cards (same alt).
+export interface Illustration { src: string; srcSmall: string; alt: string; width: number; height: number; card?: CardImage }
 
 export interface Product {
   slug: string;
@@ -58,9 +60,10 @@ export const PRODUCTS: Product[] = [
     image: {
       src: '/images/products/ai-document-ocr.webp',
       srcSmall: '/images/products/ai-document-ocr-640.webp',
-      alt: 'Stack of paper invoices passing through a scanning frame and coming out as a structured data card with vendor, invoice number, date, amount and GSTIN fields',
+      alt: 'Paper documents pass through a scanning frame into structured fields, with one field highlighted for human review.',
       width: 1254,
       height: 590,
+      card: { src: '/images/products/ai-document-ocr-card.webp', srcSmall: '/images/products/ai-document-ocr-card-400.webp', width: 800, height: 500 },
     },
     features: [
       { title: 'Intake from anywhere', body: 'Upload single files, batches or ZIP archives, send documents to email intake, or point DocAI at a watched folder. Duplicate files are caught by fingerprint.' },
@@ -120,9 +123,10 @@ export const PRODUCTS: Product[] = [
     image: {
       src: '/images/products/warehouse-inventory-management.webp',
       srcSmall: '/images/products/warehouse-inventory-management-640.webp',
-      alt: 'Cardboard cartons moving through a blue frame into an inventory card where every item has a tracked status',
+      alt: 'Labelled cartons, a barcode scanner and an inventory record illustrate tracked warehouse stock.',
       width: 1254,
       height: 590,
+      card: { src: '/images/products/warehouse-inventory-management-card.webp', srcSmall: '/images/products/warehouse-inventory-management-card-400.webp', width: 800, height: 500 },
     },
     features: [
       { title: 'Warehouses, zones and bins', body: 'Model each warehouse as zones and bins, generate racks in bulk, block bins when needed, and see stock on hand by exact position.' },
@@ -182,9 +186,10 @@ export const PRODUCTS: Product[] = [
     image: {
       src: '/images/products/lead-management-ai-voice-agent.webp',
       srcSmall: '/images/products/lead-management-ai-voice-agent-640.webp',
-      alt: 'A phone call bubble connected to a lead pipeline with New leads, In conversation and Follow up columns',
+      alt: 'An enquiry form feeds contact cards through a lead pipeline to a follow-up calendar.',
       width: 1254,
       height: 570,
+      card: { src: '/images/products/lead-management-ai-voice-agent-card.webp', srcSmall: '/images/products/lead-management-ai-voice-agent-card-400.webp', width: 800, height: 500 },
     },
     features: [
       { title: 'Capture with source tracking', body: 'A hosted web form records UTM tags, Google and Meta click IDs, referrer and landing page, blocks spam and removes duplicates. Walk-ins and imports follow the same rules.' },
@@ -245,6 +250,14 @@ export const PRODUCTS: Product[] = [
       'Assets keeps one register for laptops, machines, vehicles and equipment. Tag them with QR codes, assign and transfer them with approvals, schedule maintenance, track AMCs and warranties, and give auditors a fixed asset register they can trust.',
     summary: 'Tag, assign, maintain and verify every asset.',
     highlights: ['QR tags with a scan-to-report page', 'AMC, warranty and insurance alerts', 'Depreciation and CARO verification'],
+    image: {
+      src: '/images/products/asset-management-software.webp',
+      srcSmall: '/images/products/asset-management-software-640.webp',
+      alt: 'A tagged laptop and industrial motor connect to an asset register and scanning phone.',
+      width: 1254,
+      height: 590,
+      card: { src: '/images/products/asset-management-software-card.webp', srcSmall: '/images/products/asset-management-software-card-400.webp', width: 800, height: 500 },
+    },
     features: [
       { title: 'Fixed asset register', body: 'Record category, model, serial number, location, condition and status, with custom fields, parent and child components, and bulk import with an error report.' },
       { title: 'QR code tagging', body: 'Print QR label sheets in batches. Scanning opens the asset’s page, where anyone can report a problem without logging in.' },
@@ -300,6 +313,14 @@ export const PRODUCTS: Product[] = [
       'Ledger is double-entry accounting that is being designed around how Indian finance teams already work: familiar voucher types, a Day Book and trial balance, bank reconciliation, and export to Tally. It is not available yet.',
     summary: 'Double-entry accounting, now in development.',
     highlights: ['Voucher types, Day Book and trial balance', 'Bank statement import and reconciliation', 'Planned export to Tally Prime'],
+    image: {
+      src: '/images/products/accounting-software.webp',
+      srcSmall: '/images/products/accounting-software-640.webp',
+      alt: 'Concept illustration of a ledger, vouchers, calculator and balanced accounts; Ledger is coming soon.',
+      width: 1254,
+      height: 590,
+      card: { src: '/images/products/accounting-software-card.webp', srcSmall: '/images/products/accounting-software-card-400.webp', width: 800, height: 500 },
+    },
     features: [
       { title: 'Familiar voucher types', body: 'Sales, purchase, receipt, payment, contra and journal vouchers with gapless number series.' },
       { title: 'Day Book and trial balance', body: 'A Day Book that follows the Tally way of working, and a trial balance for any period.' },

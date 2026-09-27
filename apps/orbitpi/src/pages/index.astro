@@ -71,7 +71,7 @@ const schema = graph(
   <section id="products" aria-labelledby="products-title" class="container-page flex flex-col gap-12 py-24">
     <SectionHeading eyebrow="Products" id="products-title" title="Four products today. One more on the way." lead="Each product solves one job well and runs on the same OrbitPi platform, with shared users, branches and roles." />
     <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {PRODUCTS.map((p) => <ProductCard product={p} />)}
+      {PRODUCTS.map((p) => <ProductCard product={p} showImage />)}
       <a href="/contact/" class="flex flex-col justify-between gap-6 rounded-[18px] bg-ink bg-[radial-gradient(80%_60%_at_100%_0%,rgba(47,75,255,0.45),rgba(47,75,255,0))] p-7 text-white hover:text-white">
         <span class="flex flex-col gap-2.5"><span class="text-2xl font-semibold leading-tight tracking-[-0.03em]">Run several as one suite</span><span class="text-[15px] leading-normal text-[#B9BDC9]">One platform, shared users and branches, bundle pricing.</span></span>
         <span class="self-start rounded-[10px] bg-white px-[18px] py-[11px] text-sm font-medium text-ink">Book a suite demo</span>
@@ -91,6 +91,9 @@ const schema = graph(
 
   <section aria-labelledby="how-title" class="container-page flex flex-col gap-12 py-24">
     <SectionHeading eyebrow="How it works" id="how-title" title="Less typing, fewer missed steps" />
+    <figure class="overflow-hidden rounded-[20px] border border-line bg-[#FCFAF4]">
+      <img src="/images/platform/capture-check-review-report.webp" srcset="/images/platform/capture-check-review-report-800.webp 800w, /images/platform/capture-check-review-report.webp 1600w" sizes="(min-width:1440px) 1390px, calc(100vw - 50px)" alt="Documents move through capture, checking, human review and structured reporting." width="1600" height="600" loading="lazy" decoding="async" class="block h-auto w-full" />
+    </figure>
     <ol class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
       {steps.map((s, i) => (
         <li class="flex flex-col gap-3 rounded-2xl border border-line p-6">

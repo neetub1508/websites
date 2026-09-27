@@ -29,7 +29,7 @@ const schema = graph(
   <section class="container-page flex flex-col gap-12 pb-24 pt-12">
     <SectionHeading as="h1" eyebrow="Products" title="AI software for every part of the back office" lead="Four products available today and one in development. Each works on its own, and all run on the same OrbitPi platform with shared users, branches and roles." />
     <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {PRODUCTS.map((p) => <ProductCard product={p} headingLevel="h2" />)}
+      {PRODUCTS.map((p) => <ProductCard product={p} headingLevel="h2" showImage />)}
     </div>
   </section>
 

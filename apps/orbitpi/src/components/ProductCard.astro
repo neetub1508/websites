@@ -1,8 +1,10 @@
 ---
 import ProductBadge from '@/components/ProductBadge.astro';
 import { productHref, isAvailable, type Product } from '@/lib/products';
-interface Props { product: Product; headingLevel?: 'h2' | 'h3' }
-const { product: p, headingLevel: H = 'h3' } = Astro.props;
+// showImage adds the 16:10 product artwork; off by default so related-product lists stay compact.
+interface Props { product: Product; headingLevel?: 'h2' | 'h3'; showImage?: boolean }
+const { product: p, headingLevel: H = 'h3', showImage = false } = Astro.props;
+const card = showImage ? p.image?.card : undefined;
 const accent = p.theme === 'ledger' ? '#2F4BFF' : p.color;
 ---
 
@@ -14,6 +16,9 @@ const accent = p.theme === 'ledger' ? '#2F4BFF' : p.color;
       <span class="flex items-center gap-2 text-[13px] text-ink-400">{p.category}{!isAvailable(p) && <span class="rounded-full bg-[#FFF4E0] px-2 py-px text-[11px] font-medium text-[#9A5B00]">Coming soon</span>}</span>
     </div>
   </div>
+  {card && (
+    <img src={card.src} srcset={`${card.srcSmall} 400w, ${card.src} ${card.width}w`} sizes="(min-width:1440px) 396px, (min-width:1024px) calc((100vw - 254px)/3), (min-width:768px) calc((100vw - 180px)/2), calc(100vw - 106px)" alt={p.image!.alt} width={card.width} height={card.height} loading="lazy" decoding="async" class="block aspect-[16/10] h-auto w-full rounded-2xl bg-[#FCFAF4] object-contain" />
+  )}
   <p class="text-base leading-normal text-ink-700">{p.summary}</p>
   <ul class="flex flex-col gap-2 text-sm text-ink-700">
     {p.highlights.map((h) => <li class="flex gap-2"><span aria-hidden="true" style={`color:${accent}`}>✓</span>{h}</li>)}

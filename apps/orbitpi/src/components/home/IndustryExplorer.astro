@@ -30,7 +30,7 @@ const items = INDUSTRIES.map((ind) => ({
     {items.map((ind, i) => (
       <article role="tabpanel" id={`ind-panel-${i}`} aria-labelledby={`ind-tab-${i}`} data-panel={i} hidden={i !== 0}
         class="grid h-full overflow-hidden rounded-[20px] border border-line-strong bg-white shadow-[0_30px_60px_-32px_rgba(21,32,90,0.25)] md:grid-cols-2">
-        <ImageFrame src={`/images/industries/${ind.slug}.svg`} alt={`Illustration of ${ind.name.toLowerCase()} operations managed with OrbitPi`} width={1200} height={900} fit="contain" class="min-h-[260px] md:min-h-full" />
+        <ImageFrame src={`/images/industries/${ind.slug}.webp`} srcset={`/images/industries/${ind.slug}-640.webp 640w, /images/industries/${ind.slug}.webp 1200w`} sizes="(min-width:1440px) 546px, (min-width:828px) calc((100vw - 348px)/2), (min-width:768px) calc((100vw - 48px)/2), calc(100vw - 48px)" alt={ind.imageAlt} width={1200} height={900} fit="contain" class="min-h-[260px] md:min-h-full" />
         <div class="flex flex-col gap-5 p-7">
           <div class="flex flex-col gap-2">
             <h3 class="text-2xl font-semibold tracking-[-0.03em]">{ind.name}</h3>

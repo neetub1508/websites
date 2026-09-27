@@ -2,13 +2,15 @@
 // Responsive image frame. Drop real photos into public/images/... at the given path.
 // If the file is missing, the frame shows a neutral gradient instead of a broken icon.
 // fit="contain" shows the whole illustration on a matching ivory background instead of cropping it.
-interface Props { src: string; alt: string; width?: number; height?: number; class?: string; eager?: boolean; fit?: 'cover' | 'contain' }
-const { src, alt, width = 1200, height = 800, class: cls = '', eager = false, fit = 'cover' } = Astro.props;
+interface Props { src: string; alt: string; width?: number; height?: number; class?: string; eager?: boolean; fit?: 'cover' | 'contain'; srcset?: string; sizes?: string }
+const { src, alt, width = 1200, height = 800, class: cls = '', eager = false, fit = 'cover', srcset, sizes } = Astro.props;
 ---
 
 <div class:list={['relative overflow-hidden', fit === 'contain' ? 'bg-[radial-gradient(90%_90%_at_25%_15%,#FFFFFF_0%,#F4F1E8_100%)]' : 'bg-gradient-to-br from-[#EEF1FF] via-mist to-[#E6F6F1]', cls]}>
   <img
     src={src}
+    srcset={srcset}
+    sizes={sizes}
     alt={alt}
     width={width}
     height={height}

@@ -26,7 +26,7 @@ const schema = graph(
       {INDUSTRIES.map((ind) => (
         <li>
           <a href={industryHref(ind.slug)} class="group flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-white transition hover:shadow-card">
-            <ImageFrame src={`/images/industries/${ind.slug}.svg`} alt={`Illustration of a ${ind.name.toLowerCase()} business using OrbitPi`} width={1200} height={900} fit="contain" class="aspect-[16/10]" />
+            <ImageFrame src={`/images/industries/${ind.slug}-card.webp`} srcset={`/images/industries/${ind.slug}-card-480.webp 480w, /images/industries/${ind.slug}-card.webp 960w`} sizes="(min-width:1440px) 452px, (min-width:1024px) calc((100vw - 80px)/3), (min-width:768px) calc((100vw - 64px)/2), calc(100vw - 48px)" alt={ind.imageAlt} width={960} height={600} fit="contain" class="aspect-[16/10]" />
             <div class="flex flex-1 flex-col gap-2 p-5">
               <h2 class="flex items-center justify-between text-lg font-semibold">{ind.name}<span aria-hidden="true" class="text-brand transition group-hover:translate-x-0.5">→</span></h2>
               <p class="text-[14.5px] leading-relaxed text-ink-500">{ind.intro}</p>

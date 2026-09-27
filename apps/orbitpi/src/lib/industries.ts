@@ -11,6 +11,7 @@ export interface Industry {
   metaDescription: string;
   h1: string;
   intro: string;
+  imageAlt: string; // shared alt for /images/industries/<slug>*.webp (hero, card and home explorer)
   products: string[]; // product slugs, most relevant first
   wins: string[];
   challenges: Block[];
@@ -27,6 +28,7 @@ export const INDUSTRIES: Industry[] = [
     metaDescription: 'OrbitPi helps Indian manufacturers track raw material by batch and bin, maintain plant machinery with AMC tracking and read supplier invoices with AI OCR.',
     h1: 'Inventory, asset and document software for manufacturers',
     intro: 'Track raw material by batch and bin, keep plant machinery serviced, and turn supplier invoices into clean data without retyping.',
+    imageAlt: 'A CNC machine, raw metal stock and tagged motor illustrate manufacturing inventory and maintenance.',
     products: ['warehouse-inventory-management', 'asset-management-software', 'ai-document-ocr'],
     wins: ['Raw material tracked by batch and bin', 'Machines serviced on schedule, AMCs tracked', 'Supplier invoices read into clean data'],
     challenges: [
@@ -55,6 +57,7 @@ export const INDUSTRIES: Industry[] = [
     metaDescription: 'OrbitPi gives Indian distributors and wholesalers live stock across warehouses, e-way bills and delivery challans, and routed follow-up of every dealer enquiry.',
     h1: 'Software for distributors and wholesalers',
     intro: 'Run stock across warehouses and branches, ship with the right GST paperwork, and follow up every dealer enquiry on time.',
+    imageAlt: 'Warehouse racks, pallets, delivery records and a van illustrate wholesale receiving and dispatch.',
     products: ['warehouse-inventory-management', 'lead-management-ai-voice-agent', 'ai-document-ocr'],
     wins: ['Live stock across warehouses and branches', 'E-way bills and delivery challans built in', 'Every dealer enquiry routed and followed up'],
     challenges: [
@@ -83,6 +86,7 @@ export const INDUSTRIES: Industry[] = [
     metaDescription: 'OrbitPi helps 3PL and logistics companies keep client-owned stock separate, track pallets by LPN and read delivery documents with AI OCR.',
     h1: 'Warehouse and document software for 3PL and logistics',
     intro: 'Hold stock for many clients in one warehouse, move whole pallets by scan, and turn delivery paperwork into data.',
+    imageAlt: 'Separate client pallets, a loading dock and delivery record illustrate third-party logistics.',
     products: ['warehouse-inventory-management', 'ai-document-ocr', 'asset-management-software'],
     wins: ['Separate stock per client owner', 'Pallet (LPN) tracking and scanning', 'Delivery documents read by AI'],
     challenges: [
@@ -111,6 +115,7 @@ export const INDUSTRIES: Industry[] = [
     metaDescription: 'OrbitPi helps retail and e-commerce businesses track stock by store and warehouse, reserve stock for orders and handle returns, RMAs and RTO with serials.',
     h1: 'Inventory software for retail and e-commerce',
     intro: 'Keep store and warehouse stock accurate, reserve stock for every open order, and process returns without losing track.',
+    imageAlt: 'Online product listings connect to packing, barcode scanning and organized stock.',
     products: ['warehouse-inventory-management', 'lead-management-ai-voice-agent', 'ai-document-ocr'],
     wins: ['Stock by store, warehouse and bin', 'Stock reserved for open orders', 'Returns and RTO handled with serials'],
     challenges: [
@@ -139,6 +144,7 @@ export const INDUSTRIES: Industry[] = [
     metaDescription: 'OrbitPi helps healthcare and pharma businesses track batches, expiry and recalls, and manage medical equipment with QR tags, AMCs and calibration records.',
     h1: 'Batch tracking and asset software for healthcare and pharma',
     intro: 'Track batches, expiry dates and recalls, and keep costly medical equipment serviced and calibrated.',
+    imageAlt: 'Medicine batches, an expiry calendar and tagged equipment illustrate pharmacy stock and maintenance.',
     products: ['warehouse-inventory-management', 'asset-management-software', 'ai-document-ocr'],
     wins: ['Batch, expiry and recall control', 'Equipment register with QR tags', 'Purchase documents captured by AI'],
     challenges: [
@@ -167,6 +173,7 @@ export const INDUSTRIES: Industry[] = [
     metaDescription: 'OrbitPi helps real estate teams capture every property enquiry with its campaign source, route it to the right rep, follow up on time and read KYC documents.',
     h1: 'Real estate lead management and document software',
     intro: 'Capture every property enquiry with its campaign source, get it to the right rep fast, and turn KYC paperwork into records.',
+    imageAlt: 'Property enquiries connect to a contact pipeline, appointment calendar and residential buildings.',
     products: ['lead-management-ai-voice-agent', 'ai-document-ocr'],
     wins: ['Every enquiry captured with its campaign', 'Leads routed to the right branch and rep', 'KYC documents read into records'],
     challenges: [

@@ -70,7 +70,7 @@ const schema = graph(
     <SectionHeading id="how-title" eyebrow="How it works" title={`How ${p.fullName} works`} />
     {p.image && (
       <figure class="overflow-hidden rounded-[20px] border border-line bg-[#FCFAF4]">
-        <img src={p.image.src} srcset={`${p.image.srcSmall} 640w, ${p.image.src} ${p.image.width}w`} sizes="(min-width: 1440px) 1392px, 100vw" alt={p.image.alt} width={p.image.width} height={p.image.height} loading="lazy" decoding="async" class="mx-auto h-auto w-full max-w-[1000px]" />
+        <img src={p.image.src} srcset={`${p.image.srcSmall} 640w, ${p.image.src} ${p.image.width}w`} sizes="(min-width:1048px) 1000px, calc(100vw - 50px)" alt={p.image.alt} width={p.image.width} height={p.image.height} loading="lazy" decoding="async" class="mx-auto h-auto w-full max-w-[1000px]" />
       </figure>
     )}
     <ol class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -110,6 +110,9 @@ const schema = graph(
         <p class="text-xs font-semibold uppercase tracking-wider text-[#9A5B00]">Coming soon</p>
         <h2 id="upcoming-title" class="text-2xl font-semibold tracking-[-0.03em]">{p.upcoming.title}</h2>
         <p class="max-w-3xl text-[16px] leading-relaxed text-ink-700">{p.upcoming.body}</p>
+        {p.theme === 'leads' && (
+          <img src="/images/features/voice-ai-coming-soon.webp" srcset="/images/features/voice-ai-coming-soon-640.webp 640w, /images/features/voice-ai-coming-soon.webp 1200w" sizes="(min-width:578px) 480px, calc(100vw - 98px)" alt="Concept illustration of a voice waveform, phone and contact cards; the AI voice agent is coming soon." width="1200" height="900" loading="lazy" decoding="async" class="mt-3 block aspect-[4/3] h-auto w-full max-w-[480px] rounded-2xl bg-[#FCFAF4] object-contain" />
+        )}
       </div>
     </section>
   )}

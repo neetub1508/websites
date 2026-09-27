@@ -37,7 +37,7 @@ const schema = graph(webPage(absoluteUrl(path), ind.metaTitle, ind.metaDescripti
       </ul>
       <a href="/contact/" class="btn-primary">Book a demo</a>
     </div>
-    <ImageFrame src={`/images/industries/${ind.slug}.svg`} alt={`Illustration of ${ind.name.toLowerCase()} operations managed with OrbitPi`} width={1200} height={900} fit="contain" eager class="aspect-[4/3] rounded-[20px] border border-line-strong" />
+    <ImageFrame src={`/images/industries/${ind.slug}.webp`} srcset={`/images/industries/${ind.slug}-640.webp 640w, /images/industries/${ind.slug}.webp 1200w`} sizes="(min-width:1440px) 672px, (min-width:1024px) calc((100vw - 96px)/2), calc(100vw - 48px)" alt={ind.imageAlt} width={1200} height={900} fit="contain" eager class="aspect-[4/3] rounded-[20px] border border-line-strong" />
   </section>
 
   <section aria-labelledby="challenges-title" class="border-y border-line bg-mist">
