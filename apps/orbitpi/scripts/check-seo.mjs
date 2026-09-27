@@ -38,7 +38,7 @@ for (const [route, source] of pages) {
   check(Boolean(title), `${route}: missing title`);
   check(Boolean(description), `${route}: missing description`);
   check((source.match(/<h1\b/g) || []).length === 1, `${route}: expected one H1`);
-  check(tags(source, 'html')[0]?.lang === 'en-IN', `${route}: incorrect document language`);
+  check(tags(source, 'html')[0]?.lang === 'en', `${route}: incorrect document language`);
   const canonicals = tags(source, 'link').filter((l) => l.rel === 'canonical');
   if (noindex) {
     // Noindex pages (404, thank-you) have no indexable URL, so no canonical or og:url.

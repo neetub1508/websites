@@ -10,13 +10,13 @@ import { getProduct, productHref, type Product } from '@/lib/products';
 import { absoluteUrl } from '@/lib/site';
 import { graph, webPage, breadcrumbs, itemList, faqPage } from '@/lib/schema';
 
-const title = 'Business Software by Industry for Indian Companies | OrbitPi';
-const description = 'Business software by industry: which OrbitPi products fit manufacturers, distributors, 3PLs, retail, pharma and real estate teams in India.';
+const title = 'Business Software by Industry for Operations Teams | OrbitPi';
+const description = 'Business software by industry: which OrbitPi products fit manufacturers, distributors, 3PLs, retail, pharma and real estate teams.';
 const faqs = [
   { q: 'Which industries does OrbitPi software support?', a: 'OrbitPi has workflow pages for manufacturing, distribution and wholesale, 3PL and logistics, retail and e-commerce, healthcare and pharma, and real estate. The products are not limited to these industries: any business that needs document OCR, warehouse inventory, lead management or fixed asset management can use them.' },
   { q: 'Which OrbitPi product should I start with?', a: 'Start with the workflow that takes the most manual effort or causes the most errors today, such as retyping supplier invoices, stock that does not match the books, missed enquiries or an out-of-date asset register. Each product works on its own, and you can add others later on the same platform.' },
   { q: 'Can one business use several OrbitPi products?', a: 'Yes. All products run on the same platform with shared users, branches and roles, and suite pricing applies when you use two or more.' },
-  { q: 'Is OrbitPi built for Indian compliance requirements?', a: 'Yes. The products handle GSTINs, HSN codes, e-way bills, delivery challans, GST e-invoice QR checks and CARO physical verification, depending on the product.' },
+  { q: 'Does OrbitPi support Indian compliance requirements?', a: 'Yes. For businesses in India, the products handle GSTINs, HSN codes, e-way bills, delivery challans, GST e-invoice QR checks and CARO physical verification, depending on the product.' },
 ];
 const rows = INDUSTRIES.map((i) => ({ ...i, mods: i.products.map((s) => getProduct(s)).filter((p): p is Product => Boolean(p)) }));
 const crumbs = [{ name: 'Home', path: '/' }, { name: 'Industries', path: '/industries/' }];
@@ -31,7 +31,7 @@ const schema = graph(
 <BaseLayout title={title} description={description} schema={schema}>
   <Breadcrumbs items={crumbs} />
   <section class="container-page flex flex-col gap-12 pb-24 pt-12">
-    <SectionHeading as="h1" title="Business software by industry" lead="OrbitPi builds document OCR, warehouse inventory, lead management and fixed asset software for Indian businesses. Pick your industry to see the workflows each product handles and the problems it solves." />
+    <SectionHeading as="h1" title="Business software by industry" lead="OrbitPi builds document OCR, warehouse inventory, lead management and fixed asset software for operations teams. Pick your industry to see the workflows each product handles and the problems it solves." />
     <ul class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
       {INDUSTRIES.map((ind, i) => (
         <li>

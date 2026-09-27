@@ -27,7 +27,7 @@ const faqs = [
   { q: 'Can I start with one product and add more later?', a: 'Yes. You can add products at any time on the same platform, with the same users, branches and roles.' },
   { q: 'Is there a free demo?', a: 'Yes. Book a demo and we will run OrbitPi on a sample of your own documents or data.' },
   { q: 'Do you offer pricing for large groups?', a: 'Yes. The Enterprise plan covers multiple branches and sites, integrations and a dedicated success manager.' },
-  { q: 'Is Ledger included in the pricing?', a: 'Not yet. OrbitPi Ledger is in development. Pricing covers the four available products: DocAI, Stock, Leads and Assets.' },
+  { q: 'Is Ledger included in the pricing?', a: 'Not yet. OrbitPi Ledger is in development. Pricing covers the four available products: DocAI, Inventory, Leads and Assets.' },
 ];
 
 const schema = graph(webPage(absoluteUrl('/pricing/'), title, description), breadcrumbs(crumbs), faqPage(faqs));
@@ -56,7 +56,7 @@ const schema = graph(webPage(absoluteUrl('/pricing/'), title, description), brea
     <ul class="grid gap-4 md:grid-cols-3">
       <li class="rounded-2xl border border-line p-6"><h3 class="text-lg font-semibold">Products and people</h3><p class="mt-2 text-[15px] leading-relaxed text-ink-500">List the products you need, team size, branches and locations. Distinguish the people who enter data from those who review, approve or report on it.</p></li>
       <li class="rounded-2xl border border-line p-6"><h3 class="text-lg font-semibold">Volume and setup</h3><p class="mt-2 text-[15px] leading-relaxed text-ink-500">Share approximate document volumes, stock items, enquiries or assets. Include opening-data imports, templates, approvals and any workflows you want to see in the demo.</p></li>
-      <li class="rounded-2xl border border-line p-6"><h3 class="text-lg font-semibold">Integrations and services</h3><p class="mt-2 text-[15px] leading-relaxed text-ink-500">Specify exports, messaging providers and GST compliance connections. Ask the team to itemise onboarding, support, taxes and any external provider charges in your quote.</p></li>
+      <li class="rounded-2xl border border-line p-6"><h3 class="text-lg font-semibold">Integrations and services</h3><p class="mt-2 text-[15px] leading-relaxed text-ink-500">Specify exports, messaging providers and compliance connections, such as a GST e-way bill provider in India. Ask the team to itemise onboarding, support, taxes and any external provider charges in your quote.</p></li>
     </ul>
   </section>
 

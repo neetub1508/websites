@@ -5,10 +5,10 @@ export const SITE = {
   name: 'OrbitPi',
   legalName: 'OrbitPi Technologies Pvt. Ltd.',
   url: 'https://orbitpi.com',
-  tagline: 'Business software for Indian companies',
+  tagline: 'Business software for operations teams',
   contactDetailsVerified: false,
   description:
-    'OrbitPi builds business software for Indian companies: AI document OCR, warehouse inventory, lead management and fixed assets. Explore products and book a demo.',
+    'OrbitPi builds business software for operations teams: AI document OCR, warehouse inventory, lead management and fixed asset management. Book a demo.',
   email: 'hello@orbitpi.com',
   salesEmail: 'sales@orbitpi.com',
   phone: '+91 124 400 0000',
@@ -24,7 +24,7 @@ export const SITE = {
   hours: 'Monday to Friday, 9:30 am to 6:30 pm IST',
   ogImage: '/og-image.png',
   logo: '/logo.png',
-  locale: 'en_IN',
+  locale: 'en_GB', // British English spelling, global audience
   foundingYear: 2026,
   // Official company profiles (LinkedIn, X, YouTube…). Listed in Organization schema as sameAs once added.
   sameAs: [] as string[],
@@ -49,6 +49,7 @@ export const COMPANY_LINKS: NavLink[] = [
   { label: 'About', href: '/about/' },
   { label: 'Guides', href: '/guides/' },
   { label: 'Pricing', href: '/pricing/' },
+  { label: 'For Indian businesses', href: '/india/' },
   { label: 'Contact', href: '/contact/' },
 ];
 

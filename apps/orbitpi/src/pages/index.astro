@@ -13,7 +13,7 @@ import { SITE, absoluteUrl } from '@/lib/site';
 import { graph, webPage, faqPage, itemList } from '@/lib/schema';
 
 const LIVE = PRODUCTS.filter(isAvailable);
-const title = 'Business Software for Indian Companies | OrbitPi';
+const title = 'OCR, Inventory, Lead & Asset Management Software | OrbitPi';
 const description = SITE.description;
 
 const steps = [
@@ -24,9 +24,9 @@ const steps = [
 ];
 
 const faqs = [
-  { q: 'What is OrbitPi?', a: 'OrbitPi is AI business software for Indian businesses. Four products are available today: DocAI for AI document OCR, Stock for warehouse inventory management, Leads for lead management and Assets for asset management. Ledger, for accounting, is in development.' },
+  { q: 'What is OrbitPi?', a: 'OrbitPi is business software for operations teams. Four products are available today: DocAI for AI document OCR, Inventory for warehouse and stock management, Leads for lead management and Assets for asset management. Ledger, for accounting, is in development.' },
   { q: 'Can I buy just one OrbitPi product?', a: 'Yes. Each product works on its own, and you can add more later on the same platform, with the same users, branches and roles.' },
-  { q: 'Is OrbitPi built for Indian businesses?', a: 'Yes. OrbitPi handles GSTINs, HSN codes, e-way bills, delivery challans, GST e-invoice QR codes, CARO asset verification and rupee valuation, and DocAI, Stock and Leads screens are available in English and Hindi.' },
+  { q: 'Does OrbitPi support Indian GST and compliance rules?', a: 'Yes. For businesses in India, OrbitPi handles GSTINs, HSN codes, e-way bills, delivery challans, GST e-invoice QR codes, CARO asset verification and rupee valuation, and DocAI, Inventory and Leads screens are available in English and Hindi.' },
   { q: 'Does OrbitPi have mobile apps?', a: 'Not yet. OrbitPi runs in the web browser. Asset QR codes open in any phone browser, so staff can identify an asset or report a problem without installing an app.' },
   { q: 'Does OrbitPi have an AI voice agent?', a: 'An AI voice agent that calls and qualifies leads in Hindi and English is in development. OrbitPi Leads already captures, routes and tracks follow-up of every enquiry.' },
   { q: 'Is OrbitPi accounting software available?', a: 'Not yet. OrbitPi Ledger is in development. DocAI can export invoice data to Excel, CSV, webhooks and other destinations for the accounting software you use today.' },
@@ -46,14 +46,14 @@ const schema = graph(
         <span>Four products live · Accounting coming soon</span>
         <span class="rounded-full bg-brand-soft px-2.5 py-0.5 font-medium text-brand">See products →</span>
       </a>
-      <h1 id="hero-title" class="h-display max-w-4xl">Business software for Indian companies</h1>
+      <h1 id="hero-title" class="h-display max-w-4xl">Business software for operations teams</h1>
       <p class="lead max-w-2xl">OrbitPi builds software for the work behind your business: AI document OCR, warehouse inventory, lead management and fixed assets. Start with one product or connect several on the same platform.</p>
       <div class="flex flex-wrap justify-center gap-3 pt-2">
         <a href="/contact/" class="btn-primary">Book a demo</a>
         <a href="#products" class="btn-ghost">Explore products</a>
       </div>
       <ul class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-[13px] text-ink-500">
-        <li>✓ Works alone or as a suite</li><li>✓ GSTIN, e-way bill and e-invoice QR support</li><li>✓ Runs in your browser</li>
+        <li>✓ Works alone or as a suite</li><li>✓ Approvals and audit trails built in</li><li>✓ Runs in your browser</li>
       </ul>
       <ProductDemo />
     </div>
@@ -121,7 +121,7 @@ const schema = graph(
 
   <section aria-labelledby="guides-title" class="container-page flex flex-col gap-10 pt-24">
     <div class="flex flex-wrap items-end justify-between gap-5">
-      <SectionHeading id="guides-title" title="Guides for back-office teams" align="left" lead="Plain-language explainers on GST documents, inventory valuation, fixed assets and lead follow-up." />
+      <SectionHeading id="guides-title" title="Guides for back-office teams" align="left" lead="Plain-language explainers on inventory valuation, fixed assets, lead follow-up and Indian GST documents." />
       <a href="/guides/" class="btn-ghost">All guides</a>
     </div>
     <ul class="grid gap-4 md:grid-cols-3">

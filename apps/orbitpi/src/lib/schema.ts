@@ -16,7 +16,6 @@ export const organization = (): JsonLd => ({
   description: SITE.description,
   logo: absoluteUrl(SITE.logo),
   email: SITE.email,
-  areaServed: 'IN',
   ...(SITE.sameAs.length ? { sameAs: SITE.sameAs } : {}),
   ...(SITE.contactDetailsVerified ? { telephone: SITE.phone, address: {
     '@type': 'PostalAddress',
@@ -31,7 +30,6 @@ export const organization = (): JsonLd => ({
     contactType: 'sales',
     email: SITE.salesEmail,
     ...(SITE.contactDetailsVerified ? { telephone: SITE.phone } : {}),
-    areaServed: 'IN',
     availableLanguage: ['English', 'Hindi'],
   },
 });
@@ -41,7 +39,7 @@ export const website = (): JsonLd => ({
   '@id': WEBSITE_ID,
   url: `${SITE.url}/`,
   name: SITE.name,
-  inLanguage: 'en-IN',
+  inLanguage: 'en',
   publisher: { '@id': ORG_ID },
 });
 
@@ -51,7 +49,7 @@ export const webPage = (url: string, name: string, description: string, type = '
   url,
   name,
   description,
-  inLanguage: 'en-IN',
+  inLanguage: 'en',
   isPartOf: { '@id': WEBSITE_ID },
   publisher: { '@id': ORG_ID },
 });
@@ -82,7 +80,7 @@ export const softwareApp = (p: Product): JsonLd => ({
   applicationCategory: 'BusinessApplication',
   applicationSubCategory: p.category,
   operatingSystem: 'Web',
-  inLanguage: 'en-IN',
+  inLanguage: 'en',
   mainEntityOfPage: { '@id': `${absoluteUrl(`/products/${p.slug}/`)}#webpage` },
   ...(p.image ? { image: absoluteUrl(p.image.src) } : {}),
   description: p.metaDescription,
@@ -99,7 +97,7 @@ export const article = (a: { path: string; title: string; description: string; p
   image: absoluteUrl(a.image),
   datePublished: a.published,
   dateModified: a.modified,
-  inLanguage: 'en-IN',
+  inLanguage: 'en',
   author: { '@id': ORG_ID },
   publisher: { '@id': ORG_ID },
   mainEntityOfPage: { '@id': `${absoluteUrl(a.path)}#webpage` },

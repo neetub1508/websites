@@ -7,7 +7,7 @@ import { SITE } from '../lib/site';
 // Generates /sitemap.xml at build time from the real routes. Adding a product,
 // industry or guide to its data file adds it here automatically. Referenced from robots.txt.
 // lastmod: a guide's own `modified` date; SITE.contentUpdated for every other page.
-const STATIC_PAGES = ['', 'products/', 'industries/', 'guides/', 'pricing/', 'about/', 'contact/', 'privacy/', 'terms/'];
+const STATIC_PAGES = ['', 'products/', 'industries/', 'guides/', 'india/', 'pricing/', 'about/', 'contact/', 'privacy/', 'terms/'];
 
 export const GET: APIRoute = () => {
   const urls = [

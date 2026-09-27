@@ -30,6 +30,7 @@ export interface Guide {
   product: string; // related product slug
   productPitch: string; // how that product helps, in shipped-feature terms only
   disclaimer?: boolean; // tax, legal or accounting topic
+  region?: 'India'; // set when the guide covers one country's law; shown as a tag
   sections: GuideSection[];
   faqs: Faq[];
   sources: { label: string; url: string }[];
@@ -38,6 +39,7 @@ export interface Guide {
 export const GUIDES: Guide[] = [
   {
     slug: 'e-way-bill-rules',
+    region: 'India',
     topic: 'GST compliance',
     title: 'E-way bill rules: when you need one, Part A and Part B, and validity',
     metaTitle: 'E-way Bill Rules: Limit, Part A and B, Validity | OrbitPi',
@@ -56,7 +58,7 @@ export const GUIDES: Guide[] = [
     modified: '2026-09-27',
     product: 'warehouse-inventory-management',
     productPitch:
-      'OrbitPi Stock handles the e-way bill lifecycle from the shipment through a GST compliance provider, including Part A and Part B, vehicle updates, extension, cancellation and consolidated bills. Dispatch is blocked until the e-way bill is active, and delivery challans are created per branch series.',
+      'OrbitPi Inventory handles the e-way bill lifecycle from the shipment through a GST compliance provider, including Part A and Part B, vehicle updates, extension, cancellation and consolidated bills. Dispatch is blocked until the e-way bill is active, and delivery challans are created per branch series.',
     disclaimer: true,
     sections: [
       {
@@ -164,6 +166,7 @@ export const GUIDES: Guide[] = [
   },
   {
     slug: 'gst-e-invoice-qr-code',
+    region: 'India',
     topic: 'GST compliance',
     title: 'GST e-invoice QR code: what it contains and how to check it',
     metaTitle: 'GST E-invoice QR Code: Contents and Verification | OrbitPi',
@@ -270,6 +273,7 @@ export const GUIDES: Guide[] = [
   },
   {
     slug: 'caro-2020-fixed-asset-physical-verification',
+    region: 'India',
     topic: 'Fixed assets and audit',
     title: 'CARO 2020 physical verification of fixed assets: a practical guide',
     metaTitle: 'CARO 2020 Fixed Asset Physical Verification Guide | OrbitPi',
@@ -397,9 +401,9 @@ export const GUIDES: Guide[] = [
     metaDescription:
       'How FIFO and weighted average cost work, a worked example with the same purchases and sales, and how each changes cost of goods sold and profit.',
     summary:
-      'FIFO (first in, first out) assumes the oldest stock is sold first, so closing stock is valued at the most recent purchase prices. Weighted average cost values every unit at the average cost of the stock available. Both are permitted under Indian accounting standards (AS 2 and Ind AS 2); LIFO is not. When prices are rising, FIFO gives a lower cost of goods sold, a higher closing stock value and a higher profit than weighted average.',
+      'FIFO (first in, first out) assumes the oldest stock is sold first, so closing stock is valued at the most recent purchase prices. Weighted average cost values every unit at the average cost of the stock available. Both are permitted under the international standard IAS 2 and India’s AS 2 and Ind AS 2, none of which allow LIFO; US GAAP does permit LIFO. When prices are rising, FIFO gives a lower cost of goods sold, a higher closing stock value and a higher profit than weighted average.',
     takeaways: [
-      'AS 2, Ind AS 2 and ICDS II allow FIFO and weighted average cost. LIFO is not permitted.',
+      'IAS 2 (IFRS), India’s AS 2, Ind AS 2 and ICDS II allow FIFO and weighted average cost but not LIFO. US GAAP also permits LIFO.',
       'Inventories are measured at the lower of cost and net realisable value, whichever formula you use.',
       'Weighted average can be calculated periodically or as a moving average after each receipt.',
       'The same cost formula should be used for inventories of a similar nature and use.',
@@ -409,7 +413,7 @@ export const GUIDES: Guide[] = [
     modified: '2026-09-27',
     product: 'warehouse-inventory-management',
     productPitch:
-      'OrbitPi Stock values inventory in rupees by FIFO or weighted average, supports landed cost and revaluation, and reports valuation as at any date. Physical allocation rules, such as FIFO, earliest expiry or a named lot, are set separately for reservations.',
+      'OrbitPi Inventory values inventory in rupees by FIFO or weighted average, supports landed cost and revaluation, and reports valuation as at any date. Physical allocation rules, such as FIFO, earliest expiry or a named lot, are set separately for reservations.',
     disclaimer: true,
     sections: [
       {
@@ -417,7 +421,7 @@ export const GUIDES: Guide[] = [
         heading: 'Why the cost formula matters',
         paragraphs: [
           'When you buy the same item several times at different prices, you need a rule for which cost goes out with each sale and which stays in closing stock. That rule, the cost formula, decides your cost of goods sold, your closing inventory on the balance sheet and so your gross profit.',
-          'Under AS 2 (Valuation of Inventories), Ind AS 2 (Inventories) and, for income tax, Income Computation and Disclosure Standard II, the cost of interchangeable items is assigned using FIFO or the weighted average cost formula. Items that are not ordinarily interchangeable, such as custom-built goods, use specific identification.',
+          'Under IAS 2 (Inventories), the IFRS standard used in many countries, and in India under AS 2 (Valuation of Inventories), Ind AS 2 and, for income tax, Income Computation and Disclosure Standard II, the cost of interchangeable items is assigned using FIFO or the weighted average cost formula. Items that are not ordinarily interchangeable, such as custom-built goods, use specific identification.',
         ],
       },
       {
@@ -491,13 +495,14 @@ export const GUIDES: Guide[] = [
       },
     ],
     faqs: [
-      { q: 'Is LIFO allowed in India?', a: 'No. AS 2, Ind AS 2 and ICDS II permit FIFO and weighted average cost for interchangeable items, and specific identification for items that are not interchangeable. LIFO is not permitted.' },
+      { q: 'Is LIFO allowed?', a: 'Not under IFRS (IAS 2) or in India under AS 2, Ind AS 2 and ICDS II, which permit FIFO and weighted average cost for interchangeable items and specific identification for items that are not interchangeable. US GAAP does permit LIFO.' },
       { q: 'Which gives higher profit, FIFO or weighted average?', a: 'When purchase prices are rising, FIFO usually gives a lower cost of goods sold and a higher profit, because older, cheaper stock is charged first. When prices are falling, weighted average usually gives the higher profit.' },
       { q: 'What is the difference between periodic and moving weighted average?', a: 'Periodic weighted average calculates one average for the whole period. Moving weighted average recalculates the average after every receipt and costs each sale at the average at that moment.' },
       { q: 'Can I pick stock by expiry date but value it by weighted average?', a: 'Yes. The cost formula is an accounting valuation rule. How stock is physically picked, such as earliest expiry first, is an operational rule and can differ from it.' },
       { q: 'Can a business change its inventory valuation method?', a: 'Only if the change results in more appropriate presentation or is required by a standard or law. It is a change in accounting policy and must be disclosed with its effect.' },
     ],
     sources: [
+      { label: 'IFRS Foundation: IAS 2 Inventories', url: 'https://www.ifrs.org/' },
       { label: 'Institute of Chartered Accountants of India: AS 2, Valuation of Inventories', url: 'https://www.icai.org/' },
       { label: 'Ministry of Corporate Affairs: Indian Accounting Standards (Ind AS 2)', url: 'https://www.mca.gov.in/' },
       { label: 'Income Tax Department: Income Computation and Disclosure Standards', url: 'https://incometaxindia.gov.in/' },
@@ -505,6 +510,7 @@ export const GUIDES: Guide[] = [
   },
   {
     slug: 'straight-line-vs-written-down-value-depreciation',
+    region: 'India',
     topic: 'Fixed assets and audit',
     title: 'Straight-line vs written down value depreciation: how to calculate both',
     metaTitle: 'SLM vs WDV Depreciation: Formula and Example | OrbitPi',

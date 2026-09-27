@@ -1,6 +1,6 @@
 # OrbitPi website
 
-Marketing site for OrbitPi, the AI business suite (DocAI, Stock, Leads, Assets, Ledger).
+Marketing site for OrbitPi, the business software suite (DocAI, Inventory, Leads, Assets, Ledger).
 Astro 4 + Tailwind, static output deployed as a Cloudflare Worker (static assets) — same stack as the other apps in this repo.
 
 ## Develop

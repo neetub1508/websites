@@ -21,7 +21,7 @@ const crumbs = [{ name: 'Home', path: '/' }, { name: 'Guides', path: '/guides/' 
 const related = GUIDES.filter((x) => x.slug !== g.slug).sort((a, b) => Number(b.product === g.product) - Number(a.product === g.product)).slice(0, 3);
 const words = [g.summary, ...g.takeaways, ...g.sections.flatMap((s) => [...(s.paragraphs ?? []), ...(s.list ?? []), ...(s.after ?? []), ...(s.table?.rows.flat() ?? [])]), ...g.faqs.flatMap((f) => [f.q, f.a])].join(' ').split(/\s+/).length;
 const minutes = Math.max(1, Math.round(words / 200));
-const date = (iso: string) => new Date(`${iso}T00:00:00Z`).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+const date = (iso: string) => new Date(`${iso}T00:00:00Z`).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
 const image = { src: `/images/og/${product.slug}.jpg`, alt: product.image?.alt ?? product.fullName, width: 1200, height: 630 };
 const schema = graph(
   { ...webPage(absoluteUrl(path), g.metaTitle, g.metaDescription), mainEntity: { '@id': `${absoluteUrl(path)}#article` } },
@@ -36,6 +36,7 @@ const schema = graph(
   <article class="container-page grid gap-12 pb-24 pt-10 lg:grid-cols-[minmax(0,1fr)_280px]">
     <div class="flex min-w-0 max-w-3xl flex-col gap-10">
       <header class="flex flex-col gap-5">
+        {g.region && <p class="self-start rounded-full border border-line-strong px-3 py-1 text-xs font-medium text-ink-700">Applies to {g.region}</p>}
         <h1 class="text-[clamp(34px,4.6vw,52px)] font-bold leading-[1.06] tracking-display">{g.title}</h1>
         <p class="text-[13px] text-ink-500">By the OrbitPi product team · Updated <time datetime={g.modified}>{date(g.modified)}</time> · {minutes} min read</p>
         <p class="lead">{g.summary}</p>
@@ -94,7 +95,7 @@ const schema = graph(
         <div class="flex flex-col gap-2">
           <h2 id="product-title" class="text-lg font-semibold">How {product.fullName} helps</h2>
           <p class="text-[15px] leading-relaxed text-ink-500">{g.productPitch}</p>
-          <a href={productHref(product.slug)} class="self-start text-sm font-medium text-brand hover:underline">Explore {product.category.toLowerCase()} software <span aria-hidden="true">→</span></a>
+          <a href={productHref(product.slug)} class="self-start text-sm font-medium text-brand hover:underline">Explore {product.fullName} <span aria-hidden="true">→</span></a>
         </div>
       </section>
 

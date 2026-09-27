@@ -9,11 +9,11 @@ import { absoluteUrl } from '@/lib/site';
 import { graph, webPage, breadcrumbs, itemList } from '@/lib/schema';
 
 const title = 'OrbitPi Products: AI OCR, Inventory, Lead & Asset Software';
-const description = 'Explore OrbitPi DocAI for document OCR, Stock for warehouse inventory, Leads for lead management and Assets for asset management. Ledger is coming soon.';
+const description = 'Explore OrbitPi DocAI for document OCR, Inventory for warehouse stock, Leads for lead management and Assets for asset management. Ledger is coming soon.';
 const crumbs = [{ name: 'Home', path: '/' }, { name: 'Products', path: '/products/' }];
 const india = [
   { title: 'GST e-invoice QR checks', body: 'DocAI reads the QR code on GST e-invoices and compares it with the extracted invoice values.', slug: 'ai-document-ocr', link: 'DocAI' },
-  { title: 'E-way bills and challans', body: 'Stock manages the e-way bill lifecycle and delivery challans, and blocks dispatch without an active bill.', slug: 'warehouse-inventory-management', link: 'Stock' },
+  { title: 'E-way bills and challans', body: 'OrbitPi Inventory manages the e-way bill lifecycle and delivery challans, and blocks dispatch without an active bill.', slug: 'warehouse-inventory-management', link: 'Inventory' },
   { title: 'CARO asset verification', body: 'Assets runs physical verification campaigns and keeps the fixed asset register auditors ask for.', slug: 'asset-management-software', link: 'Assets' },
   { title: 'WhatsApp follow-ups', body: 'Leads sends approved WhatsApp templates and checks the do-not-contact list before every message.', slug: 'lead-management-software', link: 'Leads' },
 ];
@@ -27,7 +27,7 @@ const schema = graph(
 <BaseLayout title={title} description={description} schema={schema}>
   <Breadcrumbs items={crumbs} />
   <section class="container-page flex flex-col gap-12 pb-24 pt-12">
-    <SectionHeading as="h1" title="Business software products for Indian companies" lead="Four products available today and one in development. Each works on its own, and all run on the same OrbitPi platform with shared users, branches and roles." />
+    <SectionHeading as="h1" title="Business software products for operations teams" lead="Four products available today and one in development. Each works on its own, and all run on the same OrbitPi platform with shared users, branches and roles." />
     <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
       {PRODUCTS.map((p) => <ProductCard product={p} headingLevel="h2" showImage />)}
     </div>
@@ -35,7 +35,7 @@ const schema = graph(
 
   <section aria-labelledby="india-title" class="border-y border-line bg-mist">
     <div class="container-page flex flex-col gap-10 py-24">
-      <SectionHeading id="india-title" title="Indian business rules, built in" lead="The details Indian teams deal with every day are part of each product, not add-ons." />
+      <SectionHeading id="india-title" title="Built-in support for Indian businesses" lead="For teams in India, GST, e-way bill and audit rules are part of each product, not add-ons." />
       <ul class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {india.map((f) => (
           <li class="flex flex-col gap-2 rounded-2xl border border-line bg-white p-6">
@@ -45,6 +45,7 @@ const schema = graph(
           </li>
         ))}
       </ul>
+      <p class="text-[15px] text-ink-500">See every India-specific feature on <a href="/india/" class="font-medium text-brand hover:underline">OrbitPi for Indian businesses</a>.</p>
     </div>
   </section>
 

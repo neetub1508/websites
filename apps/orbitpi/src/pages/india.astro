@@ -1,0 +1,101 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import ProductBadge from '@/components/ProductBadge.astro';
+import Faq from '@/components/Faq.astro';
+import CtaBanner from '@/components/CtaBanner.astro';
+import { getProduct, productHref, isAvailable, type Product } from '@/lib/products';
+import { GUIDES, guideHref } from '@/lib/guides';
+import { absoluteUrl } from '@/lib/site';
+import { graph, webPage, breadcrumbs, faqPage } from '@/lib/schema';
+
+// India-specific capabilities, one block per product. Every point must match
+// what products.ts already states; planned work stays labelled as coming soon.
+const title = 'Business Software for Indian Companies | OrbitPi';
+const description = 'OrbitPi for Indian companies: GST e-invoice QR checks, e-way bills and challans, HSN masters, CARO asset verification and screens in English and Hindi.';
+const crumbs = [{ name: 'Home', path: '/' }, { name: 'For Indian businesses', path: '/india/' }];
+
+const blocks: { slug: string; points: string[] }[] = [
+  { slug: 'ai-document-ocr', points: [
+    'Reads the signed QR code on GST e-invoices and compares it with the extracted invoice values',
+    'Extracts supplier GSTIN, invoice number, date and line items from supplier invoices',
+    'Ready-made document types for PAN cards, driving licences and vehicle RCs, with a consent prompt',
+  ] },
+  { slug: 'warehouse-inventory-management', points: [
+    'GSTIN profiles and HSN and SAC masters',
+    'Delivery challans per branch series',
+    'Full e-way bill lifecycle through a GST compliance provider, with dispatch blocked until the bill is active',
+    'E-invoice IRNs for branch transfers',
+    'Job work tracking with ITC-04 support',
+    'Stock valued in rupees by FIFO or weighted average',
+  ] },
+  { slug: 'lead-management-software', points: [
+    'Approved WhatsApp templates sent through AiSensy or Twilio',
+    'AI voice agent that calls leads in Hindi and English (coming soon)',
+  ] },
+  { slug: 'asset-management-software', points: [
+    'Physical verification campaigns for CARO 2020, with every variance resolved on record',
+    'Straight-line, declining-balance and double-declining depreciation with gross block, accumulated depreciation and net block',
+    'Statutory certificates such as PUC and calibration kept on record',
+  ] },
+  { slug: 'accounting-software', points: [
+    'Familiar voucher types, a Day Book and trial balance',
+    'Tax codes designed for reverse charge and TDS',
+    'Planned export to Tally Prime XML and CSV',
+  ] },
+];
+const products = blocks.map((b) => ({ ...b, product: getProduct(b.slug) as Product }));
+const guides = GUIDES.filter((g) => g.region === 'India');
+
+const faqs = [
+  { q: 'Is OrbitPi only for Indian companies?', a: 'No. OrbitPi is business software for operations teams anywhere. Businesses in India also get the GST, e-way bill and audit features listed on this page.' },
+  { q: 'Does OrbitPi generate e-way bills?', a: 'Yes. OrbitPi Inventory handles the e-way bill lifecycle through a GST compliance provider, including Part A and Part B, vehicle updates, extension, cancellation and consolidated bills. Dispatch is blocked until the bill is active.' },
+  { q: 'Can OrbitPi check GST e-invoice QR codes?', a: 'Yes. OrbitPi DocAI reads the QR code on GST e-invoices and compares it with the values extracted from the invoice. Values that fail a check go to a reviewer.' },
+  { q: 'Does OrbitPi support CARO 2020 physical verification?', a: 'Yes. OrbitPi Assets runs physical verification campaigns by branch, splits the work between counters and records how every variance was resolved.' },
+  { q: 'Are OrbitPi screens available in Hindi?', a: 'Yes. DocAI, Inventory and Leads screens are available in English and Hindi.' },
+];
+
+const schema = graph(webPage(absoluteUrl('/india/'), title, description), breadcrumbs(crumbs), faqPage(faqs));
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <Breadcrumbs items={crumbs} />
+  <section class="container-page flex flex-col gap-12 pb-24 pt-12">
+    <SectionHeading as="h1" title="Business software for Indian companies" lead="OrbitPi is built for operations teams everywhere. For businesses in India, each product also handles local tax and audit rules, such as GST e-invoices, e-way bills and CARO asset verification, without add-ons." />
+    <ul class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      {products.map(({ product: p, points }) => (
+        <li class="flex flex-col gap-4 rounded-2xl border border-line p-6">
+          <div class="flex items-center gap-3">
+            <ProductBadge product={p} size="lg" />
+            <div class="flex flex-col">
+              <h2 class="text-lg font-semibold">{p.fullName}</h2>
+              <span class="flex items-center gap-2 text-[13px] text-ink-500">{p.category}{!isAvailable(p) && <span class="rounded-full bg-[#FFF4E0] px-2 py-px text-[11px] font-medium text-[#9A5B00]">Coming soon</span>}</span>
+            </div>
+          </div>
+          <ul class="flex flex-1 flex-col gap-2.5">
+            {points.map((pt) => <li class="flex gap-2.5 text-[15px] leading-relaxed text-ink-700"><span aria-hidden="true">✓</span>{pt}</li>)}
+          </ul>
+          <a href={productHref(p.slug)} class="text-sm font-medium text-brand hover:underline">Explore {p.fullName} <span aria-hidden="true">→</span></a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section aria-labelledby="india-guides-title" class="border-y border-line bg-mist">
+    <div class="container-page flex flex-col gap-8 py-24">
+      <SectionHeading id="india-guides-title" title="Guides for Indian businesses" align="left" lead="Plain-language explainers on Indian tax and audit rules, with worked examples and links to official sources." />
+      <ul class="grid gap-4 md:grid-cols-2">
+        {guides.map((g) => (
+          <li><a href={guideHref(g.slug)} class="flex h-full flex-col gap-2 rounded-2xl border border-line bg-white p-6 hover:border-ink">
+            <span class="text-[13px] text-ink-500">{g.topic}</span>
+            <span class="text-lg font-semibold leading-snug">{g.title}</span>
+          </a></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <Faq faqs={faqs} title="OrbitPi for Indian businesses: FAQ" />
+  <CtaBanner />
+</BaseLayout>

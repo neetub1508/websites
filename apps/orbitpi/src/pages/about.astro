@@ -10,14 +10,14 @@ import { SITE, absoluteUrl } from '@/lib/site';
 import { graph, webPage, breadcrumbs } from '@/lib/schema';
 
 const title = 'About OrbitPi | Business Software Product Company';
-const description = 'Meet OrbitPi, a software product company building document OCR, warehouse inventory, lead management and asset management tools for Indian businesses.';
+const description = 'Meet OrbitPi, a software product company building document OCR, warehouse inventory, lead management and asset management tools for operations teams.';
 const crumbs = [{ name: 'Home', path: '/' }, { name: 'About', path: '/about/' }];
 const schema = graph(webPage(absoluteUrl('/about/'), title, description, 'AboutPage'), breadcrumbs(crumbs));
 
 const principles = [
   { title: 'Focused products, one platform', body: 'Each OrbitPi product does one job well. They all run on the same platform, with the same users, branches and roles, so adding a second product is simple.' },
   { title: 'AI that people can check', body: 'Our AI shows its work. DocAI scores every value with checks such as arithmetic and QR matching, and sends doubtful values to a person instead of guessing.' },
-  { title: 'Indian rules built in', body: 'GSTINs, HSN codes, e-way bills, delivery challans, e-invoice QR codes, CARO verification and rupee valuation are part of the products, not add-ons.' },
+  { title: 'Local compliance built in', body: 'For businesses in India, GSTINs, HSN codes, e-way bills, delivery challans, e-invoice QR codes, CARO verification and rupee valuation are part of the products, not add-ons.' },
   { title: 'Controls finance teams trust', body: 'Maker-checker approvals, branch-level access and audit trails of every change are standard, because back-office data has to stand up to an audit.' },
   { title: 'Honest about what is ready', body: 'We label planned work as coming soon. If a feature is on this website without that label, you can use it today.' },
   { title: 'Proven on your own data', body: 'Every demo runs on a sample of your own documents, stock or leads, so you see how OrbitPi handles your real work before you decide.' },
@@ -29,8 +29,8 @@ const principles = [
   <section class="container-page flex flex-col gap-8 pb-20 pt-12">
     <SectionHeading as="h1" title="A software product company built around business operations" align="left" />
     <div class="grid gap-8 text-[17px] leading-relaxed text-ink-700 md:grid-cols-2">
-      <p>OrbitPi is a software product company. We develop DocAI for document OCR, Stock for warehouse inventory, Leads for sales enquiries and Assets for fixed asset management. Each product addresses a specific operational workflow and can be used on its own.</p>
-      <p>We build for Indian businesses, from distributors and manufacturers to multi-branch teams. Our browser-based products share users, branches and roles, with tools for Indian business workflows such as GST documents and asset verification. Accounting software and the AI voice agent are in development.</p>
+      <p>OrbitPi is a software product company. We develop DocAI for document OCR, Inventory for warehouse and stock management, Leads for sales enquiries and Assets for fixed asset management. Each product addresses a specific operational workflow and can be used on its own.</p>
+      <p>We build for operations teams, from distributors and manufacturers to multi-branch groups. Our browser-based products share users, branches and roles, and include <a href="/india/" class="text-brand hover:underline">dedicated support for Indian businesses</a>, such as GST documents and CARO asset verification. Accounting software and the AI voice agent are in development.</p>
     </div>
     <img src="/images/platform/connected-platform.webp" srcset="/images/platform/connected-platform-720.webp 720w, /images/platform/connected-platform.webp 1440w" sizes="(min-width:948px) 900px, calc(100vw - 48px)" alt="Document processing, stock, lead and asset tools connected through one shared platform." width="1440" height="960" loading="eager" fetchpriority="high" decoding="async" class="mx-auto block max-w-[900px] aspect-[3/2] h-auto w-full rounded-[20px] border border-line bg-[#FCFAF4] object-contain" />
   </section>
