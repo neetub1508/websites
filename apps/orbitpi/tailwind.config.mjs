@@ -18,7 +18,7 @@ export default {
         sans: ['Geist', 'system-ui', '-apple-system', 'Segoe UI', 'sans-serif'],
         mono: ['"Geist Mono"', 'ui-monospace', 'SFMono-Regular', 'monospace'],
       },
-      maxWidth: { page: '1200px' },
+      maxWidth: { page: '1440px' },
       letterSpacing: { tightest: '-0.045em', display: '-0.04em' },
       boxShadow: {
         card: '0 20px 40px -24px rgba(21,32,90,0.25)',
