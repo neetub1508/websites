@@ -289,7 +289,7 @@ export const GUIDES: Guide[] = [
       'Evidence matters: keep who counted what, where and when, and how each variance was resolved.',
     ],
     published: '2026-09-27',
-    modified: '2026-09-27',
+    modified: '2026-11-02',
     product: 'asset-management-software',
     productPitch:
       'OrbitPi Assets keeps the fixed asset register with QR tags, runs physical verification campaigns by branch, splits the work between counters and records how every variance was resolved. It also produces gross block, accumulated depreciation and net block at any date.',
@@ -390,7 +390,7 @@ export const GUIDES: Guide[] = [
     ],
     sources: [
       { label: 'Ministry of Corporate Affairs: Companies Act, 2013 and CARO 2020', url: 'https://www.mca.gov.in/' },
-      { label: 'Institute of Chartered Accountants of India: guidance notes', url: 'https://www.icai.org/' },
+      { label: 'ICAI: CARO 2020 applicability from FY 2021–22', url: 'https://www.icai.org/post/16996' },
     ],
   },
   {
@@ -410,7 +410,7 @@ export const GUIDES: Guide[] = [
       'The formula is a valuation choice. Physical issue rules, such as earliest expiry first, can differ.',
     ],
     published: '2026-09-27',
-    modified: '2026-09-27',
+    modified: '2026-11-02',
     product: 'warehouse-inventory-management',
     productPitch:
       'OrbitPi Inventory values inventory in rupees by FIFO or weighted average, supports landed cost and revaluation, and reports valuation as at any date. Physical allocation rules, such as FIFO, earliest expiry or a named lot, are set separately for reservations.',
@@ -502,7 +502,7 @@ export const GUIDES: Guide[] = [
       { q: 'Can a business change its inventory valuation method?', a: 'Only if the change results in more appropriate presentation or is required by a standard or law. It is a change in accounting policy and must be disclosed with its effect.' },
     ],
     sources: [
-      { label: 'IFRS Foundation: IAS 2 Inventories', url: 'https://www.ifrs.org/' },
+      { label: 'IFRS Foundation: IAS 2 Inventories', url: 'https://www.ifrs.org/issued-standards/list-of-standards/ias-2-inventories/' },
       { label: 'Institute of Chartered Accountants of India: AS 2, Valuation of Inventories', url: 'https://www.icai.org/' },
       { label: 'Ministry of Corporate Affairs: Indian Accounting Standards (Ind AS 2)', url: 'https://www.mca.gov.in/' },
       { label: 'Income Tax Department: Income Computation and Disclosure Standards', url: 'https://www.incometaxindia.gov.in/' },
