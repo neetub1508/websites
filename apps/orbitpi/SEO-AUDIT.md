@@ -2,6 +2,85 @@
 
 Audit date: 27 September 2026. Site: https://orbitpi.com/. Source: `apps/orbitpi`.
 
+## Current completion status — 2 November 2026
+
+This section supersedes the historical counts, deployment status and follow-up lists
+in the September audit below. The existing Astro 4 + Tailwind architecture is retained.
+Production checks confirmed the earlier technical fixes. The latest two citation
+improvements are local changes; this audit has not deployed them.
+
+### Completed and verified on production
+
+| Work | Result | Tracking |
+| --- | --- | --- |
+| Upcoming accounting product | Ledger is noindex, excluded from sitemap and SoftwareApplication schema; Voice AI remains planned. Inventory and Assets keep their current availability. | #5 and owner decision #22 closed |
+| Search intent | Distinct brand, catalogue and pricing titles. | #6 closed |
+| Canonical routing | HTTP/www normalize to HTTPS apex while preserving deep paths and query strings. | #7 closed |
+| Error routes | Explicit 404 aliases and missing pages terminate with noindex HTTP 404. | #9 closed |
+| HTML encoding | HTML responses declare UTF-8; asset MIME/cache behavior is preserved. | #10 closed |
+| Images | Responsive sources retained; five renamed Leads images have permanent redirects to working destinations. | #11 and #12 closed |
+| Regional metadata | `en_GB` globally; `en_IN` for the India page and four India guides. | #15 closed |
+| Content dates | Removed blanket page timestamps; six guides use maintained dates matching Article metadata. | #16 closed |
+| Tablet navigation | Compact menu below 1024px avoids overflow and includes View all products. | Verified with the technical remediation |
+| Contact request handling | Invalid JSON and truncated multipart requests return controlled 400 errors. Missing delivery configuration returns 503 rather than false success. | Code verified; live delivery #4 remains open |
+
+### Completed locally and supporting evidence
+
+- Replaced the CARO guide's broad ICAI citation with its specific applicability announcement and the valuation guide's IFRS homepage citation with the IAS 2 page. Both official destinations returned HTTP 200 with relevant browser content. Only these two guides' modification dates changed to 2026-11-02; publication dates remain 2026-09-27. **Deployment of these citation edits is not verified.**
+- Prepared proposed wording, located code/test evidence and required release demonstrations for all 16 registered claims. This is not approval, a fresh execution of product tests or certification of released capabilities. Doc AI and Leads require additional sitewide claim coverage.
+- Rechecked government sources in Chromium: e-invoice and e-way bill portals returned 200; MCA and Income Tax returned 403 Access Denied. Retained their official URLs, including the existing Income Tax `www` URL. Access denial from this client does not establish a broken public source.
+- Updated issue #13 with the latest evidence and remaining dependencies.
+
+### Validation
+
+- Latest Docker production build: **0 errors, 0 warnings, 0 hints**.
+- **13 Worker tests passed**; delivery success/failure checks use mocks.
+- SEO checks: **29 HTML pages, 26 indexable URLs, 96 image placements**; metadata, internal links, assets, sitemap and structured data passed.
+- Earlier technical remediation: 21 independent runtime HTTP checks and 104 page/viewport combinations (26 routes at 1440, 1024, 768 and 390px), with no overflow or broken images.
+- Fresh independent standards review passed for the citation edits, including publication/modification date propagation. No workflow behavior changed in this follow-up.
+
+Production Lighthouse 12.8.2 results (single lab run per canonical URL/profile):
+
+| Page/profile | Performance | Accessibility | Best practices | SEO | LCP | CLS |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Home/mobile | 95 | 100 | 100 | 100 | 2.17 s | 0.097 |
+| Home/desktop | 100 | 100 | 100 | 100 | 0.31 s | 0.007 |
+| Inventory/mobile | 100 | 100 | 100 | 100 | 1.03 s | 0.023 |
+| Assets/mobile | 100 | 100 | 100 | 100 | 1.29 s | 0.023 |
+
+All four runs reported 0ms total blocking time. These are lab measurements, not
+real-user Core Web Vitals, proof of every page's performance or a ranking guarantee.
+The mobile homepage run identified a small hero-text layout shift and modest logo
+compression/resizing savings; no severe performance defect was established.
+
+### Still open
+
+| Issue / dependency | Required completion evidence |
+| --- | --- |
+| #3, #8 and related #21: product claims | Owner approves exact wording against a released build and demonstrates relevant capabilities; then visible copy, FAQs and descriptions/schema can be synchronized. |
+| #4: contact delivery | Configure the agreed destination through `CONTACT_WEBHOOK_URL` and confirm actual CRM/inbox receipt. The one authorized live enquiry returned 503. No second live enquiry was submitted; another test requires explicit authorization. |
+| #13: citations | Verify local citation changes after deployment and check restricted official sources from another client/network. |
+| #14: industry intent monitoring | Search Console access or exports to review indexation, selected canonicals and page/query overlap. Distinct industry content and contextual product links already exist; cannibalisation has not been proved. |
+| Business/legal evidence | Verified identity/contact details, company profiles, approved customer evidence and professional review of legal/tax content remain owner dependencies. |
+
+For Search Console, confirm the sitemap, inspect the homepage and available product
+URLs, and compare page/query exports for the last 28 complete days with the preceding
+28 days. Keep global English and India-specific performance distinguishable. Do not
+add duplicate landing pages or fabricated prices/reviews to satisfy a score.
+
+Detailed audit artifacts remain under the Classic workspace's
+`.codex/reviews/orbitpi-20261102/`: production verification in
+`deployed-verification/RESULT.md`; claim approval draft, raw Lighthouse reports,
+citation results, validation log and independent review in `followup/`.
+The sibling website paths cannot be registered with Classic's review-state script;
+review evidence is a manual source-hash attestation, not a registered hook-gate pass.
+
+## Historical audit — 27 September 2026
+
+The following records the earlier audit as performed; its original counts and
+not-deployed statements are historical. Use the current completion status above for
+handoff and remaining work.
+
 ## Scope and status
 
 Reviewed all 19 URLs in the live sitemap, with 58 live URL/resource checks, then updated the existing Astro 4 + Tailwind app. The routes, shared components, product data model, images and Cloudflare Worker deployment architecture are retained. No dependencies were added.

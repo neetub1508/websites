@@ -47,9 +47,29 @@ Coming-soon products stay noindex and outside the sitemap until their status cha
 - One `<h1>` per page, ordered headings, breadcrumbs, descriptive internal links
 - `/sitemap.xml` generated from routes, `robots.txt`, trailing-slash canonical URLs
 - Static HTML, minimal JS (only demo tabs, menus, form), fonts with `display=swap`,
-  images lazy-loaded with fixed dimensions (no layout shift)
+  responsive images with fixed dimensions and lazy loading below the fold
 
 See [SEO-AUDIT.md](./SEO-AUDIT.md) for the live-site findings, implemented fixes, validation and owner/deployment follow-up.
+
+## Completed work — 2 November 2026
+
+The technical fixes below were verified on production. Detailed results and remaining
+issue dependencies are recorded in [SEO-AUDIT.md](./SEO-AUDIT.md).
+
+- [x] Canonical HTTPS/apex redirects, terminating 404 routes and UTF-8 HTML responses
+- [x] Distinct home/catalogue/pricing titles, responsive images and retired Leads image redirects
+- [x] Global `en_GB` metadata, `en_IN` on India-specific pages, and per-guide modification dates
+- [x] Ledger noindex and sitemap/schema exclusions while it remains coming soon
+- [x] Tablet navigation overflow and missing product-catalogue link corrected
+- [x] Malformed contact requests return controlled errors; mocked delivery regression tests pass
+- [x] Production performance measured: home 95 mobile / 100 desktop; Inventory and Assets 100 mobile
+- [x] Draft wording and source-evidence requirements prepared for all 16 registered claims; approval remains pending
+- [x] Specific ICAI/IFRS citations updated and validated locally; deployment not yet verified
+
+Latest local validation: Docker build with 0 errors/warnings/hints, 13 passing Worker
+tests, and SEO checks for 29 HTML pages, 26 indexable URLs and 96 image placements.
+Independent review passed for the citation changes. These checks do not certify
+rankings, released product claims or live enquiry delivery.
 
 ## Before launch
 
