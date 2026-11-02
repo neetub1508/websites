@@ -53,15 +53,15 @@ See [SEO-AUDIT.md](./SEO-AUDIT.md) for the live-site findings, implemented fixes
 
 ## Completed work — 2 November 2026
 
-The technical fixes below were verified on production. Detailed results and remaining
-issue dependencies are recorded in [SEO-AUDIT.md](./SEO-AUDIT.md).
+The list below distinguishes production checks from local validation and approval
+work. Detailed results and remaining dependencies are in [SEO-AUDIT.md](./SEO-AUDIT.md).
 
 - [x] Canonical HTTPS/apex redirects, terminating 404 routes and UTF-8 HTML responses
 - [x] Distinct home/catalogue/pricing titles, responsive images and retired Leads image redirects
 - [x] Global `en_GB` metadata, `en_IN` on India-specific pages, and per-guide modification dates
 - [x] Ledger noindex and sitemap/schema exclusions while it remains coming soon
 - [x] Tablet navigation overflow and missing product-catalogue link corrected
-- [x] Malformed contact requests return controlled errors; mocked delivery regression tests pass
+- [x] Local Docker checks confirm controlled malformed-request errors and mocked delivery behavior
 - [x] Production performance measured: home 95 mobile / 100 desktop; Inventory and Assets 100 mobile
 - [x] Draft wording and source-evidence requirements prepared for all 16 registered claims; approval remains pending
 - [x] Specific ICAI/IFRS citations updated and validated locally; deployment not yet verified

@@ -22,10 +22,10 @@ improvements are local changes; this audit has not deployed them.
 | Regional metadata | `en_GB` globally; `en_IN` for the India page and four India guides. | #15 closed |
 | Content dates | Removed blanket page timestamps; six guides use maintained dates matching Article metadata. | #16 closed |
 | Tablet navigation | Compact menu below 1024px avoids overflow and includes View all products. | Verified with the technical remediation |
-| Contact request handling | Invalid JSON and truncated multipart requests return controlled 400 errors. Missing delivery configuration returns 503 rather than false success. | Code verified; live delivery #4 remains open |
 
 ### Completed locally and supporting evidence
 
+- Contact request handling: local Docker/Wrangler checks confirmed controlled 400 errors for invalid JSON and truncated multipart requests. Missing configuration returns 503 rather than false success. These parsing probes were not repeated against production; live delivery remains open under #4.
 - Replaced the CARO guide's broad ICAI citation with its specific applicability announcement and the valuation guide's IFRS homepage citation with the IAS 2 page. Both official destinations returned HTTP 200 with relevant browser content. Only these two guides' modification dates changed to 2026-11-02; publication dates remain 2026-09-27. **Deployment of these citation edits is not verified.**
 - Prepared proposed wording, located code/test evidence and required release demonstrations for all 16 registered claims. This is not approval, a fresh execution of product tests or certification of released capabilities. Doc AI and Leads require additional sitewide claim coverage.
 - Rechecked government sources in Chromium: e-invoice and e-way bill portals returned 200; MCA and Income Tax returned 403 Access Denied. Retained their official URLs, including the existing Income Tax `www` URL. Access denial from this client does not establish a broken public source.
