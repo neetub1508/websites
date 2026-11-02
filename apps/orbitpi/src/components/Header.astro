@@ -12,7 +12,7 @@ const isActive = (href: string) => path.startsWith(href);
   <nav aria-label="Main" class="container-page flex h-16 items-center gap-6 lg:gap-9">
     <Logo />
 
-    <ul class="hidden flex-1 items-center gap-1 text-sm text-ink-700 md:flex">
+    <ul class="hidden flex-1 items-center gap-1 text-sm text-ink-700 lg:flex">
       <li class="relative">
         <details class="group" data-menu>
           <summary class="flex cursor-pointer list-none items-center gap-1 rounded-lg px-3 py-2 hover:bg-[#F3F4F6] [&::-webkit-details-marker]:hidden">
@@ -40,9 +40,9 @@ const isActive = (href: string) => path.startsWith(href);
       ))}
     </ul>
 
-    <a href="/contact/" class="btn-dark ml-auto hidden !rounded-[9px] !px-4 !py-2.5 !text-sm md:inline-flex">Book a demo</a>
+    <a href="/contact/" class="btn-dark ml-auto hidden !rounded-[9px] !px-4 !py-2.5 !text-sm lg:inline-flex">Book a demo</a>
 
-    <details class="ml-auto md:hidden" data-menu>
+    <details class="ml-auto lg:hidden" data-menu>
       <summary class="flex size-11 cursor-pointer list-none items-center justify-center rounded-lg border border-line-strong [&::-webkit-details-marker]:hidden" aria-label="Open menu">
         <svg aria-hidden="true" class="size-5" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h14M3 10h14M3 14h14" /></svg>
       </summary>
@@ -52,6 +52,7 @@ const isActive = (href: string) => path.startsWith(href);
           {PRODUCTS.map((p) => (
             <li><a href={productHref(p.slug)} class="flex items-center gap-3 py-3"><ProductBadge product={p} size="sm" /><span class="font-medium">{p.fullName}</span>{!isAvailable(p) && <span class="rounded-full bg-[#FFF4E0] px-2 py-px text-[11px] font-medium text-[#9A5B00]">Soon</span>}</a></li>
           ))}
+          <li><a href="/products/" class="block py-3 font-medium text-brand">View all products →</a></li>
         </ul>
         <ul class="mt-4 flex flex-col border-t border-line pt-4">
           {MAIN_NAV.map((l) => <li><a href={l.href} class="block py-3 font-medium">{l.label}</a></li>)}

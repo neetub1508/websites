@@ -505,7 +505,7 @@ export const GUIDES: Guide[] = [
       { label: 'IFRS Foundation: IAS 2 Inventories', url: 'https://www.ifrs.org/' },
       { label: 'Institute of Chartered Accountants of India: AS 2, Valuation of Inventories', url: 'https://www.icai.org/' },
       { label: 'Ministry of Corporate Affairs: Indian Accounting Standards (Ind AS 2)', url: 'https://www.mca.gov.in/' },
-      { label: 'Income Tax Department: Income Computation and Disclosure Standards', url: 'https://incometaxindia.gov.in/' },
+      { label: 'Income Tax Department: Income Computation and Disclosure Standards', url: 'https://www.incometaxindia.gov.in/' },
     ],
   },
   {
@@ -617,7 +617,7 @@ export const GUIDES: Guide[] = [
     ],
     sources: [
       { label: 'Ministry of Corporate Affairs: Companies Act, 2013, Schedule II', url: 'https://www.mca.gov.in/' },
-      { label: 'Income Tax Department: depreciation rates under the Income-tax Rules', url: 'https://incometaxindia.gov.in/' },
+      { label: 'Income Tax Department: depreciation rates under the Income-tax Rules', url: 'https://www.incometaxindia.gov.in/' },
     ],
   },
   {

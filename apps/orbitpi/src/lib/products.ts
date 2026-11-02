@@ -195,12 +195,12 @@ export const PRODUCTS: Product[] = [
     summary: 'Capture, route and follow up every enquiry on time.',
     highlights: ['Web form with UTM and ad-click tracking', 'Routing rules, pools and round-robin', 'Response-time SLAs and reminders'],
     image: {
-      src: '/images/products/lead-management-ai-voice-agent.webp',
-      srcSmall: '/images/products/lead-management-ai-voice-agent-640.webp',
+      src: '/images/products/lead-management-software.webp',
+      srcSmall: '/images/products/lead-management-software-640.webp',
       alt: 'An enquiry form feeds contact cards through a lead pipeline to a follow-up calendar.',
       width: 1254,
       height: 570,
-      card: { src: '/images/products/lead-management-ai-voice-agent-card.webp', srcMedium: '/images/products/lead-management-ai-voice-agent-card-640.webp', srcSmall: '/images/products/lead-management-ai-voice-agent-card-400.webp', width: 800, height: 500 },
+      card: { src: '/images/products/lead-management-software-card.webp', srcMedium: '/images/products/lead-management-software-card-640.webp', srcSmall: '/images/products/lead-management-software-card-400.webp', width: 800, height: 500 },
     },
     features: [
       { title: 'Capture with source tracking', body: 'A hosted web form records UTM tags, Google and Meta click IDs, referrer and landing page, blocks spam and removes duplicates. Walk-ins and imports follow the same rules.' },

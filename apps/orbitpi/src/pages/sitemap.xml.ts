@@ -6,20 +6,21 @@ import { SITE } from '../lib/site';
 
 // Generates /sitemap.xml at build time from the real routes. Adding a product,
 // industry or guide to its data file adds it here automatically. Referenced from robots.txt.
-// lastmod: a guide's own `modified` date; SITE.contentUpdated for every other page.
+// Only guides have a maintained page-specific modified date. Omit lastmod elsewhere
+// rather than giving unchanged pages a shared release/build timestamp.
 const STATIC_PAGES = ['', 'products/', 'industries/', 'guides/', 'india/', 'pricing/', 'about/', 'contact/', 'privacy/', 'terms/'];
 
 export const GET: APIRoute = () => {
-  const urls = [
-    ...STATIC_PAGES.map((p) => ({ loc: `${SITE.url}/${p}`, lastmod: SITE.contentUpdated })),
-    ...PRODUCTS.map((p) => ({ loc: `${SITE.url}/products/${p.slug}/`, lastmod: SITE.contentUpdated })),
-    ...INDUSTRIES.map((i) => ({ loc: `${SITE.url}/industries/${i.slug}/`, lastmod: SITE.contentUpdated })),
+  const urls: { loc: string; lastmod?: string }[] = [
+    ...STATIC_PAGES.map((p) => ({ loc: `${SITE.url}/${p}` })),
+    ...PRODUCTS.filter((p) => p.status !== 'coming-soon').map((p) => ({ loc: `${SITE.url}/products/${p.slug}/` })),
+    ...INDUSTRIES.map((i) => ({ loc: `${SITE.url}/industries/${i.slug}/` })),
     ...GUIDES.map((g) => ({ loc: `${SITE.url}/guides/${g.slug}/`, lastmod: g.modified })),
   ];
 
   const body = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.map((u) => `  <url><loc>${u.loc}</loc><lastmod>${u.lastmod}</lastmod></url>`).join('\n')}
+${urls.map((u) => `  <url><loc>${u.loc}</loc>${u.lastmod ? `<lastmod>${u.lastmod}</lastmod>` : ''}</url>`).join('\n')}
 </urlset>
 `;
 

@@ -28,8 +28,6 @@ export const SITE = {
   foundingYear: 2026,
   // Official company profiles (LinkedIn, X, YouTube…). Listed in Organization schema as sameAs once added.
   sameAs: [] as string[],
-  // Date of the last substantive copy change to product, industry and company pages; used as sitemap lastmod.
-  contentUpdated: '2026-09-27',
 } as const;
 
 export interface NavLink {

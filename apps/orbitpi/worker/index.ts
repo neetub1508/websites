@@ -12,6 +12,11 @@ const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 // Retired page URLs → their current canonical route (permanent redirect).
 const MOVED: Record<string, string> = {
   '/products/lead-management-ai-voice-agent/': '/products/lead-management-software/',
+  '/images/products/lead-management-ai-voice-agent.webp': '/images/products/lead-management-software.webp',
+  '/images/products/lead-management-ai-voice-agent-640.webp': '/images/products/lead-management-software-640.webp',
+  '/images/products/lead-management-ai-voice-agent-card.webp': '/images/products/lead-management-software-card.webp',
+  '/images/products/lead-management-ai-voice-agent-card-640.webp': '/images/products/lead-management-software-card-640.webp',
+  '/images/products/lead-management-ai-voice-agent-card-400.webp': '/images/products/lead-management-software-card-400.webp',
 };
 
 // Canonical form of a page path: lowercase, ending in a slash, without index.html.
@@ -19,6 +24,8 @@ const MOVED: Record<string, string> = {
 // hashed asset names are case-sensitive.
 function canonicalPath(pathname: string): string {
   let path = pathname.endsWith('/index.html') ? pathname.slice(0, -'index.html'.length) : pathname;
+  // Assets auto HTML handling serves 404.html at /404, without a trailing slash.
+  if (['/404', '/404/', '/404.html'].includes(path.toLowerCase())) return '/404';
   const last = path.slice(path.lastIndexOf('/') + 1);
   if (!last.includes('.')) {
     path = path.toLowerCase();
@@ -38,16 +45,31 @@ export default {
     if ((request.method === 'GET' || request.method === 'HEAD') && url.pathname !== '/api/contact') url.pathname = canonicalPath(url.pathname);
     if (url.toString() !== request.url) return Response.redirect(url.toString(), 308);
     const { pathname } = url;
-    if (pathname !== '/api/contact') return env.ASSETS.fetch(request);
+    if (pathname !== '/api/contact') {
+      const response = await env.ASSETS.fetch(request);
+      const contentType = response.headers.get('Content-Type') ?? '';
+      if (contentType.split(';')[0].trim().toLowerCase() !== 'text/html') return response;
+      const headers = new Headers(response.headers);
+      headers.set('Content-Type', 'text/html; charset=utf-8');
+      // The explicit error-page URL must not be a successful, indexable page.
+      const status = pathname === '/404' && response.status === 200 ? 404 : response.status;
+      if (status === 404) headers.set('X-Robots-Tag', 'noindex');
+      return new Response(response.body, { status, statusText: status === 404 ? 'Not Found' : response.statusText, headers });
+    }
     if (request.method !== 'POST') return new Response('Method Not Allowed', { status: 405, headers: { Allow: 'POST' } });
     return handleContact(request, env);
   },
 };
 
 async function handleContact(request: Request, env: Env): Promise<Response> {
-  const form = await request.formData();
-  const field = (k: string) => String(form.get(k) ?? '').trim().slice(0, 2000);
   const wantsJson = (request.headers.get('Accept') ?? '').includes('application/json');
+  let form: FormData;
+  try {
+    form = await request.formData();
+  } catch {
+    return respond(request, wantsJson, false, 400);
+  }
+  const field = (k: string) => String(form.get(k) ?? '').trim().slice(0, 2000);
 
   // Honeypot: bots fill hidden fields. Pretend success.
   if (field('website')) return respond(request, wantsJson, true);

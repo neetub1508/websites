@@ -59,7 +59,7 @@ const faqs = [
 const schema = graph(webPage(absoluteUrl('/india/'), title, description), breadcrumbs(crumbs), faqPage(faqs));
 ---
 
-<BaseLayout title={title} description={description} schema={schema}>
+<BaseLayout title={title} description={description} schema={schema} locale="en_IN">
   <Breadcrumbs items={crumbs} />
   <section class="container-page flex flex-col gap-12 pb-24 pt-12">
     <SectionHeading as="h1" title="Business software for Indian companies" lead="OrbitPi is built for operations teams everywhere. For businesses in India, each product also handles local tax and audit rules, such as GST e-invoices, e-way bills and CARO asset verification, without add-ons." />

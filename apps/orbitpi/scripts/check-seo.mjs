@@ -39,6 +39,8 @@ for (const [route, source] of pages) {
   check(Boolean(description), `${route}: missing description`);
   check((source.match(/<h1\b/g) || []).length === 1, `${route}: expected one H1`);
   check(tags(source, 'html')[0]?.lang === 'en', `${route}: incorrect document language`);
+  const indiaSpecific = route === '/india/' || source.includes('Applies to India');
+  check(getMeta('og:locale') === (indiaSpecific ? 'en_IN' : 'en_GB'), `${route}: incorrect regional social locale`);
   const canonicals = tags(source, 'link').filter((l) => l.rel === 'canonical');
   if (noindex) {
     // Noindex pages (404, thank-you) have no indexable URL, so no canonical or og:url.
@@ -66,6 +68,9 @@ for (const [route, source] of pages) {
     catch { errors.push(`${route}: invalid JSON-LD`); }
   }
   if (!noindex) check(nodes.some((n) => n['@type'] === 'Organization'), `${route}: missing organization schema`);
+  for (const node of nodes.filter((n) => n['@type'] === 'Organization')) {
+    check(!node.contactPoint?.availableLanguage, `${route}: support languages require approval`);
+  }
   for (const node of nodes.filter((n) => n['@type'] === 'FAQPage')) {
     const visible = decode(source.replace(/<script\b[^>]*>.*?<\/script>/gs, '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' '));
     for (const q of node.mainEntity) {
@@ -74,6 +79,7 @@ for (const [route, source] of pages) {
     }
   }
   for (const node of nodes.filter((n) => n['@type'] === 'SoftwareApplication' && route.startsWith('/products/'))) {
+    check(!node.featureList, `${route}: feature claims need approval before structured-data publication`);
     check(Boolean(node.image), `${route}: software schema missing image`);
     check(node.mainEntityOfPage?.['@id'] === origin + route + '#webpage', `${route}: software not linked to page entity`);
   }
@@ -87,6 +93,10 @@ for (const [route, source] of pages) {
     imageCount++;
     check(Boolean(img.alt?.trim()), `${route}: missing image alt`);
     check(Number(img.width) > 0 && Number(img.height) > 0, `${route}: missing image dimensions`);
+    if (img.src?.startsWith('/images/') && !img.src.startsWith('/images/brand/')) {
+      check(Boolean(img.srcset && img.sizes), `${route}: content artwork needs responsive sources and sizes`);
+    }
+    check(!img.src?.includes('lead-management-ai-voice-agent'), `${route}: retired Leads asset name`);
     const urls = [img.src, ...(img.srcset || '').split(',').map((s) => s.trim().split(/\s+/)[0])].filter(Boolean);
     for (const url of urls) if (url.startsWith('/')) {
       try { await access(routeFile(new URL(url, origin).pathname)); }
@@ -109,13 +119,19 @@ for (const [route, source] of pages) {
 }
 const sitemap = await readFile(path.join(dist, 'sitemap.xml'), 'utf8');
 const locations = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((m) => m[1]);
-check([...sitemap.matchAll(/<url><loc>[^<]+<\/loc><lastmod>\d{4}-\d{2}-\d{2}<\/lastmod><\/url>/g)].length === locations.length, 'Every sitemap URL needs a lastmod date');
+for (const entry of sitemap.matchAll(/<url><loc>([^<]+)<\/loc>(.*?)<\/url>/g)) {
+  const route = new URL(entry[1]).pathname;
+  if (route.startsWith('/guides/') && route !== '/guides/') {
+    const modified = tags(pages.get(route) ?? '', 'meta').find((m) => m.property === 'article:modified_time')?.content;
+    check(entry[2] === `<lastmod>${modified}</lastmod>`, `${route}: sitemap lastmod must match the article date`);
+  } else check(!entry[2].includes('<lastmod>'), `${route}: no verified page-specific modification date`);
+}
 check(new Set(locations).size === locations.length, 'Sitemap has duplicate URLs');
 for (const url of indexable) check(locations.includes(url), `Indexable page missing from sitemap: ${url}`);
 for (const url of locations) check(indexable.includes(url), `Sitemap includes a missing or noindex page: ${url}`);
 const robots = await readFile(path.join(dist, 'robots.txt'), 'utf8');
 check(robots.includes(`Sitemap: ${origin}/sitemap.xml`), 'robots.txt missing sitemap');
-for (const route of ['/404.html', '/contact/thanks/']) check(pages.get(route)?.includes('noindex'), `${route}: missing noindex`);
+for (const route of ['/404.html', '/contact/thanks/', '/products/accounting-software/']) check(pages.get(route)?.includes('noindex'), `${route}: missing noindex`);
 const ledger = pages.get('/products/accounting-software/');
 check(ledger?.includes('Coming soon') && !ledger.includes('"@type":"SoftwareApplication"'), 'Unreleased Ledger must not be marked as released software');
 check(pages.get('/products/lead-management-software/')?.includes('AI voice agent, coming soon'), 'Voice AI availability label missing');

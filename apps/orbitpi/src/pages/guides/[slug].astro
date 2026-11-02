@@ -31,7 +31,7 @@ const schema = graph(
 );
 ---
 
-<BaseLayout title={g.metaTitle} description={g.metaDescription} schema={schema} ogType="article" image={image} published={g.published} modified={g.modified}>
+<BaseLayout title={g.metaTitle} description={g.metaDescription} schema={schema} ogType="article" image={image} published={g.published} modified={g.modified} locale={g.region === 'India' ? 'en_IN' : 'en_GB'}>
   <Breadcrumbs items={crumbs} />
   <article class="container-page grid gap-12 pb-24 pt-10 lg:grid-cols-[minmax(0,1fr)_280px]">
     <div class="flex min-w-0 max-w-3xl flex-col gap-10">

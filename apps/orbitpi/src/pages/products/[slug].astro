@@ -36,7 +36,7 @@ const schema = graph(
 );
 ---
 
-<BaseLayout title={p.metaTitle} description={p.metaDescription} schema={schema} image={image}>
+<BaseLayout title={p.metaTitle} description={p.metaDescription} schema={schema} image={image} noindex={p.status === 'coming-soon'}>
   <Breadcrumbs items={crumbs} />
 
   <section aria-labelledby="page-title" class="container-page grid items-center gap-12 pb-20 pt-10 lg:grid-cols-[1.05fr_1fr]" style={`--accent:${accent}`}>
@@ -57,7 +57,7 @@ const schema = graph(
 
   <section id="features" aria-labelledby="features-title" class="border-y border-line bg-mist">
     <div class="container-page flex flex-col gap-12 py-24">
-      <SectionHeading id="features-title" title={`${p.fullName} features`} lead={available ? `What ${p.fullName} does today, feature by feature.` : `What we are building into ${p.fullName}. None of this is available yet.`} />
+      <SectionHeading id="features-title" title={available ? `${p.fullName} features` : `${p.fullName}: planned scope`} lead={available ? `What ${p.fullName} does today, feature by feature.` : `What we are building into ${p.fullName}. None of this is available yet.`} />
       <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {p.features.map((f) => (
           <li class="flex flex-col gap-2.5 rounded-2xl border border-line bg-white p-6">
@@ -174,5 +174,5 @@ const schema = graph(
 
   {available
     ? <CtaBanner title={`See ${p.fullName} on your own data`} />
-    : <CtaBanner title={`Get early access to ${p.fullName}`} text="Tell us how your finance team works today and we will keep you updated as Ledger is built." cta="Contact us" />}
+    : <CtaBanner title={`Discuss ${p.fullName} requirements`} text="Tell us how your finance team works today and we will keep you updated as Ledger is built." cta="Contact us" />}
 </BaseLayout>

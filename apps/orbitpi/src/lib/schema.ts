@@ -30,7 +30,6 @@ export const organization = (): JsonLd => ({
     contactType: 'sales',
     email: SITE.salesEmail,
     ...(SITE.contactDetailsVerified ? { telephone: SITE.phone } : {}),
-    availableLanguage: ['English', 'Hindi'],
   },
 });
 
@@ -85,7 +84,6 @@ export const softwareApp = (p: Product): JsonLd => ({
   ...(p.image ? { image: absoluteUrl(p.image.src) } : {}),
   description: p.metaDescription,
   url: absoluteUrl(`/products/${p.slug}/`),
-  featureList: p.features.map((f) => f.title),
   publisher: { '@id': ORG_ID },
 });
 
