@@ -1,11 +1,11 @@
 ---
 import Logo from '@/components/Logo.astro';
 import { SITE, COMPANY_LINKS, LEGAL_LINKS } from '@/lib/site';
-import { PRODUCTS, productHref } from '@/lib/products';
+import { PRODUCTS, productHref, isAvailable } from '@/lib/products';
 import { INDUSTRIES, industryHref } from '@/lib/industries';
 
 const cols = [
-  { heading: 'Products', links: PRODUCTS.map((p) => ({ label: p.category, href: productHref(p.slug) })) },
+  { heading: 'Products', links: PRODUCTS.filter(isAvailable).map((p) => ({ label: p.category, href: productHref(p.slug) })) },
   { heading: 'Industries', links: INDUSTRIES.map((i) => ({ label: i.name, href: industryHref(i.slug) })) },
   { heading: 'Company', links: COMPANY_LINKS },
 ];

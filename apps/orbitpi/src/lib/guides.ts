@@ -526,7 +526,7 @@ export const GUIDES: Guide[] = [
       'Book and tax depreciation usually differ, which creates a deferred tax difference.',
     ],
     published: '2026-09-27',
-    modified: '2026-09-27',
+    modified: '2026-11-02',
     product: 'asset-management-software',
     productPitch:
       'OrbitPi Assets runs depreciation monthly using straight-line, declining-balance or double-declining methods, and shows gross block, accumulated depreciation and net block at any date. It supports bulk import of existing assets with opening written-down values.',

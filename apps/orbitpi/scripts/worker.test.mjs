@@ -21,7 +21,7 @@ test('HTTP and www requests permanently redirect and retain path, query and POST
   }
 });
 test('Canonical production and local preview requests still serve assets', async () => {
-  for (const url of ['https://orbitpi.com/', 'http://localhost:8787/', 'https://orbitpi.com/about/?utm_source=x', 'https://orbitpi.com/_astro/about.BS6RIQxn.css', 'https://orbitpi.com/sitemap.xml']) {
+  for (const url of ['https://orbitpi.com/', 'http://localhost:8787/', 'https://orbitpi.com/about/?utm_source=x', 'https://orbitpi.com/_astro/about.BS6RIQxn.css', 'https://orbitpi.com/sitemap.xml', 'https://orbitpi.com/llms.txt']) {
     assert.equal(await (await worker.fetch(new Request(url), { ASSETS: assets })).text(), 'asset', url);
   }
 });
@@ -38,6 +38,8 @@ test('Non-canonical page paths take one permanent hop to the canonical URL', asy
     'https://orbitpi.com/404.html': 'https://orbitpi.com/404',
     'https://orbitpi.com/404/': 'https://orbitpi.com/404',
     'https://orbitpi.com/404/index.html': 'https://orbitpi.com/404',
+    'http://orbitpi.com/llms.txt': 'https://orbitpi.com/llms.txt',
+    'http://www.orbitpi.com/llms.txt': 'https://orbitpi.com/llms.txt',
   };
   for (const [from, to] of Object.entries(cases)) {
     const response = await worker.fetch(new Request(from), { ASSETS: assets });

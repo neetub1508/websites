@@ -2,3 +2,5 @@ User-agent: *
 Allow: /
 
 Sitemap: https://orbitpi.com/sitemap.xml
+
+# https://orbitpi.com/llms.txt
