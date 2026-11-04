@@ -1,6 +1,9 @@
 // Single source of truth for company details, navigation and URLs.
 // Confirm the address and phone before enabling them in public copy and structured data.
 
+// Official X profile. The handle is spelled oribitpi. Change only this constant if it is renamed.
+export const X_PROFILE_URL = 'https://x.com/oribitpi';
+
 export const SITE = {
   name: 'OrbitPi',
   legalName: 'OrbitPi Technologies Pvt. Ltd.',
@@ -26,10 +29,8 @@ export const SITE = {
   logo: '/logo.png',
   locale: 'en_GB', // British English spelling, global audience
   foundingYear: 2026,
-  // TODO(owner): add verified social profile URLs before Organization schema emits sameAs.
-  // No LinkedIn, X, YouTube, or other official profile URLs exist in this repo.
-  // Do not invent URLs. Leave this array empty until a real profile is confirmed.
-  sameAs: [] as string[],
+  // Only the approved X profile. The handle is spelled oribitpi. Rename X_PROFILE_URL if it changes.
+  sameAs: [X_PROFILE_URL],
 } as const;
 
 export interface NavLink {

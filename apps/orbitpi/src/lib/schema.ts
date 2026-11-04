@@ -16,8 +16,7 @@ export const organization = (): JsonLd => ({
   description: SITE.description,
   logo: absoluteUrl(SITE.logo),
   email: SITE.email,
-  // TODO(owner): sameAs stays omitted while SITE.sameAs is empty. See site.ts.
-  ...(SITE.sameAs.length ? { sameAs: [...SITE.sameAs] } : {}),
+  sameAs: [...SITE.sameAs],
   ...(SITE.contactDetailsVerified ? { telephone: SITE.phone, address: {
     '@type': 'PostalAddress',
     streetAddress: SITE.address.street,

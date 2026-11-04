@@ -9,7 +9,7 @@ import { absoluteUrl } from '@/lib/site';
 import { graph, webPage, breadcrumbs, itemList } from '@/lib/schema';
 
 const title = 'OrbitPi Product Catalogue | Explore the Software Suite';
-const description = 'Explore OrbitPi DocAI for document OCR, Inventory for warehouse stock, Leads for lead management and Assets for asset management. Ledger is coming soon.';
+const description = 'Explore OrbitPi DocAI for document OCR, Inventory for warehouse stock, Leads for lead management and Assets for asset management.';
 const crumbs = [{ name: 'Home', path: '/' }, { name: 'Products', path: '/products/' }];
 const india = [
   { title: 'GST e-invoice QR checks', body: 'DocAI reads the QR code on GST e-invoices and compares it with the extracted invoice values.', slug: 'ai-document-ocr', link: 'DocAI' },
@@ -27,9 +27,9 @@ const schema = graph(
 <BaseLayout title={title} description={description} schema={schema}>
   <Breadcrumbs items={crumbs} />
   <section class="container-page flex flex-col gap-12 pb-24 pt-12">
-    <SectionHeading as="h1" title="Business software products for operations teams" lead="Four products available today and one in development. Each works on its own, and all run on the same OrbitPi platform with shared users, branches and roles." />
+    <SectionHeading as="h1" title="Business software products for operations teams" lead="Four products are available today. Each works on its own, and all run on the same OrbitPi platform with shared users, branches and roles. Accounting software is in development and is not listed here." />
     <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {PRODUCTS.map((p) => <ProductCard product={p} headingLevel="h2" showImage />)}
+      {PRODUCTS.filter(isAvailable).map((p) => <ProductCard product={p} headingLevel="h2" showImage />)}
     </div>
   </section>
 

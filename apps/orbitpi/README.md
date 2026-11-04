@@ -74,7 +74,7 @@ rankings, released product claims or live enquiry delivery.
 ## Before launch
 
 - [ ] Confirm contact email and replace placeholder address/phone in `src/lib/site.ts`; set `contactDetailsVerified` only after verification
-- [ ] Add official company profiles (LinkedIn etc.) to `SITE.sameAs` in `src/lib/site.ts`
+- [x] Official X profile is `X_PROFILE_URL` in `src/lib/site.ts` (also `SITE.sameAs` and the footer). Do not add other profiles until Bharat approves them
 - [ ] Update a guide's `modified` date only for substantive content changes. Other pages omit optional sitemap `lastmod` until page-specific dates are maintained
 - [ ] Have a chartered accountant review the tax/accounting guides and the privacy policy before relying on them
 - [ ] Keep product claims in sync with the task repos: update `src/lib/products.ts` when
