@@ -120,12 +120,12 @@ export const PRODUCTS: Product[] = [
     soft: '#E6F6F1',
     metaTitle: 'Warehouse Inventory Management Software | OrbitPi',
     metaDescription:
-      'OrbitPi Inventory is warehouse inventory management software: bins, batches and expiry, barcode scanning, FIFO valuation and GRNs, plus e-way bills for India.',
+      'OrbitPi Inventory tracks bins, batches, expiry and barcodes, receives on a GRN, and values stock by FIFO, moving average or standard cost. E-way bills for India are in the India module.',
     h1: 'Warehouse inventory management software for multi-site teams',
     intro:
-      'OrbitPi Inventory gives distributors, 3PLs and manufacturers one live record of inventory across warehouses and bins, with batch and expiry control, barcode scanning and stock valuation built in, plus GST documents for businesses in India.',
+      'OrbitPi Inventory keeps stock by warehouse, bin, batch and owner, with barcode scanning and valuation by FIFO, moving average (AVCO) or standard cost. GST documents for India sit in a separate India module.',
     summary: 'Bins, batches, expiry and valuation in one live record.',
-    highlights: ['Bins, batches, serials and pallets', 'Scan-verified picking and packing', 'FIFO and weighted-average valuation'],
+    highlights: ['Bins, batches, serials and pallets', 'Scan-verified picking and packing', 'FIFO, moving-average or standard cost'],
     image: {
       src: '/images/products/warehouse-inventory-management.webp',
       srcSmall: '/images/products/warehouse-inventory-management-640.webp',
@@ -141,7 +141,7 @@ export const PRODUCTS: Product[] = [
       { title: 'Reservations, picking and packing', body: 'Reserve stock for orders with FIFO, earliest-expiry or named-lot rules, pick in waves, and verify every pack by scan.' },
       { title: 'Barcode scanning and labels', body: 'Scan-driven screens understand carton and pallet barcodes, read GS1 supplier labels, and print labels on Zebra (ZPL) or PDF printers.' },
       { title: 'GST documents for India', body: 'GSTIN profiles, HSN and SAC masters, delivery challans per branch series and the full e-way bill lifecycle. Dispatch is blocked until the e-way bill is active.' },
-      { title: 'Counts and valuation', body: 'Run blind cycle counts with approval above a limit, value stock by FIFO or weighted average, and apply landed cost.' },
+      { title: 'Counts and valuation', body: 'A blind cycle count hides the book quantity until submit. Freezing stores that book figure. A line outside tolerance waits for approval, and a recount keeps the original line. Valuation is FIFO, moving average (AVCO) or standard cost per category and site. LIFO is not offered.' },
       { title: 'Controls and audit trail', body: 'Role-based access by branch and site, maker-checker approvals, and a tamper-evident audit trail of every stock movement.' },
     ],
     steps: [
@@ -172,8 +172,8 @@ export const PRODUCTS: Product[] = [
       { q: 'Can I track batches, expiry dates and serial numbers?', a: 'Yes. OrbitPi Inventory tracks lots, serials and pallets with forward and backward traceability, filters near-expiry stock at 30, 60, 90 or 180 days, and can allocate the earliest expiry first.' },
       { q: 'Does OrbitPi Inventory generate e-way bills for India?', a: 'Yes. For businesses in India, OrbitPi Inventory handles the e-way bill lifecycle through a GST compliance provider, including Part A and Part B, vehicle updates, extension, cancellation and consolidated bills. Dispatch is blocked until the bill is active.' },
       { q: 'Does it work with barcode scanners?', a: 'Yes. Receiving, picking, packing and counting screens are driven by barcode scans in the web browser, and OrbitPi Inventory recognises carton and pallet barcodes as well as GS1 supplier labels. A dedicated handheld app is not available yet.' },
-      { q: 'How does OrbitPi Inventory value stock?', a: 'OrbitPi Inventory values inventory by FIFO or weighted average in rupees, supports landed cost and revaluation, and reports valuation as at any date.' },
-      { q: 'Can a 3PL use OrbitPi Inventory for many clients?', a: 'Yes. Every stock line carries an owner, so a 3PL can hold and report inventory separately for each client. A client portal and billing runs are planned.' },
+      { q: 'How does OrbitPi Inventory value stock?', a: 'The costing methods are FIFO, moving average (AVCO) and standard cost, set per item category and site. Serial-controlled items take cost from that serial’s own layer. LIFO is not available. Landed cost and revaluation are separate value movements, and valuation can be reported as at a date.' },
+      { q: 'Can a 3PL use OrbitPi Inventory for many clients?', a: 'Each stock line has an owner, so client stock can be held and reported separately. When the 3PL module is enabled, versioned rate cards, SLA records and billing runs are included. A run prices metered events and stops if an event has no rate. It does not issue the tax invoice; it prepares an accounts-receivable handover. Client portal access is a permission limited to that client.' },
     ],
   },
   {
@@ -229,14 +229,14 @@ export const PRODUCTS: Product[] = [
       { title: 'Real estate and B2B', body: 'Manage long follow-up cycles with pipelines, reminders and SLAs.' },
     ],
     integrations: [
-      { title: 'WhatsApp', body: 'Approved message templates sent through AiSensy or Twilio.' },
+      { title: 'WhatsApp', body: 'Approved message templates can be sent from the lead. This site does not name a WhatsApp provider.' },
       { title: 'Email', body: 'Template emails sent from the lead, logged on its timeline.' },
       { title: 'Hosted web form', body: 'Capture enquiries with campaign, click ID and landing-page details.' },
       { title: 'Excel and CSV', body: 'Import lead lists with validation first, and export any report.' },
     ],
     upcoming: {
       title: 'AI voice agent, coming soon',
-      body: 'We are building an AI voice agent that calls new leads in Hindi and English, asks your qualifying questions and logs the outcome in Leads. It is not available yet. Everything else on this page works today.',
+      body: 'An AI voice agent is in development and is not available. This site does not describe its languages or script. The capture, routing and follow-up features on this page are separate from that agent.',
     },
     faqs: [
       { q: 'What is lead management software?', a: 'Lead management software records every enquiry, assigns it to the right person, tracks each follow-up and reports on how leads move towards a sale.' },
@@ -244,7 +244,7 @@ export const PRODUCTS: Product[] = [
       { q: 'Can I see which campaign a lead came from?', a: 'Yes. The web capture form records UTM tags, Google and Meta click IDs, the referrer and the landing page with each lead.' },
       { q: 'Can I track response times?', a: 'Yes. SLA policies set first-response and stage targets, warn before a breach and record every breach for reporting.' },
       { q: 'Can I send WhatsApp messages from OrbitPi Leads?', a: 'Yes. Reps can send approved WhatsApp and email templates from the lead, and Leads checks the do-not-contact list before every message. SMS is not supported.' },
-      { q: 'Does OrbitPi Leads have an AI voice agent?', a: 'Not yet. An AI voice agent that calls and qualifies leads in Hindi and English is in development. Every other part of Leads works today without it.' },
+      { q: 'Does OrbitPi Leads have an AI voice agent?', a: 'Not yet. An AI voice agent is in development and is not available. This site does not describe its languages. Capture, routing and follow-up do not depend on it.' },
       { q: 'Does Leads handle do-not-contact requests?', a: 'Yes. A do-not-contact list with a mandatory reason blocks further messages, consent is recorded per channel and purpose, and retention policies and data requests are managed in the product.' },
     ],
   },

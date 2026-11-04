@@ -29,8 +29,8 @@ export const DEMO: DemoPanel[] = [
     slug: 'warehouse-inventory-management', path: 'inventory/on-hand', title: 'Stock on hand', subtitle: '3 warehouses · 1,240 bins', status: 'Live',
     kpis: [{ label: 'SKUs', value: '4,812' }, { label: 'Stock value', value: '₹2.4 Cr' }, { label: 'Low stock', value: '18' }],
     fieldLabels: ['On hand', 'Reserved', 'Reorder level', 'Lot'],
-    activity: ['Scanned in on GRN at dock 2', 'Put-away rule chose bin', 'Low-stock alert rule checked'],
-    action: 'Create reorder', done: 'Suggested PO created',
+    activity: ['Scanned in on GRN at dock 2', 'Put-away rule chose bin', 'Replenishment suggestion proposed'],
+    action: 'Accept suggestion', done: 'Suggestion accepted for review',
     rows: [
       { name: 'Kraft box 5-ply', ref: 'WH-A · R12-B3', status: '12,400', tone: 'ok', fields: ['12,400', '1,200', '4,000', 'L-2609-A'] },
       { name: 'Stretch film 23µ', ref: 'WH-A · R04-A1', status: '680', tone: 'ok', fields: ['680', '120', '500', 'L-2608-C'] },

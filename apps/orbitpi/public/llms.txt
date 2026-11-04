@@ -43,6 +43,8 @@ Contact: hello@orbitpi.com
 - [FIFO vs weighted average inventory valuation, with a worked example](https://orbitpi.com/guides/fifo-vs-weighted-average-inventory-valuation/)
 - [Straight-line vs written down value depreciation: how to calculate both](https://orbitpi.com/guides/straight-line-vs-written-down-value-depreciation/)
 - [Lead routing: round-robin vs rule-based assignment](https://orbitpi.com/guides/lead-routing-round-robin-vs-rules/)
+- [Stock mismatches: cycle counts, recounts and adjustments](https://orbitpi.com/guides/stock-mismatches-cycle-counts/)
+- [Asset custody and verification schedules](https://orbitpi.com/guides/asset-custody-verification-schedule/)
 
 ## Optional
 

@@ -410,10 +410,10 @@ export const GUIDES: Guide[] = [
       'The formula is a valuation choice. Physical issue rules, such as earliest expiry first, can differ.',
     ],
     published: '2026-09-27',
-    modified: '2026-11-02',
+    modified: '2026-11-04',
     product: 'warehouse-inventory-management',
     productPitch:
-      'OrbitPi Inventory values inventory in rupees by FIFO or weighted average, supports landed cost and revaluation, and reports valuation as at any date. Physical allocation rules, such as FIFO, earliest expiry or a named lot, are set separately for reservations.',
+      'OrbitPi Inventory costs stock with FIFO, moving average (AVCO) or standard cost, per item category and site. It does not offer LIFO, and it does not calculate one periodic weighted average for a whole month. Serial-controlled items take cost from that serial’s own layer. Landed cost and revaluation are separate value movements. Physical allocation, such as earliest expiry or a named lot, is set separately from the costing method.',
     disclaimer: true,
     sections: [
       {
@@ -732,6 +732,194 @@ export const GUIDES: Guide[] = [
       { q: 'How do I stop the same lead being assigned twice?', a: 'Match new enquiries against existing leads by phone number and email before routing, and attach the new enquiry to the existing lead and its owner.' },
     ],
     sources: [],
+  },
+  {
+    slug: 'stock-mismatches-cycle-counts',
+    topic: 'Inventory',
+    title: 'Stock mismatches: cycle counts, recounts and adjustments',
+    metaTitle: 'Stock Mismatches and Cycle Counts | OrbitPi',
+    metaDescription:
+      'How to investigate a stock mismatch: freeze the book figure, count blind, recount, then post an adjustment with a reason. Includes a worked example.',
+    summary:
+      'A stock mismatch is a difference between the quantity counted and the book quantity for the same item, lot and location. Freeze the book figure before counting, so receipts during the count are not mixed into the snapshot. A blind count hides that figure from the counter. Recount a large difference before you change the books, and post an adjustment only after the count is approved. The reason on the adjustment is what later explains the difference.',
+    takeaways: [
+      'Freeze book quantity, including cost, before the first count is entered.',
+      'A blind count does not show the book figure, the movements after the freeze, or the variance until the count is submitted.',
+      'Variance is counted quantity minus the frozen book quantity, adjusted for stock that moved at that location after the snapshot.',
+      'A line inside tolerance can post with the count. A line outside tolerance waits for approval.',
+      'A recount keeps the original line and adds a new attempt. It does not overwrite the first count.',
+      'The posted difference uses a count-variance reason, or COUNT_OVER / COUNT_SHORT when no reason is chosen.',
+    ],
+    published: '2026-11-04',
+    modified: '2026-11-04',
+    product: 'warehouse-inventory-management',
+    productPitch:
+      'OrbitPi Inventory freezes book quantity and unit cost on every count line, including a blind count, and withholds the book figure until submit while the count is blind. A line outside the quantity or value tolerance sends the whole count for approval. A recount supersedes the original line instead of replacing it. Posting writes the variance through a stock adjustment. The line uses an active count-variance reason when one is given, otherwise COUNT_OVER or COUNT_SHORT by sign.',
+    disclaimer: true,
+    sections: [
+      {
+        id: 'what-a-mismatch-is',
+        heading: 'What is a stock mismatch?',
+        paragraphs: [
+          'A mismatch is not a missing pallet by itself. It is a counted quantity that does not equal the book quantity for one stock identity: the item, its lot or serial when you track one, the location, the owner and the stock status. Mixing two lots on one line, or counting a bin that was received after you started, produces a difference that is not a real loss.',
+          'Write the difference down before anyone “corrects” the system from memory. The book figure you compare against has to be the figure at a named time, not whatever the screen shows an hour later.',
+        ],
+      },
+      {
+        id: 'freeze-and-blind',
+        heading: 'Why freeze the book figure, and when to count blind?',
+        paragraphs: [
+          'Freeze means storing the book quantity and its unit cost on the count line at the start. Later receipts, picks and transfers are then visible as movements after that snapshot, instead of silently changing the number the counter is judged against.',
+          'A blind count is the same freeze, with the book quantity hidden from the person counting until the count is submitted. Counters who can see “the system says 40” tend to find 40. Hiding the figure does not hide it from the record: it is stored, and it is used when the variance is calculated.',
+        ],
+      },
+      {
+        id: 'variance-and-reasons',
+        heading: 'How should a variance be classified?',
+        paragraphs: [
+          'Calculate variance as counted quantity minus the frozen book quantity, then adjust for stock that actually moved at that line after the snapshot and before the count was entered. Do not subtract the live on-hand balance, because that balance already includes those movements and the count’s own activity.',
+        ],
+        table: {
+          caption: 'Worked example: one bin, frozen at 100, then a receipt of 10 before the count',
+          head: ['Step', 'Quantity', 'What it means'],
+          rows: [
+            ['Book quantity at freeze', '100', 'Stored on the count line'],
+            ['Receipt after the freeze', '10', 'Movement in the window, not part of the frozen book'],
+            ['Quantity the counter should tie to', '110', '100 + 10'],
+            ['Quantity counted', '104', 'What was on the shelf'],
+            ['Variance', '−6', '104 − 110, a shortage'],
+          ],
+        },
+        after: [
+          'Give the shortage a reason from the count-variance list, such as damage, a picking error or an unidentified loss, and add a note when the reason requires one. If nobody chooses a reason, record the sign: short or over. A reason is what an auditor reads later. “Adjusted” is not a reason.',
+        ],
+      },
+      {
+        id: 'recount-then-post',
+        heading: 'When do you recount, and when do you post?',
+        list: [
+          'Set a tolerance in quantity and in value before the count starts. A line inside both can be posted with the count.',
+          'A line outside either tolerance holds the whole count for approval. Nothing is written to on-hand yet.',
+          'Recount lines that miss the recount threshold. Keep the first count line and store the new attempt beside it.',
+          'Approve, then post. Posting creates the stock adjustment. Cancelling the count posts nothing and releases the frozen locations.',
+          'The person who counted should not be the only person who approves a difference outside tolerance.',
+        ],
+        ordered: true,
+        after: [
+          'Companies covered by CARO 2020 also have to be able to say whether inventory was physically verified at reasonable intervals and whether a discrepancy of 10% or more, in aggregate for a class of inventory, was dealt with in the books. A count that was never posted, or a posted adjustment with no reason, does not answer that question. Confirm the current clause against the Ministry of Corporate Affairs text before you rely on a percentage.',
+        ],
+      },
+      {
+        id: 'programme',
+        heading: 'How often should you cycle count?',
+        paragraphs: [
+          'A cycle count is a repeating programme, not a once-a-year wall-to-wall stocktake. High-value or fast-moving items are usually counted more often than slow bulk. The programme should name its scope (ABC class, zone, item, or a location that just went empty), how often it runs, whether counts are blind, and the tolerance that forces approval.',
+          'An empty-bin check is a useful extra: when the last pick takes a location to zero, count that location while it is empty. A quantity found there is a mismatch you would otherwise carry until the next programme date.',
+        ],
+      },
+    ],
+    faqs: [
+      { q: 'What is a cycle count?', a: 'A cycle count checks a defined slice of stock on a repeating schedule, instead of counting the whole warehouse at once. The book quantity is frozen first, then compared with what is counted.' },
+      { q: 'What is a blind count?', a: 'The counter does not see the book quantity, later movements or the variance until the count is submitted. The book quantity is still stored on the line and is used to calculate the difference.' },
+      { q: 'Should a mismatch be posted immediately?', a: 'Post only after the count is complete. Differences inside tolerance can post with the count. Differences outside tolerance need approval, and a recount should keep the original line rather than overwrite it.' },
+      { q: 'What reason should a stock adjustment use?', a: 'Use an active count-variance reason, with a note when that reason requires one. If no reason is chosen, classify the line as over or short from the sign of the variance.' },
+      { q: 'Does a count change on-hand before it is posted?', a: 'No. Entering a count records what was found. On-hand changes when the approved variance is posted as a stock adjustment. Cancelling the count posts nothing.' },
+    ],
+    sources: [
+      { label: 'Ministry of Corporate Affairs: Companies Act, 2013 and CARO 2020', url: 'https://www.mca.gov.in/' },
+      { label: 'IFRS Foundation: IAS 2 Inventories', url: 'https://www.ifrs.org/issued-standards/list-of-standards/ias-2-inventories/' },
+    ],
+  },
+  {
+    slug: 'asset-custody-verification-schedule',
+    topic: 'Fixed assets and audit',
+    title: 'Asset custody and verification schedules',
+    metaTitle: 'Asset Custody and Verification Schedules | OrbitPi',
+    metaDescription:
+      'How to name a custodian, record a transfer, and set a verification schedule so a missing asset is investigated before it is written off.',
+    summary:
+      'Custody means a named person, team or location is responsible for an asset at a point in time. A transfer is complete only when the register shows who handed it over, who received it, and where it is now. A verification schedule says which assets are checked, how often, and who counts them. Count against a frozen register extract, investigate anything not found or found in the wrong place, and write an asset off only after that investigation is approved.',
+    takeaways: [
+      'Every asset line needs a custodian and a location, not only a cost centre.',
+      'A move between people or sites is a transfer with a date. Do not edit the old location away.',
+      'The schedule can be yearly for portable assets and a multi-year cycle for fixed plant. Write the rule down and follow it.',
+      'Counters should be independent of the custodian where that is practical.',
+      'Found in the wrong place is a location correction. Not found is an investigation, not an automatic write-off.',
+      'Keep the count, the reconciliation and the approval with the register.',
+    ],
+    published: '2026-11-04',
+    modified: '2026-11-04',
+    product: 'asset-management-software',
+    productPitch:
+      'OrbitPi Assets keeps the fixed asset register, records the person or place an asset is assigned to, and stores the result of a physical verification, including how a difference was closed. This guide describes the custody and scheduling practice. It does not add product features beyond that register and those verification records.',
+    disclaimer: true,
+    sections: [
+      {
+        id: 'what-custody-means',
+        heading: 'What does custody mean?',
+        paragraphs: [
+          'An asset register that only stores a purchase cost cannot answer “who has this laptop?” Custody is the current answer to that question: a person, a department or a location, with the date the responsibility started. When the answer changes, the old answer has to remain readable. Overwriting the location field leaves no history of where the asset was.',
+          'Issue and return are custody events. So is a transfer between branches. A custodian who leaves the organisation should trigger a return or a reassignment, not a silent gap in the register.',
+        ],
+      },
+      {
+        id: 'schedule',
+        heading: 'How do you set a verification schedule?',
+        paragraphs: [
+          'A schedule is a policy, not a date someone remembers. It names the assets in scope, how often each class is verified, who counts, and who approves the result. Portable and high-value items, such as laptops and tools, are often verified every year. Large fixed plant is often covered by a cycle that reaches every asset at least once over a longer period, with a set share each year.',
+          'CARO 2020 does not prescribe one frequency for property, plant and equipment. The auditor looks at whether management’s interval is reasonable and whether material differences were dealt with. The fixed-asset side of that reporting is covered in the CARO 2020 guide on this site. The schedule you write is what makes “reasonable” demonstrable.',
+        ],
+        table: {
+          caption: 'Example schedule for a mixed asset register',
+          head: ['Asset class', 'How often', 'Who counts', 'What “done” means'],
+          rows: [
+            ['Laptops and phones', 'Every year', 'Someone other than the employee who holds the device', 'Seen, or investigated if not produced'],
+            ['Tools and instruments', 'Every year', 'A counter who does not keep the store', 'Tag matched to the register line'],
+            ['Plant and vehicles', 'At least once in a three-year cycle', 'A team named in the policy', 'Location and condition recorded'],
+            ['New purchases', 'In the quarter they are capitalised', 'The team that received them', 'Tag, custodian and location filled in'],
+          ],
+        },
+      },
+      {
+        id: 'run-the-check',
+        heading: 'How do you run one verification?',
+        list: [
+          'Take a dated extract of the register for the locations in this round. That extract is what you reconcile to.',
+          'Count from the assets you can see, not only from the list. A list-only check never finds items that are not on the register.',
+          'Record the tag, the location, the custodian and the condition. Photograph damage if your process asks for it.',
+          'Match the count to the extract. Separate “found elsewhere”, “not found” and “found but not on the register”.',
+          'Investigate before you adjust. A laptop in another office is a transfer. An asset nobody can trace is a write-off candidate, and it needs approval.',
+          'File the count, the reconciliation and the approval with the register.',
+        ],
+        ordered: true,
+      },
+      {
+        id: 'location-history',
+        heading: 'Why keep location history?',
+        paragraphs: [
+          'If the register only shows the latest location, a verifier who finds a machine in the wrong building has nothing to compare except today’s row. History shows whether the asset was transferred and the transfer was never recorded, or whether it left without a transfer at all. Those are different problems: one is a late update, the other is a control failure.',
+          'The same history answers a leavers check. You can see what was still assigned to someone on their last day, and whether it was returned.',
+        ],
+      },
+      {
+        id: 'write-off',
+        heading: 'When is a write-off the right outcome?',
+        paragraphs: [
+          'Not found is the start of an investigation, not the accounting entry. Search the likely locations, ask the last custodian, and check whether the asset was scrapped or sold without a disposal record. If it still cannot be traced, record that result, get approval, and then remove it from the books so the register and the accounts match.',
+          'Do not leave the same missing assets on the register for several years with no note. An unexplained list is itself a finding, even when each item is small.',
+        ],
+      },
+    ],
+    faqs: [
+      { q: 'What is asset custody?', a: 'Custody is the named person, team or location responsible for an asset, with the date that responsibility started. A transfer records the handover instead of overwriting the previous custodian.' },
+      { q: 'How often should fixed assets be verified?', a: 'As often as your written policy says, based on value and how easily the asset can be moved. Many organisations verify portable assets every year and cover all other assets on a cycle. CARO 2020 requires a reasonable interval for companies it covers; it does not set one number of months.' },
+      { q: 'Who should count the assets?', a: 'Someone who can identify the tag, and preferably not the custodian of those assets. The approver of a write-off should not be the only person who counted.' },
+      { q: 'What if an asset is found in the wrong place?', a: 'Treat it as a location and custodian correction once the holder confirms it. Keep the previous location in the history. Do not record it as a loss and a new asset.' },
+      { q: 'Should a missing asset be written off immediately?', a: 'No. Investigate first. Write it off only when it cannot be traced and the write-off is approved, and pass the accounting entry so the register matches the books.' },
+    ],
+    sources: [
+      { label: 'Ministry of Corporate Affairs: Companies Act, 2013 and CARO 2020', url: 'https://www.mca.gov.in/' },
+    ],
   },
 ];
 

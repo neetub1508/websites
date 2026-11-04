@@ -39,7 +39,7 @@ const mapQuery = encodeURIComponent(`${SITE.address.street}, ${SITE.address.city
       <fieldset class="flex flex-col gap-2.5">
         <legend class="pb-2.5 text-sm font-medium">Products you’re interested in</legend>
         <div class="flex flex-wrap gap-2">
-          {PRODUCTS.map((p) => (
+          {PRODUCTS.filter(isAvailable).map((p) => (
             <label class="flex cursor-pointer items-center gap-2 rounded-full border border-line-strong px-3.5 py-2 text-sm has-[:checked]:border-brand has-[:checked]:bg-brand-soft has-[:checked]:text-brand">
               <input type="checkbox" name="products" value={p.fullName} class="sr-only" />{p.name}{!isAvailable(p) && ' (early access)'}
             </label>

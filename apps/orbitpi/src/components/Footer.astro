@@ -1,6 +1,6 @@
 ---
 import Logo from '@/components/Logo.astro';
-import { SITE, COMPANY_LINKS, LEGAL_LINKS } from '@/lib/site';
+import { SITE, COMPANY_LINKS, LEGAL_LINKS, X_PROFILE_URL } from '@/lib/site';
 import { PRODUCTS, productHref, isAvailable } from '@/lib/products';
 import { INDUSTRIES, industryHref } from '@/lib/industries';
 
@@ -24,6 +24,7 @@ const year = new Date().getFullYear();
         <div class="flex flex-col gap-1 text-sm text-ink-700">
           <a href={`mailto:${SITE.email}`} class="hover:text-brand">{SITE.email}</a>
           {SITE.contactDetailsVerified && <a href={`tel:${SITE.phoneHref}`} class="hover:text-brand">{SITE.phone}</a>}
+          <a href={X_PROFILE_URL} rel="noopener noreferrer" class="hover:text-brand">OrbitPi on X</a>
         </div>
       </div>
       {cols.map((c) => (

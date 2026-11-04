@@ -26,9 +26,9 @@ const steps = [
 const faqs = [
   { q: 'What is OrbitPi?', a: 'OrbitPi is business software for operations teams. Four products are available today: DocAI for AI document OCR, Inventory for warehouse and stock management, Leads for lead management and Assets for asset management. Ledger, for accounting, is in development.' },
   { q: 'Can I buy just one OrbitPi product?', a: 'Yes. Each product works on its own, and you can add more later on the same platform, with the same users, branches and roles.' },
-  { q: 'Does OrbitPi support Indian GST and compliance rules?', a: 'Yes. For businesses in India, OrbitPi handles GSTINs, HSN codes, e-way bills, delivery challans, GST e-invoice QR codes, CARO asset verification and rupee valuation, and DocAI, Inventory and Leads screens are available in English and Hindi.' },
+  { q: 'Does OrbitPi support Indian GST and compliance rules?', a: 'For businesses in India, Inventory can keep GSTIN profiles, HSN and SAC codes, delivery challans and the e-way bill lifecycle, and DocAI can compare a GST e-invoice QR code with the values it reads. Assets records physical verification results used for CARO. This site does not claim Hindi screens for DocAI or Leads. Inventory includes English and Hindi labels.' },
   { q: 'Does OrbitPi have mobile apps?', a: 'Not yet. OrbitPi runs in the web browser. Asset QR codes open in any phone browser, so staff can identify an asset or report a problem without installing an app.' },
-  { q: 'Does OrbitPi have an AI voice agent?', a: 'An AI voice agent that calls and qualifies leads in Hindi and English is in development. OrbitPi Leads already captures, routes and tracks follow-up of every enquiry.' },
+  { q: 'Does OrbitPi have an AI voice agent?', a: 'No. An AI voice agent is in development and is not available. This site does not describe its languages. OrbitPi Leads captures, routes and tracks follow-up of enquiries without it.' },
   { q: 'Is OrbitPi accounting software available?', a: 'Not yet. OrbitPi Ledger is in development. DocAI can export invoice data to Excel, CSV, webhooks and other destinations for the accounting software you use today.' },
 ];
 
@@ -60,9 +60,9 @@ const schema = graph(
   </section>
 
   <section id="products" aria-labelledby="products-title" class="container-page flex flex-col gap-12 py-24">
-    <SectionHeading id="products-title" title="Four products today. One more on the way." lead="Each product solves one job well and runs on the same OrbitPi platform, with shared users, branches and roles." />
+    <SectionHeading id="products-title" title="Four products available today" lead="Each product solves one job well and runs on the same OrbitPi platform, with shared users, branches and roles. Accounting software is still in development." />
     <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {PRODUCTS.map((p) => <ProductCard product={p} showImage />)}
+      {LIVE.map((p) => <ProductCard product={p} showImage />)}
       <a href="/contact/" class="flex flex-col justify-between gap-6 rounded-[18px] bg-ink bg-[radial-gradient(80%_60%_at_100%_0%,rgba(47,75,255,0.45),rgba(47,75,255,0))] p-7 text-white hover:text-white">
         <span class="flex flex-col gap-2.5"><span class="text-2xl font-semibold leading-tight tracking-[-0.03em]">Run several as one suite</span><span class="text-[15px] leading-normal text-[#B9BDC9]">One platform, shared users and branches, bundle pricing.</span></span>
         <span class="self-start rounded-[10px] bg-white px-[18px] py-[11px] text-sm font-medium text-ink">Book a suite demo</span>
@@ -74,7 +74,7 @@ const schema = graph(
     <div class="container-page grid items-center gap-14 py-24 md:grid-cols-2">
       <div class="flex flex-col items-start gap-[18px]">
         <span class="rounded-full bg-[#FFF4E0] px-2.5 py-0.5 text-xs font-medium text-[#9A5B00]">Coming soon</span>
-        <SectionHeading id="voice-title" title="An AI voice agent for every new lead" align="left" inverted lead="We are building an agent that calls new enquiries in Hindi and English, asks your qualifying questions and logs the answers in OrbitPi Leads. Until it launches, Leads routes every enquiry and reminds your team when to call." />
+        <SectionHeading id="voice-title" title="An AI voice agent for every new lead" align="left" inverted lead="An AI voice agent is in development and is not available. This site does not describe its languages or script. Until it exists, Leads routes each enquiry and reminds your team when to follow up." />
         <a href={productHref('lead-management-software')} class="text-[15px] font-medium hover:text-brand-light">See OrbitPi Leads →</a>
       </div>
       <VoiceCallCard />

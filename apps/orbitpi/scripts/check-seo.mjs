@@ -68,8 +68,10 @@ for (const [route, source] of pages) {
     catch { errors.push(`${route}: invalid JSON-LD`); }
   }
   if (!noindex) check(nodes.some((n) => n['@type'] === 'Organization'), `${route}: missing organization schema`);
+  const xProfile = tags(source, 'a').find((a) => a.href?.startsWith('https://x.com/'))?.href;
   for (const node of nodes.filter((n) => n['@type'] === 'Organization')) {
     check(!node.contactPoint?.availableLanguage, `${route}: support languages require approval`);
+    check(Array.isArray(node.sameAs) && node.sameAs.length === 1 && node.sameAs[0] === xProfile, `${route}: Organization sameAs must be only the footer X profile`);
   }
   for (const node of nodes.filter((n) => n['@type'] === 'FAQPage')) {
     const visible = decode(source.replace(/<script\b[^>]*>.*?<\/script>/gs, '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' '));
@@ -106,6 +108,9 @@ for (const [route, source] of pages) {
   const header = source.slice(source.indexOf('<header'), source.indexOf('</header>'));
   const footer = source.slice(source.indexOf('<footer'));
   const footerProducts = footer.match(/<nav aria-label="Products"[^>]*>[\s\S]*?<\/nav>/)?.[0] ?? '';
+  if (route !== '/products/accounting-software/') {
+    check(!source.includes('/products/accounting-software/'), `${route}: Ledger page must not be linked`);
+  }
   check(header.length > 0 && !header.includes('/products/accounting-software/'), `${route}: Ledger must stay out of the header`);
   check(footerProducts.length > 0 && !footerProducts.includes('/products/accounting-software/'), `${route}: Ledger must stay out of the footer product list`);
   for (const link of tags(source, 'a')) {
