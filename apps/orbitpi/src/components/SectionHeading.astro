@@ -7,7 +7,7 @@ interface Props {
   id?: string;
   inverted?: boolean;
 }
-const { title, lead, align = 'center', as: Tag = 'h2', id, inverted = false } = Astro.props;
+const { title, lead, align = 'left', as: Tag = 'h2', id, inverted = false } = Astro.props;
 ---
 
 <div class:list={['flex flex-col gap-3.5', align === 'center' ? 'items-center text-center' : 'items-start']}>

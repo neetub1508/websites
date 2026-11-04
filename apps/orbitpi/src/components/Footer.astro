@@ -12,11 +12,12 @@ const cols = [
 const year = new Date().getFullYear();
 ---
 
-<footer class="border-t border-line bg-white">
+<footer class="border-t border-line bg-mist">
   <div class="container-page flex flex-col gap-12 pb-8 pt-16">
     <div class="grid grid-cols-2 gap-10 md:grid-cols-4">
       <div class="col-span-2 flex flex-col gap-4 md:col-span-1">
         <Logo />
+        <p class="max-w-[230px] text-sm leading-relaxed text-ink-500">Software for the people behind your daily operations.</p>
         <address class="text-sm not-italic leading-relaxed text-ink-500">
           {SITE.legalName}<br />
           {SITE.contactDetailsVerified && <>{SITE.address.street}<br />{SITE.address.city}, {SITE.address.region} {SITE.address.postalCode}<br />{SITE.address.country}</>}

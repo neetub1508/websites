@@ -42,7 +42,7 @@ const schema = graph(
   <section aria-labelledby="page-title" class="container-page grid items-center gap-12 pb-20 pt-10 lg:grid-cols-[1.05fr_1fr]" style={`--accent:${accent}`}>
     <div class="flex flex-col items-start gap-6">
       <p class="flex flex-wrap items-center gap-2.5 text-sm font-medium"><ProductBadge product={p} size="md" />{p.fullName} · {p.category}{!available && <span class="rounded-full bg-[#FFF4E0] px-2.5 py-0.5 text-xs font-medium text-[#9A5B00]">Coming soon</span>}</p>
-      <h1 id="page-title" class="text-[clamp(38px,5vw,60px)] font-bold leading-[1.04] tracking-tightest">{p.h1}</h1>
+      <h1 id="page-title" class="h-display">{p.h1}</h1>
       <p class="lead">{p.intro}</p>
       <div class="flex flex-wrap gap-3">
         <a href="/contact/" class="btn-primary">{available ? 'Book a demo' : 'Ask for early access'}</a>
@@ -87,21 +87,21 @@ const schema = graph(
     </ol>
   </section>
 
-  <section aria-labelledby="uses-title" class="bg-ink text-white">
+  <section aria-labelledby="uses-title" class="border-y border-line bg-white">
     <div class="container-page flex flex-col gap-12 py-24">
-      <SectionHeading id="uses-title" title={`Who ${p.fullName} is for`} inverted />
+      <SectionHeading id="uses-title" title={`Who ${p.fullName} is for`} />
       <ul class="grid gap-4 md:grid-cols-3">
         {p.useCases.map((u) => (
-          <li class="flex flex-col gap-2.5 rounded-2xl border border-[#252935] bg-[#15181F] p-6">
+          <li class="flex flex-col gap-2.5 rounded-2xl border border-line-strong bg-mist p-6">
             <h3 class="text-lg font-semibold">{u.title}</h3>
-            <p class="text-[15px] leading-relaxed text-[#B9BDC9]">{u.body}</p>
+            <p class="text-[15px] leading-relaxed text-ink-500">{u.body}</p>
           </li>
         ))}
       </ul>
       {industries.length > 0 && (
-        <p class="text-center text-[15px] text-[#B9BDC9]">
+        <p class="text-center text-[15px] text-ink-500">
           Relevant industries:{' '}
-          {industries.map((ind, i) => (<><a href={industryHref(ind.slug)} class="font-medium text-white underline-offset-4 hover:underline">{ind.name}</a>{i < industries.length - 1 && ', '}</>))}
+          {industries.map((ind, i) => (<><a href={industryHref(ind.slug)} class="font-medium text-brand underline-offset-4 hover:underline">{ind.name}</a>{i < industries.length - 1 && ', '}</>))}
         </p>
       )}
     </div>

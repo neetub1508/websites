@@ -10,7 +10,7 @@ const isActive = (href: string) => path.startsWith(href);
 const navProducts = PRODUCTS.filter(isAvailable);
 ---
 
-<header class="sticky top-0 z-30 border-b border-line bg-white/80 backdrop-blur-md backdrop-saturate-150">
+<header class="sticky top-0 z-30 border-b border-line bg-white/95 backdrop-blur-md backdrop-saturate-150">
   <nav aria-label="Main" class="container-page flex h-16 items-center gap-6 lg:gap-9">
     <Logo />
 
@@ -42,7 +42,7 @@ const navProducts = PRODUCTS.filter(isAvailable);
       ))}
     </ul>
 
-    <a href="/contact/" class="btn-dark ml-auto hidden !rounded-[9px] !px-4 !py-2.5 !text-sm lg:inline-flex">Book a demo</a>
+    <a href="/contact/" class="btn-primary ml-auto hidden !rounded-[9px] !px-4 !py-2.5 !text-sm lg:inline-flex">Book a demo</a>
 
     <details class="ml-auto lg:hidden" data-menu>
       <summary class="flex size-11 cursor-pointer list-none items-center justify-center rounded-lg border border-line-strong [&::-webkit-details-marker]:hidden" aria-label="Open menu">

@@ -36,16 +36,18 @@ const schema = graph(webPage(absoluteUrl('/pricing/'), title, description), brea
 <BaseLayout title={title} description={description} schema={schema}>
   <Breadcrumbs items={crumbs} />
   <section class="container-page flex flex-col gap-12 pb-24 pt-12">
+    <p class="section-eyebrow !mb-[-24px]">A PLAN AROUND YOUR TEAM</p>
     <SectionHeading as="h1" title="OrbitPi software pricing" lead="Every plan is quoted for your team size and products. Tell us what you need and we’ll send a quote." />
     <ul class="grid gap-4 lg:grid-cols-3">
       {plans.map((pl) => (
-        <li class:list={['flex flex-col gap-5 rounded-[20px] border p-8', pl.featured ? 'border-brand bg-brand text-white' : 'border-line-strong bg-white']}>
+        <li class:list={['flex flex-col gap-5 rounded-[20px] border p-8', pl.featured ? 'border-brand bg-[#F2F5FF] text-ink' : 'border-line-strong bg-white']}>
+          <p class="section-eyebrow !mb-0">{pl.featured ? 'CONNECTED PRODUCTS' : pl.name === 'Enterprise' ? 'TAILORED SCOPE' : 'A FOCUSED START'}</p>
           <h2 class="text-2xl font-semibold tracking-[-0.03em]">{pl.name}</h2>
-          <p class:list={['text-[15px]', pl.featured ? 'text-white' : 'text-ink-500']}>{pl.text}</p>
+          <p class:list={['text-[15px]', pl.featured ? 'text-ink-700' : 'text-ink-500']}>{pl.text}</p>
           <ul class="flex flex-1 flex-col gap-2.5 text-[15px]">
             {pl.points.map((pt) => <li class="flex gap-2.5"><span aria-hidden="true">✓</span>{pt}</li>)}
           </ul>
-          <a href="/contact/" class:list={[pl.featured ? 'btn-light' : 'btn-dark', 'self-start']}>{pl.cta}</a>
+          <a href="/contact/" class:list={[pl.featured ? 'btn-primary' : 'btn-ghost', 'self-start']}>{pl.cta}</a>
         </li>
       ))}
     </ul>

@@ -27,8 +27,9 @@ const schema = graph(
 <BaseLayout title={title} description={description} schema={schema}>
   <Breadcrumbs items={crumbs} />
   <section class="container-page flex flex-col gap-12 pb-24 pt-12">
+    <p class="section-eyebrow !mb-[-24px]">THE ORBITPI SOFTWARE SUITE</p>
     <SectionHeading as="h1" title="Business software products for operations teams" lead="Four products are available today. Each works on its own, and all run on the same OrbitPi platform with shared users, branches and roles. Accounting software is in development and is not listed here." />
-    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+    <div class="grid gap-6 md:grid-cols-2">
       {PRODUCTS.filter(isAvailable).map((p) => <ProductCard product={p} headingLevel="h2" showImage />)}
     </div>
   </section>

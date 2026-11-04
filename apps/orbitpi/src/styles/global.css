@@ -12,6 +12,8 @@
   a { @apply transition-colors; }
   :focus-visible { @apply outline-none ring-2 ring-brand ring-offset-2; }
   h1, h2, h3 { text-wrap: balance; }
+  section[id], h2[id] { scroll-margin-top: 6rem; }
+  button:disabled { cursor: wait; opacity: .65; }
   p { text-wrap: pretty; }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
@@ -21,15 +23,17 @@
 
 @layer components {
   .container-page { @apply mx-auto w-full max-w-page px-6; }
-  .h-display { @apply text-[clamp(42px,6.2vw,76px)] font-bold leading-[1.02] tracking-tightest; }
-  .h-section { @apply text-[clamp(32px,4vw,48px)] font-bold leading-[1.08] tracking-display; }
-  .lead { @apply text-[clamp(17px,1.5vw,20px)] leading-relaxed text-ink-500; }
-  .btn { @apply inline-flex items-center justify-center gap-2 rounded-[11px] px-[22px] py-[14px] text-[15px] font-medium transition; }
-  .btn-primary { @apply btn bg-brand text-white shadow-cta hover:bg-brand-dark; }
+  .h-display { @apply text-[clamp(38px,4.6vw,64px)] font-semibold leading-[1.1] tracking-tightest; }
+  .h-section { @apply text-[clamp(30px,3.2vw,44px)] font-semibold leading-[1.14] tracking-display; }
+  .lead { @apply text-[clamp(16px,1.4vw,18px)] leading-[1.8] text-ink-500; }
+  .btn { @apply inline-flex items-center justify-center gap-2 rounded-[9px] px-[22px] py-[14px] text-[15px] font-medium transition; }
+  .btn-primary { @apply btn bg-brand text-white hover:bg-brand-dark; }
   .btn-dark { @apply btn bg-ink text-white hover:bg-brand; }
   .btn-ghost { @apply btn border border-line-strong bg-white text-ink hover:border-ink; }
   .btn-light { @apply btn bg-white text-ink hover:bg-brand hover:text-white; }
-  .card { @apply rounded-[18px] border border-line bg-mist p-7 transition hover:border-[#D5D8E0] hover:bg-white hover:shadow-card; }
+  .card { @apply rounded-[14px] border border-line-strong bg-white p-7 transition hover:border-brand-light hover:shadow-card; }
+  .section-eyebrow { @apply mb-5 text-[11px] font-semibold leading-relaxed tracking-[0.14em] text-ink-500; }
+  .page-hero { @apply pb-20 pt-12; }
   .prose-legal h2 { @apply mt-10 text-2xl font-semibold tracking-[-0.02em]; }
   .prose-legal h3 { @apply mt-6 text-lg font-semibold; }
   .prose-legal p, .prose-legal li { @apply mt-3 text-[16px] leading-7 text-ink-700; }

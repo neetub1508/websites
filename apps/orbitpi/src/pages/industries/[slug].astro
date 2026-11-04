@@ -30,7 +30,8 @@ const image = { src: `/images/og/industry-${ind.slug}.jpg`, alt: ind.imageAlt, w
 
   <section aria-labelledby="page-title" class="container-page grid items-center gap-12 pb-20 pt-10 lg:grid-cols-2">
     <div class="flex flex-col items-start gap-6">
-      <h1 id="page-title" class="text-[clamp(38px,5vw,60px)] font-bold leading-[1.04] tracking-tightest">{ind.h1}</h1>
+      <p class="section-eyebrow !mb-0">ORBITPI FOR {ind.name.toUpperCase()}</p>
+      <h1 id="page-title" class="h-display">{ind.h1}</h1>
       <p class="lead">{ind.intro}</p>
       <ul class="flex flex-col gap-2.5">
         {ind.wins.map((w) => <li class="flex gap-2.5 text-[15px] text-ink-700"><span aria-hidden="true" class="text-brand">✓</span>{w}</li>)}

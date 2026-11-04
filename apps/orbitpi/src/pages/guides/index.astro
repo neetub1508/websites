@@ -23,6 +23,7 @@ const schema = graph(
 <BaseLayout title={title} description={description} schema={schema}>
   <Breadcrumbs items={crumbs} />
   <section class="container-page flex flex-col gap-14 pb-24 pt-12">
+    <p class="section-eyebrow !mb-[-24px]">THE OPERATIONS NOTEBOOK</p>
     <SectionHeading as="h1" title="Guides to inventory, fixed assets, sales and GST" align="left" lead="Plain-language explainers on the back-office rules and workflows operations teams deal with every day, with worked examples and links to official sources. Guides marked India cover Indian tax and audit rules." />
     {topics.map((topic) => (
       <section aria-labelledby={`topic-${topic.toLowerCase().replace(/\W+/g, '-')}`} class="flex flex-col gap-5">

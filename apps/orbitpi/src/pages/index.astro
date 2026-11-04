@@ -1,26 +1,25 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import SectionHeading from '@/components/SectionHeading.astro';
-import ProductCard from '@/components/ProductCard.astro';
+import ProductBadge from '@/components/ProductBadge.astro';
+import { INDUSTRIES, industryHref } from '@/lib/industries';
 import Faq from '@/components/Faq.astro';
-import CtaBanner from '@/components/CtaBanner.astro';
 import ProductDemo from '@/components/home/ProductDemo.astro';
-import IndustryExplorer from '@/components/home/IndustryExplorer.astro';
-import VoiceCallCard from '@/components/home/VoiceCallCard.astro';
 import { PRODUCTS, productHref, isAvailable } from '@/lib/products';
 import { GUIDES, guideHref } from '@/lib/guides';
 import { SITE, absoluteUrl } from '@/lib/site';
 import { graph, webPage, faqPage, itemList } from '@/lib/schema';
 
 const LIVE = PRODUCTS.filter(isAvailable);
+const inventory = LIVE.find((p) => p.slug === 'warehouse-inventory-management')!;
+const inventoryImage = inventory.image!;
 const title = 'OrbitPi | Business Software for Operations Teams';
 const description = SITE.description;
 
 const steps = [
-  { title: 'Capture', body: 'Invoices arrive by email, goods by GRN and enquiries by web form, each with its source.' },
-  { title: 'Check', body: 'AI reads documents, scans confirm stock and rules route every lead.' },
-  { title: 'Review exceptions', body: 'Your team reviews flagged documents, stock exceptions and overdue follow-ups before taking the next step.' },
-  { title: 'Report', body: 'Dashboards and exports show what happened and what is due next.' },
+  { title: 'Receive with a record', body: 'Record incoming goods, inspect quantities and put stock away to a known location.', label: '01 / RECEIVE' },
+  { title: 'Know what is where', body: 'Find stock by warehouse, bin and batch, with visibility into reserved quantities.', label: '02 / ORGANISE' },
+  { title: 'Pick. Check. Dispatch.', body: 'Bring reservations, picking and scan-assisted packing into the same workflow.', label: '03 / FULFIL' },
+  { title: 'Keep the detail', body: 'Review counts, stock movements and valuation, with records your team can trace.', label: '04 / REVIEW' },
 ];
 
 const faqs = [
@@ -40,100 +39,200 @@ const schema = graph(
 ---
 
 <BaseLayout title={title} description={description} schema={schema}>
-  <section aria-labelledby="hero-title" class="relative overflow-hidden bg-[radial-gradient(60%_50%_at_50%_0%,#EEF1FF_0%,rgba(255,255,255,0)_70%)]">
-    <div class="container-page flex flex-col items-center gap-6 pb-24 pt-20 text-center md:pt-24">
-      <a href="/products/" class="flex items-center gap-2.5 rounded-full border border-[#E1E4F5] bg-white py-1.5 pl-3.5 pr-1.5 text-[13px] text-ink-700 hover:border-brand hover:text-ink">
-        <span>Four products live · Accounting coming soon</span>
-        <span class="rounded-full bg-brand-soft px-2.5 py-0.5 font-medium text-brand">See products →</span>
-      </a>
-      <h1 id="hero-title" class="h-display max-w-4xl">Business software for operations teams</h1>
-      <p class="lead max-w-2xl">OrbitPi builds software for the work behind your business: AI document OCR, warehouse inventory, lead management and fixed assets. Start with one product or connect several on the same platform.</p>
-      <div class="flex flex-wrap justify-center gap-3 pt-2">
-        <a href="/contact/" class="btn-primary">Book a demo</a>
-        <a href="#products" class="btn-ghost">Explore products</a>
+  <div class="home-redesign">
+    <section class="home-shell hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> ORBITPI INVENTORY</p>
+        <h1 id="hero-title">Know your stock.<br /><span>Own your next move.</span></h1>
+        <p class="hero-lead">Warehouse and inventory management that brings your stock, locations and daily operations into one clear view.</p>
+        <div class="hero-actions">
+          <a href="/contact/" class="btn-primary">Book an inventory demo <span aria-hidden="true">↗</span></a>
+          <a href={productHref(inventory.slug)} class="text-link">Explore Inventory <span aria-hidden="true">→</span></a>
+        </div>
+        <p class="hero-note">For the people behind every receipt, count and dispatch.</p>
       </div>
-      <ul class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-[13px] text-ink-500">
-        <li>✓ Works alone or as a suite</li><li>✓ Approvals and audit trails built in</li><li>✓ Runs in your browser</li>
-      </ul>
+      <div class="hero-visual">
+        <div class="visual-topline"><span class="visual-brand">OrbitPi <span>Inventory</span></span><span class="visual-label">WORKFLOW OVERVIEW</span></div>
+        <img src={inventoryImage.src} srcset={`${inventoryImage.srcSmall} 640w, ${inventoryImage.src} ${inventoryImage.width}w`} sizes="(min-width:1280px) 600px, (min-width:900px) 48vw, calc(100vw - 48px)" alt={inventoryImage.alt} width={inventoryImage.width} height={inventoryImage.height} loading="eager" fetchpriority="high" decoding="async" class="hero-art" />
+        <div class="stock-record">
+          <span class="record-icon" aria-hidden="true">IV</span>
+          <div><strong>A place for every item.</strong><span>Warehouse → Bin → Batch</span></div>
+          <span class="record-check" aria-hidden="true">✓</span>
+        </div>
+        <div class="visual-flow"><span>Receive</span><span aria-hidden="true">→</span><span>Store</span><span aria-hidden="true">→</span><span>Pick</span><span aria-hidden="true">→</span><span>Dispatch</span></div>
+      </div>
+    </section>
+
+    <div class="home-shell capability-strip" aria-label="Inventory capabilities">
+      <span>Built around your operations</span>
+      <ul><li>Multi-warehouse stock</li><li>Batch &amp; serial tracking</li><li>Barcode workflows</li><li>Counts &amp; valuation</li></ul>
+    </div>
+
+    <section class="home-shell home-section" aria-labelledby="workflow-title">
+      <div class="section-intro"><div><p class="eyebrow">FROM GOODS IN TO GOODS OUT</p><h2 id="workflow-title">Every movement.<br />A clearer picture.</h2></div><p>Give warehouse teams a consistent way to receive, organise and move stock, with the detail there when they need it.</p></div>
+      <ol class="workflow-grid">
+        {steps.map((step) => <li><span class="step-label">{step.label}</span><h3>{step.title}</h3><p>{step.body}</p></li>)}
+      </ol>
+      <a href={productHref(inventory.slug)} class="text-link section-link">See the Inventory workflow <span aria-hidden="true">→</span></a>
+    </section>
+
+    <section id="products" class="suite-section" aria-labelledby="products-title">
+      <div class="home-shell home-section">
+        <div class="section-intro"><div><p class="eyebrow">ONE PLATFORM. ROOM TO GROW.</p><h2 id="products-title">Start with inventory.<br />Connect the rest.</h2></div><p>OrbitPi is a software product company. Choose the tools your team needs, with shared users, branches and roles across the platform.</p></div>
+        <div class="suite-grid">
+          {[inventory, ...LIVE.filter((p) => p.slug !== inventory.slug)].map((p) => (
+            <a href={productHref(p.slug)} class:list={['suite-card', { 'suite-card-featured': p.slug === inventory.slug }]}>
+              <div class="suite-card-top"><ProductBadge product={p} size="lg" /><span aria-hidden="true" class="card-arrow">↗</span></div>
+              <div><p class="product-category">{p.category}</p><h3>{p.fullName}</h3><p class="product-summary">{p.summary}</p></div>
+              <span class="product-link">Explore {p.name} <span aria-hidden="true">→</span></span>
+            </a>
+          ))}
+        </div>
+        <div class="roadmap-note"><span class="roadmap-badge">On the roadmap</span><p>Accounting with OrbitPi Ledger and an AI voice agent are in development.</p><a href="/products/" class="text-link">Meet the suite <span aria-hidden="true">→</span></a></div>
+      </div>
+    </section>
+
+    <section class="home-shell home-section demo-section" aria-labelledby="demo-title">
+      <div class="section-intro"><div><p class="eyebrow">TAKE A CLOSER LOOK</p><h2 id="demo-title">Less abstract.<br />More hands-on.</h2></div><p>Explore the sample workspaces below. Switch products, open a record and try an action to see the kind of work each module supports.</p></div>
       <ProductDemo />
-    </div>
-  </section>
+    </section>
 
-  <section id="products" aria-labelledby="products-title" class="container-page flex flex-col gap-12 py-24">
-    <SectionHeading id="products-title" title="Four products available today" lead="Each product solves one job well and runs on the same OrbitPi platform, with shared users, branches and roles. Accounting software is still in development." />
-    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {LIVE.map((p) => <ProductCard product={p} showImage />)}
-      <a href="/contact/" class="flex flex-col justify-between gap-6 rounded-[18px] bg-ink bg-[radial-gradient(80%_60%_at_100%_0%,rgba(47,75,255,0.45),rgba(47,75,255,0))] p-7 text-white hover:text-white">
-        <span class="flex flex-col gap-2.5"><span class="text-2xl font-semibold leading-tight tracking-[-0.03em]">Run several as one suite</span><span class="text-[15px] leading-normal text-[#B9BDC9]">One platform, shared users and branches, bundle pricing.</span></span>
-        <span class="self-start rounded-[10px] bg-white px-[18px] py-[11px] text-sm font-medium text-ink">Book a suite demo</span>
-      </a>
-    </div>
-  </section>
-
-  <section aria-labelledby="voice-title" class="bg-ink text-white">
-    <div class="container-page grid items-center gap-14 py-24 md:grid-cols-2">
-      <div class="flex flex-col items-start gap-[18px]">
-        <span class="rounded-full bg-[#FFF4E0] px-2.5 py-0.5 text-xs font-medium text-[#9A5B00]">Coming soon</span>
-        <SectionHeading id="voice-title" title="An AI voice agent for every new lead" align="left" inverted lead="An AI voice agent is in development and is not available. This site does not describe its languages or script. Until it exists, Leads routes each enquiry and reminds your team when to follow up." />
-        <a href={productHref('lead-management-software')} class="text-[15px] font-medium hover:text-brand-light">See OrbitPi Leads →</a>
+    <section class="home-shell home-section industries-section" aria-labelledby="industries-title">
+      <div class="section-intro"><div><p class="eyebrow">YOUR BUSINESS. YOUR WORKFLOW.</p><h2 id="industries-title">Built around the way<br />your industry works.</h2></div><a href="/industries/" class="text-link">Explore all industries <span aria-hidden="true">→</span></a></div>
+      <div class="industry-grid">
+        {INDUSTRIES.map((industry, i) => <a href={industryHref(industry.slug)} class="industry-link"><span class="industry-number">0{i + 1}</span><span><h3>{industry.name}</h3><p>{industry.short}</p></span><span aria-hidden="true">↗</span></a>)}
       </div>
-      <VoiceCallCard />
-    </div>
-  </section>
+    </section>
 
-  <section aria-labelledby="how-title" class="container-page flex flex-col gap-12 py-24">
-    <SectionHeading id="how-title" title="Less typing, fewer missed steps" />
-    <figure class="overflow-hidden rounded-[20px] border border-line bg-[#FCFAF4]">
-      <img src="/images/platform/capture-check-review-report.webp" srcset="/images/platform/capture-check-review-report-800.webp 800w, /images/platform/capture-check-review-report.webp 1600w" sizes="(min-width:1440px) 1390px, calc(100vw - 50px)" alt="Documents move through capture, checking, human review and structured reporting." width="1600" height="600" loading="lazy" decoding="async" class="block h-auto w-full" />
-    </figure>
-    <ol class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-      {steps.map((s, i) => (
-        <li class="flex flex-col gap-3 rounded-2xl border border-line p-6">
-          <span class="grid size-8 place-items-center rounded-full bg-brand-soft text-sm font-semibold text-brand">{i + 1}</span>
-          <h3 class="text-lg font-semibold tracking-[-0.02em]">{s.title}</h3>
-          <p class="text-[15px] leading-normal text-ink-500">{s.body}</p>
-        </li>
-      ))}
-    </ol>
-  </section>
+    <section class="home-shell home-section guides-section" aria-labelledby="guides-title">
+      <div class="section-intro"><div><p class="eyebrow">THE OPERATIONS NOTEBOOK</p><h2 id="guides-title">Useful answers.<br />Before you decide.</h2></div><a href="/guides/" class="text-link">Read all guides <span aria-hidden="true">→</span></a></div>
+      <ul class="guide-grid">
+        {GUIDES.filter((g) => ['fifo-vs-weighted-average-inventory-valuation', 'caro-2020-fixed-asset-physical-verification', 'stock-mismatches-cycle-counts'].includes(g.slug)).map((g) => <li><a href={guideHref(g.slug)}><span class="guide-topic">{g.topic}</span><h3>{g.title}</h3><span class="text-link">Read the guide <span aria-hidden="true">→</span></span></a></li>)}
+      </ul>
+    </section>
 
-  <section aria-labelledby="ind-title" class="border-y border-line bg-mist">
-    <div class="container-page flex flex-col gap-10 py-24">
-      <div class="flex flex-wrap items-end justify-between gap-5">
-        <SectionHeading id="ind-title" title="Built for your industry" align="left" />
-        <p class="max-w-[420px] text-base leading-normal text-ink-500">Pick your industry to see which OrbitPi products fit and what they handle for you.</p>
-      </div>
-      <IndustryExplorer />
-    </div>
-  </section>
+    <Faq faqs={faqs} />
 
-  <section aria-labelledby="price-title" class="container-page pb-6 pt-24">
-    <div class="flex flex-wrap items-center justify-between gap-7 rounded-[20px] border border-line-strong p-[clamp(32px,5vw,56px)]">
-      <div class="flex max-w-xl flex-col gap-3">
-        <SectionHeading id="price-title" title="Pay only for the products you use" align="left" lead="Start with one product. Add more anytime, with bundle pricing on the suite." />
-      </div>
-      <div class="flex flex-wrap gap-2.5">
-        <a href="/pricing/" class="btn-dark">View pricing</a>
-        <a href="/contact/" class="btn-ghost">Talk to sales</a>
-      </div>
-    </div>
-  </section>
-
-  <section aria-labelledby="guides-title" class="container-page flex flex-col gap-10 pt-24">
-    <div class="flex flex-wrap items-end justify-between gap-5">
-      <SectionHeading id="guides-title" title="Guides for back-office teams" align="left" lead="Plain-language explainers on inventory valuation, fixed assets, lead follow-up and Indian GST documents." />
-      <a href="/guides/" class="btn-ghost">All guides</a>
-    </div>
-    <ul class="grid gap-4 md:grid-cols-3">
-      {GUIDES.slice(0, 3).map((g) => (
-        <li><a href={guideHref(g.slug)} class="flex h-full flex-col gap-2 rounded-2xl border border-line p-6 hover:border-ink">
-          <span class="text-[13px] text-ink-500">{g.topic}</span>
-          <span class="text-lg font-semibold leading-snug">{g.title}</span>
-        </a></li>
-      ))}
-    </ul>
-  </section>
-
-  <Faq faqs={faqs} />
-  <CtaBanner />
+    <section class="home-shell closing-section" aria-labelledby="closing-title">
+      <div class="closing-panel"><div><p class="eyebrow">LET’S TALK ABOUT YOUR OPERATIONS</p><h2 id="closing-title">Your next chapter.<br />Better organised.</h2><p>Tell us about your warehouses, team and workflows.<br class="hidden sm:block" /> Let’s find the right starting point.</p></div><div class="closing-actions"><a href="/contact/" class="btn-primary">Book a demo <span aria-hidden="true">↗</span></a><a href="/pricing/" class="text-link">Explore pricing <span aria-hidden="true">→</span></a></div></div>
+    </section>
+  </div>
 </BaseLayout>
+
+<style>
+  .home-redesign { color: #132039; background: #fff; }
+  .home-shell { width: min(100% - 48px, 1240px); margin-inline: auto; }
+  .hero { display: grid; grid-template-columns: 1fr 1fr; gap: 52px; align-items: center; padding-block: 92px 84px; }
+  .eyebrow { display: flex; align-items: center; gap: 9px; margin-bottom: 22px; color: #435373; font-size: 11px; font-weight: 650; letter-spacing: .14em; line-height: 1.6; }
+  .status-dot { width: 7px; height: 7px; border-radius: 50%; background: #0a7558; box-shadow: 0 0 0 4px #e6f6f1; }
+  h1 { font-size: clamp(44px, 4.65vw, 67px); font-weight: 600; letter-spacing: -.055em; line-height: 1.08; }
+  h1 span { color: #2f4bff; }
+  .hero-lead { max-width: 470px; margin-top: 26px; color: #5b6170; font-size: 18px; line-height: 1.75; }
+  .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 24px; margin-top: 32px; }
+  .btn-primary { justify-content: center; gap: 22px; border-radius: 9px; box-shadow: none; }
+  .text-link { display: inline-flex; align-items: center; gap: 14px; font-size: 14px; font-weight: 600; line-height: 1.6; }
+  .text-link:hover { color: #2f4bff; }
+  .hero-note { margin-top: 20px; color: #626d7e; font-size: 12px; line-height: 1.7; }
+  .hero-visual { border: 1px solid #e1e6ee; border-radius: 20px; background: #fcfbf8; padding: 24px; box-shadow: 0 24px 60px -36px #23345855; }
+  .visual-topline { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .visual-brand { font-weight: 650; font-size: 15px; }
+  .visual-brand span { color: #6b7080; font-weight: 400; margin-left: 5px; }
+  .visual-label { font-size: 8px; letter-spacing: .12em; color: #626d7e; }
+  .hero-art { display: block; width: 100%; height: auto; margin-block: 28px; mix-blend-mode: multiply; }
+  .stock-record { display: flex; align-items: center; gap: 12px; padding: 17px; border: 1px solid #e1e6ee; border-radius: 12px; background: #fff; }
+  .record-icon { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 9px; background: #e6f6f1; color: #0a7558; font-size: 12px; font-weight: 650; }
+  .stock-record strong { display: block; font-size: 14px; font-weight: 600; }
+  .stock-record div > span { display: block; margin-top: 4px; font-size: 11px; color: #626d7e; }
+  .record-check { margin-left: auto; color: #0a7558; }
+  .visual-flow { display: flex; justify-content: space-between; gap: 6px; padding: 22px 6px 2px; color: #626d7e; font-size: 11px; }
+  .capability-strip { display: flex; align-items: center; justify-content: space-between; gap: 28px; border-block: 1px solid #e7ebf0; padding-block: 23px; }
+  .capability-strip > span { font-size: 11px; color: #626d7e; }
+  .capability-strip ul { display: flex; flex-wrap: wrap; gap: 16px 30px; font-size: 12px; font-weight: 550; }
+  .home-section { padding-block: 88px; }
+  .section-intro { display: flex; justify-content: space-between; align-items: flex-end; gap: 36px; margin-bottom: 38px; }
+  .section-intro .eyebrow { margin-bottom: 16px; }
+  h2 { font-size: clamp(32px, 3.2vw, 45px); font-weight: 550; line-height: 1.12; letter-spacing: -.045em; }
+  .section-intro > p { max-width: 380px; color: #5b6170; font-size: 15px; line-height: 1.8; }
+  .workflow-grid { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid #e1e6ee; border-radius: 14px; overflow: hidden; }
+  .workflow-grid li { padding: 28px 24px; border-right: 1px solid #e1e6ee; }
+  .workflow-grid li:last-child { border: 0; }
+  .step-label { font-family: 'Geist Mono', monospace; color: #52627c; font-size: 10px; letter-spacing: .06em; }
+  .workflow-grid h3 { margin-top: 32px; font-size: 18px; font-weight: 600; letter-spacing: -.02em; }
+  .workflow-grid p { margin-top: 12px; color: #5b6170; font-size: 14px; line-height: 1.8; }
+  .section-link { margin-top: 24px; }
+  .suite-section { background: #f7f9fc; border-block: 1px solid #e7ebf0; }
+  .suite-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .suite-card { display: flex; flex-direction: column; gap: 27px; padding: 25px; border: 1px solid #e1e6ee; border-radius: 14px; background: #fff; transition: border-color .2s, box-shadow .2s; }
+  .suite-card:hover { border-color: #8fa0ff; box-shadow: 0 10px 28px -20px #13203966; }
+  .suite-card-featured { border-top: 3px solid #0a7558; padding-top: 23px; }
+  .suite-card-top { display: flex; justify-content: space-between; align-items: center; }
+  .card-arrow { color: #626d7e; font-size: 21px; }
+  .product-category { color: #626d7e; font-size: 11px; line-height: 1.6; margin-bottom: 7px; }
+  .suite-card h3 { font-size: 22px; letter-spacing: -.035em; font-weight: 600; }
+  .product-summary { margin-top: 14px; font-size: 14px; line-height: 1.75; color: #5b6170; }
+  .product-link { margin-top: auto; font-size: 12px; font-weight: 600; }
+  .product-link span { margin-left: 7px; }
+  .roadmap-note { display: flex; align-items: center; gap: 14px; margin-top: 25px; color: #5b6170; font-size: 12px; line-height: 1.8; }
+  .roadmap-badge { flex: none; padding: 3px 9px; border: 1px solid #dce2eb; border-radius: 5px; font-size: 10px; color: #435373; }
+  .roadmap-note a { margin-left: auto; white-space: nowrap; font-size: 12px; }
+  .demo-section :global([data-demo]) { margin-top: 0; }
+  .industries-section { border-top: 1px solid #e7ebf0; }
+  .industry-grid { display: grid; grid-template-columns: 1fr 1fr; column-gap: 48px; }
+  .industry-link { display: flex; align-items: center; gap: 18px; padding-block: 24px; border-bottom: 1px solid #e7ebf0; }
+  .industry-link:hover h3 { color: #2f4bff; }
+  .industry-number { align-self: flex-start; padding-top: 4px; font-size: 10px; font-family: 'Geist Mono', monospace; color: #626d7e; }
+  .industry-link h3 { font-size: 19px; font-weight: 550; letter-spacing: -.02em; }
+  .industry-link p { margin-top: 6px; color: #626d7e; font-size: 12px; line-height: 1.7; }
+  .industry-link > span:last-child { margin-left: auto; }
+  .guides-section { padding-bottom: 0; }
+  .guide-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .guide-grid a { display: flex; flex-direction: column; height: 100%; min-height: 240px; gap: 20px; padding: 28px; border: 1px solid #e1e6ee; border-radius: 12px; }
+  .guide-grid a:hover { border-color: #8fa0ff; }
+  .guide-topic { color: #435373; font-size: 11px; }
+  .guide-grid h3 { font-size: 21px; line-height: 1.4; font-weight: 550; letter-spacing: -.02em; }
+  .guide-grid .text-link { margin-top: auto; font-size: 12px; }
+  .closing-section { padding-bottom: 80px; }
+  .closing-panel { display: flex; justify-content: space-between; align-items: center; gap: 40px; padding: 56px; background: #f2f5ff; border: 1px solid #dfe5fc; border-radius: 18px; }
+  .closing-panel p:not(.eyebrow) { margin-top: 20px; color: #5b6170; font-size: 15px; line-height: 1.8; }
+  .closing-actions { display: flex; flex-direction: column; align-items: center; gap: 20px; flex: none; }
+  @media (max-width: 1100px) {
+    .hero { gap: 28px; padding-block: 64px; }
+    .suite-grid { grid-template-columns: repeat(2, 1fr); }
+    .capability-strip { flex-direction: column; align-items: flex-start; gap: 15px; }
+    .workflow-grid { grid-template-columns: repeat(2, 1fr); }
+    .workflow-grid li:nth-child(2) { border-right: 0; }
+    .workflow-grid li:nth-child(-n+2) { border-bottom: 1px solid #e1e6ee; }
+  }
+  @media (max-width: 899px) {
+    .hero { grid-template-columns: 1fr; gap: 40px; }
+    .hero-copy { max-width: 630px; }
+    .hero-visual { max-width: 680px; width: 100%; }
+    .hero-art { max-height: 280px; object-fit: contain; }
+    .home-section { padding-block: 64px; }
+    .section-intro { align-items: flex-start; flex-direction: column; gap: 22px; }
+    .section-intro > p { max-width: 570px; }
+    .guide-grid { grid-template-columns: 1fr; }
+    .guide-grid a { min-height: 180px; }
+    .roadmap-note { flex-wrap: wrap; }
+    .roadmap-note a { margin-left: 0; }
+    .guides-section { padding-bottom: 0; }
+    .closing-panel { padding: 36px; }
+  }
+  @media (max-width: 599px) {
+    .hero { padding-top: 44px; }
+    h1 { font-size: clamp(37px, 10vw, 54px); }
+    .hero-lead { font-size: 16px; }
+    .hero-actions { gap: 20px; }
+    .hero-visual { padding: 18px; }
+    .visual-label { font-size: 7px; }
+    .stock-record { padding: 13px; }
+    .capability-strip ul { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; font-size: 11px; }
+    .workflow-grid, .suite-grid, .industry-grid { grid-template-columns: 1fr; }
+    .workflow-grid li { border-right: 0; border-bottom: 1px solid #e1e6ee; }
+    .workflow-grid h3 { margin-top: 20px; }
+    .suite-card { gap: 20px; }
+    .closing-panel { flex-direction: column; align-items: flex-start; padding: 28px; }
+    .closing-actions { align-items: flex-start; }
+    .closing-section { padding-bottom: 48px; }
+  }
+</style>

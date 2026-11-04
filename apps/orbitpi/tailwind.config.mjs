@@ -4,9 +4,9 @@ export default {
   theme: {
     extend: {
       colors: {
-        ink: { DEFAULT: '#0B0D12', 700: '#3F4451', 500: '#5B6170', 400: '#6B7080' },
-        line: { DEFAULT: '#EDEEF1', strong: '#E1E3E8' },
-        mist: '#F8F9FB',
+        ink: { DEFAULT: '#132039', 700: '#3F4451', 500: '#5B6170', 400: '#6B7080' },
+        line: { DEFAULT: '#E7EBF0', strong: '#DFE5EF' },
+        mist: '#F7F9FC',
         brand: { DEFAULT: '#2F4BFF', dark: '#1F37D6', soft: '#EEF1FF', light: '#8FA0FF' },
         docai: { DEFAULT: '#2F4BFF', soft: '#EEF1FF' },
         stock: { DEFAULT: '#0A7558', soft: '#E6F6F1' },
@@ -18,7 +18,7 @@ export default {
         sans: ['"Geist Variable"', 'system-ui', '-apple-system', 'Segoe UI', 'sans-serif'],
         mono: ['"Geist Mono"', 'ui-monospace', 'SFMono-Regular', 'monospace'],
       },
-      maxWidth: { page: '1440px' },
+      maxWidth: { page: '1288px' },
       letterSpacing: { tightest: '-0.045em', display: '-0.04em' },
       boxShadow: {
         card: '0 20px 40px -24px rgba(21,32,90,0.25)',

@@ -12,18 +12,18 @@ const accent = p.theme === 'ledger' ? '#2F4BFF' : p.color;
   <div class="flex items-center gap-3">
     <ProductBadge product={p} size="lg" />
     <div class="flex flex-col">
-      <H class="text-lg font-semibold tracking-[-0.02em]">{p.fullName}</H>
+      <H class="text-xl font-semibold tracking-[-0.02em]">{p.fullName}</H>
       <span class="flex items-center gap-2 text-[13px] text-ink-400">{p.category}{!isAvailable(p) && <span class="rounded-full bg-[#FFF4E0] px-2 py-px text-[11px] font-medium text-[#9A5B00]">Coming soon</span>}</span>
     </div>
   </div>
   {card && (
-    <img src={card.src} srcset={`${card.srcSmall} 400w, ${card.srcMedium} 640w, ${card.src} ${card.width}w`} sizes="(min-width:1440px) 396px, (min-width:1024px) calc((100vw - 254px)/3), (min-width:768px) calc((100vw - 180px)/2), calc(100vw - 106px)" alt={p.image!.alt} width={card.width} height={card.height} loading="lazy" decoding="async" class="block aspect-[16/10] h-auto w-full rounded-2xl bg-[#FCFAF4] object-contain" />
+    <img src={card.src} srcset={`${card.srcSmall} 400w, ${card.srcMedium} 640w, ${card.src} ${card.width}w`} sizes="(min-width:1288px) 550px, (min-width:768px) calc((100vw - 188px)/2), calc(100vw - 106px)" alt={p.image!.alt} width={card.width} height={card.height} loading="lazy" decoding="async" class="block aspect-[16/10] h-auto w-full rounded-2xl bg-[#FCFAF4] object-contain" />
   )}
   <p class="text-base leading-normal text-ink-700">{p.summary}</p>
   <ul class="flex flex-col gap-2 text-sm text-ink-700">
     {p.highlights.map((h) => <li class="flex gap-2"><span aria-hidden="true" style={`color:${accent}`}>✓</span>{h}</li>)}
   </ul>
-  <a href={productHref(p.slug)} class="mt-auto text-sm font-medium hover:underline" style={`color:${accent}`}>
+  <a href={productHref(p.slug)} class="mt-auto border-t border-line pt-5 text-sm font-medium hover:underline" style={`color:${accent}`}>
     Learn about {p.category.toLowerCase()} <span aria-hidden="true">→</span>
   </a>
 </article>
