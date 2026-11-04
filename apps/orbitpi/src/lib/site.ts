@@ -26,7 +26,9 @@ export const SITE = {
   logo: '/logo.png',
   locale: 'en_GB', // British English spelling, global audience
   foundingYear: 2026,
-  // Official company profiles (LinkedIn, X, YouTube…). Listed in Organization schema as sameAs once added.
+  // TODO(owner): add verified social profile URLs before Organization schema emits sameAs.
+  // No LinkedIn, X, YouTube, or other official profile URLs exist in this repo.
+  // Do not invent URLs. Leave this array empty until a real profile is confirmed.
   sameAs: [] as string[],
 } as const;
 

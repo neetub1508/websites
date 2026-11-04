@@ -1,0 +1,49 @@
+# OrbitPi
+
+> OrbitPi is a software product company. We develop DocAI for document OCR, Inventory for warehouse and stock management, Leads for sales enquiries and Assets for fixed asset management. Each product addresses a specific operational workflow and can be used on its own.
+
+Company: OrbitPi Technologies Pvt. Ltd.
+Site: https://orbitpi.com/
+Contact: hello@orbitpi.com
+
+## Products
+
+- [OrbitPi DocAI](https://orbitpi.com/products/ai-document-ocr/): AI document OCR
+- [OrbitPi Inventory](https://orbitpi.com/products/warehouse-inventory-management/): Warehouse inventory management
+- [OrbitPi Leads](https://orbitpi.com/products/lead-management-software/): Lead management
+- [OrbitPi Assets](https://orbitpi.com/products/asset-management-software/): Asset management software
+
+## Pages
+
+- [Home](https://orbitpi.com/): Business software for operations teams
+- [Product catalogue](https://orbitpi.com/products/): Explore the software suite
+- [Industries](https://orbitpi.com/industries/)
+- [Guides](https://orbitpi.com/guides/)
+- [Pricing](https://orbitpi.com/pricing/): Request a software quote
+- [About](https://orbitpi.com/about/)
+- [Contact](https://orbitpi.com/contact/)
+- [For Indian businesses](https://orbitpi.com/india/)
+- [Privacy Policy](https://orbitpi.com/privacy/)
+- [Terms of Service](https://orbitpi.com/terms/)
+
+## Industries
+
+- [Manufacturing](https://orbitpi.com/industries/manufacturing/)
+- [Distribution](https://orbitpi.com/industries/distribution/)
+- [Logistics & 3PL](https://orbitpi.com/industries/logistics-3pl/)
+- [Retail & e-commerce](https://orbitpi.com/industries/retail-ecommerce/)
+- [Healthcare & pharma](https://orbitpi.com/industries/healthcare-pharma/)
+- [Real estate](https://orbitpi.com/industries/real-estate/)
+
+## Guides
+
+- [E-way bill rules: when you need one, Part A and Part B, and validity](https://orbitpi.com/guides/e-way-bill-rules/)
+- [GST e-invoice QR code: what it contains and how to check it](https://orbitpi.com/guides/gst-e-invoice-qr-code/)
+- [CARO 2020 physical verification of fixed assets: a practical guide](https://orbitpi.com/guides/caro-2020-fixed-asset-physical-verification/)
+- [FIFO vs weighted average inventory valuation, with a worked example](https://orbitpi.com/guides/fifo-vs-weighted-average-inventory-valuation/)
+- [Straight-line vs written down value depreciation: how to calculate both](https://orbitpi.com/guides/straight-line-vs-written-down-value-depreciation/)
+- [Lead routing: round-robin vs rule-based assignment](https://orbitpi.com/guides/lead-routing-round-robin-vs-rules/)
+
+## Optional
+
+- [Sitemap](https://orbitpi.com/sitemap.xml)

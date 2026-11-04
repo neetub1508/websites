@@ -103,6 +103,11 @@ for (const [route, source] of pages) {
       catch { errors.push(`${route}: missing image ${url}`); }
     }
   }
+  const header = source.slice(source.indexOf('<header'), source.indexOf('</header>'));
+  const footer = source.slice(source.indexOf('<footer'));
+  const footerProducts = footer.match(/<nav aria-label="Products"[^>]*>[\s\S]*?<\/nav>/)?.[0] ?? '';
+  check(header.length > 0 && !header.includes('/products/accounting-software/'), `${route}: Ledger must stay out of the header`);
+  check(footerProducts.length > 0 && !footerProducts.includes('/products/accounting-software/'), `${route}: Ledger must stay out of the footer product list`);
   for (const link of tags(source, 'a')) {
     if (!link.href || /^(mailto:|tel:)/.test(link.href)) continue;
     const url = new URL(link.href, origin + route);
@@ -131,6 +136,18 @@ for (const url of indexable) check(locations.includes(url), `Indexable page miss
 for (const url of locations) check(indexable.includes(url), `Sitemap includes a missing or noindex page: ${url}`);
 const robots = await readFile(path.join(dist, 'robots.txt'), 'utf8');
 check(robots.includes(`Sitemap: ${origin}/sitemap.xml`), 'robots.txt missing sitemap');
+const llms = await readFile(path.join(dist, 'llms.txt'), 'utf8');
+check(llms.startsWith('# OrbitPi\n'), 'llms.txt must be a plain-text site summary');
+for (const url of [
+  `${origin}/products/ai-document-ocr/`,
+  `${origin}/products/warehouse-inventory-management/`,
+  `${origin}/products/lead-management-software/`,
+  `${origin}/products/asset-management-software/`,
+]) check(llms.includes(url), `llms.txt missing ${url}`);
+for (const banned of ['Hindi', 'Tally', 'Ledger', 'double-entry', 'coming soon', 'WhatsApp']) {
+  check(!llms.includes(banned), `llms.txt includes unapproved wording: ${banned}`);
+}
+check(!locations.includes(`${origin}/llms.txt`), 'llms.txt is not an HTML page and must stay out of the sitemap');
 for (const route of ['/404.html', '/contact/thanks/', '/products/accounting-software/']) check(pages.get(route)?.includes('noindex'), `${route}: missing noindex`);
 const ledger = pages.get('/products/accounting-software/');
 check(ledger?.includes('Coming soon') && !ledger.includes('"@type":"SoftwareApplication"'), 'Unreleased Ledger must not be marked as released software');
