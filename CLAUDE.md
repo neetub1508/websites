@@ -137,3 +137,19 @@ These are mandatory on every page of every site. Do not ship without them.
 ## Disclaimers (important)
 
 Finance, legal, medical, and tax tools must display a clear disclaimer that results are **estimates only and not professional advice**.
+
+## Cursor Cloud specific instructions
+
+There is no root package. Each directory under `apps/` is its own Astro 4 site with its own lockfile: `orbitpi`, `easypaycalc`, `world-of-gaming`, `kids-arcade`, and `1099estimator`. Cloudflare builds expect Node 22 (`DEPLOYMENTS.md`). `apps/world-of-gaming/.nvmrc` still says `20`; stay on Node 22, which already runs every app here. Login shells find `node` and `npm` without extra setup. No secrets are required for local dev. OrbitPi worker tests mock the contact webhook.
+
+From the repo root, install every app (safe to repeat):
+
+```bash
+for app in orbitpi easypaycalc world-of-gaming kids-arcade 1099estimator; do
+  npm ci --prefix "apps/$app"
+done
+```
+
+Dev servers are not started on boot. Each app's `npm run dev` binds port 4321, so run one at a time: `npm run dev --prefix apps/<app> -- --host 0.0.0.0 --port 4321`.
+
+Checks that exist today: in `apps/orbitpi`, `npm test`, then `npm run build` and `npm run check:seo`. The other four apps have `npm run build` only. Per-app commands are also in `apps/orbitpi/README.md`.
