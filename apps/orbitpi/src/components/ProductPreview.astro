@@ -9,24 +9,24 @@ const d = DEMO.find((x) => x.slug === product.slug)!;
 const tone: Record<Tone, string> = { ok: 'bg-[#E9F8EF] text-[#137A3F]', warn: 'bg-[#FFF4E0] text-[#9A5B00]', info: 'bg-brand-soft text-brand' };
 ---
 
-<figure class="overflow-hidden rounded-[20px] border border-line-strong bg-white shadow-window">
+<figure class="min-w-0 overflow-hidden rounded-[20px] border border-line-strong bg-white shadow-window">
   <figcaption class="sr-only">{isAvailable(product) ? `${product.fullName} screen with sample data: ${d.title}` : `Design preview of ${product.fullName}, which is in development`}</figcaption>
   <div class="flex items-center gap-3 border-b border-line bg-[#FBFBFC] px-4 py-3">
     <span aria-hidden="true" class="flex gap-1.5"><span class="size-2.5 rounded-full bg-[#FF5F57]"></span><span class="size-2.5 rounded-full bg-[#FEBC2E]"></span><span class="size-2.5 rounded-full bg-[#28C840]"></span></span>
     <span class="mx-auto truncate font-mono text-xs text-ink-400">app.orbitpi.com/{d.path}</span>
-    <span class="whitespace-nowrap rounded-full bg-mist px-2.5 py-0.5 text-[11px] text-ink-400">{isAvailable(product) ? 'Sample data' : 'Design preview'}</span>
+    <span class="whitespace-nowrap rounded-full bg-mist px-2.5 py-0.5 text-xs text-ink-400">{isAvailable(product) ? 'Sample data' : 'Design preview'}</span>
   </div>
   <div class="flex flex-col gap-3.5 p-5">
-    <div class="flex items-baseline justify-between gap-3"><strong class="text-base font-semibold">{d.title}</strong><span class="text-xs text-ink-400">{d.subtitle}</span></div>
-    <dl class="grid grid-cols-3 gap-2">
-      {d.kpis.map((k) => <div class="flex flex-col-reverse rounded-[10px] bg-mist px-3 py-2.5"><dd class="text-lg font-semibold tracking-[-0.02em]">{k.value}</dd><dt class="text-[11px] text-ink-400">{k.label}</dt></div>)}
+    <div class="flex flex-wrap items-baseline justify-between gap-3"><strong class="text-base font-semibold">{d.title}</strong><span class="text-xs text-ink-400">{d.subtitle}</span></div>
+    <dl class="grid grid-cols-2 gap-2 sm:grid-cols-3">
+      {d.kpis.map((k) => <div class="flex flex-col-reverse rounded-[10px] bg-mist px-3 py-2.5"><dd class="text-lg font-semibold tracking-[-0.02em]">{k.value}</dd><dt class="text-xs text-ink-400">{k.label}</dt></div>)}
     </dl>
     <ul class="flex flex-col divide-y divide-[#F1F2F4] rounded-xl border border-line">
       {d.rows.map((r) => (
-        <li class="grid grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)_auto] items-center gap-2.5 px-3.5 py-2.5 text-[13px]">
-          <span class="truncate font-medium">{r.name}</span>
-          <span class="truncate font-mono text-[11.5px] text-ink-400">{r.ref}</span>
-          <span class:list={['whitespace-nowrap rounded-full px-2.5 py-0.5 text-[11.5px] font-medium', tone[r.tone]]}>{r.status}</span>
+        <li class="grid grid-cols-[minmax(0,1fr)_auto] sm:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)_auto] items-center gap-2.5 px-3.5 py-2.5 text-xs">
+          <span class="min-w-0 break-words font-medium">{r.name}</span>
+          <span class="col-start-1 row-start-2 min-w-0 break-words font-mono text-xs text-ink-400 sm:col-start-auto sm:row-start-auto">{r.ref}</span>
+          <span class:list={['col-start-2 row-start-1 whitespace-nowrap rounded-full px-2.5 py-0.5 text-xs font-medium sm:col-start-auto sm:row-start-auto', tone[r.tone]]}>{r.status}</span>
         </li>
       ))}
     </ul>

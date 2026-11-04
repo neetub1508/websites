@@ -34,11 +34,11 @@ const image = { src: `/images/og/industry-${ind.slug}.jpg`, alt: ind.imageAlt, w
       <h1 id="page-title" class="h-display">{ind.h1}</h1>
       <p class="lead">{ind.intro}</p>
       <ul class="flex flex-col gap-2.5">
-        {ind.wins.map((w) => <li class="flex gap-2.5 text-[15px] text-ink-700"><span aria-hidden="true" class="text-brand">✓</span>{w}</li>)}
+        {ind.wins.map((w) => <li class="flex gap-2.5 text-base text-ink-700"><span aria-hidden="true" class="text-brand">✓</span>{w}</li>)}
       </ul>
       <a href="/contact/" class="btn-primary">Book a demo</a>
     </div>
-    <ImageFrame src={`/images/industries/${ind.slug}.webp`} srcset={`/images/industries/${ind.slug}-640.webp 640w, /images/industries/${ind.slug}.webp 1200w`} sizes="(min-width:1440px) 672px, (min-width:1024px) calc((100vw - 96px)/2), calc(100vw - 48px)" alt={ind.imageAlt} width={1200} height={900} fit="contain" eager class="aspect-[4/3] rounded-[20px] border border-line-strong" />
+    <ImageFrame src={`/images/industries/${ind.slug}.webp`} srcset={`/images/industries/${ind.slug}-640.webp 640w, /images/industries/${ind.slug}.webp 1200w`} sizes="(min-width:1288px) 596px, (min-width:1024px) calc((100vw - 96px)/2), calc(100vw - 48px)" alt={ind.imageAlt} width={1200} height={900} fit="contain" eager class="aspect-[4/3] rounded-[20px] border border-line-strong" />
   </section>
 
   <section aria-labelledby="coverage-title" class="border-y border-line bg-mist">
@@ -54,7 +54,7 @@ const image = { src: `/images/og/industry-${ind.slug}.jpg`, alt: ind.imageAlt, w
         {ind.challenges.map((c) => (
           <li class="flex flex-col gap-2.5 rounded-2xl border border-line bg-white p-6">
             <h3 class="text-lg font-semibold">{c.title}</h3>
-            <p class="text-[15px] leading-relaxed text-ink-500">{c.body}</p>
+            <p class="text-base leading-relaxed text-ink-500">{c.body}</p>
           </li>
         ))}
       </ul>
@@ -67,7 +67,7 @@ const image = { src: `/images/og/industry-${ind.slug}.jpg`, alt: ind.imageAlt, w
         <li class="flex flex-col gap-3 rounded-2xl border border-line p-6">
           <span class="grid size-8 place-items-center rounded-full bg-brand-soft text-sm font-semibold text-brand">{i + 1}</span>
           <h3 class="text-lg font-semibold tracking-[-0.02em]">{s.title}</h3>
-          <p class="text-[15px] leading-normal text-ink-500">{s.body}</p>
+          <p class="text-base leading-normal text-ink-500">{s.body}</p>
         </li>
       ))}
     </ol>

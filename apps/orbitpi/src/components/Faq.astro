@@ -16,7 +16,7 @@ const { faqs, title = 'Frequently asked questions', id = 'faq' } = Astro.props;
           <h3 class="text-base font-semibold">{f.q}</h3>
           <span aria-hidden="true" class="text-ink-400 transition group-open:rotate-45">+</span>
         </summary>
-        <p class="px-1 pb-6 text-[15px] leading-relaxed text-ink-500">{f.a}</p>
+        <p class="px-1 pb-6 text-base leading-relaxed text-ink-500">{f.a}</p>
       </details>
     ))}
   </div>

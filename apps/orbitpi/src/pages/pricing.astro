@@ -43,8 +43,8 @@ const schema = graph(webPage(absoluteUrl('/pricing/'), title, description), brea
         <li class:list={['flex flex-col gap-5 rounded-[20px] border p-8', pl.featured ? 'border-brand bg-[#F2F5FF] text-ink' : 'border-line-strong bg-white']}>
           <p class="section-eyebrow !mb-0">{pl.featured ? 'CONNECTED PRODUCTS' : pl.name === 'Enterprise' ? 'TAILORED SCOPE' : 'A FOCUSED START'}</p>
           <h2 class="text-2xl font-semibold tracking-[-0.03em]">{pl.name}</h2>
-          <p class:list={['text-[15px]', pl.featured ? 'text-ink-700' : 'text-ink-500']}>{pl.text}</p>
-          <ul class="flex flex-1 flex-col gap-2.5 text-[15px]">
+          <p class:list={['text-base', pl.featured ? 'text-ink-700' : 'text-ink-500']}>{pl.text}</p>
+          <ul class="flex flex-1 flex-col gap-2.5 text-base">
             {pl.points.map((pt) => <li class="flex gap-2.5"><span aria-hidden="true">✓</span>{pt}</li>)}
           </ul>
           <a href="/contact/" class:list={[pl.featured ? 'btn-primary' : 'btn-ghost', 'self-start']}>{pl.cta}</a>
@@ -56,9 +56,9 @@ const schema = graph(webPage(absoluteUrl('/pricing/'), title, description), brea
   <section aria-labelledby="quote-title" class="container-page flex flex-col gap-8 pb-24">
     <SectionHeading id="quote-title" title="What to include in your software pricing request" align="left" lead="There is no published fixed price list. Tell us which products and workflows you need so the quote can describe the scope for your team." />
     <ul class="grid gap-4 md:grid-cols-3">
-      <li class="rounded-2xl border border-line p-6"><h3 class="text-lg font-semibold">Products and people</h3><p class="mt-2 text-[15px] leading-relaxed text-ink-500">List the products you need, team size, branches and locations. Distinguish the people who enter data from those who review, approve or report on it.</p></li>
-      <li class="rounded-2xl border border-line p-6"><h3 class="text-lg font-semibold">Volume and setup</h3><p class="mt-2 text-[15px] leading-relaxed text-ink-500">Share approximate document volumes, stock items, enquiries or assets. Include opening-data imports, templates, approvals and any workflows you want to see in the demo.</p></li>
-      <li class="rounded-2xl border border-line p-6"><h3 class="text-lg font-semibold">Integrations and services</h3><p class="mt-2 text-[15px] leading-relaxed text-ink-500">Specify exports, messaging providers and compliance connections, such as a GST e-way bill provider in India. Ask the team to itemise onboarding, support, taxes and any external provider charges in your quote.</p></li>
+      <li class="rounded-2xl border border-line p-6"><h3 class="text-lg font-semibold">Products and people</h3><p class="mt-2 text-base leading-relaxed text-ink-500">List the products you need, team size, branches and locations. Distinguish the people who enter data from those who review, approve or report on it.</p></li>
+      <li class="rounded-2xl border border-line p-6"><h3 class="text-lg font-semibold">Volume and setup</h3><p class="mt-2 text-base leading-relaxed text-ink-500">Share approximate document volumes, stock items, enquiries or assets. Include opening-data imports, templates, approvals and any workflows you want to see in the demo.</p></li>
+      <li class="rounded-2xl border border-line p-6"><h3 class="text-lg font-semibold">Integrations and services</h3><p class="mt-2 text-base leading-relaxed text-ink-500">Specify exports, messaging providers and compliance connections, such as a GST e-way bill provider in India. Ask the team to itemise onboarding, support, taxes and any external provider charges in your quote.</p></li>
     </ul>
   </section>
 

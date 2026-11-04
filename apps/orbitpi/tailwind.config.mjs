@@ -18,8 +18,13 @@ export default {
         sans: ['"Geist Variable"', 'system-ui', '-apple-system', 'Segoe UI', 'sans-serif'],
         mono: ['"Geist Mono"', 'ui-monospace', 'SFMono-Regular', 'monospace'],
       },
+      fontSize: {
+        xs: ['0.875rem', { lineHeight: '1.5' }],
+        sm: ['0.9375rem', { lineHeight: '1.6' }],
+        base: ['1rem', { lineHeight: '1.65' }],
+      },
       maxWidth: { page: '1288px' },
-      letterSpacing: { tightest: '-0.045em', display: '-0.04em' },
+      letterSpacing: { tightest: '-0.035em', display: '-0.03em' },
       boxShadow: {
         card: '0 20px 40px -24px rgba(21,32,90,0.25)',
         window: '0 40px 80px -30px rgba(21,32,90,0.28), 0 12px 24px -12px rgba(11,13,18,0.08)',

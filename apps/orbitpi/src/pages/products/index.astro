@@ -41,12 +41,12 @@ const schema = graph(
         {india.map((f) => (
           <li class="flex flex-col gap-2 rounded-2xl border border-line bg-white p-6">
             <h3 class="text-base font-semibold">{f.title}</h3>
-            <p class="text-[14.5px] leading-relaxed text-ink-500">{f.body}</p>
+            <p class="text-base leading-relaxed text-ink-500">{f.body}</p>
             <a href={productHref(f.slug)} class="mt-auto pt-2 text-sm font-medium text-brand hover:underline">{f.link} <span aria-hidden="true">→</span></a>
           </li>
         ))}
       </ul>
-      <p class="text-[15px] text-ink-500">See every India-specific feature on <a href="/india/" class="font-medium text-brand hover:underline">OrbitPi for Indian businesses</a>.</p>
+      <p class="text-base text-ink-500">See every India-specific feature on <a href="/india/" class="font-medium text-brand hover:underline">OrbitPi for Indian businesses</a>.</p>
     </div>
   </section>
 

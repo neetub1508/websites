@@ -13,7 +13,7 @@ const accent = p.theme === 'ledger' ? '#2F4BFF' : p.color;
     <ProductBadge product={p} size="lg" />
     <div class="flex flex-col">
       <H class="text-xl font-semibold tracking-[-0.02em]">{p.fullName}</H>
-      <span class="flex items-center gap-2 text-[13px] text-ink-400">{p.category}{!isAvailable(p) && <span class="rounded-full bg-[#FFF4E0] px-2 py-px text-[11px] font-medium text-[#9A5B00]">Coming soon</span>}</span>
+      <span class="flex items-center gap-2 text-xs text-ink-400">{p.category}{!isAvailable(p) && <span class="rounded-full bg-[#FFF4E0] px-2 py-px text-xs font-medium text-[#9A5B00]">Coming soon</span>}</span>
     </div>
   </div>
   {card && (

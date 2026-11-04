@@ -46,7 +46,7 @@ const principles = [
               <ProductBadge product={p} size="lg" />
               <strong class="font-semibold">{p.fullName}</strong>
               <span class="text-sm text-ink-500">{p.summary}</span>
-              {!isAvailable(p) && <span class="self-start rounded-full bg-[#FFF4E0] px-2 py-px text-[11px] font-medium text-[#9A5B00]">Coming soon</span>}
+              {!isAvailable(p) && <span class="self-start rounded-full bg-[#FFF4E0] px-2 py-px text-xs font-medium text-[#9A5B00]">Coming soon</span>}
             </a>
           </li>
         ))}
@@ -60,7 +60,7 @@ const principles = [
       {principles.map((p) => (
         <li class="flex flex-col gap-2.5 rounded-2xl border border-line p-6">
           <h3 class="text-lg font-semibold">{p.title}</h3>
-          <p class="text-[15px] leading-relaxed text-ink-500">{p.body}</p>
+          <p class="text-base leading-relaxed text-ink-500">{p.body}</p>
         </li>
       ))}
     </ul>
@@ -72,10 +72,10 @@ const principles = [
       <ul class="flex flex-wrap gap-2">
         {INDUSTRIES.map((i) => <li><a href={industryHref(i.slug)} class="block rounded-full border border-line-strong bg-white px-4 py-2 text-sm hover:border-ink">{i.name}</a></li>)}
       </ul>
-      <dl class="grid gap-6 border-t border-line pt-8 text-[15px] sm:grid-cols-3">
-        <div class="flex flex-col gap-1"><dt class="text-[13px] font-semibold">Company</dt><dd class="text-ink-500">{SITE.legalName}</dd></div>
-        {SITE.contactDetailsVerified && <div class="flex flex-col gap-1"><dt class="text-[13px] font-semibold">Location</dt><dd class="text-ink-500">{SITE.address.city}, {SITE.address.region}, {SITE.address.country}</dd></div>}
-        <div class="flex flex-col gap-1"><dt class="text-[13px] font-semibold">Contact</dt><dd><a href={`mailto:${SITE.email}`} class="text-ink-500 hover:text-brand">{SITE.email}</a></dd></div>
+      <dl class="grid gap-6 border-t border-line pt-8 text-base sm:grid-cols-3">
+        <div class="flex flex-col gap-1"><dt class="text-xs font-semibold">Company</dt><dd class="text-ink-500">{SITE.legalName}</dd></div>
+        {SITE.contactDetailsVerified && <div class="flex flex-col gap-1"><dt class="text-xs font-semibold">Location</dt><dd class="text-ink-500">{SITE.address.city}, {SITE.address.region}, {SITE.address.country}</dd></div>}
+        <div class="flex flex-col gap-1"><dt class="text-xs font-semibold">Contact</dt><dd><a href={`mailto:${SITE.email}`} class="text-ink-500 hover:text-brand">{SITE.email}</a></dd></div>
       </dl>
     </div>
   </section>

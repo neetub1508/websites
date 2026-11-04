@@ -34,9 +34,9 @@ const schema = graph(
             return (
               <li>
                 <a href={guideHref(g.slug)} class="group flex h-full flex-col gap-3 rounded-2xl border border-line bg-white p-6 transition hover:shadow-card">
-                  <span class="flex items-center gap-2 text-[13px] text-ink-500"><ProductBadge product={p} size="sm" />Related: {p.fullName}{g.region && <span class="rounded-full border border-line-strong px-2 py-px text-[11px] font-medium text-ink-700">{g.region}</span>}</span>
+                  <span class="flex flex-wrap items-center gap-2 text-xs text-ink-500"><ProductBadge product={p} size="sm" />Related: {p.fullName}{g.region && <span class="rounded-full border border-line-strong px-2 py-px text-xs font-medium text-ink-700">{g.region}</span>}</span>
                   <h3 class="text-lg font-semibold leading-snug">{g.title}</h3>
-                  <p class="text-[14.5px] leading-relaxed text-ink-500">{g.metaDescription}</p>
+                  <p class="text-base leading-relaxed text-ink-500">{g.metaDescription}</p>
                   <span class="mt-auto text-sm font-medium text-brand">Read the guide <span aria-hidden="true" class="inline-block transition group-hover:translate-x-0.5">→</span></span>
                 </a>
               </li>

@@ -23,8 +23,8 @@ const accentOf = (c: string) => (c === '#0B0D12' ? '#2F4BFF' : c);
         data-tab={i}
         class="group relative flex flex-col gap-2 overflow-hidden rounded-[14px] border border-line bg-mist px-4 pb-4 pt-3.5 text-left transition hover:border-[#C9CDD8] aria-selected:border-ink aria-selected:bg-white aria-selected:shadow-[0_10px_24px_-14px_rgba(11,13,18,0.35)]"
       >
-        <span class="flex items-center gap-2"><ProductBadge product={d.product} size="sm" /><strong class="text-[15px] font-semibold">{d.product.name}</strong></span>
-        <span class="text-[12.5px] leading-snug text-ink-400">{d.product.category}</span>
+        <span class="flex items-center gap-2"><ProductBadge product={d.product} size="sm" /><strong class="text-base font-semibold">{d.product.name}</strong></span>
+        <span class="text-xs leading-snug text-ink-400">{d.product.category}</span>
         <span class="absolute inset-x-0 bottom-0 h-[3px] bg-[#EEEFF2]">
           <span data-progress class="block h-full origin-left scale-x-0" style={`background:${d.product.color}`}></span>
         </span>
@@ -45,10 +45,10 @@ const accentOf = (c: string) => (c === '#0B0D12' ? '#2F4BFF' : c);
           </div>
           <div class="grid min-h-[440px] md:grid-cols-2">
             <div class="flex flex-col gap-3.5 border-line p-5 md:border-r">
-              <div class="flex items-baseline justify-between gap-3"><strong class="text-[17px] font-semibold">{d.title}</strong><span class="text-xs text-ink-400">{d.subtitle}</span></div>
-              <dl class="grid grid-cols-3 gap-2">
+              <div class="flex flex-wrap items-baseline justify-between gap-3"><strong class="text-[17px] font-semibold">{d.title}</strong><span class="text-xs text-ink-400">{d.subtitle}</span></div>
+              <dl class="grid grid-cols-2 gap-2 sm:grid-cols-3">
                 {d.kpis.map((k) => (
-                  <div class="flex flex-col-reverse gap-0.5 rounded-[10px] bg-mist px-3 py-2.5"><dd class="text-[19px] font-semibold tracking-[-0.02em]">{k.value}</dd><dt class="text-[11.5px] text-ink-400">{k.label}</dt></div>
+                  <div class="flex flex-col-reverse gap-0.5 rounded-[10px] bg-mist px-3 py-2.5"><dd class="text-[19px] font-semibold tracking-[-0.02em]">{k.value}</dd><dt class="text-xs text-ink-400">{k.label}</dt></div>
                 ))}
               </dl>
               <p class="text-xs text-ink-400">Click a row to open it</p>
@@ -58,11 +58,11 @@ const accentOf = (c: string) => (c === '#0B0D12' ? '#2F4BFF' : c);
                     <button
                       type="button" data-row={j} aria-pressed={j === 0 ? 'true' : 'false'}
                       data-name={r.name} data-ref={r.ref} data-fields={JSON.stringify(r.fields)}
-                      class="grid w-full grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)_auto] items-center gap-2.5 rounded-[10px] px-3 py-2.5 text-left text-[13px] transition hover:bg-[#F5F6F8] aria-pressed:bg-white aria-pressed:shadow-[0_0_0_1px_#E1E3E8,0_4px_10px_-6px_rgba(11,13,18,0.2)]"
+                      class="grid w-full grid-cols-[minmax(0,1fr)_auto] sm:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)_auto] items-center gap-2.5 rounded-[10px] px-3 py-2.5 text-left text-xs transition hover:bg-[#F5F6F8] aria-pressed:bg-white aria-pressed:shadow-[0_0_0_1px_#E1E3E8,0_4px_10px_-6px_rgba(11,13,18,0.2)]"
                     >
-                      <span class="truncate font-medium">{r.name}</span>
-                      <span class="truncate font-mono text-[11.5px] text-ink-400">{r.ref}</span>
-                      <span data-status class:list={['whitespace-nowrap rounded-full px-2.5 py-0.5 text-[11.5px] font-medium', tone[r.tone]]}>{r.status}</span>
+                      <span class="min-w-0 break-words font-medium">{r.name}</span>
+                      <span class="col-start-1 row-start-2 min-w-0 break-words font-mono text-xs text-ink-400 sm:col-start-auto sm:row-start-auto">{r.ref}</span>
+                      <span data-status class:list={['col-start-2 row-start-1 whitespace-nowrap rounded-full px-2.5 py-0.5 text-xs font-medium sm:col-start-auto sm:row-start-auto', tone[r.tone]]}>{r.status}</span>
                     </button>
                   </li>
                 ))}
@@ -70,23 +70,23 @@ const accentOf = (c: string) => (c === '#0B0D12' ? '#2F4BFF' : c);
             </div>
             <div class="flex flex-col gap-4 bg-[#FBFBFC] p-5" aria-live="polite">
               <div class="flex flex-col gap-1">
-                <span data-d-ref class="font-mono text-[11.5px] text-[var(--accent)]">{first.ref}</span>
+                <span data-d-ref class="font-mono text-xs text-[var(--accent)]">{first.ref}</span>
                 <strong data-d-name class="text-xl font-semibold tracking-[-0.02em]">{first.name}</strong>
               </div>
               <dl class="flex flex-col rounded-xl border border-line bg-white">
                 {d.fieldLabels.map((label, k) => (
-                  <div class="flex justify-between gap-3 border-b border-[#F1F2F4] px-3.5 py-2.5 text-[13px] last:border-0"><dt class="text-ink-400">{label}</dt><dd data-d-field={k} class="text-right font-medium">{first.fields[k]}</dd></div>
+                  <div class="flex justify-between gap-3 border-b border-[#F1F2F4] px-3.5 py-2.5 text-xs last:border-0"><dt class="text-ink-400">{label}</dt><dd data-d-field={k} class="text-right font-medium">{first.fields[k]}</dd></div>
                 ))}
               </dl>
               <div class="flex flex-col gap-2">
                 <p class="text-xs font-medium text-ink-400">Activity</p>
                 <ul class="flex flex-col gap-2">
-                  {d.activity.map((a) => <li class="flex gap-2.5 text-[13px] text-ink-700"><span aria-hidden="true" class="text-[var(--accent)]">●</span>{a}</li>)}
+                  {d.activity.map((a) => <li class="flex gap-2.5 text-xs text-ink-700"><span aria-hidden="true" class="text-[var(--accent)]">●</span>{a}</li>)}
                 </ul>
               </div>
               <div class="mt-auto flex flex-wrap items-center gap-2">
-                <button type="button" data-action class="rounded-[9px] bg-[var(--accent)] px-4 py-2.5 text-[13.5px] font-medium text-white transition hover:opacity-90">{d.action}</button>
-                <span data-done hidden class="rounded-[9px] bg-[#E9F8EF] px-4 py-2.5 text-[13.5px] font-medium text-[#137A3F]">✓ {d.done}</span>
+                <button type="button" data-action class="rounded-[9px] bg-[var(--accent)] px-4 py-2.5 text-sm font-medium text-white transition hover:opacity-90">{d.action}</button>
+                <span data-done hidden class="rounded-[9px] bg-[#E9F8EF] px-4 py-2.5 text-sm font-medium text-[#137A3F]">✓ {d.done}</span>
                 <span class="text-xs text-ink-400">Interactive demo with sample data</span>
               </div>
             </div>
@@ -165,7 +165,7 @@ const accentOf = (c: string) => (c === '#0B0D12' ? '#2F4BFF' : c);
         done.add(`${pi}-${sel}`);
         const status = rows[sel].querySelector<HTMLElement>('[data-status]')!;
         status.textContent = 'Done';
-        status.className = 'whitespace-nowrap rounded-full px-2.5 py-0.5 text-[11.5px] font-medium bg-[#E9F8EF] text-[#137A3F]';
+        status.className = 'col-start-2 row-start-1 whitespace-nowrap rounded-full px-2.5 py-0.5 text-xs font-medium sm:col-start-auto sm:row-start-auto bg-[#E9F8EF] text-[#137A3F]';
         render();
       });
     });

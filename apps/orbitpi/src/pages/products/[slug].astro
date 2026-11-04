@@ -48,7 +48,7 @@ const schema = graph(
         <a href="/contact/" class="btn-primary">{available ? 'Book a demo' : 'Ask for early access'}</a>
         <a href="#features" class="btn-ghost">{available ? 'See features' : 'See planned features'}</a>
       </div>
-      <ul class="flex flex-wrap gap-x-6 gap-y-2 text-[13px] text-ink-500">
+      <ul class="flex flex-wrap gap-x-6 gap-y-2 text-xs text-ink-500">
         {p.highlights.map((h) => <li class="flex gap-1.5"><span aria-hidden="true" class="text-[var(--accent)]">✓</span>{h}</li>)}
       </ul>
     </div>
@@ -62,7 +62,7 @@ const schema = graph(
         {p.features.map((f) => (
           <li class="flex flex-col gap-2.5 rounded-2xl border border-line bg-white p-6">
             <h3 class="text-base font-semibold tracking-[-0.01em]">{f.title}</h3>
-            <p class="text-[14.5px] leading-relaxed text-ink-500">{f.body}</p>
+            <p class="text-base leading-relaxed text-ink-500">{f.body}</p>
           </li>
         ))}
       </ul>
@@ -81,7 +81,7 @@ const schema = graph(
         <li class="flex flex-col gap-3 rounded-2xl border border-line p-6">
           <span class="grid size-8 place-items-center rounded-full text-sm font-semibold" style={`background:${p.soft};color:${accent}`}>{i + 1}</span>
           <h3 class="text-lg font-semibold tracking-[-0.02em]">{s.title}</h3>
-          <p class="text-[15px] leading-normal text-ink-500">{s.body}</p>
+          <p class="text-base leading-normal text-ink-500">{s.body}</p>
         </li>
       ))}
     </ol>
@@ -94,12 +94,12 @@ const schema = graph(
         {p.useCases.map((u) => (
           <li class="flex flex-col gap-2.5 rounded-2xl border border-line-strong bg-mist p-6">
             <h3 class="text-lg font-semibold">{u.title}</h3>
-            <p class="text-[15px] leading-relaxed text-ink-500">{u.body}</p>
+            <p class="text-base leading-relaxed text-ink-500">{u.body}</p>
           </li>
         ))}
       </ul>
       {industries.length > 0 && (
-        <p class="text-center text-[15px] text-ink-500">
+        <p class="text-center text-base text-ink-500">
           Relevant industries:{' '}
           {industries.map((ind, i) => (<><a href={industryHref(ind.slug)} class="font-medium text-brand underline-offset-4 hover:underline">{ind.name}</a>{i < industries.length - 1 && ', '}</>))}
         </p>
@@ -127,7 +127,7 @@ const schema = graph(
         {p.integrations.map((it) => (
           <li class="flex flex-col gap-2 rounded-2xl border border-line p-6">
             <h3 class="text-base font-semibold">{it.title}</h3>
-            <p class="text-[14.5px] leading-relaxed text-ink-500">{it.body}</p>
+            <p class="text-base leading-relaxed text-ink-500">{it.body}</p>
           </li>
         ))}
       </ul>
@@ -141,11 +141,11 @@ const schema = graph(
       {p.evaluation.map((item) => (
         <li class="flex flex-col gap-2.5 rounded-2xl border border-line p-6">
           <h3 class="text-lg font-semibold">{item.title}</h3>
-          <p class="text-[15px] leading-relaxed text-ink-500">{item.body}</p>
+          <p class="text-base leading-relaxed text-ink-500">{item.body}</p>
         </li>
       ))}
     </ul>
-    <p class="text-[15px] text-ink-500">{available ? 'Compare single-product and suite options on our ' : 'See the available products on our '}<a href="/pricing/" class="font-medium text-brand hover:underline">software pricing page</a>, or <a href="/contact/" class="font-medium text-brand hover:underline">talk to the OrbitPi product team</a> about your requirements.</p>
+    <p class="text-base text-ink-500">{available ? 'Compare single-product and suite options on our ' : 'See the available products on our '}<a href="/pricing/" class="font-medium text-brand hover:underline">software pricing page</a>, or <a href="/contact/" class="font-medium text-brand hover:underline">talk to the OrbitPi product team</a> about your requirements.</p>
   </section>
 
   {guides.length > 0 && (
@@ -154,9 +154,9 @@ const schema = graph(
       <ul class="grid gap-4 md:grid-cols-2">
         {guides.map((g) => (
           <li><a href={guideHref(g.slug)} class="flex h-full flex-col gap-2 rounded-2xl border border-line p-6 hover:border-ink">
-            <span class="text-[13px] text-ink-500">{g.topic}</span>
+            <span class="text-xs text-ink-500">{g.topic}</span>
             <span class="text-lg font-semibold leading-snug">{g.title}</span>
-            <span class="text-[14.5px] leading-relaxed text-ink-500">{g.metaDescription}</span>
+            <span class="text-base leading-relaxed text-ink-500">{g.metaDescription}</span>
           </a></li>
         ))}
       </ul>
