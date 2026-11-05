@@ -16,12 +16,12 @@ const navProducts = PRODUCTS.filter(isAvailable);
 
     <ul class="hidden flex-1 items-center gap-1 text-sm text-ink-700 lg:flex">
       <li class="relative">
-        <details class="group" data-menu>
+        <details class="group" data-menu data-hover-menu>
           <summary class="flex cursor-pointer list-none items-center gap-1 rounded-lg px-3 py-2 hover:bg-[#F3F4F6] [&::-webkit-details-marker]:hidden">
             Products
             <svg aria-hidden="true" class="size-3 transition group-open:rotate-180" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 4.5 6 7.5 9 4.5" /></svg>
           </summary>
-          <div class="absolute left-0 top-12 grid w-[min(760px,90vw)] grid-cols-2 gap-1 rounded-2xl border border-line-strong bg-white p-3 shadow-[0_24px_48px_-16px_rgba(11,13,18,0.18)]">
+          <div class="absolute left-0 top-12 before:absolute before:inset-x-0 before:-top-3 before:h-3 before:content-[''] grid w-[min(760px,90vw)] grid-cols-2 gap-1 rounded-2xl border border-line-strong bg-white p-3 shadow-[0_24px_48px_-16px_rgba(11,13,18,0.18)]">
             {navProducts.map((p) => (
               <a href={productHref(p.slug)} class="flex gap-3 rounded-[10px] p-3.5 hover:bg-mist">
                 <ProductBadge product={p} size="md" />
@@ -68,6 +68,22 @@ const navProducts = PRODUCTS.filter(isAvailable);
 <script>
   // Close open menus on outside click or Escape (the <details> elements work without JS).
   const menus = document.querySelectorAll<HTMLDetailsElement>('details[data-menu]');
+  const hoverMenu = document.querySelector<HTMLDetailsElement>('[data-hover-menu]');
+  if (hoverMenu) {
+    hoverMenu.addEventListener('pointerenter', (event) => {
+      if (event.pointerType === 'mouse') hoverMenu.open = true;
+    });
+    hoverMenu.addEventListener('pointerleave', (event) => {
+      if (event.pointerType === 'mouse' && !hoverMenu.contains(document.activeElement)) {
+        hoverMenu.open = false;
+      }
+    });
+    hoverMenu.addEventListener('focusout', (event) => {
+      if (!hoverMenu.contains(event.relatedTarget as Node | null) && !hoverMenu.matches(':hover')) {
+        hoverMenu.open = false;
+      }
+    });
+  }
   document.addEventListener('click', (e) => {
     menus.forEach((m) => { if (m.open && !m.contains(e.target as Node)) m.open = false; });
   });
