@@ -17,7 +17,7 @@ const accent = p.theme === 'ledger' ? '#2F4BFF' : p.color;
     </div>
   </div>
   {card && (
-    <img src={card.src} srcset={`${card.srcSmall} 400w, ${card.srcMedium} 640w, ${card.src} ${card.width}w`} sizes="(min-width:1288px) 550px, (min-width:768px) calc((100vw - 188px)/2), calc(100vw - 106px)" alt={p.image!.alt} width={card.width} height={card.height} loading="lazy" decoding="async" class="block aspect-[16/10] h-auto w-full rounded-2xl bg-[#FCFAF4] object-contain" />
+    <img src={card.src} srcset={`${card.srcSmall} 400w, ${card.srcMedium} 640w, ${card.src} ${card.width}w`} sizes="(min-width:1288px) 385px, (min-width:768px) calc((100vw - 188px)*0.35), calc(70vw - 74.2px)" alt={p.image!.alt} width={card.width} height={card.height} loading="lazy" decoding="async" class="mx-auto block aspect-[16/10] h-auto w-[70%] rounded-2xl bg-[#FCFAF4] object-contain" />
   )}
   <p class="text-base leading-normal text-ink-700">{p.summary}</p>
   <ul class="flex flex-col gap-2 text-sm text-ink-700">

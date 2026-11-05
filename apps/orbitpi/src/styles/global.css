@@ -33,7 +33,7 @@
   }
   .h-display { @apply text-[clamp(38px,4.6vw,64px)] font-semibold leading-[1.1] tracking-tightest; }
   .h-section { @apply text-[clamp(30px,3.2vw,44px)] font-semibold leading-[1.14] tracking-display; }
-  .lead { @apply text-[clamp(18px,1.4vw,20px)] leading-[1.8] text-ink-500; }
+  .lead { @apply text-lg leading-relaxed text-ink-500; }
   .btn { @apply inline-flex items-center justify-center gap-2 rounded-[9px] px-[22px] py-[14px] text-base font-medium transition; }
   .btn-primary { @apply btn bg-brand text-white hover:bg-brand-dark; }
   .btn-dark { @apply btn bg-ink text-white hover:bg-brand; }
@@ -44,7 +44,7 @@
   .page-hero { @apply pb-20 pt-12; }
   .prose-legal h2 { @apply mt-10 text-2xl font-semibold tracking-[-0.02em]; }
   .prose-legal h3 { @apply mt-6 text-lg font-semibold; }
-  .prose-legal p, .prose-legal li { @apply mt-3 text-[16px] leading-7 text-ink-700; }
+  .prose-legal p, .prose-legal li { @apply mt-3 text-base leading-relaxed text-ink-700; }
   .prose-legal ul { @apply list-disc pl-6; }
   .prose-legal a { @apply text-brand underline underline-offset-2; }
 }

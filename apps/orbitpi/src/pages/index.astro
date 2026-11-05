@@ -44,7 +44,7 @@ const schema = graph(
     <section class="home-shell hero" aria-labelledby="hero-title">
       <div class="hero-copy">
         <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> ORBITPI INVENTORY</p>
-        <h1 id="hero-title">Know your stock.<br /><span>Own your next move.</span></h1>
+        <h1 id="hero-title" class="h-display">Know your stock.<br /><span>Own your next move.</span></h1>
         <p class="hero-lead">Warehouse and inventory management that brings your stock, locations and daily operations into one clear view.</p>
         <div class="hero-actions">
           <a href="/contact/" class="btn-primary">Book an inventory demo <span aria-hidden="true">↗</span></a>
@@ -54,7 +54,7 @@ const schema = graph(
       </div>
       <div class="hero-visual">
         <div class="visual-topline"><span class="visual-brand">OrbitPi <span>Inventory</span></span><span class="visual-label">WORKFLOW OVERVIEW</span></div>
-        <img src={inventoryImage.src} srcset={`${inventoryImage.srcSmall} 640w, ${inventoryImage.src} ${inventoryImage.width}w`} sizes="(min-width:1280px) 600px, (min-width:900px) 48vw, calc(100vw - 48px)" alt={inventoryImage.alt} width={inventoryImage.width} height={inventoryImage.height} loading="eager" fetchpriority="high" decoding="async" class="hero-art" />
+        <img src={inventoryImage.src} srcset={`${inventoryImage.srcSmall} 640w, ${inventoryImage.src} ${inventoryImage.width}w`} sizes="(min-width:1280px) 420px, (min-width:900px) 33.6vw, calc(70vw - 33.6px)" alt={inventoryImage.alt} width={inventoryImage.width} height={inventoryImage.height} loading="eager" fetchpriority="high" decoding="async" class="hero-art" />
         <div class="stock-record">
           <span class="record-icon" aria-hidden="true">IV</span>
           <div><strong>A place for every item.</strong><span>Warehouse → Bin → Batch</span></div>
@@ -124,7 +124,6 @@ const schema = graph(
   .hero { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 52px; align-items: center; padding-block: 92px 84px; }
   .eyebrow { display: flex; align-items: center; gap: 9px; margin-bottom: 22px; color: #435373; font-size: .875rem; font-weight: 650; letter-spacing: .14em; line-height: 1.6; }
   .status-dot { width: 7px; height: 7px; border-radius: 50%; background: #0a7558; box-shadow: 0 0 0 4px #e6f6f1; }
-  h1 { font-size: clamp(44px, 4.65vw, 67px); font-weight: 600; letter-spacing: -.04em; line-height: 1.08; }
   h1 span { color: #2f4bff; }
   .hero-lead { max-width: 470px; margin-top: 26px; color: #5b6170; font-size: 18px; line-height: 1.75; }
   .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 24px; margin-top: 32px; }
@@ -137,7 +136,7 @@ const schema = graph(
   .visual-brand { font-weight: 650; font-size: 1rem; }
   .visual-brand span { color: #6b7080; font-weight: 400; margin-left: 5px; }
   .visual-label { font-size: .875rem; letter-spacing: .04em; color: #626d7e; }
-  .hero-art { display: block; width: 100%; height: auto; margin-block: 28px; mix-blend-mode: multiply; }
+  .hero-art { display: block; width: 70%; height: auto; margin: 20px auto; mix-blend-mode: multiply; }
   .stock-record { display: flex; align-items: center; gap: 12px; padding: 17px; border: 1px solid #e1e6ee; border-radius: 12px; background: #fff; }
   .record-icon { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 9px; background: #e6f6f1; color: #0a7558; font-size: .875rem; font-weight: 650; }
   .stock-record strong { display: block; font-size: 1rem; font-weight: 600; }
@@ -203,7 +202,7 @@ const schema = graph(
     .hero { grid-template-columns: minmax(0, 1fr); gap: 40px; }
     .hero-copy { max-width: 630px; }
     .hero-visual { max-width: 680px; width: 100%; }
-    .hero-art { max-height: 280px; object-fit: contain; }
+    .hero-art { max-height: 196px; object-fit: contain; }
     .home-section { padding-block: 64px; }
     .section-intro { align-items: flex-start; flex-direction: column; gap: 22px; }
     .section-intro > p { max-width: 570px; }
@@ -215,7 +214,6 @@ const schema = graph(
   }
   @media (max-width: 599px) {
     .hero { padding-top: 44px; }
-    h1 { font-size: clamp(37px, 10vw, 54px); }
     .hero-lead { font-size: 18px; }
     .hero-actions { gap: 20px; }
     .hero-visual { padding: 18px; }

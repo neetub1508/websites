@@ -38,13 +38,13 @@ const image = { src: `/images/og/industry-${ind.slug}.jpg`, alt: ind.imageAlt, w
       </ul>
       <a href="/contact/" class="btn-primary">Book a demo</a>
     </div>
-    <ImageFrame src={`/images/industries/${ind.slug}.webp`} srcset={`/images/industries/${ind.slug}-640.webp 640w, /images/industries/${ind.slug}.webp 1200w`} sizes="(min-width:1288px) 596px, (min-width:1024px) calc((100vw - 96px)/2), calc(100vw - 48px)" alt={ind.imageAlt} width={1200} height={900} fit="contain" eager class="aspect-[4/3] rounded-[20px] border border-line-strong" />
+    <ImageFrame src={`/images/industries/${ind.slug}.webp`} srcset={`/images/industries/${ind.slug}-640.webp 640w, /images/industries/${ind.slug}.webp 1200w`} sizes="(min-width:1288px) 417.2px, (min-width:1024px) calc((100vw - 96px)*0.35), calc(70vw - 33.6px)" alt={ind.imageAlt} width={1200} height={900} fit="contain" eager class="mx-auto w-[70%] aspect-[4/3] rounded-[20px] border border-line-strong" />
   </section>
 
   <section aria-labelledby="coverage-title" class="border-y border-line bg-mist">
     <div class="container-page flex max-w-3xl flex-col gap-5 section-space">
       <SectionHeading id="coverage-title" as="h2" title={`What OrbitPi covers for ${ind.name.toLowerCase()}`} align="left" />
-      {ind.overview.map((para) => <p class="text-[17px] leading-relaxed text-ink-700">{para}</p>)}
+      {ind.overview.map((para) => <p class="text-base leading-relaxed text-ink-700">{para}</p>)}
     </div>
   </section>
 
