@@ -56,12 +56,12 @@ const schema = graph(webPage(absoluteUrl('/india/'), title, description), breadc
 
 <BaseLayout title={title} description={description} schema={schema} locale="en_IN">
   <Breadcrumbs items={crumbs} />
-  <section class="container-page flex flex-col gap-12 pb-24 pt-12">
+  <section class="container-page flex flex-col gap-12 section-space-bottom pt-12">
     <p class="section-eyebrow !mb-[-24px]">GLOBAL SOFTWARE. LOCAL WORKFLOWS.</p>
     <SectionHeading as="h1" title="Business software for Indian companies" lead="OrbitPi is built for operations teams everywhere. For businesses in India, each product also handles local tax and audit rules, such as GST e-invoices, e-way bills and CARO asset verification, without add-ons." />
     <ul class="grid gap-6 md:grid-cols-2">
       {products.map(({ product: p, points }) => (
-        <li class="flex flex-col gap-4 rounded-2xl border border-line p-6">
+        <li class="flex flex-col gap-4 rounded-[14px] border border-line p-6">
           <div class="flex items-center gap-3">
             <ProductBadge product={p} size="lg" />
             <div class="flex flex-col">
@@ -79,11 +79,11 @@ const schema = graph(webPage(absoluteUrl('/india/'), title, description), breadc
   </section>
 
   <section aria-labelledby="india-guides-title" class="border-y border-line bg-mist">
-    <div class="container-page flex flex-col gap-8 py-24">
+    <div class="container-page flex flex-col gap-8 section-space">
       <SectionHeading id="india-guides-title" title="Guides for Indian businesses" align="left" lead="Plain-language explainers on Indian tax and audit rules, with worked examples and links to official sources." />
       <ul class="grid gap-4 md:grid-cols-2">
         {guides.map((g) => (
-          <li><a href={guideHref(g.slug)} class="flex h-full flex-col gap-2 rounded-2xl border border-line bg-white p-6 hover:border-ink">
+          <li><a href={guideHref(g.slug)} class="flex h-full flex-col gap-2 rounded-[14px] border border-line bg-white p-6 hover:border-ink">
             <span class="text-xs text-ink-500">{g.topic}</span>
             <span class="text-lg font-semibold leading-snug">{g.title}</span>
           </a></li>

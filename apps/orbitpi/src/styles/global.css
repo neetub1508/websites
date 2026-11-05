@@ -23,6 +23,14 @@
 
 @layer components {
   .container-page { @apply mx-auto w-full max-w-page px-6; }
+  .section-space { padding-block: 88px; }
+  .section-space-top { padding-top: 88px; }
+  .section-space-bottom { padding-bottom: 88px; }
+  @media (max-width: 899px) {
+    .section-space { padding-block: 64px; }
+    .section-space-top { padding-top: 64px; }
+    .section-space-bottom { padding-bottom: 64px; }
+  }
   .h-display { @apply text-[clamp(38px,4.6vw,64px)] font-semibold leading-[1.1] tracking-tightest; }
   .h-section { @apply text-[clamp(30px,3.2vw,44px)] font-semibold leading-[1.14] tracking-display; }
   .lead { @apply text-[clamp(18px,1.4vw,20px)] leading-[1.8] text-ink-500; }

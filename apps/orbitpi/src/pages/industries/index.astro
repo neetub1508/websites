@@ -30,13 +30,13 @@ const schema = graph(
 
 <BaseLayout title={title} description={description} schema={schema}>
   <Breadcrumbs items={crumbs} />
-  <section class="container-page flex flex-col gap-12 pb-24 pt-12">
+  <section class="container-page flex flex-col gap-12 section-space-bottom pt-12">
     <p class="section-eyebrow !mb-[-24px]">FIND YOUR WORKFLOW</p>
     <SectionHeading as="h1" title="Business software by industry" lead="OrbitPi builds document OCR, warehouse inventory, lead management and fixed asset software for operations teams. Pick your industry to see the workflows each product handles and the problems it solves." />
     <ul class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
       {INDUSTRIES.map((ind, i) => (
         <li>
-          <a href={industryHref(ind.slug)} class="group flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-white transition hover:shadow-card">
+          <a href={industryHref(ind.slug)} class="group flex h-full flex-col overflow-hidden rounded-[14px] border border-line bg-white transition hover:shadow-card">
             <ImageFrame src={`/images/industries/${ind.slug}-card.webp`} srcset={`/images/industries/${ind.slug}-card-480.webp 480w, /images/industries/${ind.slug}-card-640.webp 640w, /images/industries/${ind.slug}-card.webp 960w`} sizes="(min-width:1288px) 400px, (min-width:1024px) calc((100vw - 80px)/3), (min-width:768px) calc((100vw - 64px)/2), calc(100vw - 48px)" alt={ind.imageAlt} width={960} height={600} fit="contain" eager={i === 0} class="aspect-[16/10]" />
             <div class="flex flex-1 flex-col gap-2 p-5">
               <h2 class="flex items-center justify-between text-lg font-semibold">{ind.name}<span aria-hidden="true" class="text-brand transition group-hover:translate-x-0.5">→</span></h2>
@@ -49,9 +49,9 @@ const schema = graph(
   </section>
 
   <section aria-labelledby="compare-title" class="border-y border-line bg-mist">
-    <div class="container-page flex flex-col gap-8 py-24">
+    <div class="container-page flex flex-col gap-8 section-space">
       <SectionHeading id="compare-title" title="Which OrbitPi products fit your industry?" align="left" lead="The main workflows OrbitPi handles in each industry, and the products that cover them, most relevant first." />
-      <div class="overflow-x-auto rounded-2xl border border-line bg-white">
+      <div class="overflow-x-auto rounded-[14px] border border-line bg-white">
         <table class="w-full min-w-[640px] border-collapse text-left text-base">
           <caption class="sr-only">OrbitPi products and workflows by industry</caption>
           <thead><tr class="border-b border-line"><th scope="col" class="px-5 py-3.5 font-semibold">Industry</th><th scope="col" class="px-5 py-3.5 font-semibold">Workflows covered</th><th scope="col" class="px-5 py-3.5 font-semibold">Products</th></tr></thead>

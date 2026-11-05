@@ -37,12 +37,12 @@ const principles = [
   </section>
 
   <section aria-labelledby="build-title" class="border-y border-line bg-mist">
-    <div class="container-page flex flex-col gap-10 py-24">
+    <div class="container-page flex flex-col gap-10 section-space">
       <SectionHeading id="build-title" title="OrbitPi products" />
       <ul class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {PRODUCTS.filter(isAvailable).map((p) => (
           <li>
-            <a href={productHref(p.slug)} class="flex h-full flex-col gap-3 rounded-2xl border border-line bg-white p-5 hover:border-ink">
+            <a href={productHref(p.slug)} class="flex h-full flex-col gap-3 rounded-[14px] border border-line bg-white p-5 hover:border-ink">
               <ProductBadge product={p} size="lg" />
               <strong class="font-semibold">{p.fullName}</strong>
               <span class="text-sm text-ink-500">{p.summary}</span>
@@ -54,11 +54,11 @@ const principles = [
     </div>
   </section>
 
-  <section aria-labelledby="principles-title" class="container-page flex flex-col gap-12 py-24">
+  <section aria-labelledby="principles-title" class="container-page flex flex-col gap-12 section-space">
     <SectionHeading id="principles-title" title="How we build OrbitPi" />
     <ul class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
       {principles.map((p) => (
-        <li class="flex flex-col gap-2.5 rounded-2xl border border-line p-6">
+        <li class="flex flex-col gap-2.5 rounded-[14px] border border-line p-6">
           <h3 class="text-lg font-semibold">{p.title}</h3>
           <p class="text-base leading-relaxed text-ink-500">{p.body}</p>
         </li>
@@ -67,7 +67,7 @@ const principles = [
   </section>
 
   <section aria-labelledby="who-title" class="border-t border-line bg-mist">
-    <div class="container-page flex flex-col gap-8 py-24">
+    <div class="container-page flex flex-col gap-8 section-space">
       <SectionHeading id="who-title" title="Industries we work with" align="left" lead="OrbitPi is designed for businesses that need to track stock, documents, sales enquiries and equipment across teams and locations." />
       <ul class="flex flex-wrap gap-2">
         {INDUSTRIES.map((i) => <li><a href={industryHref(i.slug)} class="block rounded-full border border-line-strong bg-white px-4 py-2 text-sm hover:border-ink">{i.name}</a></li>)}
@@ -80,5 +80,5 @@ const principles = [
     </div>
   </section>
 
-  <div class="pt-24"><CtaBanner title="Talk to the OrbitPi team" cta="Contact us" /></div>
+  <div class="section-space-top"><CtaBanner title="Talk to the OrbitPi team" cta="Contact us" /></div>
 </BaseLayout>

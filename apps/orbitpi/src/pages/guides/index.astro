@@ -22,7 +22,7 @@ const schema = graph(
 
 <BaseLayout title={title} description={description} schema={schema}>
   <Breadcrumbs items={crumbs} />
-  <section class="container-page flex flex-col gap-14 pb-24 pt-12">
+  <section class="container-page flex flex-col gap-14 section-space-bottom pt-12">
     <p class="section-eyebrow !mb-[-24px]">THE OPERATIONS NOTEBOOK</p>
     <SectionHeading as="h1" title="Guides to inventory, fixed assets, sales and GST" align="left" lead="Plain-language explainers on the back-office rules and workflows operations teams deal with every day, with worked examples and links to official sources. Guides marked India cover Indian tax and audit rules." />
     {topics.map((topic) => (
@@ -33,7 +33,7 @@ const schema = graph(
             const p = getProduct(g.product) as Product;
             return (
               <li>
-                <a href={guideHref(g.slug)} class="group flex h-full flex-col gap-3 rounded-2xl border border-line bg-white p-6 transition hover:shadow-card">
+                <a href={guideHref(g.slug)} class="group flex h-full flex-col gap-3 rounded-[14px] border border-line bg-white p-6 transition hover:shadow-card">
                   <span class="flex flex-wrap items-center gap-2 text-xs text-ink-500"><ProductBadge product={p} size="sm" />Related: {p.fullName}{g.region && <span class="rounded-full border border-line-strong px-2 py-px text-xs font-medium text-ink-700">{g.region}</span>}</span>
                   <h3 class="text-lg font-semibold leading-snug">{g.title}</h3>
                   <p class="text-base leading-relaxed text-ink-500">{g.metaDescription}</p>

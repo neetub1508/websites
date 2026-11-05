@@ -26,7 +26,7 @@ const schema = graph(
 
 <BaseLayout title={title} description={description} schema={schema}>
   <Breadcrumbs items={crumbs} />
-  <section class="container-page flex flex-col gap-12 pb-24 pt-12">
+  <section class="container-page flex flex-col gap-12 section-space-bottom pt-12">
     <p class="section-eyebrow !mb-[-24px]">THE ORBITPI SOFTWARE SUITE</p>
     <SectionHeading as="h1" title="Business software products for operations teams" lead="Four products are available today. Each works on its own, and all run on the same OrbitPi platform with shared users, branches and roles. Accounting software is in development and is not listed here." />
     <div class="grid gap-6 md:grid-cols-2">
@@ -35,11 +35,11 @@ const schema = graph(
   </section>
 
   <section aria-labelledby="india-title" class="border-y border-line bg-mist">
-    <div class="container-page flex flex-col gap-10 py-24">
+    <div class="container-page flex flex-col gap-10 section-space">
       <SectionHeading id="india-title" title="Built-in support for Indian businesses" lead="For teams in India, GST, e-way bill and audit rules are part of each product, not add-ons." />
       <ul class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {india.map((f) => (
-          <li class="flex flex-col gap-2 rounded-2xl border border-line bg-white p-6">
+          <li class="flex flex-col gap-2 rounded-[14px] border border-line bg-white p-6">
             <h3 class="text-base font-semibold">{f.title}</h3>
             <p class="text-base leading-relaxed text-ink-500">{f.body}</p>
             <a href={productHref(f.slug)} class="mt-auto pt-2 text-sm font-medium text-brand hover:underline">{f.link} <span aria-hidden="true">→</span></a>
@@ -50,5 +50,5 @@ const schema = graph(
     </div>
   </section>
 
-  <div class="pt-24"><CtaBanner /></div>
+  <div class="section-space-top"><CtaBanner /></div>
 </BaseLayout>

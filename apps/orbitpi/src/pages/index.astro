@@ -3,6 +3,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import ProductBadge from '@/components/ProductBadge.astro';
 import { INDUSTRIES, industryHref } from '@/lib/industries';
 import Faq from '@/components/Faq.astro';
+import CtaBanner from '@/components/CtaBanner.astro';
 import ProductDemo from '@/components/home/ProductDemo.astro';
 import { PRODUCTS, productHref, isAvailable } from '@/lib/products';
 import { GUIDES, guideHref } from '@/lib/guides';
@@ -113,9 +114,7 @@ const schema = graph(
 
     <Faq faqs={faqs} />
 
-    <section class="home-shell closing-section" aria-labelledby="closing-title">
-      <div class="closing-panel"><div><p class="eyebrow">LET’S TALK ABOUT YOUR OPERATIONS</p><h2 id="closing-title">Your next chapter.<br />Better organised.</h2><p>Tell us about your warehouses, team and workflows.<br class="hidden sm:block" /> Let’s find the right starting point.</p></div><div class="closing-actions"><a href="/contact/" class="btn-primary">Book a demo <span aria-hidden="true">↗</span></a><a href="/pricing/" class="text-link">Explore pricing <span aria-hidden="true">→</span></a></div></div>
-    </section>
+    <CtaBanner title="Your next chapter. Better organised." text="Tell us about your warehouses, team and workflows. Let’s find the right starting point." secondaryHref="/pricing/" secondaryLabel="Explore pricing" />
   </div>
 </BaseLayout>
 
@@ -152,7 +151,7 @@ const schema = graph(
   .home-section { padding-block: 88px; }
   .section-intro { display: flex; justify-content: space-between; align-items: flex-end; gap: 36px; margin-bottom: 38px; }
   .section-intro .eyebrow { margin-bottom: 16px; }
-  h2 { font-size: clamp(32px, 3.2vw, 45px); font-weight: 550; line-height: 1.12; letter-spacing: -.03em; }
+  h2 { font-size: clamp(30px, 3.2vw, 44px); font-weight: 600; line-height: 1.14; letter-spacing: -.03em; }
   .section-intro > p { max-width: 380px; color: #5b6170; font-size: 1rem; line-height: 1.8; }
   .workflow-grid { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid #e1e6ee; border-radius: 14px; overflow: hidden; }
   .workflow-grid li { padding: 28px 24px; border-right: 1px solid #e1e6ee; }
@@ -192,10 +191,6 @@ const schema = graph(
   .guide-topic { color: #435373; font-size: .875rem; }
   .guide-grid h3 { font-size: 21px; line-height: 1.4; font-weight: 550; letter-spacing: -.02em; }
   .guide-grid .text-link { margin-top: auto; font-size: .875rem; }
-  .closing-section { padding-bottom: 80px; }
-  .closing-panel { display: flex; justify-content: space-between; align-items: center; gap: 40px; padding: 56px; background: #f2f5ff; border: 1px solid #dfe5fc; border-radius: 18px; }
-  .closing-panel p:not(.eyebrow) { margin-top: 20px; color: #5b6170; font-size: 1rem; line-height: 1.8; }
-  .closing-actions { display: flex; flex-direction: column; align-items: center; gap: 20px; flex: none; }
   @media (max-width: 1100px) {
     .hero { gap: 28px; padding-block: 64px; }
     .suite-grid { grid-template-columns: repeat(2, 1fr); }
@@ -217,7 +212,6 @@ const schema = graph(
     .roadmap-note { flex-wrap: wrap; }
     .roadmap-note a { margin-left: 0; }
     .guides-section { padding-bottom: 0; }
-    .closing-panel { padding: 36px; }
   }
   @media (max-width: 599px) {
     .hero { padding-top: 44px; }
@@ -232,9 +226,6 @@ const schema = graph(
     .workflow-grid li { border-right: 0; border-bottom: 1px solid #e1e6ee; }
     .workflow-grid h3 { margin-top: 20px; }
     .suite-card { gap: 20px; }
-    .closing-panel { flex-direction: column; align-items: flex-start; padding: 28px; }
-    .closing-actions { align-items: flex-start; }
-    .closing-section { padding-bottom: 48px; }
   }
   @media (max-width: 399px) {
     .visual-flow [aria-hidden] { display: none; }

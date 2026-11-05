@@ -12,5 +12,5 @@ const { title, lead, align = 'left', as: Tag = 'h2', id, inverted = false } = As
 
 <div class:list={['flex flex-col gap-3.5', align === 'center' ? 'items-center text-center' : 'items-start']}>
   <Tag id={id} class:list={[Tag === 'h1' ? 'h-display' : 'h-section', 'max-w-3xl']}>{title}</Tag>
-  {lead && <p class:list={['max-w-xl text-[17px] leading-relaxed', inverted ? 'text-[#B9BDC9]' : 'text-ink-500']}>{lead}</p>}
+  {lead && <p class:list={['max-w-xl text-lg leading-relaxed', inverted ? 'text-[#B9BDC9]' : 'text-ink-500']}>{lead}</p>}
 </div>
